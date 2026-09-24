@@ -1,0 +1,572 @@
+
+import os
+import smtplib
+
+from email.message import EmailMessage
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+class EmailService:
+
+    SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_EMAIL = os.getenv("SMTP_EMAIL")
+    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+
+    # =========================================================
+    # COMMON GMAIL SMTP EMAIL SENDER
+    # =========================================================
+
+    @staticmethod
+    def send_email(
+        recipient_email: str,
+        subject: str,
+        html_content: str
+    ):
+        sender_email = os.getenv("SMTP_EMAIL")
+        sender_password = os.getenv("SMTP_PASSWORD")
+
+        if not sender_email:
+            return {
+                "success": False,
+                "message": "Gmail SMTP email is not configured"
+            }
+
+        if not sender_password:
+            return {
+                "success": False,
+                "message": "Gmail SMTP app password is not configured"
+            }
+
+        message = EmailMessage()
+
+        message["From"] = f"Maritime Freight <{sender_email}>"
+        message["To"] = recipient_email
+        message["Subject"] = subject
+
+        # Plain-text fallback
+        message.set_content(
+            "This email contains HTML content. "
+            "Please open it in an email client that supports HTML."
+        )
+
+        # HTML email
+        message.add_alternative(
+            html_content,
+            subtype="html"
+        )
+
+        try:
+            with smtplib.SMTP(
+                EmailService.SMTP_HOST,
+                EmailService.SMTP_PORT,
+                timeout=15
+            ) as smtp:
+
+                smtp.ehlo()
+
+                # Start encrypted connection
+                smtp.starttls()
+
+                smtp.ehlo()
+
+                # Login using Gmail App Password
+                smtp.login(
+                    sender_email,
+                    sender_password
+                )
+
+                # Send email
+                smtp.send_message(message)
+
+            return {
+                "success": True,
+                "message": "Email sent successfully"
+            }
+
+        except smtplib.SMTPAuthenticationError as error:
+            print("Gmail SMTP authentication error:", error)
+
+            return {
+                "success": False,
+                "message": "Gmail SMTP authentication failed"
+            }
+
+        except smtplib.SMTPException as error:
+            print("Gmail SMTP error:", error)
+
+            return {
+                "success": False,
+                "message": "Failed to send email"
+            }
+
+        except Exception as error:
+            print("Email sending error:", error)
+
+            return {
+                "success": False,
+                "message": "Unable to send email"
+            }
+
+    # =========================================================
+    # OTP EMAIL
+    # =========================================================
+
+    @staticmethod
+    def send_otp_email(
+        recipient_email: str,
+        otp: str
+    ):
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Maritime Freight Email Verification</h2>
+
+                    <p>Hello,</p>
+
+                    <p>
+                        Your OTP for email verification is:
+                    </p>
+
+                    <h1>{otp}</h1>
+
+                    <p>
+                        This OTP is valid for
+                        <strong>5 minutes</strong>.
+                    </p>
+
+                    <p>
+                        If you requested a new OTP, only the latest
+                        OTP can be used.
+                    </p>
+
+                    <p>
+                        Please do not share this OTP with anyone.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=recipient_email,
+            subject="Your Maritime Freight OTP",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # REGISTRATION SUCCESS EMAIL
+    # =========================================================
+
+    @staticmethod
+    def send_registration_success_email(
+        recipient_email: str,
+        name: str
+    ):
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Registration Successful</h2>
+
+                    <p>
+                        Hello <strong>{name}</strong>,
+                    </p>
+
+                    <p>
+                        Your Maritime Freight customer account
+                        has been successfully registered and your
+                        email address has been verified.
+                    </p>
+
+                    <p>
+                        <strong>Registered Email:</strong>
+                        {recipient_email}
+                    </p>
+
+                    <p>
+                        You can now log in to your Maritime Freight
+                        customer account using the password you created
+                        during registration.
+                    </p>
+
+                    <p>
+                        For security reasons, your password is not
+                        included in this email.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=recipient_email,
+            subject="Maritime Freight Registration Successful",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # CUSTOMER LOGIN SUCCESS EMAIL
+    # =========================================================
+
+    @staticmethod
+    def send_login_success_email(
+        recipient_email: str,
+        name: str
+    ):
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Successful Login</h2>
+
+                    <p>
+                        Hello <strong>{name}</strong>,
+                    </p>
+
+                    <p>
+                        You have successfully logged in to your
+                        Maritime Freight customer account.
+                    </p>
+
+                    <p>
+                        <strong>Login Email:</strong>
+                        {recipient_email}
+                    </p>
+
+                    <p>
+                        If you did not perform this login, please
+                        secure your account immediately.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=recipient_email,
+            subject="Maritime Freight Login Successful",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # ADMIN LOGIN SUCCESS EMAIL
+    # =========================================================
+
+    @staticmethod
+    def send_admin_login_success_email(
+        recipient_email: str,
+        name: str
+    ):
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Admin Login Successful</h2>
+
+                    <p>
+                        Hello <strong>{name}</strong>,
+                    </p>
+
+                    <p>
+                        You have successfully logged in to the
+                        Maritime Freight Admin Dashboard.
+                    </p>
+
+                    <p>
+                        <strong>Admin Email:</strong>
+                        {recipient_email}
+                    </p>
+
+                    <p>
+                        Your admin session has been successfully
+                        authenticated.
+                    </p>
+
+                    <p>
+                        If you did not perform this login, please
+                        secure your admin account immediately.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=recipient_email,
+            subject="Maritime Freight Admin Login Successful",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # NEW QUOTATION APPROVAL REQUEST EMAIL - ADMIN
+    # =========================================================
+
+    @staticmethod
+    def send_approval_request_email(
+        admin_email: str,
+        customer_name: str,
+        customer_email: str,
+        origin: str,
+        destination: str,
+        cargo_type: str,
+        containers: int
+    ):
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>New Quotation Approval Request</h2>
+
+                    <p>
+                        A customer has submitted a quotation
+                        for approval.
+                    </p>
+
+                    <h3>Customer Details</h3>
+
+                    <p>
+                        <strong>Name:</strong> {customer_name}<br>
+                        <strong>Email:</strong> {customer_email}
+                    </p>
+
+                    <h3>Quotation Details</h3>
+
+                    <p>
+                        <strong>Origin:</strong> {origin}<br>
+                        <strong>Destination:</strong> {destination}<br>
+                        <strong>Cargo Type:</strong> {cargo_type}<br>
+                        <strong>Containers:</strong> {containers}
+                    </p>
+
+                    <p>
+                        Please log in to the Maritime Freight
+                        Admin Dashboard to review this quotation
+                        and approve or reject the request.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=admin_email,
+            subject="New Quotation Approval Request - Maritime Freight",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # QUOTATION SENT FOR APPROVAL EMAIL - USER
+    # =========================================================
+
+    @staticmethod
+    def send_quotation_sent_email(
+        recipient_email: str,
+        customer_name: str,
+        origin: str,
+        destination: str,
+        cargo_type: str,
+        containers: int
+    ):
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Quotation Sent for Approval</h2>
+
+                    <p>
+                        Hello <strong>{customer_name}</strong>,
+                    </p>
+
+                    <p>
+                        Your quotation has been successfully
+                        submitted to the Maritime Freight Admin
+                        for approval.
+                    </p>
+
+                    <h3>Quotation Details</h3>
+
+                    <p>
+                        <strong>Origin:</strong> {origin}<br>
+                        <strong>Destination:</strong> {destination}<br>
+                        <strong>Cargo Type:</strong> {cargo_type}<br>
+                        <strong>Containers:</strong> {containers}
+                    </p>
+
+                    <p>
+                        You will receive another email once the
+                        admin reviews your quotation.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=recipient_email,
+            subject="Quotation Sent for Approval - Maritime Freight",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # QUOTATION APPROVED EMAIL - USER
+    # =========================================================
+
+    @staticmethod
+    def send_quotation_approved_email(
+        recipient_email: str,
+        customer_name: str,
+        origin: str,
+        destination: str,
+        cargo_type: str,
+        containers: int
+    ):
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Quotation Approved</h2>
+
+                    <p>
+                        Hello <strong>{customer_name}</strong>,
+                    </p>
+
+                    <p>
+                        Your quotation has been
+                        <strong>approved</strong> by the
+                        Maritime Freight Admin.
+                    </p>
+
+                    <h3>Quotation Details</h3>
+
+                    <p>
+                        <strong>Origin:</strong> {origin}<br>
+                        <strong>Destination:</strong> {destination}<br>
+                        <strong>Cargo Type:</strong> {cargo_type}<br>
+                        <strong>Containers:</strong> {containers}
+                    </p>
+
+                    <p>
+                        Please log in to your Maritime Freight
+                        account to view the approved quotation.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=recipient_email,
+            subject="Quotation Approved - Maritime Freight",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # QUOTATION REJECTED EMAIL - USER
+    # =========================================================
+
+    @staticmethod
+    def send_quotation_rejected_email(
+        recipient_email: str,
+        customer_name: str,
+        origin: str,
+        destination: str,
+        cargo_type: str,
+        containers: int,
+        rejection_reason: str | None = None
+    ):
+        reason_html = ""
+
+        if rejection_reason:
+            reason_html = f"""
+                <p>
+                    <strong>Reason:</strong>
+                    {rejection_reason}
+                </p>
+            """
+
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Quotation Rejected</h2>
+
+                    <p>
+                        Hello <strong>{customer_name}</strong>,
+                    </p>
+
+                    <p>
+                        Your quotation has been
+                        <strong>rejected</strong> by the
+                        Maritime Freight Admin.
+                    </p>
+
+                    <h3>Quotation Details</h3>
+
+                    <p>
+                        <strong>Origin:</strong> {origin}<br>
+                        <strong>Destination:</strong> {destination}<br>
+                        <strong>Cargo Type:</strong> {cargo_type}<br>
+                        <strong>Containers:</strong> {containers}
+                    </p>
+
+                    {reason_html}
+
+                    <p>
+                        Please log in to your Maritime Freight
+                        account for more information.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=recipient_email,
+            subject="Quotation Rejected - Maritime Freight",
+            html_content=html_content
+        )
+

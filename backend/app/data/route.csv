@@ -1,0 +1,501 @@
+route_id,origin,destination,distance_nm,transit_days,transshipments,route_type,base_freight_usd,origin_lat,origin_lng,destination_lat,destination_lng,transshipment_1,transshipment_1_lat,transshipment_1_lng,transshipment_2,transshipment_2_lat,transshipment_2_lng
+R001,Chennai,Rotterdam,8650,25,0,Standard,1860,13.0827,80.2870,51.9496,4.1453,,,,,,
+R002,Chennai,Rotterdam,8827,26,1,Alternative,1785,13.0827,80.2870,51.9496,4.1453,Colombo,6.9497,79.8737,,,
+R003,Chennai,Rotterdam,8742,25,2,Alternative,1897,13.0827,80.2870,51.9496,4.1453,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R004,Chennai,Rotterdam,8922,29,0,Standard,1771,13.0827,80.2870,51.9496,4.1453,,,,,,
+R005,Chennai,Hamburg,8800,26,1,Alternative,1892,13.0827,80.2870,53.5461,9.9661,Colombo,6.9497,79.8737,,,
+R006,Chennai,Hamburg,8964,29,2,Alternative,1798,13.0827,80.2870,53.5461,9.9661,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R007,Chennai,Hamburg,8838,26,0,Standard,1923,13.0827,80.2870,53.5461,9.9661,,,,,,
+R008,Chennai,Hamburg,9131,28,1,Alternative,1795,13.0827,80.2870,53.5461,9.9661,Colombo,6.9497,79.8737,,,
+R009,Chennai,Singapore,1580,5,2,Alternative,650,13.0827,80.2870,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R010,Chennai,Singapore,1713,8,0,Standard,585,13.0827,80.2870,1.2644,103.8220,,,,,,
+R011,Chennai,Singapore,1749,6,1,Alternative,698,13.0827,80.2870,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R012,Chennai,Singapore,2029,9,2,Alternative,630,13.0827,80.2870,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R013,Mumbai,Rotterdam,7600,22,0,Standard,1634,18.9498,72.9478,51.9496,4.1453,,,,,,
+R014,Mumbai,Rotterdam,7801,25,1,Alternative,1540,18.9498,72.9478,51.9496,4.1453,Salalah,16.9953,54.0133,,,
+R015,Mumbai,Rotterdam,7717,23,2,Alternative,1673,18.9498,72.9478,51.9496,4.1453,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R016,Mumbai,Rotterdam,7930,25,0,Standard,1603,18.9498,72.9478,51.9496,4.1453,,,,,,
+R017,Mumbai,Hamburg,7940,23,1,Alternative,1707,18.9498,72.9478,53.5461,9.9661,Salalah,16.9953,54.0133,,,
+R018,Mumbai,Hamburg,8254,24,2,Alternative,1622,18.9498,72.9478,53.5461,9.9661,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R019,Mumbai,Hamburg,8058,25,0,Standard,1760,18.9498,72.9478,53.5461,9.9661,,,,,,
+R020,Mumbai,Hamburg,8182,27,1,Alternative,1619,18.9498,72.9478,53.5461,9.9661,Salalah,16.9953,54.0133,,,
+R021,Mumbai,Dubai,1220,4,2,Alternative,650,18.9498,72.9478,25.0110,55.0610,Salalah,16.9953,54.0133,Jebel Ali,25.0110,55.0610
+R022,Mumbai,Dubai,1403,6,0,Standard,600,18.9498,72.9478,25.0110,55.0610,,,,,,
+R023,Mumbai,Dubai,1391,5,1,Alternative,716,18.9498,72.9478,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R024,Mumbai,Dubai,1735,6,2,Alternative,622,18.9498,72.9478,25.0110,55.0610,Salalah,16.9953,54.0133,Jebel Ali,25.0110,55.0610
+R025,Kolkata,Singapore,1620,5,0,Standard,650,22.5500,88.3100,1.2644,103.8220,,,,,,
+R026,Kolkata,Singapore,1763,8,1,Alternative,581,22.5500,88.3100,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R027,Kolkata,Singapore,1724,5,2,Alternative,699,22.5500,88.3100,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R028,Kolkata,Singapore,1891,8,0,Standard,572,22.5500,88.3100,1.2644,103.8220,,,,,,
+R029,Kolkata,Rotterdam,9300,27,1,Alternative,2000,22.5500,88.3100,51.9496,4.1453,Colombo,6.9497,79.8737,,,
+R030,Kolkata,Rotterdam,9606,28,2,Alternative,1913,22.5500,88.3100,51.9496,4.1453,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R031,Kolkata,Rotterdam,9420,27,0,Standard,2054,22.5500,88.3100,51.9496,4.1453,,,,,,
+R032,Kolkata,Rotterdam,9556,31,1,Alternative,1959,22.5500,88.3100,51.9496,4.1453,Colombo,6.9497,79.8737,,,
+R033,Kolkata,Dubai,3700,11,2,Alternative,796,22.5500,88.3100,25.0110,55.0610,Colombo,6.9497,79.8737,Salalah,16.9953,54.0133
+R034,Kolkata,Dubai,4093,14,0,Standard,725,22.5500,88.3100,25.0110,55.0610,,,,,,
+R035,Kolkata,Dubai,3771,12,1,Alternative,864,22.5500,88.3100,25.0110,55.0610,Colombo,6.9497,79.8737,,,
+R036,Kolkata,Dubai,4058,15,2,Alternative,705,22.5500,88.3100,25.0110,55.0610,Colombo,6.9497,79.8737,Salalah,16.9953,54.0133
+R037,Visakhapatnam,Singapore,1450,4,0,Standard,650,17.6868,83.2185,1.2644,103.8220,,,,,,
+R038,Visakhapatnam,Singapore,1682,7,1,Alternative,569,17.6868,83.2185,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R039,Visakhapatnam,Singapore,1494,4,2,Alternative,674,17.6868,83.2185,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R040,Visakhapatnam,Singapore,1831,7,0,Standard,622,17.6868,83.2185,1.2644,103.8220,,,,,,
+R041,Visakhapatnam,Hamburg,9000,26,1,Alternative,1935,17.6868,83.2185,53.5461,9.9661,Colombo,6.9497,79.8737,,,
+R042,Visakhapatnam,Hamburg,9228,29,2,Alternative,1855,17.6868,83.2185,53.5461,9.9661,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R043,Visakhapatnam,Hamburg,9084,28,0,Standard,2018,17.6868,83.2185,53.5461,9.9661,,,,,,
+R044,Visakhapatnam,Hamburg,9422,30,1,Alternative,1897,17.6868,83.2185,53.5461,9.9661,Colombo,6.9497,79.8737,,,
+R045,Cochin,Dubai,1550,5,2,Alternative,650,9.9668,76.2731,25.0110,55.0610,Salalah,16.9953,54.0133,Jebel Ali,25.0110,55.0610
+R046,Cochin,Dubai,1805,6,0,Standard,579,9.9668,76.2731,25.0110,55.0610,,,,,,
+R047,Cochin,Dubai,1723,7,1,Alternative,703,9.9668,76.2731,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R048,Cochin,Dubai,2069,8,2,Alternative,579,9.9668,76.2731,25.0110,55.0610,Salalah,16.9953,54.0133,Jebel Ali,25.0110,55.0610
+R049,Cochin,Rotterdam,8200,24,0,Standard,1763,9.9668,76.2731,51.9496,4.1453,,,,,,
+R050,Cochin,Rotterdam,8505,25,1,Alternative,1706,9.9668,76.2731,51.9496,4.1453,Salalah,16.9953,54.0133,,,
+R051,Cochin,Rotterdam,8360,25,2,Alternative,1794,9.9668,76.2731,51.9496,4.1453,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R052,Cochin,Rotterdam,8444,26,0,Standard,1663,9.9668,76.2731,51.9496,4.1453,,,,,,
+R053,Cochin,Singapore,1800,5,1,Alternative,650,9.9668,76.2731,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R054,Cochin,Singapore,2001,8,2,Alternative,556,9.9668,76.2731,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R055,Cochin,Singapore,1846,6,0,Standard,718,9.9668,76.2731,1.2644,103.8220,,,,,,
+R056,Cochin,Singapore,2325,8,1,Alternative,598,9.9668,76.2731,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R057,Tuticorin,Colombo,260,2,2,Alternative,650,8.7642,78.1348,6.9497,79.8737,Hambantota,6.1241,81.1185,Port Klang,3.0000,101.4000
+R058,Tuticorin,Colombo,663,3,0,Standard,596,8.7642,78.1348,6.9497,79.8737,,,,,,
+R059,Tuticorin,Colombo,427,3,1,Alternative,713,8.7642,78.1348,6.9497,79.8737,Hambantota,6.1241,81.1185,,,
+R060,Tuticorin,Colombo,537,5,2,Alternative,610,8.7642,78.1348,6.9497,79.8737,Hambantota,6.1241,81.1185,Port Klang,3.0000,101.4000
+R061,Tuticorin,Singapore,1500,4,0,Standard,650,8.7642,78.1348,1.2644,103.8220,,,,,,
+R062,Tuticorin,Singapore,1852,5,1,Alternative,577,8.7642,78.1348,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R063,Tuticorin,Singapore,1658,4,2,Alternative,734,8.7642,78.1348,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R064,Tuticorin,Singapore,1774,8,0,Standard,566,8.7642,78.1348,1.2644,103.8220,,,,,,
+R065,Chennai,Dubai,2050,6,1,Alternative,650,13.0827,80.2870,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R066,Chennai,Dubai,2271,7,2,Alternative,563,13.0827,80.2870,25.0110,55.0610,Colombo,6.9497,79.8737,Salalah,16.9953,54.0133
+R067,Chennai,Dubai,2121,8,0,Standard,737,13.0827,80.2870,25.0110,55.0610,,,,,,
+R068,Chennai,Dubai,2270,10,1,Alternative,568,13.0827,80.2870,25.0110,55.0610,Colombo,6.9497,79.8737,,,
+R069,Mumbai,Singapore,2150,6,2,Alternative,650,18.9498,72.9478,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R070,Mumbai,Singapore,2279,7,0,Standard,564,18.9498,72.9478,1.2644,103.8220,,,,,,
+R071,Mumbai,Singapore,2258,6,1,Alternative,677,18.9498,72.9478,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R072,Mumbai,Singapore,2493,10,2,Alternative,620,18.9498,72.9478,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R073,Mundra,Rotterdam,7350,22,0,Standard,1580,22.7400,69.7200,51.9496,4.1453,,,,,,
+R074,Mundra,Rotterdam,7718,23,1,Alternative,1472,22.7400,69.7200,51.9496,4.1453,Salalah,16.9953,54.0133,,,
+R075,Mundra,Rotterdam,7412,22,2,Alternative,1660,22.7400,69.7200,51.9496,4.1453,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R076,Mundra,Rotterdam,7851,24,0,Standard,1493,22.7400,69.7200,51.9496,4.1453,,,,,,
+R077,Mundra,Hamburg,7700,23,1,Alternative,1656,22.7400,69.7200,53.5461,9.9661,Salalah,16.9953,54.0133,,,
+R078,Mundra,Hamburg,8036,24,2,Alternative,1547,22.7400,69.7200,53.5461,9.9661,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R079,Mundra,Hamburg,7781,25,0,Standard,1715,22.7400,69.7200,53.5461,9.9661,,,,,,
+R080,Mundra,Hamburg,8124,27,1,Alternative,1589,22.7400,69.7200,53.5461,9.9661,Salalah,16.9953,54.0133,,,
+R081,Kandla,Dubai,1050,3,2,Alternative,650,23.0300,70.2200,25.0110,55.0610,Salalah,16.9953,54.0133,Jebel Ali,25.0110,55.0610
+R082,Kandla,Dubai,1394,6,0,Standard,553,23.0300,70.2200,25.0110,55.0610,,,,,,
+R083,Kandla,Dubai,1110,3,1,Alternative,698,23.0300,70.2200,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R084,Kandla,Dubai,1302,6,2,Alternative,555,23.0300,70.2200,25.0110,55.0610,Salalah,16.9953,54.0133,Jebel Ali,25.0110,55.0610
+R085,Kandla,Singapore,2700,8,0,Standard,650,23.0300,70.2200,1.2644,103.8220,,,,,,
+R086,Kandla,Singapore,3103,9,1,Alternative,535,23.0300,70.2200,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R087,Kandla,Singapore,2786,8,2,Alternative,679,23.0300,70.2200,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R088,Kandla,Singapore,3243,10,0,Standard,622,23.0300,70.2200,1.2644,103.8220,,,,,,
+R089,Port Klang,Rotterdam,8200,24,1,Alternative,1763,3.0000,101.4000,51.9496,4.1453,Port Said,31.2653,32.3019,,,
+R090,Port Klang,Rotterdam,8336,26,2,Alternative,1714,3.0000,101.4000,51.9496,4.1453,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R091,Port Klang,Rotterdam,8361,24,0,Standard,1818,3.0000,101.4000,51.9496,4.1453,,,,,,
+R092,Port Klang,Rotterdam,8668,26,1,Alternative,1727,3.0000,101.4000,51.9496,4.1453,Port Said,31.2653,32.3019,,,
+R093,Singapore,Hamburg,8300,24,2,Alternative,1784,1.2644,103.8220,53.5461,9.9661,Port Said,31.2653,32.3019,Colombo,6.9497,79.8737
+R094,Singapore,Hamburg,8712,27,0,Standard,1684,1.2644,103.8220,53.5461,9.9661,,,,,,
+R095,Singapore,Hamburg,8392,25,1,Alternative,1856,1.2644,103.8220,53.5461,9.9661,Port Said,31.2653,32.3019,,,
+R096,Singapore,Hamburg,8617,26,2,Alternative,1709,1.2644,103.8220,53.5461,9.9661,Port Klang,3.0000,101.4000,Port Said,31.2653,32.3019
+R097,Dubai,Rotterdam,6200,18,0,Standard,1333,25.0110,55.0610,51.9496,4.1453,,,,,,
+R098,Dubai,Rotterdam,6501,20,1,Alternative,1241,25.0110,55.0610,51.9496,4.1453,Salalah,16.9953,54.0133,,,
+R099,Dubai,Rotterdam,6349,20,2,Alternative,1359,25.0110,55.0610,51.9496,4.1453,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R100,Dubai,Rotterdam,6750,20,0,Standard,1262,25.0110,55.0610,51.9496,4.1453,,,,,,
+R101,Chennai,Rotterdam,9015,27,1,Alternative,1915,13.0827,80.2870,51.9496,4.1453,Colombo,6.9497,79.8737,,,
+R102,Chennai,Rotterdam,9254,29,2,Alternative,1812,13.0827,80.2870,51.9496,4.1453,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R103,Chennai,Rotterdam,9138,28,0,Standard,1956,13.0827,80.2870,51.9496,4.1453,,,,,,
+R104,Chennai,Rotterdam,9416,31,1,Alternative,1798,13.0827,80.2870,51.9496,4.1453,Colombo,6.9497,79.8737,,,
+R105,Chennai,Hamburg,8957,27,2,Alternative,1940,13.0827,80.2870,53.5461,9.9661,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R106,Chennai,Hamburg,9275,30,0,Standard,1821,13.0827,80.2870,53.5461,9.9661,,,,,,
+R107,Chennai,Hamburg,9086,28,1,Alternative,1975,13.0827,80.2870,53.5461,9.9661,Colombo,6.9497,79.8737,,,
+R108,Chennai,Hamburg,9384,31,2,Alternative,1810,13.0827,80.2870,53.5461,9.9661,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R109,Chennai,Singapore,1638,6,0,Standard,672,13.0827,80.2870,1.2644,103.8220,,,,,,
+R110,Chennai,Singapore,1814,9,1,Alternative,601,13.0827,80.2870,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R111,Chennai,Singapore,1768,7,2,Alternative,724,13.0827,80.2870,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R112,Chennai,Singapore,1945,10,0,Standard,618,13.0827,80.2870,1.2644,103.8220,,,,,,
+R113,Chennai,Dubai,2148,7,1,Alternative,681,13.0827,80.2870,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R114,Chennai,Dubai,2392,9,2,Alternative,591,13.0827,80.2870,25.0110,55.0610,Colombo,6.9497,79.8737,Salalah,16.9953,54.0133
+R115,Chennai,Dubai,2216,8,0,Standard,758,13.0827,80.2870,25.0110,55.0610,,,,,,
+R116,Chennai,Dubai,2485,11,1,Alternative,582,13.0827,80.2870,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R117,Mumbai,Rotterdam,7684,23,2,Alternative,1682,18.9498,72.9478,51.9496,4.1453,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R118,Mumbai,Rotterdam,8021,26,0,Standard,1568,18.9498,72.9478,51.9496,4.1453,,,,,,
+R119,Mumbai,Rotterdam,7856,24,1,Alternative,1721,18.9498,72.9478,51.9496,4.1453,Salalah,16.9953,54.0133,,,
+R120,Mumbai,Rotterdam,8142,27,2,Alternative,1551,18.9498,72.9478,51.9496,4.1453,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R121,Mumbai,Hamburg,8067,24,0,Standard,1755,18.9498,72.9478,53.5461,9.9661,,,,,,
+R122,Mumbai,Hamburg,8425,26,1,Alternative,1640,18.9498,72.9478,53.5461,9.9661,Salalah,16.9953,54.0133,,,
+R123,Mumbai,Hamburg,8179,25,2,Alternative,1808,18.9498,72.9478,53.5461,9.9661,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R124,Mumbai,Hamburg,8516,28,0,Standard,1627,18.9498,72.9478,53.5461,9.9661,,,,,,
+R125,Mumbai,Dubai,1286,5,1,Alternative,674,18.9498,72.9478,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R126,Mumbai,Dubai,1518,7,2,Alternative,617,18.9498,72.9478,25.0110,55.0610,Colombo,6.9497,79.8737,Salalah,16.9953,54.0133
+R127,Mumbai,Dubai,1452,6,0,Standard,742,18.9498,72.9478,25.0110,55.0610,,,,,,
+R128,Mumbai,Dubai,1819,8,1,Alternative,638,18.9498,72.9478,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R129,Mumbai,Singapore,2194,7,2,Alternative,681,18.9498,72.9478,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R130,Mumbai,Singapore,2417,9,0,Standard,579,18.9498,72.9478,1.2644,103.8220,,,,,,
+R131,Mumbai,Singapore,2316,7,1,Alternative,712,18.9498,72.9478,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R132,Mumbai,Singapore,2582,11,2,Alternative,601,18.9498,72.9478,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R133,Kolkata,Singapore,1694,6,0,Standard,676,22.5500,88.3100,1.2644,103.8220,,,,,,
+R134,Kolkata,Singapore,1847,9,1,Alternative,603,22.5500,88.3100,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R135,Kolkata,Singapore,1789,6,2,Alternative,721,22.5500,88.3100,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R136,Kolkata,Singapore,1978,10,0,Standard,594,22.5500,88.3100,1.2644,103.8220,,,,,,
+R137,Kolkata,Rotterdam,9415,28,1,Alternative,2041,22.5500,88.3100,51.9496,4.1453,Colombo,6.9497,79.8737,,,
+R138,Kolkata,Rotterdam,9748,30,2,Alternative,1942,22.5500,88.3100,51.9496,4.1453,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R139,Kolkata,Rotterdam,9562,29,0,Standard,2098,22.5500,88.3100,51.9496,4.1453,,,,,,
+R140,Kolkata,Rotterdam,9884,32,1,Alternative,1971,22.5500,88.3100,51.9496,4.1453,Colombo,6.9497,79.8737,,,
+R141,Kolkata,Dubai,3825,12,2,Alternative,818,22.5500,88.3100,25.0110,55.0610,Colombo,6.9497,79.8737,Salalah,16.9953,54.0133
+R142,Kolkata,Dubai,4216,15,0,Standard,748,22.5500,88.3100,25.0110,55.0610,,,,,,
+R143,Kolkata,Dubai,3958,13,1,Alternative,889,22.5500,88.3100,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R144,Kolkata,Dubai,4332,16,2,Alternative,726,22.5500,88.3100,25.0110,55.0610,Colombo,6.9497,79.8737,Salalah,16.9953,54.0133
+R145,Visakhapatnam,Singapore,1518,5,0,Standard,676,17.6868,83.2185,1.2644,103.8220,,,,,,
+R146,Visakhapatnam,Singapore,1746,8,1,Alternative,594,17.6868,83.2185,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R147,Visakhapatnam,Singapore,1572,5,2,Alternative,701,17.6868,83.2185,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R148,Visakhapatnam,Singapore,1915,9,0,Standard,608,17.6868,83.2185,1.2644,103.8220,,,,,,
+R149,Visakhapatnam,Hamburg,9124,27,1,Alternative,1980,17.6868,83.2185,53.5461,9.9661,Colombo,6.9497,79.8737,,,
+R150,Visakhapatnam,Hamburg,9467,30,2,Alternative,1881,17.6868,83.2185,53.5461,9.9661,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R151,Visakhapatnam,Hamburg,9258,29,0,Standard,2056,17.6868,83.2185,53.5461,9.9661,,,,,,
+R152,Visakhapatnam,Hamburg,9685,31,1,Alternative,1922,17.6868,83.2185,53.5461,9.9661,Colombo,6.9497,79.8737,,,
+R153,Cochin,Dubai,1618,6,2,Alternative,674,9.9668,76.2731,25.0110,55.0610,Salalah,16.9953,54.0133,Jebel Ali,25.0110,55.0610
+R154,Cochin,Dubai,1887,7,0,Standard,602,9.9668,76.2731,25.0110,55.0610,,,,,,
+R155,Cochin,Dubai,1764,8,1,Alternative,731,9.9668,76.2731,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R156,Cochin,Dubai,2142,9,2,Alternative,611,9.9668,76.2731,25.0110,55.0610,Colombo,6.9497,79.8737,Salalah,16.9953,54.0133
+R157,Cochin,Rotterdam,8346,25,0,Standard,1812,9.9668,76.2731,51.9496,4.1453,,,,,,
+R158,Cochin,Rotterdam,8689,27,1,Alternative,1742,9.9668,76.2731,51.9496,4.1453,Salalah,16.9953,54.0133,,,
+R159,Cochin,Rotterdam,8498,26,2,Alternative,1849,9.9668,76.2731,51.9496,4.1453,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R160,Cochin,Rotterdam,8782,28,0,Standard,1695,9.9668,76.2731,51.9496,4.1453,,,,,,
+R161,Cochin,Singapore,1876,6,1,Alternative,676,9.9668,76.2731,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R162,Cochin,Singapore,2118,9,2,Alternative,579,9.9668,76.2731,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R163,Cochin,Singapore,1934,7,0,Standard,745,9.9668,76.2731,1.2644,103.8220,,,,,,
+R164,Cochin,Singapore,2416,10,1,Alternative,616,9.9668,76.2731,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R165,Tuticorin,Colombo,298,2,2,Alternative,674,8.7642,78.1348,6.9497,79.8737,Hambantota,6.1241,81.1185,Port Klang,3.0000,101.4000
+R166,Tuticorin,Colombo,714,4,0,Standard,611,8.7642,78.1348,6.9497,79.8737,,,,,,
+R167,Tuticorin,Colombo,462,3,1,Alternative,738,8.7642,78.1348,6.9497,79.8737,Hambantota,6.1241,81.1185,,,
+R168,Tuticorin,Colombo,598,5,2,Alternative,624,8.7642,78.1348,6.9497,79.8737,Hambantota,6.1241,81.1185,Port Klang,3.0000,101.4000
+R169,Tuticorin,Singapore,1568,5,0,Standard,676,8.7642,78.1348,1.2644,103.8220,,,,,,
+R170,Tuticorin,Singapore,1924,6,1,Alternative,591,8.7642,78.1348,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R171,Tuticorin,Singapore,1712,5,2,Alternative,758,8.7642,78.1348,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R172,Tuticorin,Singapore,1846,8,0,Standard,581,8.7642,78.1348,1.2644,103.8220,,,,,,
+R173,Mundra,Rotterdam,7488,23,1,Alternative,1612,22.7400,69.7200,51.9496,4.1453,Salalah,16.9953,54.0133,,,
+R174,Mundra,Rotterdam,7896,25,2,Alternative,1501,22.7400,69.7200,51.9496,4.1453,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R175,Mundra,Rotterdam,7594,23,0,Standard,1694,22.7400,69.7200,51.9496,4.1453,,,,,,
+R176,Mundra,Rotterdam,8042,26,1,Alternative,1522,22.7400,69.7200,51.9496,4.1453,Salalah,16.9953,54.0133,,,
+R177,Mundra,Hamburg,7825,24,2,Alternative,1691,22.7400,69.7200,53.5461,9.9661,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R178,Mundra,Hamburg,8198,26,0,Standard,1578,22.7400,69.7200,53.5461,9.9661,,,,,,
+R179,Mundra,Hamburg,7964,25,1,Alternative,1752,22.7400,69.7200,53.5461,9.9661,Salalah,16.9953,54.0133,,,
+R180,Mundra,Hamburg,8346,28,2,Alternative,1608,22.7400,69.7200,53.5461,9.9661,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R181,Kandla,Dubai,1098,4,0,Standard,674,23.0300,70.2200,25.0110,55.0610,,,,,,
+R182,Kandla,Dubai,1468,7,1,Alternative,576,23.0300,70.2200,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R183,Kandla,Dubai,1162,4,2,Alternative,726,23.0300,70.2200,25.0110,55.0610,Salalah,16.9953,54.0133,Jebel Ali,25.0110,55.0610
+R184,Kandla,Dubai,1387,7,0,Standard,583,23.0300,70.2200,25.0110,55.0610,,,,,,
+R185,Kandla,Singapore,2784,9,1,Alternative,676,23.0300,70.2200,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R186,Kandla,Singapore,3186,10,2,Alternative,558,23.0300,70.2200,1.2644,103.8220,Colombo,6.9497,79.8737,Port Klang,3.0000,101.4000
+R187,Kandla,Singapore,2918,9,0,Standard,704,23.0300,70.2200,1.2644,103.8220,,,,,,
+R188,Kandla,Singapore,3364,11,1,Alternative,574,23.0300,70.2200,1.2644,103.8220,Colombo,6.9497,79.8737,,,
+R189,Port Klang,Rotterdam,8274,25,2,Alternative,1811,3.0000,101.4000,51.9496,4.1453,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R190,Port Klang,Rotterdam,8492,27,0,Standard,1752,3.0000,101.4000,51.9496,4.1453,,,,,,
+R191,Port Klang,Rotterdam,8426,25,1,Alternative,1871,3.0000,101.4000,51.9496,4.1453,Port Said,31.2653,32.3019,,,
+R192,Port Klang,Rotterdam,8784,28,2,Alternative,1740,3.0000,101.4000,51.9496,4.1453,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R193,Singapore,Hamburg,8428,25,0,Standard,1832,1.2644,103.8220,53.5461,9.9661,,,,,,
+R194,Singapore,Hamburg,8864,28,1,Alternative,1721,1.2644,103.8220,53.5461,9.9661,Port Said,31.2653,32.3019,,,
+R195,Singapore,Hamburg,8562,26,2,Alternative,1904,1.2644,103.8220,53.5461,9.9661,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R196,Singapore,Hamburg,8938,29,0,Standard,1755,1.2644,103.8220,53.5461,9.9661,,,,,,
+R197,Dubai,Rotterdam,6358,19,1,Alternative,1371,25.0110,55.0610,51.9496,4.1453,Salalah,16.9953,54.0133,,,
+R198,Dubai,Rotterdam,6684,21,2,Alternative,1274,25.0110,55.0610,51.9496,4.1453,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R199,Dubai,Rotterdam,6487,20,0,Standard,1402,25.0110,55.0610,51.9496,4.1453,,,,,,
+R200,Dubai,Rotterdam,6915,22,1,Alternative,1291,25.0110,55.0610,51.9496,4.1453,Salalah,16.9953,54.0133,,,
+R201,Chennai,Antwerp,8450,24,2,Alternative,1825,13.0827,80.2870,51.2647,4.4183,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R202,Chennai,Antwerp,8725,26,0,Standard,1738,13.0827,80.2870,51.2647,4.4183,,,,,,
+R203,Chennai,Antwerp,8568,25,1,Alternative,1862,13.0827,80.2870,51.2647,4.4183,Colombo,6.9497,79.8737,,,
+R204,Chennai,Antwerp,8892,28,2,Alternative,1714,13.0827,80.2870,51.2647,4.4183,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R205,Mumbai,Antwerp,7480,22,0,Standard,1642,18.9498,72.9478,51.2647,4.4183,,,,,,
+R206,Mumbai,Antwerp,7762,24,1,Alternative,1548,18.9498,72.9478,51.2647,4.4183,Salalah,16.9953,54.0133,,,
+R207,Mumbai,Antwerp,7591,23,2,Alternative,1685,18.9498,72.9478,51.2647,4.4183,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R208,Mumbai,Antwerp,7914,26,0,Standard,1526,18.9498,72.9478,51.2647,4.4183,,,,,,
+R209,Kolkata,Antwerp,9250,27,1,Alternative,2015,22.5500,88.3100,51.2647,4.4183,Colombo,6.9497,79.8737,,,
+R210,Kolkata,Antwerp,9586,30,2,Alternative,1912,22.5500,88.3100,51.2647,4.4183,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R211,Kolkata,Antwerp,9384,28,0,Standard,2056,22.5500,88.3100,51.2647,4.4183,,,,,,
+R212,Kolkata,Antwerp,9728,31,1,Alternative,1940,22.5500,88.3100,51.2647,4.4183,Colombo,6.9497,79.8737,,,
+R213,Cochin,Antwerp,8150,23,2,Alternative,1768,9.9668,76.2731,51.2647,4.4183,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R214,Cochin,Antwerp,8421,25,0,Standard,1675,9.9668,76.2731,51.2647,4.4183,,,,,,
+R215,Cochin,Antwerp,8247,24,1,Alternative,1802,9.9668,76.2731,51.2647,4.4183,Salalah,16.9953,54.0133,,,
+R216,Cochin,Antwerp,8598,27,2,Alternative,1658,9.9668,76.2731,51.2647,4.4183,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R217,Visakhapatnam,Antwerp,8950,26,0,Standard,1915,17.6868,83.2185,51.2647,4.4183,,,,,,
+R218,Visakhapatnam,Antwerp,9265,29,1,Alternative,1831,17.6868,83.2185,51.2647,4.4183,Colombo,6.9497,79.8737,,,
+R219,Visakhapatnam,Antwerp,9078,27,2,Alternative,1962,17.6868,83.2185,51.2647,4.4183,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R220,Visakhapatnam,Antwerp,9426,30,0,Standard,1855,17.6868,83.2185,51.2647,4.4183,,,,,,
+R221,Mundra,Antwerp,7280,21,1,Alternative,1572,22.7400,69.7200,51.2647,4.4183,Salalah,16.9953,54.0133,,,
+R222,Mundra,Antwerp,7618,23,2,Alternative,1481,22.7400,69.7200,51.2647,4.4183,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R223,Mundra,Antwerp,7395,22,0,Standard,1624,22.7400,69.7200,51.2647,4.4183,,,,,,
+R224,Mundra,Antwerp,7786,25,1,Alternative,1502,22.7400,69.7200,51.2647,4.4183,Salalah,16.9953,54.0133,,,
+R225,Port Klang,Hamburg,10150,29,2,Alternative,2120,3.0000,101.4000,53.5461,9.9661,Port Said,31.2653,32.3019,Colombo,6.9497,79.8737
+R226,Port Klang,Hamburg,10426,31,0,Standard,2015,3.0000,101.4000,53.5461,9.9661,,,,,,
+R227,Port Klang,Hamburg,10288,30,1,Alternative,2172,3.0000,101.4000,53.5461,9.9661,Port Said,31.2653,32.3019,,,
+R228,Port Klang,Hamburg,10675,33,2,Alternative,1987,3.0000,101.4000,53.5461,9.9661,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R229,Singapore,Rotterdam,8400,24,0,Standard,1815,1.2644,103.8220,51.9496,4.1453,,,,,,
+R230,Singapore,Rotterdam,8728,27,1,Alternative,1710,1.2644,103.8220,51.9496,4.1453,Port Said,31.2653,32.3019,,,
+R231,Singapore,Rotterdam,8537,25,2,Alternative,1864,1.2644,103.8220,51.9496,4.1453,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R232,Singapore,Rotterdam,8895,28,0,Standard,1732,1.2644,103.8220,51.9496,4.1453,,,,,,
+R233,Dubai,Hamburg,6400,19,1,Alternative,1388,25.0110,55.0610,53.5461,9.9661,Port Said,31.2653,32.3019,,,
+R234,Dubai,Hamburg,6735,21,2,Alternative,1286,25.0110,55.0610,53.5461,9.9661,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R235,Dubai,Hamburg,6514,20,0,Standard,1425,25.0110,55.0610,53.5461,9.9661,,,,,,
+R236,Dubai,Hamburg,6892,23,1,Alternative,1302,25.0110,55.0610,53.5461,9.9661,Port Said,31.2653,32.3019,,,
+R237,Colombo,Singapore,1420,4,2,Alternative,645,6.9497,79.8737,1.2644,103.8220,Hambantota,6.1241,81.1185,Port Klang,3.0000,101.4000
+R238,Colombo,Singapore,1658,6,0,Standard,572,6.9497,79.8737,1.2644,103.8220,,,,,,
+R239,Colombo,Singapore,1512,5,1,Alternative,698,6.9497,79.8737,1.2644,103.8220,Port Klang,3.0000,101.4000,,,
+R240,Colombo,Singapore,1785,7,2,Alternative,585,6.9497,79.8737,1.2644,103.8220,Hambantota,6.1241,81.1185,Port Klang,3.0000,101.4000
+R241,Colombo,Dubai,1980,6,0,Standard,710,6.9497,79.8737,25.0110,55.0610,,,,,,
+R242,Colombo,Dubai,2246,8,1,Alternative,628,6.9497,79.8737,25.0110,55.0610,Salalah,16.9953,54.0133,,,
+R243,Colombo,Dubai,2098,7,2,Alternative,756,6.9497,79.8737,25.0110,55.0610,Hambantota,6.1241,81.1185,Salalah,16.9953,54.0133
+R244,Colombo,Dubai,2394,9,0,Standard,615,6.9497,79.8737,25.0110,55.0610,,,,,,
+R245,Jakarta,Rotterdam,9800,28,1,Alternative,2105,-6.1060,106.8820,51.9496,4.1453,Colombo,6.9497,79.8737,,,
+R246,Jakarta,Rotterdam,10184,31,2,Alternative,1988,-6.1060,106.8820,51.9496,4.1453,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R247,Jakarta,Rotterdam,9942,29,0,Standard,2168,-6.1060,106.8820,51.9496,4.1453,,,,,,
+R248,Jakarta,Rotterdam,10376,33,1,Alternative,2012,-6.1060,106.8820,51.9496,4.1453,Colombo,6.9497,79.8737,,,
+R249,Jakarta,Hamburg,10150,29,2,Alternative,2148,-6.1060,106.8820,53.5461,9.9661,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R250,Jakarta,Hamburg,10512,32,0,Standard,2024,-6.1060,106.8820,53.5461,9.9661,,,,,,
+R251,Jakarta,Hamburg,10324,30,1,Alternative,2205,-6.1060,106.8820,53.5461,9.9661,Colombo,6.9497,79.8737,,,
+R252,Jakarta,Hamburg,10682,33,2,Alternative,2078,-6.1060,106.8820,53.5461,9.9661,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R253,Jakarta,Hamburg,10495,31,0,Standard,2236,-6.1060,106.8820,53.5461,9.9661,,,,,,
+R254,Jakarta,Hamburg,10876,34,1,Alternative,2055,-6.1060,106.8820,53.5461,9.9661,Colombo,6.9497,79.8737,,,
+R255,Jakarta,Valencia,9200,26,2,Alternative,1985,-6.1060,106.8820,39.4379,-0.3160,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R256,Jakarta,Valencia,9518,29,0,Standard,1882,-6.1060,106.8820,39.4379,-0.3160,,,,,,
+R257,Jakarta,Valencia,9346,27,1,Alternative,2038,-6.1060,106.8820,39.4379,-0.3160,Colombo,6.9497,79.8737,,,
+R258,Jakarta,Valencia,9685,30,2,Alternative,1904,-6.1060,106.8820,39.4379,-0.3160,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R259,Jakarta,Durban,5520,16,0,Standard,1515,-6.1060,106.8820,-29.8719,31.0498,,,,,,
+R260,Jakarta,Durban,5814,18,1,Alternative,1432,-6.1060,106.8820,-29.8719,31.0498,Colombo,6.9497,79.8737,,,
+R261,Jakarta,Durban,5668,17,2,Alternative,1562,-6.1060,106.8820,-29.8719,31.0498,Colombo,6.9497,79.8737,Port Louis,-20.1609,57.5012
+R262,Jakarta,Durban,5985,20,0,Standard,1450,-6.1060,106.8820,-29.8719,31.0498,,,,,,
+R263,Jakarta,Jeddah,6940,20,1,Alternative,1698,-6.1060,106.8820,21.4858,39.1925,Salalah,16.9953,54.0133,,,
+R264,Jakarta,Jeddah,7248,22,2,Alternative,1594,-6.1060,106.8820,21.4858,39.1925,Colombo,6.9497,79.8737,Salalah,16.9953,54.0133
+R265,Jakarta,Jeddah,7086,21,0,Standard,1742,-6.1060,106.8820,21.4858,39.1925,,,,,,
+R266,Jakarta,Jeddah,7415,24,1,Alternative,1610,-6.1060,106.8820,21.4858,39.1925,Salalah,16.9953,54.0133,,,
+R267,Jakarta,Piraeus,8820,25,2,Alternative,1908,-6.1060,106.8820,37.9475,23.6373,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R268,Jakarta,Piraeus,9164,28,0,Standard,1802,-6.1060,106.8820,37.9475,23.6373,,,,,,
+R269,Jakarta,Piraeus,8985,26,1,Alternative,1955,-6.1060,106.8820,37.9475,23.6373,Port Said,31.2653,32.3019,,,
+R270,Jakarta,Piraeus,9348,29,2,Alternative,1824,-6.1060,106.8820,37.9475,23.6373,Colombo,6.9497,79.8737,Port Said,31.2653,32.3019
+R271,Jakarta,Mombasa,4820,14,0,Standard,1395,-6.1060,106.8820,-4.0435,39.6682,,,,,,
+R272,Jakarta,Mombasa,5112,16,1,Alternative,1312,-6.1060,106.8820,-4.0435,39.6682,Colombo,6.9497,79.8737,,,
+R273,Jakarta,Mombasa,4968,15,2,Alternative,1440,-6.1060,106.8820,-4.0435,39.6682,Colombo,6.9497,79.8737,Port Louis,-20.1609,57.5012
+R274,Jakarta,Mombasa,5285,18,0,Standard,1330,-6.1060,106.8820,-4.0435,39.6682,,,,,,
+R275,Manila,Antwerp,10950,31,1,Alternative,2245,14.5995,120.9842,51.2647,4.4183,Port Klang,3.0000,101.4000,,,
+R276,Manila,Antwerp,11328,34,2,Alternative,2118,14.5995,120.9842,51.2647,4.4183,Port Klang,3.0000,101.4000,Port Said,31.2653,32.3019
+R277,Manila,Antwerp,11124,32,0,Standard,2310,14.5995,120.9842,51.2647,4.4183,,,,,,
+R278,Manila,Antwerp,11506,35,1,Alternative,2140,14.5995,120.9842,51.2647,4.4183,Port Klang,3.0000,101.4000,,,
+R279,Manila,Felixstowe,10820,31,2,Alternative,2205,14.5995,120.9842,51.9636,1.3511,Port Klang,3.0000,101.4000,Port Said,31.2653,32.3019
+R280,Manila,Felixstowe,11186,34,0,Standard,2082,14.5995,120.9842,51.9636,1.3511,,,,,,
+R281,Manila,Felixstowe,10998,32,1,Alternative,2268,14.5995,120.9842,51.9636,1.3511,Port Klang,3.0000,101.4000,,,
+R282,Manila,Felixstowe,11372,35,2,Alternative,2105,14.5995,120.9842,51.9636,1.3511,Port Klang,3.0000,101.4000,Port Said,31.2653,32.3019
+R283,Manila,Valencia,10340,29,0,Standard,2135,14.5995,120.9842,39.4379,-0.3160,,,,,,
+R284,Manila,Valencia,10718,32,1,Alternative,2014,14.5995,120.9842,39.4379,-0.3160,Port Klang,3.0000,101.4000,,,
+R285,Manila,Valencia,10526,30,2,Alternative,2190,14.5995,120.9842,39.4379,-0.3160,Port Klang,3.0000,101.4000,Port Said,31.2653,32.3019
+R286,Manila,Valencia,10904,33,0,Standard,2040,14.5995,120.9842,39.4379,-0.3160,,,,,,
+R287,Manila,Durban,7080,20,1,Alternative,1735,14.5995,120.9842,-29.8719,31.0498,Port Klang,3.0000,101.4000,,,
+R288,Manila,Durban,7396,22,2,Alternative,1638,14.5995,120.9842,-29.8719,31.0498,Port Klang,3.0000,101.4000,Port Louis,-20.1609,57.5012
+R289,Manila,Durban,7238,21,0,Standard,1780,14.5995,120.9842,-29.8719,31.0498,,,,,,
+R290,Manila,Durban,7564,24,1,Alternative,1662,14.5995,120.9842,-29.8719,31.0498,Port Klang,3.0000,101.4000,,,
+R291,Manila,Jeddah,8500,24,2,Alternative,1885,14.5995,120.9842,21.4858,39.1925,Port Klang,3.0000,101.4000,Salalah,16.9953,54.0133
+R292,Manila,Jeddah,8832,27,0,Standard,1772,14.5995,120.9842,21.4858,39.1925,,,,,,
+R293,Manila,Jeddah,8664,25,1,Alternative,1930,14.5995,120.9842,21.4858,39.1925,Salalah,16.9953,54.0133,,,
+R294,Manila,Jeddah,8998,28,2,Alternative,1795,14.5995,120.9842,21.4858,39.1925,Port Klang,3.0000,101.4000,Salalah,16.9953,54.0133
+R295,Manila,Piraeus,10320,29,0,Standard,2150,14.5995,120.9842,37.9475,23.6373,,,,,,
+R296,Manila,Piraeus,10672,32,1,Alternative,2028,14.5995,120.9842,37.9475,23.6373,Port Klang,3.0000,101.4000,,,
+R297,Manila,Piraeus,10488,30,2,Alternative,2205,14.5995,120.9842,37.9475,23.6373,Port Klang,3.0000,101.4000,Port Said,31.2653,32.3019
+R298,Manila,Piraeus,10846,33,0,Standard,2050,14.5995,120.9842,37.9475,23.6373,,,,,,
+R299,Manila,Mombasa,6380,19,1,Alternative,1635,14.5995,120.9842,-4.0435,39.6682,Port Klang,3.0000,101.4000,,,
+R300,Manila,Mombasa,6698,21,2,Alternative,1540,14.5995,120.9842,-4.0435,39.6682,Port Klang,3.0000,101.4000,Port Louis,-20.1609,57.5012
+R301,Manila,Antwerp,11082,32,0,Standard,2278,14.5995,120.9842,51.2647,4.4183,,,,,,
+R302,Manila,Felixstowe,10964,32,1,Alternative,2240,14.5995,120.9842,51.9636,1.3511,Singapore,1.2644,103.8220,,,
+R303,Manila,Valencia,10476,30,2,Alternative,2168,14.5995,120.9842,39.4379,-0.3160,Singapore,1.2644,103.8220,Port Said,31.2653,32.3019
+R304,Manila,Durban,7164,21,0,Standard,1762,14.5995,120.9842,-29.8719,31.0498,,,,,,
+R305,Manila,Jeddah,8618,25,1,Alternative,1912,14.5995,120.9842,21.4858,39.1925,Singapore,1.2644,103.8220,,,
+R306,Manila,Piraeus,10492,30,2,Alternative,2184,14.5995,120.9842,37.9475,23.6373,Singapore,1.2644,103.8220,Port Said,31.2653,32.3019
+R307,Manila,Mombasa,6512,20,0,Standard,1664,14.5995,120.9842,-4.0435,39.6682,,,,,,
+R308,Shanghai,Antwerp,11480,32,1,Alternative,2325,31.2304,121.4737,51.2647,4.4183,Singapore,1.2644,103.8220,,,
+R309,Shanghai,Felixstowe,11260,31,2,Alternative,2285,31.2304,121.4737,51.9636,1.3511,Singapore,1.2644,103.8220,Port Said,31.2653,32.3019
+R310,Shanghai,Valencia,10780,30,0,Standard,2210,31.2304,121.4737,39.4379,-0.3160,,,,,,
+R311,Shanghai,Durban,10940,31,1,Alternative,2195,31.2304,121.4737,-29.8719,31.0498,Singapore,1.2644,103.8220,,,
+R312,Shanghai,Jeddah,10260,29,2,Alternative,2075,31.2304,121.4737,21.4858,39.1925,Singapore,1.2644,103.8220,Port Said,31.2653,32.3019
+R313,Shanghai,Piraeus,11180,31,0,Standard,2260,31.2304,121.4737,37.9475,23.6373,,,,,,
+R314,Shanghai,Mombasa,10120,29,1,Alternative,2055,31.2304,121.4737,-4.0435,39.6682,Singapore,1.2644,103.8220,,,
+R315,Ningbo,Antwerp,11620,33,2,Alternative,2350,29.8683,121.5440,51.2647,4.4183,Singapore,1.2644,103.8220,Port Said,31.2653,32.3019
+R316,Ningbo,Felixstowe,11410,32,0,Standard,2310,29.8683,121.5440,51.9636,1.3511,,,,,,
+R317,Ningbo,Valencia,10920,31,1,Alternative,2240,29.8683,121.5440,39.4379,-0.3160,Singapore,1.2644,103.8220,,,
+R318,Ningbo,Durban,11080,32,2,Alternative,2220,29.8683,121.5440,-29.8719,31.0498,Singapore,1.2644,103.8220,Colombo,6.9497,79.8737
+R319,Ningbo,Jeddah,10400,30,0,Standard,2110,29.8683,121.5440,21.4858,39.1925,,,,,,
+R320,Ningbo,Piraeus,11320,32,1,Alternative,2290,29.8683,121.5440,37.9475,23.6373,Singapore,1.2644,103.8220,,,
+R321,Ningbo,Mombasa,10260,30,2,Alternative,2090,29.8683,121.5440,-4.0435,39.6682,Singapore,1.2644,103.8220,Colombo,6.9497,79.8737
+R322,Busan,Antwerp,12180,34,0,Standard,2440,35.1028,129.0403,51.2647,4.4183,,,,,,
+R323,Busan,Felixstowe,11960,33,1,Alternative,2400,35.1028,129.0403,51.9636,1.3511,Singapore,1.2644,103.8220,,,
+R324,Busan,Valencia,11470,32,2,Alternative,2325,35.1028,129.0403,39.4379,-0.3160,Singapore,1.2644,103.8220,Port Said,31.2653,32.3019
+R325,Busan,Durban,11620,33,0,Standard,2305,35.1028,129.0403,-29.8719,31.0498,,,,,,
+R326,Busan,Jeddah,10940,31,1,Alternative,2190,35.1028,129.0403,21.4858,39.1925,Singapore,1.2644,103.8220,,,
+R327,Busan,Piraeus,11870,33,2,Alternative,2380,35.1028,129.0403,37.9475,23.6373,Singapore,1.2644,103.8220,Port Said,31.2653,32.3019
+R328,Busan,Mombasa,10780,31,0,Standard,2165,35.1028,129.0403,-4.0435,39.6682,,,,,,
+R329,Ho Chi Minh City,Antwerp,10840,31,1,Alternative,2220,10.7769,106.7009,51.2647,4.4183,Singapore,1.2644,103.8220,,,
+R330,Ho Chi Minh City,Felixstowe,10620,30,2,Alternative,2180,10.7769,106.7009,51.9636,1.3511,Singapore,1.2644,103.8220,Port Said,31.2653,32.3019
+R331,Ho Chi Minh City,Valencia,10140,29,0,Standard,2110,10.7769,106.7009,39.4379,-0.3160,,,,,,
+R332,Ho Chi Minh City,Durban,8320,24,1,Alternative,1905,10.7769,106.7009,-29.8719,31.0498,Singapore,1.2644,103.8220,,,
+R333,Ho Chi Minh City,Jeddah,9610,27,2,Alternative,1990,10.7769,106.7009,21.4858,39.1925,Singapore,1.2644,103.8220,Colombo,6.9497,79.8737
+R334,Ho Chi Minh City,Piraeus,10540,30,0,Standard,2185,10.7769,106.7009,37.9475,23.6373,,,,,,
+R335,Ho Chi Minh City,Mombasa,7850,23,1,Alternative,1815,10.7769,106.7009,-4.0435,39.6682,Singapore,1.2644,103.8220,,,
+R336,Laem Chabang,Antwerp,10560,30,2,Alternative,2185,13.0827,100.8830,51.2647,4.4183,Singapore,1.2644,103.8220,Port Said,31.2653,32.3019
+R337,Laem Chabang,Felixstowe,10340,29,0,Standard,2145,13.0827,100.8830,51.9636,1.3511,,,,,,
+R338,Laem Chabang,Valencia,9880,28,1,Alternative,2075,13.0827,100.8830,39.4379,-0.3160,Singapore,1.2644,103.8220,,,
+R339,Laem Chabang,Durban,8150,23,2,Alternative,1875,13.0827,100.8830,-29.8719,31.0498,Singapore,1.2644,103.8220,Colombo,6.9497,79.8737
+R340,Laem Chabang,Jeddah,9440,26,0,Standard,1960,13.0827,100.8830,21.4858,39.1925,,,,,,
+R341,Laem Chabang,Piraeus,10280,29,1,Alternative,2145,13.0827,100.8830,37.9475,23.6373,Singapore,1.2644,103.8220,,,
+R342,Laem Chabang,Mombasa,7680,22,2,Alternative,1785,13.0827,100.8830,-4.0435,39.6682,Singapore,1.2644,103.8220,Colombo,6.9497,79.8737
+R343,Port Louis,Antwerp,7020,20,0,Standard,1665,-20.1609,57.5012,51.2647,4.4183,,,,,,
+R344,Port Louis,Felixstowe,6810,19,1,Alternative,1630,-20.1609,57.5012,51.9636,1.3511,Port Said,31.2653,32.3019,,,
+R345,Port Louis,Valencia,6480,18,2,Alternative,1575,-20.1609,57.5012,39.4379,-0.3160,Port Said,31.2653,32.3019,Gibraltar,36.1408,-5.3536
+R346,Port Louis,Durban,2320,8,0,Standard,985,-20.1609,57.5012,-29.8719,31.0498,,,,,,
+R347,Port Louis,Jeddah,3780,12,1,Alternative,1285,-20.1609,57.5012,21.4858,39.1925,Salalah,16.9953,54.0133,,,
+R348,Port Louis,Piraeus,6200,18,2,Alternative,1535,-20.1609,57.5012,37.9475,23.6373,Salalah,16.9953,54.0133,Port Said,31.2653,32.3019
+R349,Port Louis,Mombasa,2450,8,0,Standard,1015,-20.1609,57.5012,-4.0435,39.6682,,,,,,
+R350,Dar es Salaam,Antwerp,6960,20,1,Alternative,1690,-6.7924,39.2083,51.2647,4.4183,Port Said,31.2653,32.3019,,,
+R351,Dar es Salaam,Felixstowe,6740,19,2,Alternative,1655,-6.7924,39.2083,51.9636,1.3511,Port Said,31.2653,32.3019,Gibraltar,36.1408,-5.3536
+R352,Dar es Salaam,Valencia,6410,18,0,Standard,1600,-6.7924,39.2083,39.4379,-0.3160,,,,,,
+R353,Dar es Salaam,Durban,1650,6,1,Alternative,875,-6.7924,39.2083,-29.8719,31.0498,Maputo,-25.9692,32.5732,,,
+R354,Dar es Salaam,Jeddah,2820,10,2,Alternative,1165,-6.7924,39.2083,21.4858,39.1925,Salalah,16.9953,54.0133,Jebel Ali,25.0110,55.0610
+R355,Dar es Salaam,Piraeus,6130,18,0,Standard,1515,-6.7924,39.2083,37.9475,23.6373,,,,,,
+R356,Dar es Salaam,Mombasa,910,4,1,Alternative,720,-6.7924,39.2083,-4.0435,39.6682,Mombasa,-4.0435,39.6682,,,
+R357,Maputo,Antwerp,7820,22,2,Alternative,1810,-25.9692,32.5732,51.2647,4.4183,Cape Town,-33.9249,18.4241,Port Said,31.2653,32.3019
+R358,Maputo,Felixstowe,7590,21,0,Standard,1770,-25.9692,32.5732,51.9636,1.3511,,,,,,
+R359,Maputo,Valencia,7260,20,1,Alternative,1715,-25.9692,32.5732,39.4379,-0.3160,Cape Town,-33.9249,18.4241,,,
+R360,Maputo,Jeddah,3560,12,2,Alternative,1285,-25.9692,32.5732,21.4858,39.1925,Salalah,16.9953,54.0133,Jebel Ali,25.0110,55.0610
+R361,Maputo,Piraeus,7040,20,0,Standard,1655,-25.9692,32.5732,37.9475,23.6373,,,,,,
+R362,Maputo,Mombasa,2140,7,1,Alternative,925,-25.9692,32.5732,-4.0435,39.6682,Dar es Salaam,-6.7924,39.2083,,,
+R363,Cape Town,Antwerp,6900,20,2,Alternative,1705,-33.9249,18.4241,51.2647,4.4183,Luanda,-8.8383,13.2344,Port Said,31.2653,32.3019
+R364,Cape Town,Felixstowe,6680,19,0,Standard,1670,-33.9249,18.4241,51.9636,1.3511,,,,,,
+R365,Cape Town,Valencia,6350,18,1,Alternative,1615,-33.9249,18.4241,39.4379,-0.3160,Luanda,-8.8383,13.2344,,,
+R366,Cape Town,Jeddah,4120,13,2,Alternative,1365,-33.9249,18.4241,21.4858,39.1925,Luanda,-8.8383,13.2344,Salalah,16.9953,54.0133
+R367,Cape Town,Piraeus,6120,18,0,Standard,1550,-33.9249,18.4241,37.9475,23.6373,,,,,,
+R368,Cape Town,Mombasa,4300,13,1,Alternative,1395,-33.9249,18.4241,-4.0435,39.6682,Maputo,-25.9692,32.5732,,,
+R369,Luanda,Antwerp,6250,18,2,Alternative,1580,-8.8383,13.2344,51.2647,4.4183,Lagos,6.4488,3.3656,Port Said,31.2653,32.3019
+R370,Luanda,Felixstowe,6040,17,0,Standard,1545,-8.8383,13.2344,51.9636,1.3511,,,,,,
+R371,Luanda,Valencia,5710,16,1,Alternative,1495,-8.8383,13.2344,39.4379,-0.3160,Lagos,6.4488,3.3656,,,
+R372,Luanda,Durban,2460,9,2,Alternative,1085,-8.8383,13.2344,-29.8719,31.0498,Cape Town,-33.9249,18.4241,Maputo,-25.9692,32.5732
+R373,Luanda,Jeddah,3980,13,0,Standard,1325,-8.8383,13.2344,21.4858,39.1925,,,,,,
+R374,Luanda,Piraeus,5480,16,1,Alternative,1465,-8.8383,13.2344,37.9475,23.6373,Port Said,31.2653,32.3019,,,
+R375,Luanda,Mombasa,3180,11,2,Alternative,1195,-8.8383,13.2344,-4.0435,39.6682,Dar es Salaam,-6.7924,39.2083,Port Louis,-20.1609,57.5012
+R376,Lagos,Antwerp,6340,18,0,Standard,1605,6.4488,3.3656,51.2647,4.4183,,,,,,
+R377,Lagos,Felixstowe,6120,17,1,Alternative,1570,6.4488,3.3656,51.9636,1.3511,Port Said,31.2653,32.3019,,,
+R378,Lagos,Valencia,5790,16,2,Alternative,1520,6.4488,3.3656,39.4379,-0.3160,Casablanca,33.6037,-7.6022,Gibraltar,36.1408,-5.3536
+R379,Lagos,Durban,3370,11,0,Standard,1215,6.4488,3.3656,-29.8719,31.0498,,,,,,
+R380,Lagos,Jeddah,4210,14,1,Alternative,1375,6.4488,3.3656,21.4858,39.1925,Salalah,16.9953,54.0133,,,
+R381,Lagos,Piraeus,5560,16,2,Alternative,1490,6.4488,3.3656,37.9475,23.6373,Port Said,31.2653,32.3019,Gibraltar,36.1408,-5.3536
+R382,Lagos,Mombasa,3650,12,0,Standard,1250,6.4488,3.3656,-4.0435,39.6682,,,,,,
+R383,Casablanca,Antwerp,2440,8,1,Alternative,1120,33.6037,-7.6022,51.2647,4.4183,Tanger Med,35.8880,-5.5000,,,
+R384,Casablanca,Felixstowe,2260,7,2,Alternative,1085,33.6037,-7.6022,51.9636,1.3511,Tanger Med,35.8880,-5.5000,Gibraltar,36.1408,-5.3536
+R385,Casablanca,Valencia,1850,6,0,Standard,995,33.6037,-7.6022,39.4379,-0.3160,,,,,,
+R386,Casablanca,Durban,6460,18,1,Alternative,1585,33.6037,-7.6022,-29.8719,31.0498,Cape Town,-33.9249,18.4241,,,
+R387,Casablanca,Jeddah,3420,11,2,Alternative,1255,33.6037,-7.6022,21.4858,39.1925,Port Said,31.2653,32.3019,Salalah,16.9953,54.0133
+R388,Casablanca,Piraeus,2680,9,0,Standard,1165,33.6037,-7.6022,37.9475,23.6373,,,,,,
+R389,Casablanca,Mombasa,5960,17,1,Alternative,1510,33.6037,-7.6022,-4.0435,39.6682,Port Said,31.2653,32.3019,,,
+R390,Tanger Med,Antwerp,2260,7,2,Alternative,1055,35.8880,-5.5000,51.2647,4.4183,Gibraltar,36.1408,-5.3536,Port Said,31.2653,32.3019
+R391,Tanger Med,Felixstowe,2070,7,0,Standard,1025,35.8880,-5.5000,51.9636,1.3511,,,,,,
+R392,Tanger Med,Valencia,1420,5,1,Alternative,910,35.8880,-5.5000,39.4379,-0.3160,Algeciras,36.1300,-5.4400,,,
+R393,Tanger Med,Durban,6740,19,2,Alternative,1630,35.8880,-5.5000,-29.8719,31.0498,Las Palmas,28.1000,-15.4000,Cape Town,-33.9249,18.4241
+R394,Tanger Med,Jeddah,3590,11,0,Standard,1280,35.8880,-5.5000,21.4858,39.1925,,,,,,
+R395,Tanger Med,Piraeus,2380,8,1,Alternative,1080,35.8880,-5.5000,37.9475,23.6373,Algeciras,36.1300,-5.4400,,,
+R396,Tanger Med,Mombasa,6220,18,2,Alternative,1550,35.8880,-5.5000,-4.0435,39.6682,Port Said,31.2653,32.3019,Salalah,16.9953,54.0133
+R397,Algeciras,Antwerp,2380,8,0,Standard,1095,36.1300,-5.4400,51.2647,4.4183,,,,,,
+R398,Algeciras,Felixstowe,2190,7,1,Alternative,1060,36.1300,-5.4400,51.9636,1.3511,Gibraltar,36.1408,-5.3536,,,
+R399,Algeciras,Valencia,1260,5,2,Alternative,890,36.1300,-5.4400,39.4379,-0.3160,Gibraltar,36.1408,-5.3536,Algeciras,36.1300,-5.4400
+R400,Algeciras,Durban,6820,19,0,Standard,1650,36.1300,-5.4400,-29.8719,31.0498,,,,,,
+R401,Penang,Santos,11240,32,1,Alternative,2315,5.4141,100.3290,-23.9608,-46.3326,Colombo,6.9497,79.8737,,,
+R402,Penang,Los Angeles,8650,25,2,Alternative,1985,5.4141,100.3290,33.7405,-118.2720,Singapore,1.2644,103.8220,Honolulu,21.3069,-157.8583
+R403,Penang,New York,12180,35,0,Standard,2475,5.4141,100.3290,40.6840,-74.0062,,,,,,
+R404,Penang,Vancouver,10260,30,1,Alternative,2240,5.4141,100.3290,49.2967,-123.1300,Singapore,1.2644,103.8220,,,
+R405,Penang,Sydney,4550,14,2,Alternative,1425,5.4141,100.3290,-33.8688,151.2093,Singapore,1.2644,103.8220,Brisbane,-27.4698,153.0251
+R406,Penang,Melbourne,4860,15,0,Standard,1485,5.4141,100.3290,-37.8136,144.9631,,,,,,
+R407,Penang,Auckland,5450,17,1,Alternative,1580,5.4141,100.3290,-36.8485,174.7633,Singapore,1.2644,103.8220,,,
+R408,Penang,Brisbane,4620,14,2,Alternative,1450,5.4141,100.3290,-27.4698,153.0251,Singapore,1.2644,103.8220,Darwin,-12.4634,130.8456
+R409,Penang,Seattle,9120,27,0,Standard,2075,5.4141,100.3290,47.6062,-122.3321,,,,,,
+R410,Penang,Durban,6120,18,1,Alternative,1695,5.4141,100.3290,-29.8719,31.0498,Colombo,6.9497,79.8737,,,
+R411,Jakarta,Santos,11840,34,2,Alternative,2425,-6.1060,106.8820,-23.9608,-46.3326,Singapore,1.2644,103.8220,Panama City,9.0000,-79.5000
+R412,Jakarta,Los Angeles,9820,29,0,Standard,2185,-6.1060,106.8820,33.7405,-118.2720,,,,,,
+R413,Jakarta,New York,12860,37,1,Alternative,2585,-6.1060,106.8820,40.6840,-74.0062,Singapore,1.2644,103.8220,,,
+R414,Jakarta,Vancouver,11120,32,2,Alternative,2390,-6.1060,106.8820,49.2967,-123.1300,Singapore,1.2644,103.8220,Honolulu,21.3069,-157.8583
+R415,Jakarta,Sydney,4630,14,0,Standard,1465,-6.1060,106.8820,-33.8688,151.2093,,,,,,
+R416,Jakarta,Melbourne,4950,15,1,Alternative,1525,-6.1060,106.8820,-37.8136,144.9631,Singapore,1.2644,103.8220,,,
+R417,Jakarta,Auckland,5520,17,2,Alternative,1620,-6.1060,106.8820,-36.8485,174.7633,Singapore,1.2644,103.8220,Brisbane,-27.4698,153.0251
+R418,Jakarta,Brisbane,4710,14,0,Standard,1490,-6.1060,106.8820,-27.4698,153.0251,,,,,,
+R419,Jakarta,Seattle,9780,29,1,Alternative,2260,-6.1060,106.8820,47.6062,-122.3321,Singapore,1.2644,103.8220,,,
+R420,Jakarta,Durban,5660,17,2,Alternative,1585,-6.1060,106.8820,-29.8719,31.0498,Colombo,6.9497,79.8737,Port Louis,-20.1609,57.5012
+R421,Manila,Santos,11980,34,0,Standard,2460,14.5995,120.9842,-23.9608,-46.3326,,,,,,
+R422,Manila,Los Angeles,7420,22,1,Alternative,1815,14.5995,120.9842,33.7405,-118.2720,Honolulu,21.3069,-157.8583,,,
+R423,Manila,New York,13740,39,2,Alternative,2725,14.5995,120.9842,40.6840,-74.0062,Honolulu,21.3069,-157.8583,Panama City,9.0000,-79.5000
+R424,Manila,Vancouver,10980,32,0,Standard,2355,14.5995,120.9842,49.2967,-123.1300,,,,,,
+R425,Manila,Sydney,5120,16,1,Alternative,1555,14.5995,120.9842,-33.8688,151.2093,Singapore,1.2644,103.8220,,,
+R426,Manila,Melbourne,5480,17,2,Alternative,1625,14.5995,120.9842,-37.8136,144.9631,Singapore,1.2644,103.8220,Sydney,-33.8688,151.2093
+R427,Manila,Auckland,5960,18,0,Standard,1705,14.5995,120.9842,-36.8485,174.7633,,,,,,
+R428,Manila,Brisbane,5180,16,1,Alternative,1585,14.5995,120.9842,-27.4698,153.0251,Singapore,1.2644,103.8220,,,
+R429,Manila,Seattle,7850,23,2,Alternative,1940,14.5995,120.9842,47.6062,-122.3321,Honolulu,21.3069,-157.8583,Vancouver,49.2967,-123.1300
+R430,Manila,Durban,7050,21,0,Standard,1785,14.5995,120.9842,-29.8719,31.0498,,,,,,
+R431,Shanghai,Santos,10980,31,1,Alternative,2285,31.2304,121.4737,-23.9608,-46.3326,Singapore,1.2644,103.8220,,,
+R432,Shanghai,Los Angeles,6380,19,2,Alternative,1685,31.2304,121.4737,33.7405,-118.2720,Shanghai,31.2304,121.4737,Honolulu,21.3069,-157.8583
+R433,Shanghai,New York,12640,36,0,Standard,2535,31.2304,121.4737,40.6840,-74.0062,,,,,,
+R434,Shanghai,Vancouver,10020,29,1,Alternative,2185,31.2304,121.4737,49.2967,-123.1300,Busan,35.1028,129.0403,,,
+R435,Shanghai,Sydney,5200,16,2,Alternative,1575,31.2304,121.4737,-33.8688,151.2093,Singapore,1.2644,103.8220,Brisbane,-27.4698,153.0251
+R436,Shanghai,Melbourne,5480,17,0,Standard,1635,31.2304,121.4737,-37.8136,144.9631,,,,,,
+R437,Shanghai,Auckland,6080,18,1,Alternative,1720,31.2304,121.4737,-36.8485,174.7633,Singapore,1.2644,103.8220,,,
+R438,Shanghai,Brisbane,5290,16,2,Alternative,1605,31.2304,121.4737,-27.4698,153.0251,Singapore,1.2644,103.8220,Darwin,-12.4634,130.8456
+R439,Shanghai,Seattle,7820,23,0,Standard,1925,31.2304,121.4737,47.6062,-122.3321,,,,,,
+R440,Shanghai,Durban,10580,30,1,Alternative,2195,31.2304,121.4737,-29.8719,31.0498,Singapore,1.2644,103.8220,,,
+R441,Ningbo,Santos,11120,32,2,Alternative,2325,29.8683,121.5440,-23.9608,-46.3326,Singapore,1.2644,103.8220,Panama City,9.0000,-79.5000
+R442,Ningbo,Los Angeles,6520,20,0,Standard,1725,29.8683,121.5440,33.7405,-118.2720,,,,,,
+R443,Ningbo,New York,12820,37,1,Alternative,2595,29.8683,121.5440,40.6840,-74.0062,Singapore,1.2644,103.8220,,,
+R444,Ningbo,Vancouver,10180,30,2,Alternative,2220,29.8683,121.5440,49.2967,-123.1300,Busan,35.1028,129.0403,Honolulu,21.3069,-157.8583
+R445,Ningbo,Sydney,5360,16,0,Standard,1610,29.8683,121.5440,-33.8688,151.2093,,,,,,
+R446,Ningbo,Melbourne,5640,17,1,Alternative,1670,29.8683,121.5440,-37.8136,144.9631,Singapore,1.2644,103.8220,,,
+R447,Ningbo,Auckland,6240,19,2,Alternative,1760,29.8683,121.5440,-36.8485,174.7633,Singapore,1.2644,103.8220,Brisbane,-27.4698,153.0251
+R448,Ningbo,Brisbane,5450,17,0,Standard,1640,29.8683,121.5440,-27.4698,153.0251,,,,,,
+R449,Ningbo,Seattle,8020,24,1,Alternative,1970,29.8683,121.5440,47.6062,-122.3321,Honolulu,21.3069,-157.8583,,,
+R450,Ningbo,Durban,10720,31,2,Alternative,2245,29.8683,121.5440,-29.8719,31.0498,Singapore,1.2644,103.8220,Colombo,6.9497,79.8737
+R451,Busan,Santos,11680,33,0,Standard,2415,35.1028,129.0403,-23.9608,-46.3326,,,,,,
+R452,Busan,Los Angeles,5920,18,1,Alternative,1615,35.1028,129.0403,33.7405,-118.2720,Honolulu,21.3069,-157.8583,,,
+R453,Busan,New York,13920,40,2,Alternative,2785,35.1028,129.0403,40.6840,-74.0062,Panama City,9.0000,-79.5000,Colombo,6.9497,79.8737
+R454,Busan,Vancouver,8240,24,0,Standard,1895,35.1028,129.0403,49.2967,-123.1300,,,,,,
+R455,Busan,Sydney,6120,18,1,Alternative,1745,35.1028,129.0403,-33.8688,151.2093,Singapore,1.2644,103.8220,,,
+R456,Busan,Melbourne,6410,19,2,Alternative,1810,35.1028,129.0403,-37.8136,144.9631,Singapore,1.2644,103.8220,Sydney,-33.8688,151.2093
+R457,Busan,Auckland,6810,20,0,Standard,1890,35.1028,129.0403,-36.8485,174.7633,,,,,,
+R458,Busan,Brisbane,6220,18,1,Alternative,1775,35.1028,129.0403,-27.4698,153.0251,Singapore,1.2644,103.8220,,,
+R459,Busan,Seattle,7160,22,2,Alternative,1845,35.1028,129.0403,47.6062,-122.3321,Honolulu,21.3069,-157.8583,Vancouver,49.2967,-123.1300
+R460,Busan,Durban,11280,32,0,Standard,2355,35.1028,129.0403,-29.8719,31.0498,,,,,,
+R461,Ho Chi Minh City,Santos,12040,34,1,Alternative,2485,10.7769,106.7009,-23.9608,-46.3326,Singapore,1.2644,103.8220,,,
+R462,Ho Chi Minh City,Los Angeles,7820,23,2,Alternative,1905,10.7769,106.7009,33.7405,-118.2720,Singapore,1.2644,103.8220,Honolulu,21.3069,-157.8583
+R463,Ho Chi Minh City,New York,13240,38,0,Standard,2665,10.7769,106.7009,40.6840,-74.0062,,,,,,
+R464,Ho Chi Minh City,Vancouver,10420,30,1,Alternative,2265,10.7769,106.7009,49.2967,-123.1300,Honolulu,21.3069,-157.8583,,,
+R465,Ho Chi Minh City,Sydney,5890,17,2,Alternative,1695,10.7769,106.7009,-33.8688,151.2093,Singapore,1.2644,103.8220,Brisbane,-27.4698,153.0251
+R466,Ho Chi Minh City,Melbourne,6180,18,0,Standard,1760,10.7769,106.7009,-37.8136,144.9631,,,,,,
+R467,Ho Chi Minh City,Auckland,6740,20,1,Alternative,1850,10.7769,106.7009,-36.8485,174.7633,Singapore,1.2644,103.8220,,,
+R468,Ho Chi Minh City,Brisbane,5960,18,2,Alternative,1730,10.7769,106.7009,-27.4698,153.0251,Singapore,1.2644,103.8220,Darwin,-12.4634,130.8456
+R469,Ho Chi Minh City,Seattle,8460,25,0,Standard,2025,10.7769,106.7009,47.6062,-122.3321,,,,,,
+R470,Ho Chi Minh City,Durban,10480,30,1,Alternative,2185,10.7769,106.7009,-29.8719,31.0498,Singapore,1.2644,103.8220,,,
+R471,Laem Chabang,Santos,12160,35,2,Alternative,2515,13.0827,100.8830,-23.9608,-46.3326,Singapore,1.2644,103.8220,Panama City,9.0000,-79.5000
+R472,Laem Chabang,Los Angeles,7680,23,0,Standard,1875,13.0827,100.8830,33.7405,-118.2720,,,,,,
+R473,Laem Chabang,New York,13420,39,1,Alternative,2705,13.0827,100.8830,40.6840,-74.0062,Singapore,1.2644,103.8220,,,
+R474,Laem Chabang,Vancouver,10620,31,2,Alternative,2305,13.0827,100.8830,49.2967,-123.1300,Singapore,1.2644,103.8220,Honolulu,21.3069,-157.8583
+R475,Laem Chabang,Sydney,6060,18,0,Standard,1725,13.0827,100.8830,-33.8688,151.2093,,,,,,
+R476,Laem Chabang,Melbourne,6350,19,1,Alternative,1795,13.0827,100.8830,-37.8136,144.9631,Singapore,1.2644,103.8220,,,
+R477,Laem Chabang,Auckland,6910,21,2,Alternative,1880,13.0827,100.8830,-36.8485,174.7633,Singapore,1.2644,103.8220,Brisbane,-27.4698,153.0251
+R478,Laem Chabang,Brisbane,6130,18,0,Standard,1760,13.0827,100.8830,-27.4698,153.0251,,,,,,
+R479,Laem Chabang,Seattle,8310,25,1,Alternative,2005,13.0827,100.8830,47.6062,-122.3321,Honolulu,21.3069,-157.8583,,,
+R480,Laem Chabang,Durban,10640,31,2,Alternative,2215,13.0827,100.8830,-29.8719,31.0498,Singapore,1.2644,103.8220,Colombo,6.9497,79.8737
+R481,Port Klang,Santos,11620,33,0,Standard,2395,3.0000,101.4000,-23.9608,-46.3326,,,,,,
+R482,Port Klang,Los Angeles,8040,24,1,Alternative,1945,3.0000,101.4000,33.7405,-118.2720,Honolulu,21.3069,-157.8583,,,
+R483,Port Klang,New York,12980,37,2,Alternative,2615,3.0000,101.4000,40.6840,-74.0062,Singapore,1.2644,103.8220,Panama City,9.0000,-79.5000
+R484,Port Klang,Vancouver,10080,29,0,Standard,2215,3.0000,101.4000,49.2967,-123.1300,,,,,,
+R485,Port Klang,Sydney,4320,13,1,Alternative,1375,3.0000,101.4000,-33.8688,151.2093,Singapore,1.2644,103.8220,,,
+R486,Port Klang,Melbourne,4650,14,2,Alternative,1440,3.0000,101.4000,-37.8136,144.9631,Singapore,1.2644,103.8220,Sydney,-33.8688,151.2093
+R487,Port Klang,Auckland,5240,16,0,Standard,1535,3.0000,101.4000,-36.8485,174.7633,,,,,,
+R488,Port Klang,Brisbane,4410,13,1,Alternative,1410,3.0000,101.4000,-27.4698,153.0251,Singapore,1.2644,103.8220,,,
+R489,Port Klang,Seattle,8890,26,2,Alternative,2045,3.0000,101.4000,47.6062,-122.3321,Singapore,1.2644,103.8220,Honolulu,21.3069,-157.8583
+R490,Port Klang,Durban,6380,19,0,Standard,1715,3.0000,101.4000,-29.8719,31.0498,,,,,,
+R491,Colombo,Santos,10420,30,1,Alternative,2175,6.9497,79.8737,-23.9608,-46.3326,Cape Town,-33.9249,18.4241,,,
+R492,Colombo,Los Angeles,9480,28,2,Alternative,2115,6.9497,79.8737,33.7405,-118.2720,Singapore,1.2644,103.8220,Honolulu,21.3069,-157.8583
+R493,Colombo,New York,12140,35,0,Standard,2465,6.9497,79.8737,40.6840,-74.0062,,,,,,
+R494,Colombo,Vancouver,10680,31,1,Alternative,2295,6.9497,79.8737,49.2967,-123.1300,Singapore,1.2644,103.8220,,,
+R495,Colombo,Sydney,5370,16,2,Alternative,1595,6.9497,79.8737,-33.8688,151.2093,Singapore,1.2644,103.8220,Brisbane,-27.4698,153.0251
+R496,Colombo,Melbourne,5680,17,0,Standard,1660,6.9497,79.8737,-37.8136,144.9631,,,,,,
+R497,Colombo,Auckland,6220,19,1,Alternative,1755,6.9497,79.8737,-36.8485,174.7633,Singapore,1.2644,103.8220,,,
+R498,Colombo,Brisbane,5480,16,2,Alternative,1625,6.9497,79.8737,-27.4698,153.0251,Singapore,1.2644,103.8220,Darwin,-12.4634,130.8456
+R499,Colombo,Seattle,10120,30,0,Standard,2205,6.9497,79.8737,47.6062,-122.3321,,,,,,
+R500,Colombo,Durban,4870,15,1,Alternative,1455,6.9497,79.8737,-29.8719,31.0498,Port Louis,-20.1609,57.5012,,,
