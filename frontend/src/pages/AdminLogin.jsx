@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./AdminLogin.css";
 
 function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -99,9 +100,9 @@ function AdminLogin() {
   };
 
   return (
-    <div className="register-container">
+    <div className="admin-login-container">
 
-      <div className="register-card">
+      <div className="admin-login-card">
 
         <h2>Admin Login</h2>
 

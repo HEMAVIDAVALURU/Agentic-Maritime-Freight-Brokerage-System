@@ -1,0 +1,168 @@
+/* ================================
+   REGISTER PAGE
+================================ */
+.register-container {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 92px);
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 45px 25px;
+
+  background-image:
+    linear-gradient(
+      rgba(55, 31, 20, 0.58),
+      rgba(55, 31, 20, 0.62)
+    ),
+    url("https://images.pexels.com/photos/26224664/pexels-photo-26224664.jpeg?cs=srgb&dl=pexels-thomas-parker-1272388137-26224664.jpg&fm=jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Register Card */
+.register-card {
+  width: 100%;
+  max-width: 430px;
+  padding: 34px 32px 27px;
+  background: rgba(255, 250, 242, 0.96);
+  border: 1px solid rgba(126, 78, 42, 0.18);
+  border-radius: 18px;
+  box-shadow: 0 18px 45px rgba(40, 22, 12, 0.28);
+  position: relative;
+  z-index: 2;
+}
+
+/* Heading */
+.register-card h2 {
+  margin: 0 0 24px;
+  text-align: center;
+  color: #5a321f;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* Form */
+.register-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Inputs */
+.register-card input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid rgba(126, 78, 42, 0.28);
+  border-radius: 9px;
+  background: #fffdf9;
+  color: #3f261b;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.register-card input::placeholder {
+  color: #9a8273;
+}
+
+.register-card input:focus {
+  border-color: #a86b38;
+  box-shadow: 0 0 0 3px rgba(168, 107, 56, 0.12);
+}
+
+/* Message */
+.message {
+  margin: 4px 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.message.error {
+  color: #9f2f2f;
+  background: rgba(180, 50, 50, 0.08);
+  border: 1px solid rgba(180, 50, 50, 0.18);
+}
+
+.message.success {
+  color: #397044;
+  background: rgba(70, 130, 80, 0.08);
+  border: 1px solid rgba(70, 130, 80, 0.18);
+}
+
+/* Register Button */
+.register-card button {
+  width: 100%;
+  margin-top: 5px;
+  padding: 13px 16px;
+  border: none;
+  border-radius: 9px;
+  background: #7e4e2a;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.register-card button:hover {
+  background: #633a20;
+  transform: translateY(-1px);
+}
+
+.register-card button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Login Text */
+.login-text {
+  margin: 20px 0 0;
+  text-align: center;
+  color: #80604e;
+  font-size: 13px;
+}
+
+.login-text span {
+  color: #7e4e2a;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-text span:hover {
+  text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .register-container {
+    padding: 30px 18px 40px;
+  }
+
+  .register-card {
+    padding: 28px 22px 24px;
+    border-radius: 15px;
+  }
+
+  .register-card h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .register-card input {
+    padding: 12px;
+  }
+
+  .register-card button {
+    padding: 12px;
+  }
+}

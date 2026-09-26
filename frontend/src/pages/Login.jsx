@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import "./Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -46,9 +47,7 @@ function Login() {
       console.log("Login response:", data);
 
       if (!response.ok || data.status !== "success") {
-        setMessage(
-          data.message || "Invalid email or password."
-        );
+        setMessage(data.message || "Invalid email or password.");
         setMessageType("error");
         return;
       }
@@ -85,7 +84,6 @@ function Login() {
           replace: true,
         });
       }, 700);
-
     } catch (error) {
       console.error("Login error:", error);
 
@@ -99,9 +97,9 @@ function Login() {
   };
 
   return (
-    <div className="register-container">
+    <div className="login-container">
 
-      <div className="register-card">
+      <div className="login-card">
 
         <h2>Welcome Back</h2>
 

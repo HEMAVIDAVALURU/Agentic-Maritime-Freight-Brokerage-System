@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./VerifyOTP.css";
 
 function VerifyOTP() {
   const [otp, setOtp] = useState("");
@@ -253,8 +254,8 @@ function VerifyOTP() {
   // =========================================================
 
   return (
-    <div className="register-container">
-      <div className="register-card">
+    <div className="otp-container">
+      <div className="otp-card">
 
         <h2>Verify Your Email</h2>
 

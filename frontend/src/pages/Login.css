@@ -1,0 +1,271 @@
+/* ================================
+   LOGIN PAGE
+================================ */
+
+.login-container {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 92px);
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 45px 25px;
+
+  /* Same background image as Welcome page */
+  background-image:
+    linear-gradient(
+      rgba(55, 31, 20, 0.58),
+      rgba(55, 31, 20, 0.62)
+    ),
+    url("https://images.pexels.com/photos/26224664/pexels-photo-26224664.jpeg?cs=srgb&dl=pexels-thomas-parker-1272388137-26224664.jpg&fm=jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+/* ================================
+   BACKGROUND LIGHT EFFECT
+================================ */
+
+.login-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 20% 35%,
+      rgba(224, 157, 75, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 82% 25%,
+      rgba(255, 203, 120, 0.1),
+      transparent 28%
+    );
+
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+/* ================================
+   LOGIN CARD
+================================ */
+
+.login-container > div {
+  width: 100%;
+  max-width: 430px;
+
+  padding: 35px 32px;
+
+  background: rgba(255, 250, 242, 0.96);
+
+  border: 1px solid rgba(126, 78, 42, 0.18);
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 18px 45px rgba(40, 22, 12, 0.28);
+
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ================================
+   HEADING
+================================ */
+
+.login-container h2 {
+  margin: 0 0 24px;
+
+  text-align: center;
+
+  color: #5a321f;
+
+  font-size: 28px;
+  font-weight: 700;
+}
+
+
+/* ================================
+   INPUTS
+================================ */
+
+.login-container input {
+  width: 100%;
+
+  padding: 13px 14px;
+
+  margin-bottom: 14px;
+
+  border: 1px solid rgba(126, 78, 42, 0.28);
+
+  border-radius: 9px;
+
+  background: #fffdf9;
+
+  color: #3f261b;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+.login-container input::placeholder {
+  color: #9a8273;
+}
+
+.login-container input:focus {
+  border-color: #a86b38;
+
+  box-shadow:
+    0 0 0 3px rgba(168, 107, 56, 0.12);
+}
+
+
+/* ================================
+   BUTTON
+================================ */
+
+.login-container button {
+  width: 100%;
+
+  padding: 13px 16px;
+
+  margin-top: 4px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #7e4e2a;
+
+  color: #ffffff;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.login-container button:hover {
+  background: #633a20;
+
+  transform: translateY(-1px);
+}
+
+.login-container button:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* ================================
+   MESSAGES
+================================ */
+
+.login-container .message {
+  margin: 4px 0 12px;
+
+  padding: 10px 12px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+
+  line-height: 1.4;
+
+  text-align: center;
+}
+
+.login-container .message.error {
+  color: #9f2f2f;
+
+  background: rgba(180, 50, 50, 0.08);
+
+  border: 1px solid rgba(180, 50, 50, 0.18);
+}
+
+.login-container .message.success {
+  color: #397044;
+
+  background: rgba(70, 130, 80, 0.08);
+
+  border: 1px solid rgba(70, 130, 80, 0.18);
+}
+
+
+/* ================================
+   REGISTER / NAVIGATION TEXT
+================================ */
+
+.login-container .login-text {
+  margin: 20px 0 0;
+
+  text-align: center;
+
+  color: #80604e;
+
+  font-size: 13px;
+}
+
+.login-container .login-text span {
+  color: #7e4e2a;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.login-container .login-text span:hover {
+  text-decoration: underline;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 480px) {
+
+  .login-container {
+    min-height: calc(100vh - 92px);
+
+    padding: 30px 18px;
+  }
+
+  .login-container > div {
+    padding: 28px 22px;
+
+    border-radius: 15px;
+  }
+
+  .login-container h2 {
+    font-size: 24px;
+
+    margin-bottom: 20px;
+  }
+
+  .login-container input {
+    padding: 12px;
+  }
+
+  .login-container button {
+    padding: 12px;
+  }
+}

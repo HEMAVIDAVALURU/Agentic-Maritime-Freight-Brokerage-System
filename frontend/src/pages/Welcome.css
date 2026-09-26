@@ -1,0 +1,516 @@
+/* =========================================================
+   COMMON MARITIME BACKGROUND
+   ========================================================= */
+
+.welcome-page {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 92px);
+  overflow: hidden;
+  background-image:
+    linear-gradient(
+      rgba(55, 31, 20, 0.58),
+      rgba(55, 31, 20, 0.62)
+    ),
+    url("https://images.pexels.com/photos/26224664/pexels-photo-26224664.jpeg?cs=srgb&dl=pexels-thomas-parker-1272388137-26224664.jpg&fm=jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+/* =========================================================
+   MARITIME OVERLAY
+   ========================================================= */
+
+.welcome-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 20% 35%,
+      rgba(224, 157, 75, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 82% 25%,
+      rgba(255, 203, 120, 0.1),
+      transparent 28%
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+/* =========================================================
+   SUBTLE WORLD / ROUTE GRID
+   ========================================================= */
+
+.background-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image:
+    linear-gradient(
+      rgba(255, 235, 205, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 235, 205, 0.025) 1px,
+      transparent 1px
+    );
+  background-size: 75px 75px;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+
+/* =========================================================
+   BACKGROUND GLOW
+   ========================================================= */
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.glow-left {
+  width: 430px;
+  height: 430px;
+  left: -180px;
+  bottom: -170px;
+  background: rgba(215, 142, 61, 0.22);
+}
+
+.glow-right {
+  width: 450px;
+  height: 450px;
+  right: -180px;
+  top: -120px;
+  background: rgba(239, 178, 91, 0.16);
+}
+
+
+/* =========================================================
+   ROUTE LINES
+   ========================================================= */
+
+.route-line {
+  position: absolute;
+  height: 1px;
+  z-index: 3;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(236, 174, 94, 0.65),
+      rgba(255, 218, 157, 0.38),
+      transparent
+    );
+  opacity: 0.55;
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.route-line::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  top: -3px;
+  border-radius: 50%;
+  background: #e6a85c;
+  box-shadow:
+    0 0 8px rgba(230, 168, 92, 0.8),
+    0 0 18px rgba(230, 168, 92, 0.35);
+}
+
+.route-one {
+  width: 700px;
+  top: 25%;
+  left: -100px;
+  transform: rotate(-12deg);
+}
+
+.route-one::after {
+  right: 18%;
+}
+
+.route-two {
+  width: 760px;
+  top: 42%;
+  right: -180px;
+  transform: rotate(16deg);
+}
+
+.route-two::after {
+  left: 32%;
+}
+
+.route-three {
+  width: 650px;
+  bottom: 17%;
+  left: 2%;
+  transform: rotate(8deg);
+  opacity: 0.3;
+}
+
+.route-three::after {
+  right: 28%;
+}
+
+
+/* =========================================================
+   WELCOME CONTENT
+   ========================================================= */
+
+.welcome-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 45px 35px 65px;
+  text-align: center;
+}
+
+
+/* =========================================================
+   MARITIME ICON
+   ========================================================= */
+
+.ship-icon {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fffaf2;
+  border: 1px solid #d09a5c;
+  color: #8a542f;
+  font-size: 31px;
+  box-shadow:
+    0 10px 28px rgba(37, 20, 12, 0.28);
+}
+
+
+/* =========================================================
+   WELCOME TITLE
+   ========================================================= */
+
+.welcome-content h1 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(39px, 4.3vw, 60px);
+  line-height: 1.13;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: #fffaf2;
+  text-shadow:
+    0 4px 22px rgba(0, 0, 0, 0.45);
+}
+
+.welcome-content h1 span {
+  color: #e5b06a;
+  text-shadow:
+    0 0 18px rgba(229, 176, 106, 0.25);
+}
+
+
+/* =========================================================
+   TITLE LINE
+   ========================================================= */
+
+.title-line {
+  width: 76px;
+  height: 3px;
+  margin: 20px auto 14px;
+  border-radius: 10px;
+  background:
+    linear-gradient(
+      90deg,
+      #9a5d31,
+      #e5b06a,
+      #9a5d31
+    );
+  box-shadow:
+    0 0 12px rgba(229, 176, 106, 0.35);
+}
+
+
+/* =========================================================
+   TAGLINE
+   ========================================================= */
+
+.welcome-tagline {
+  margin: 0;
+  font-size: 16px;
+  color: rgba(255, 247, 235, 0.86);
+  letter-spacing: 0.25px;
+}
+
+
+/* =========================================================
+   WELCOME SECTION
+   ========================================================= */
+
+.welcome-section {
+  margin-top: 42px;
+}
+
+.welcome-section h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #fffaf2;
+  text-shadow:
+    0 3px 15px rgba(0, 0, 0, 0.35);
+}
+
+.welcome-section p {
+  margin: 8px 0 0;
+  font-size: 15px;
+  color: rgba(255, 247, 235, 0.76);
+}
+
+
+/* =========================================================
+   LOGIN OPTIONS
+   ========================================================= */
+
+.login-options {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 28px;
+  margin-top: 30px;
+}
+
+
+/* =========================================================
+   LOGIN CARDS
+   ========================================================= */
+
+.login-card {
+  position: relative;
+  width: 350px;
+  min-height: 325px;
+  padding: 31px 30px 27px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 250, 242, 0.97),
+      rgba(246, 236, 220, 0.96)
+    );
+  border: 1px solid rgba(177, 125, 69, 0.38);
+  box-shadow:
+    0 22px 55px rgba(30, 15, 8, 0.34);
+  backdrop-filter: blur(8px);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 28px 65px rgba(30, 15, 8, 0.42);
+}
+
+
+/* =========================================================
+   CARD ICON
+   ========================================================= */
+
+.login-icon {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fffaf2;
+  font-size: 29px;
+}
+
+.customer-icon {
+  color: #7f4a2a;
+  border: 1px solid #c89a63;
+  box-shadow:
+    0 7px 20px rgba(140, 83, 42, 0.13);
+}
+
+.admin-icon {
+  color: #70452d;
+  border: 1px solid #bd9160;
+  box-shadow:
+    0 7px 20px rgba(111, 73, 45, 0.12);
+}
+
+
+/* =========================================================
+   CARD TEXT
+   ========================================================= */
+
+.login-card h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 700;
+  color: #4d2c1d;
+}
+
+.login-card p {
+  min-height: 52px;
+  margin: 11px 0 22px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #795b49;
+}
+
+
+/* =========================================================
+   CARD BUTTON
+   ========================================================= */
+
+.login-card button {
+  width: 100%;
+  height: 49px;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: none;
+  border-radius: 25px;
+  color: #fffaf2;
+  font-size: 15px;
+  font-weight: 600;
+  background:
+    linear-gradient(
+      90deg,
+      #6c3d25,
+      #95623a,
+      #bd8b4e
+    );
+  box-shadow:
+    0 8px 23px rgba(102, 57, 32, 0.22);
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.login-card button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow:
+    0 12px 30px rgba(102, 57, 32, 0.3);
+}
+
+.arrow {
+  font-size: 20px;
+  transition:
+    transform 0.25s ease;
+}
+
+.login-card button:hover .arrow {
+  transform: translateX(5px);
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .welcome-page {
+    min-height: calc(100vh - 72px);
+  }
+
+  .welcome-content {
+    padding: 26px 15px 40px;
+  }
+
+  .ship-icon {
+    width: 52px;
+    height: 52px;
+    font-size: 25px;
+  }
+
+  .welcome-content h1 {
+    font-size: 29px;
+    letter-spacing: -0.5px;
+  }
+
+  .title-line {
+    width: 58px;
+    height: 2px;
+    margin: 16px auto 11px;
+  }
+
+  .welcome-tagline {
+    font-size: 13px;
+  }
+
+  .welcome-section {
+    margin-top: 28px;
+  }
+
+  .welcome-section h2 {
+    font-size: 23px;
+  }
+
+  .welcome-section p {
+    font-size: 12px;
+  }
+
+  .login-options {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 26px;
+  }
+
+  .login-card {
+    width: min(100%, 390px);
+    min-height: 295px;
+    padding: 26px 20px 22px;
+    border-radius: 13px;
+  }
+
+  .login-icon {
+    width: 63px;
+    height: 63px;
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+
+  .login-card h3 {
+    font-size: 21px;
+  }
+
+  .login-card p {
+    font-size: 13px;
+    margin-bottom: 19px;
+  }
+
+  .login-card button {
+    height: 46px;
+    font-size: 14px;
+  }
+}
