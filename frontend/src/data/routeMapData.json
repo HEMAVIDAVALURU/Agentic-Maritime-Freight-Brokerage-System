@@ -1,0 +1,3684 @@
+{
+  "ports": 
+  {
+
+    "Chennai": {
+      "latitude": 13.0827,
+      "longitude": 80.2707
+    },
+    "Colombo": {
+      "latitude": 6.9271,
+      "longitude": 79.8612
+    },
+    "Algeciras": {
+      "latitude": 36.1408,
+      "longitude": -5.4562
+    },
+    "Singapore": {
+      "latitude": 1.3521,
+      "longitude": 103.8198
+    },
+
+    "Port Klang": {
+      "latitude": 3.0497,
+      "longitude": 101.3545
+    },
+    "Antwerp": {
+      "latitude": 51.2194,
+      "longitude": 4.4025
+    },
+        "Mumbai": {
+      "latitude": 18.9388,
+      "longitude": 72.8354
+    },
+
+    "Dubai": {
+      "latitude": 25.2048,
+      "longitude": 55.2708
+    },
+
+    "Jebel Ali": {
+      "latitude": 24.9857,
+      "longitude": 55.0273
+    },
+
+    "Jeddah": {
+      "latitude": 21.4858,
+      "longitude": 39.1925
+    },
+
+    "Salalah": {
+      "latitude": 16.9891,
+      "longitude": 54.0698
+    },
+    
+
+  "Felixstowe": {
+  "latitude": 51.9540,
+  "longitude": 1.3510
+  },
+   "Valencia": {
+  "latitude": 39.4699,
+  "longitude": -0.3763
+   },
+   "Visakhapatnam": {
+  "latitude": 17.6868,
+  "longitude": 83.2185
+   },
+  "Piraeus": {
+  "latitude": 37.9420,
+  "longitude": 23.6460
+},
+
+"Kochi": {
+  "latitude": 9.9312,
+  "longitude": 76.2673
+},
+"Mombasa": {
+  "latitude": -4.0435,
+  "longitude": 39.6682
+},
+"Mundra": {
+  "latitude": 22.8394,
+  "longitude": 69.7219
+},
+"Durban": {
+  "latitude": -29.8587,
+  "longitude": 31.0218
+},
+"Luanda": {
+  "latitude": -8.8390,
+  "longitude": 13.2894
+},
+"Paradip": {
+  "latitude": 20.2961,
+  "longitude": 86.7047
+},
+"Manila": {
+  "latitude": 14.5995,
+  "longitude": 120.9842
+},
+"Shanghai": {
+  "latitude": 31.2304,
+  "longitude": 121.4737
+},
+"New Mangalore": {
+  "latitude": 12.9141,
+  "longitude": 74.8560
+},
+"Pipavav": {
+  "latitude": 20.9080,
+  "longitude": 71.5630
+},
+"Port Said": {
+  "latitude": 31.2653,
+  "longitude": 32.3019
+},
+"Tuticorin": {
+  "latitude": 8.7642,
+  "longitude": 78.1348
+},
+"Port Louis": {
+  "latitude": -20.1609,
+  "longitude": 57.5012
+},
+"Nhava Sheva": {
+  "latitude": 18.9490,
+  "longitude": 72.9500
+},
+"Maputo": {
+  "latitude": -25.9692,
+  "longitude": 32.5732
+},
+"Barcelona": {
+  "latitude": 41.3851,
+  "longitude": 2.1734
+},
+"Kandla": {
+  "latitude": 23.0333,
+  "longitude": 70.2167
+},
+"Dar es Salaam": {
+  "latitude": -6.7924,
+  "longitude": 39.2083
+},
+"Alexandria": {
+  "latitude": 31.2001,
+  "longitude": 29.9187
+},
+"Krishnapatnam": {
+  "latitude": 14.2667,
+  "longitude": 80.1167
+},
+"Ho Chi Minh City": {
+  "latitude": 10.8231,
+  "longitude": 106.6297
+},
+"Rotterdam": {
+  "latitude": 51.9244,
+  "longitude": 4.4777
+},
+
+"Kolkata": {
+  "latitude": 22.5726,
+  "longitude": 88.3639
+}
+
+    
+
+   },
+
+  "routes":
+   {
+
+    "R001": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Rotterdam"
+      ]
+    },
+
+    "R002": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Rotterdam"
+      ]
+    },
+
+    "R003": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Rotterdam"
+      ]
+    },
+
+    "R004": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Rotterdam"
+      ]
+    },
+
+    "R005": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Rotterdam"
+      ]
+    },
+
+    "R006": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Rotterdam"
+      ]
+    },
+
+    "R007": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Rotterdam"
+      ]
+    },
+
+    "R008": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Rotterdam"
+      ]
+    },
+
+    "R009": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Rotterdam"
+      ]
+    },
+
+    "R010": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Rotterdam"
+      ]
+    },
+
+    "R011": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Rotterdam"
+      ]
+    },
+
+    "R012": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Rotterdam"
+      ]
+    },
+
+    "R013": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Rotterdam"
+      ]
+    },
+
+    "R014": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Rotterdam"
+      ]
+    },
+
+    "R015": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Rotterdam"
+      ]
+    },
+
+    "R016": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Rotterdam"
+      ]
+    },
+
+    "R017": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Rotterdam"
+      ]
+    },
+
+    "R018": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Rotterdam"
+      ]
+    },
+
+    "R019": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Rotterdam"
+      ]
+    },
+
+    "R020": {
+      "origin": "Chennai",
+      "destination": "Rotterdam",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Rotterdam"
+      ]
+    },
+
+    "R021": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Singapore"
+      ]
+    },
+
+    "R022": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R023": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R024": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R025": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Singapore"
+      ]
+    },
+
+    "R026": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R027": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R028": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Singapore"
+      ]
+    },
+
+    "R029": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R030": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R031": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R032": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Singapore"
+      ]
+    },
+
+    "R033": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R034": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R035": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Singapore"
+      ]
+    },
+
+    "R036": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Singapore"
+      ]
+    },
+
+    "R037": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R038": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R039": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Port Klang",
+        "Singapore"
+      ]
+    },
+
+    "R040": {
+      "origin": "Chennai",
+      "destination": "Singapore",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Singapore"
+      ]
+    },
+
+    "R041": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Antwerp"
+      ]
+    },
+
+    "R042": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Antwerp"
+      ]
+    },
+
+    "R043": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Antwerp"
+      ]
+    },
+
+    "R044": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Antwerp"
+      ]
+    },
+
+    "R045": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Antwerp"
+      ]
+    },
+
+    "R046": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Antwerp"
+      ]
+    },
+
+    "R047": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Antwerp"
+      ]
+    },
+
+    "R048": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Antwerp"
+      ]
+    },
+
+    "R049": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Antwerp"
+      ]
+    },
+
+    "R050": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Antwerp"
+      ]
+    },
+        "R051": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Antwerp"
+      ]
+    },
+
+    "R052": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Antwerp"
+      ]
+    },
+
+    "R053": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Antwerp"
+      ]
+    },
+
+    "R054": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Antwerp"
+      ]
+    },
+
+    "R055": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Antwerp"
+      ]
+    },
+
+    "R056": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Antwerp"
+      ]
+    },
+
+    "R057": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Antwerp"
+      ]
+    },
+
+    "R058": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 2,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Algeciras",
+        "Antwerp"
+      ]
+    },
+
+    "R059": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 1,
+      "port_sequence": [
+        "Chennai",
+        "Colombo",
+        "Antwerp"
+      ]
+    },
+
+    "R060": {
+      "origin": "Chennai",
+      "destination": "Antwerp",
+      "transshipments": 0,
+      "port_sequence": [
+        "Chennai",
+        "Antwerp"
+      ]
+    },
+
+    "R061": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Dubai"
+      ]
+    },
+
+    "R062": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R063": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Colombo",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R064": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R065": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Dubai"
+      ]
+    },
+
+    "R066": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R067": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Colombo",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R068": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Dubai"
+      ]
+    },
+
+    "R069": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Colombo",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R070": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R071": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Colombo",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R072": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Dubai"
+      ]
+    },
+
+    "R073": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R074": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Colombo",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R075": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Dubai"
+      ]
+    },
+
+    "R076": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Dubai"
+      ]
+    },
+
+    "R077": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R078": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Colombo",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R079": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Jebel Ali",
+        "Dubai"
+      ]
+    },
+
+    "R080": {
+      "origin": "Mumbai",
+      "destination": "Dubai",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Dubai"
+      ]
+    },
+
+    "R081": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Jeddah"
+      ]
+    },
+
+    "R082": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jeddah"
+      ]
+    },
+
+    "R083": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jebel Ali",
+        "Jeddah"
+      ]
+    },
+
+    "R084": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jeddah"
+      ]
+    },
+
+    "R085": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Jeddah"
+      ]
+    },
+
+    "R086": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jeddah"
+      ]
+    },
+
+    "R087": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jebel Ali",
+        "Jeddah"
+      ]
+    },
+
+    "R088": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Jeddah"
+      ]
+    },
+
+    "R089": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jebel Ali",
+        "Jeddah"
+      ]
+    },
+
+    "R090": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jeddah"
+      ]
+    },
+
+    "R091": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jebel Ali",
+        "Jeddah"
+      ]
+    },
+
+    "R092": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Jeddah"
+      ]
+    },
+
+    "R093": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jeddah"
+      ]
+    },
+
+    "R094": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jebel Ali",
+        "Jeddah"
+      ]
+    },
+
+    "R095": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Jeddah"
+      ]
+    },
+
+    "R096": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 0,
+      "port_sequence": [
+        "Mumbai",
+        "Jeddah"
+      ]
+    },
+
+    "R097": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jeddah"
+      ]
+    },
+
+    "R098": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 2,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jebel Ali",
+        "Jeddah"
+      ]
+    },
+
+    "R099": {
+      "origin": "Mumbai",
+      "destination": "Jeddah",
+      "transshipments": 1,
+      "port_sequence": [
+        "Mumbai",
+        "Salalah",
+        "Jeddah"
+      ]
+    },
+
+
+    "R100": {
+  "origin": "Mumbai",
+  "destination": "Jeddah",
+  "transshipments": 0,
+  "port_sequence": ["Mumbai", "Jeddah"]
+},
+"R101": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Colombo"]
+},
+"R102": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Port Klang", "Colombo"]
+},
+"R103": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Port Klang", "Singapore", "Colombo"]
+},
+"R104": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Port Klang", "Colombo"]
+},
+"R105": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Colombo"]
+},
+"R106": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Port Klang", "Colombo"]
+},
+"R107": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Port Klang", "Singapore", "Colombo"]
+},
+"R108": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Colombo"]
+},
+"R109": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Port Klang", "Singapore", "Colombo"]
+},
+"R110": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Port Klang", "Colombo"]
+},
+"R111": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Port Klang", "Singapore", "Colombo"]
+},
+"R112": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Colombo"]
+},
+"R113": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Port Klang", "Colombo"]
+},
+"R114": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Port Klang", "Singapore", "Colombo"]
+},
+"R115": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Colombo"]
+},
+"R116": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Colombo"]
+},
+"R117": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Port Klang", "Colombo"]
+},
+"R118": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Port Klang", "Singapore", "Colombo"]
+},
+"R119": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Port Klang", "Colombo"]
+},
+"R120": {
+  "origin": "Kolkata",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Colombo"]
+},
+"R121": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Felixstowe"]
+},
+"R122": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Felixstowe"]
+},
+"R123": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Felixstowe"]
+},
+"R124": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Felixstowe"]
+},
+"R125": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Felixstowe"]
+},
+"R126": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Felixstowe"]
+},
+"R127": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Felixstowe"]
+},
+"R128": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Felixstowe"]
+},
+"R129": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Felixstowe"]
+},
+"R130": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Felixstowe"]
+},
+"R131": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Felixstowe"]
+},
+"R132": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Felixstowe"]
+},
+"R133": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Felixstowe"]
+},
+"R134": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Felixstowe"]
+},
+"R135": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Felixstowe"]
+},
+"R136": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Felixstowe"]
+},
+"R137": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Felixstowe"]
+},
+"R138": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Felixstowe"]
+},
+"R139": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Felixstowe"]
+},
+"R140": {
+  "origin": "Kolkata",
+  "destination": "Felixstowe",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Felixstowe"]
+},
+"R141": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Valencia"]
+},
+"R142": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Valencia"]
+},
+"R143": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Valencia"]
+},
+"R144": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Valencia"]
+},
+"R145": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Valencia"]
+},
+"R146": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Valencia"]
+},
+"R147": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Valencia"]
+},
+"R148": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Valencia"]
+},
+"R149": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Valencia"]
+},
+"R150": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Valencia"]
+},
+"R151": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Valencia"]
+},
+"R152": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Valencia"]
+},
+"R153": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Valencia"]
+},
+"R154": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Valencia"]
+},
+"R155": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Valencia"]
+},
+"R156": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Valencia"]
+},
+"R157": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Valencia"]
+},
+"R158": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 2,
+  "port_sequence": ["Kolkata", "Colombo", "Algeciras", "Valencia"]
+},
+"R159": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 1,
+  "port_sequence": ["Kolkata", "Colombo", "Valencia"]
+},
+"R160": {
+  "origin": "Kolkata",
+  "destination": "Valencia",
+  "transshipments": 0,
+  "port_sequence": ["Kolkata", "Valencia"]
+},
+"R161": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Port Klang"]
+},
+"R162": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Singapore", "Port Klang"]
+},
+"R163": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Singapore", "Port Klang"]
+},
+"R164": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Singapore", "Port Klang"]
+},
+"R165": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Port Klang"]
+},
+"R166": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Singapore", "Port Klang"]
+},
+"R167": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Singapore", "Port Klang"]
+},
+"R168": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Port Klang"]
+},
+"R169": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Singapore", "Port Klang"]
+},
+"R170": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Singapore", "Port Klang"]
+},
+"R171": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Singapore", "Port Klang"]
+},
+"R172": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Port Klang"]
+},
+"R173": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Singapore", "Port Klang"]
+},
+"R174": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Singapore", "Port Klang"]
+},
+"R175": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Port Klang"]
+},
+"R176": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Port Klang"]
+},
+"R177": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Singapore", "Port Klang"]
+},
+"R178": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Singapore", "Port Klang"]
+},
+"R179": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Singapore", "Port Klang"]
+},
+"R180": {
+  "origin": "Visakhapatnam",
+  "destination": "Port Klang",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Port Klang"]
+},
+"R181": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Piraeus"]
+},
+"R182": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Piraeus"]
+},
+"R183": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Algeciras", "Piraeus"]
+},
+"R184": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Piraeus"]
+},
+"R185": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Piraeus"]
+},
+"R186": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Piraeus"]
+},
+"R187": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Algeciras", "Piraeus"]
+},
+"R188": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Piraeus"]
+},
+"R189": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Algeciras", "Piraeus"]
+},
+"R190": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Piraeus"]
+},
+"R191": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Algeciras", "Piraeus"]
+},
+"R192": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Piraeus"]
+},
+"R193": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Piraeus"]
+},
+"R194": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Algeciras", "Piraeus"]
+},
+"R195": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Piraeus"]
+},
+"R196": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Piraeus"]
+},
+"R197": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Piraeus"]
+},
+"R198": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 2,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Algeciras", "Piraeus"]
+},
+"R199": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 1,
+  "port_sequence": ["Visakhapatnam", "Colombo", "Piraeus"]
+},
+"R200": {
+  "origin": "Visakhapatnam",
+  "destination": "Piraeus",
+  "transshipments": 0,
+  "port_sequence": ["Visakhapatnam", "Piraeus"]
+},
+"R201": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Salalah"]
+},
+"R202": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Colombo", "Salalah"]
+},
+"R203": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Jebel Ali", "Salalah"]
+},
+"R204": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Colombo", "Salalah"]
+},
+"R205": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Salalah"]
+},
+"R206": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Colombo", "Salalah"]
+},
+"R207": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Jebel Ali", "Salalah"]
+},
+"R208": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Salalah"]
+},
+"R209": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Jebel Ali", "Salalah"]
+},
+"R210": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Colombo", "Salalah"]
+},
+"R211": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Jebel Ali", "Salalah"]
+},
+"R212": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Salalah"]
+},
+"R213": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Colombo", "Salalah"]
+},
+"R214": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Jebel Ali", "Salalah"]
+},
+"R215": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Salalah"]
+},
+"R216": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Salalah"]
+},
+"R217": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Colombo", "Salalah"]
+},
+"R218": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Jebel Ali", "Salalah"]
+},
+"R219": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Colombo", "Salalah"]
+},
+"R220": {
+  "origin": "Kochi",
+  "destination": "Salalah",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Salalah"]
+},
+
+"R221": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Mombasa"]
+},
+"R222": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa"]
+},
+"R223": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa", "Durban"]
+},
+"R224": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa"]
+},
+"R225": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Mombasa"]
+},
+"R226": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa"]
+},
+"R227": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa", "Durban"]
+},
+"R228": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Mombasa"]
+},
+"R229": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa", "Durban"]
+},
+"R230": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa"]
+},
+"R231": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa", "Durban"]
+},
+"R232": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Mombasa"]
+},
+"R233": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa"]
+},
+"R234": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa", "Durban"]
+},
+"R235": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Mombasa"]
+},
+"R236": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Mombasa"]
+},
+"R237": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa"]
+},
+"R238": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa", "Durban"]
+},
+"R239": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Mombasa"]
+},
+"R240": {
+  "origin": "Kochi",
+  "destination": "Mombasa",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Mombasa"]
+},
+
+"R241": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Jebel Ali"]
+},
+"R242": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Jebel Ali"]
+},
+"R243": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Salalah", "Jebel Ali"]
+},
+"R244": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Jebel Ali"]
+},
+"R245": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Jebel Ali"]
+},
+"R246": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Jebel Ali"]
+},
+"R247": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Salalah", "Jebel Ali"]
+},
+"R248": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Jebel Ali"]
+},
+"R249": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Salalah", "Jebel Ali"]
+},
+"R250": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Jebel Ali"]
+},
+"R251": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Salalah", "Jebel Ali"]
+},
+"R252": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Jebel Ali"]
+},
+"R253": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Jebel Ali"]
+},
+"R254": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Salalah", "Jebel Ali"]
+},
+"R255": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Jebel Ali"]
+},
+"R256": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Jebel Ali"]
+},
+"R257": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Jebel Ali"]
+},
+"R258": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 2,
+  "port_sequence": ["Kochi", "Colombo", "Salalah", "Jebel Ali"]
+},
+"R259": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 1,
+  "port_sequence": ["Kochi", "Salalah", "Jebel Ali"]
+},
+"R260": {
+  "origin": "Kochi",
+  "destination": "Jebel Ali",
+  "transshipments": 0,
+  "port_sequence": ["Kochi", "Jebel Ali"]
+},
+
+"R261": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Durban"]
+},
+"R262": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Durban"]
+},
+"R263": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Mombasa", "Durban"]
+},
+"R264": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Durban"]
+},
+"R265": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Durban"]
+},
+"R266": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Durban"]
+},
+"R267": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Mombasa", "Durban"]
+},
+"R268": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Durban"]
+},
+"R269": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Mombasa", "Durban"]
+},
+"R270": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Durban"]
+},
+"R271": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Mombasa", "Durban"]
+},
+"R272": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Durban"]
+},
+"R273": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Durban"]
+},
+"R274": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Mombasa", "Durban"]
+},
+"R275": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Durban"]
+},
+"R276": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Durban"]
+},
+"R277": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Durban"]
+},
+"R278": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Mombasa", "Durban"]
+},
+"R279": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Durban"]
+},
+"R280": {
+  "origin": "Mundra",
+  "destination": "Durban",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Durban"]
+},
+
+"R281": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Luanda"]
+},
+"R282": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Luanda"]
+},
+"R283": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Durban", "Luanda"]
+},
+"R284": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Luanda"]
+},
+"R285": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Luanda"]
+},
+"R286": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Luanda"]
+},
+"R287": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Durban", "Luanda"]
+},
+"R288": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Luanda"]
+},
+"R289": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Durban", "Luanda"]
+},
+"R290": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Luanda"]
+},
+"R291": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Durban", "Luanda"]
+},
+"R292": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Luanda"]
+},
+"R293": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Luanda"]
+},
+"R294": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Durban", "Luanda"]
+},
+"R295": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Luanda"]
+},
+"R296": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Luanda"]
+},
+"R297": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Luanda"]
+},
+"R298": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 2,
+  "port_sequence": ["Mundra", "Salalah", "Durban", "Luanda"]
+},
+"R299": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 1,
+  "port_sequence": ["Mundra", "Salalah", "Luanda"]
+},
+"R300": {
+  "origin": "Mundra",
+  "destination": "Luanda",
+  "transshipments": 0,
+  "port_sequence": ["Mundra", "Luanda"]
+},
+
+"R301": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Manila"]
+},
+
+"R302": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Manila"]
+},
+"R303": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Manila"]
+},
+"R304": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Manila"]
+},
+"R305": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Manila"]
+},
+"R306": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Manila"]
+},
+"R307": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Manila"]
+},
+"R308": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Manila"]
+},
+"R309": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Manila"]
+},
+"R310": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Manila"]
+},
+"R311": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Manila"]
+},
+"R312": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Manila"]
+},
+"R313": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Manila"]
+},
+"R314": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Manila"]
+},
+"R315": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Manila"]
+},
+"R316": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Manila"]
+},
+"R317": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Manila"]
+},
+"R318": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Manila"]
+},
+"R319": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Manila"]
+},
+"R320": {
+  "origin": "Paradip",
+  "destination": "Manila",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Manila"]
+},
+"R321": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Shanghai"]
+},
+"R322": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Shanghai"]
+},
+"R323": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Shanghai"]
+},
+"R324": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Shanghai"]
+},
+"R325": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Shanghai"]
+},
+"R326": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Shanghai"]
+},
+"R327": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Shanghai"]
+},
+"R328": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Shanghai"]
+},
+"R329": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Shanghai"]
+},
+"R330": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Shanghai"]
+},
+"R331": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Shanghai"]
+},
+"R332": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Shanghai"]
+},
+"R333": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Shanghai"]
+},
+"R334": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Shanghai"]
+},
+"R335": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Shanghai"]
+},
+"R336": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Shanghai"]
+},
+"R337": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Shanghai"]
+},
+"R338": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 2,
+  "port_sequence": ["Paradip", "Colombo", "Singapore", "Shanghai"]
+},
+"R339": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 1,
+  "port_sequence": ["Paradip", "Singapore", "Shanghai"]
+},
+"R340": {
+  "origin": "Paradip",
+  "destination": "Shanghai",
+  "transshipments": 0,
+  "port_sequence": ["Paradip", "Shanghai"]
+},
+
+"R341": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["New Mangalore", "Colombo"]
+},
+"R342": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["New Mangalore", "Kochi", "Colombo"]
+},
+"R343": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["New Mangalore", "Kochi", "Tuticorin", "Colombo"]
+},
+"R344": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["New Mangalore", "Kochi", "Colombo"]
+},
+"R345": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["New Mangalore", "Colombo"]
+},
+"R346": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["New Mangalore", "Kochi", "Colombo"]
+},
+"R347": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["New Mangalore", "Kochi", "Tuticorin", "Colombo"]
+},
+"R348": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["New Mangalore", "Colombo"]
+},
+"R349": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["New Mangalore", "Kochi", "Tuticorin", "Colombo"]
+},
+"R350": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["New Mangalore", "Kochi", "Colombo"]
+},
+"R351": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["New Mangalore", "Kochi", "Tuticorin", "Colombo"]
+},
+"R352": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["New Mangalore", "Colombo"]
+},
+"R353": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["New Mangalore", "Kochi", "Colombo"]
+},
+"R354": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["New Mangalore", "Kochi", "Tuticorin", "Colombo"]
+},
+"R355": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["New Mangalore", "Colombo"]
+},
+"R356": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["New Mangalore", "Colombo"]
+},
+"R357": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["New Mangalore", "Kochi", "Colombo"]
+},
+"R358": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 2,
+  "port_sequence": ["New Mangalore", "Kochi", "Tuticorin", "Colombo"]
+},
+"R359": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 1,
+  "port_sequence": ["New Mangalore", "Kochi", "Colombo"]
+},
+"R360": {
+  "origin": "New Mangalore",
+  "destination": "Colombo",
+  "transshipments": 0,
+  "port_sequence": ["New Mangalore", "Colombo"]
+},
+"R361": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 0,
+  "port_sequence": ["Pipavav", "Port Said"]
+},
+"R362": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 1,
+  "port_sequence": ["Pipavav", "Salalah", "Port Said"]
+},
+"R363": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 2,
+  "port_sequence": ["Pipavav", "Salalah", "Jebel Ali", "Port Said"]
+},
+"R364": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 1,
+  "port_sequence": ["Pipavav", "Salalah", "Port Said"]
+},
+"R365": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 0,
+  "port_sequence": ["Pipavav", "Port Said"]
+},
+"R366": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 1,
+  "port_sequence": ["Pipavav", "Salalah", "Port Said"]
+},
+"R367": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 2,
+  "port_sequence": ["Pipavav", "Salalah", "Jebel Ali", "Port Said"]
+},
+"R368": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 0,
+  "port_sequence": ["Pipavav", "Port Said"]
+},
+"R369": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 2,
+  "port_sequence": ["Pipavav", "Salalah", "Jebel Ali", "Port Said"]
+},
+"R370": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 1,
+  "port_sequence": ["Pipavav", "Salalah", "Port Said"]
+},
+"R371": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 2,
+  "port_sequence": ["Pipavav", "Salalah", "Jebel Ali", "Port Said"]
+},
+"R372": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 0,
+  "port_sequence": ["Pipavav", "Port Said"]
+},
+"R373": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 1,
+  "port_sequence": ["Pipavav", "Salalah", "Port Said"]
+},
+"R374": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 2,
+  "port_sequence": ["Pipavav", "Salalah", "Jebel Ali", "Port Said"]
+},
+"R375": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 0,
+  "port_sequence": ["Pipavav", "Port Said"]
+},
+"R376": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 0,
+  "port_sequence": ["Pipavav", "Port Said"]
+},
+"R377": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 1,
+  "port_sequence": ["Pipavav", "Salalah", "Port Said"]
+},
+"R378": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 2,
+  "port_sequence": ["Pipavav", "Salalah", "Jebel Ali", "Port Said"]
+},
+"R379": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 1,
+  "port_sequence": ["Pipavav", "Salalah", "Port Said"]
+},
+"R380": {
+  "origin": "Pipavav",
+  "destination": "Port Said",
+  "transshipments": 0,
+  "port_sequence": ["Pipavav", "Port Said"]
+},
+
+"R381": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 0,
+  "port_sequence": ["Tuticorin", "Port Louis"]
+},
+"R382": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 1,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Louis"]
+},
+"R383": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 2,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Klang", "Port Louis"]
+},
+"R384": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 1,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Louis"]
+},
+"R385": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 0,
+  "port_sequence": ["Tuticorin", "Port Louis"]
+},
+"R386": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 1,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Louis"]
+},
+"R387": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 2,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Klang", "Port Louis"]
+},
+"R388": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 0,
+  "port_sequence": ["Tuticorin", "Port Louis"]
+},
+"R389": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 2,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Klang", "Port Louis"]
+},
+"R390": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 1,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Louis"]
+},
+"R391": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 2,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Klang", "Port Louis"]
+},
+"R392": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 0,
+  "port_sequence": ["Tuticorin", "Port Louis"]
+},
+"R393": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 1,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Louis"]
+},
+"R394": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 2,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Klang", "Port Louis"]
+},
+"R395": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 0,
+  "port_sequence": ["Tuticorin", "Port Louis"]
+},
+"R396": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 0,
+  "port_sequence": ["Tuticorin", "Port Louis"]
+},
+"R397": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 1,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Louis"]
+},
+"R398": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 2,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Klang", "Port Louis"]
+},
+"R399": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 1,
+  "port_sequence": ["Tuticorin", "Colombo", "Port Louis"]
+},
+"R400": {
+  "origin": "Tuticorin",
+  "destination": "Port Louis",
+  "transshipments": 0,
+  "port_sequence": ["Tuticorin", "Port Louis"]
+},
+
+"R401": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Maputo"]
+},
+"R402": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Maputo"]
+},
+"R403": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Port Louis", "Maputo"]
+},
+"R404": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Maputo"]
+},
+"R405": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Maputo"]
+},
+"R406": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Maputo"]
+},
+"R407": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Port Louis", "Maputo"]
+},
+"R408": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Maputo"]
+},
+"R409": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Port Louis", "Maputo"]
+},
+"R410": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Maputo"]
+},
+"R411": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Port Louis", "Maputo"]
+},
+"R412": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Maputo"]
+},
+"R413": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Maputo"]
+},
+"R414": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Port Louis", "Maputo"]
+},
+"R415": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Maputo"]
+},
+"R416": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Maputo"]
+},
+"R417": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Maputo"]
+},
+"R418": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Port Louis", "Maputo"]
+},
+"R419": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Salalah", "Maputo"]
+},
+"R420": {
+  "origin": "Nhava Sheva",
+  "destination": "Maputo",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Maputo"]
+},
+
+"R421": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Barcelona"]
+},
+"R422": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Port Said", "Barcelona"]
+},
+"R423": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Jebel Ali", "Port Said", "Barcelona"]
+},
+"R424": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Port Said", "Barcelona"]
+},
+"R425": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Barcelona"]
+},
+"R426": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Port Said", "Barcelona"]
+},
+"R427": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Jebel Ali", "Port Said", "Barcelona"]
+},
+"R428": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Barcelona"]
+},
+"R429": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Jebel Ali", "Port Said", "Barcelona"]
+},
+"R430": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Port Said", "Barcelona"]
+},
+"R431": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Jebel Ali", "Port Said", "Barcelona"]
+},
+"R432": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Barcelona"]
+},
+"R433": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Port Said", "Barcelona"]
+},
+"R434": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Jebel Ali", "Port Said", "Barcelona"]
+},
+"R435": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Barcelona"]
+},
+"R436": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Barcelona"]
+},
+"R437": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Port Said", "Barcelona"]
+},
+"R438": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 2,
+  "port_sequence": ["Nhava Sheva", "Jebel Ali", "Port Said", "Barcelona"]
+},
+"R439": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 1,
+  "port_sequence": ["Nhava Sheva", "Port Said", "Barcelona"]
+},
+"R440": {
+  "origin": "Nhava Sheva",
+  "destination": "Barcelona",
+  "transshipments": 0,
+  "port_sequence": ["Nhava Sheva", "Barcelona"]
+},
+
+"R441": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Dar es Salaam"]
+},
+"R442": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Salalah", "Dar es Salaam"]
+},
+"R443": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Mombasa", "Dar es Salaam"]
+},
+"R444": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Salalah", "Dar es Salaam"]
+},
+"R445": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Dar es Salaam"]
+},
+"R446": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Salalah", "Dar es Salaam"]
+},
+"R447": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Mombasa", "Dar es Salaam"]
+},
+"R448": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Dar es Salaam"]
+},
+"R449": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Mombasa", "Dar es Salaam"]
+},
+"R450": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Salalah", "Dar es Salaam"]
+},
+"R451": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Mombasa", "Dar es Salaam"]
+},
+"R452": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Dar es Salaam"]
+},
+"R453": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Salalah", "Dar es Salaam"]
+},
+"R454": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Mombasa", "Dar es Salaam"]
+},
+"R455": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Dar es Salaam"]
+},
+"R456": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Dar es Salaam"]
+},
+"R457": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Salalah", "Dar es Salaam"]
+},
+"R458": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Mombasa", "Dar es Salaam"]
+},
+"R459": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Salalah", "Dar es Salaam"]
+},
+"R460": {
+  "origin": "Kandla",
+  "destination": "Dar es Salaam",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Dar es Salaam"]
+},
+
+
+"R461": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Alexandria"]
+},
+"R462": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Port Said", "Alexandria"]
+},
+"R463": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Port Said", "Alexandria"]
+},
+"R464": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Port Said", "Alexandria"]
+},
+"R465": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Alexandria"]
+},
+"R466": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Port Said", "Alexandria"]
+},
+"R467": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Port Said", "Alexandria"]
+},
+"R468": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Alexandria"]
+},
+"R469": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Port Said", "Alexandria"]
+},
+"R470": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Port Said", "Alexandria"]
+},
+"R471": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Port Said", "Alexandria"]
+},
+"R472": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Alexandria"]
+},
+"R473": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Port Said", "Alexandria"]
+},
+"R474": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Port Said", "Alexandria"]
+},
+"R475": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Alexandria"]
+},
+"R476": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Alexandria"]
+},
+"R477": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Port Said", "Alexandria"]
+},
+"R478": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 2,
+  "port_sequence": ["Kandla", "Salalah", "Port Said", "Alexandria"]
+},
+"R479": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 1,
+  "port_sequence": ["Kandla", "Port Said", "Alexandria"]
+},
+"R480": {
+  "origin": "Kandla",
+  "destination": "Alexandria",
+  "transshipments": 0,
+  "port_sequence": ["Kandla", "Alexandria"]
+},
+
+
+"R481": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 0,
+  "port_sequence": ["Krishnapatnam", "Ho Chi Minh City"]
+},
+"R482": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 1,
+  "port_sequence": ["Krishnapatnam", "Singapore", "Ho Chi Minh City"]
+},
+"R483": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 2,
+  "port_sequence": ["Krishnapatnam", "Colombo", "Singapore", "Ho Chi Minh City"]
+},
+"R484": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 1,
+  "port_sequence": ["Krishnapatnam", "Singapore", "Ho Chi Minh City"]
+},
+"R485": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 0,
+  "port_sequence": ["Krishnapatnam", "Ho Chi Minh City"]
+},
+"R486": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 1,
+  "port_sequence": ["Krishnapatnam", "Singapore", "Ho Chi Minh City"]
+},
+"R487": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 2,
+  "port_sequence": ["Krishnapatnam", "Colombo", "Singapore", "Ho Chi Minh City"]
+},
+"R488": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 0,
+  "port_sequence": ["Krishnapatnam", "Ho Chi Minh City"]
+},
+"R489": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 2,
+  "port_sequence": ["Krishnapatnam", "Colombo", "Singapore", "Ho Chi Minh City"]
+},
+"R490": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 1,
+  "port_sequence": ["Krishnapatnam", "Singapore", "Ho Chi Minh City"]
+},
+"R491": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 2,
+  "port_sequence": ["Krishnapatnam", "Colombo", "Singapore", "Ho Chi Minh City"]
+},
+"R492": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 0,
+  "port_sequence": ["Krishnapatnam", "Ho Chi Minh City"]
+},
+"R493": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 1,
+  "port_sequence": ["Krishnapatnam", "Singapore", "Ho Chi Minh City"]
+},
+"R494": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 2,
+  "port_sequence": ["Krishnapatnam", "Colombo", "Singapore", "Ho Chi Minh City"]
+},
+"R495": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 0,
+  "port_sequence": ["Krishnapatnam", "Ho Chi Minh City"]
+},
+"R496": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 0,
+  "port_sequence": ["Krishnapatnam", "Ho Chi Minh City"]
+},
+"R497": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 1,
+  "port_sequence": ["Krishnapatnam", "Singapore", "Ho Chi Minh City"]
+},
+"R498": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 2,
+  "port_sequence": ["Krishnapatnam", "Colombo", "Singapore", "Ho Chi Minh City"]
+},
+"R499": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 1,
+  "port_sequence": ["Krishnapatnam", "Singapore", "Ho Chi Minh City"]
+},
+"R500": {
+  "origin": "Krishnapatnam",
+  "destination": "Ho Chi Minh City",
+  "transshipments": 0,
+  "port_sequence": ["Krishnapatnam", "Ho Chi Minh City"]
+}
+
+
+
+  }
+}

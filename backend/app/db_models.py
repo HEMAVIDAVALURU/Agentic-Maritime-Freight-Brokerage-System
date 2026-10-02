@@ -106,6 +106,7 @@ class Route(Base):
     transshipments = Column(Integer, nullable=False)
     route_type = Column(String(50), nullable=False)
     base_freight_usd = Column(Float, nullable=False)
+    cargo_type = Column(String(100), nullable=False)
 
 
 # ---------------------------------------------------------
@@ -168,11 +169,6 @@ class QuotationRoute(Base):
     base_freight_usd = Column(Float, nullable=False)
 
 
-
-
-
-
-
 # ---------------------------------------------------------
 # SAVED QUOTATIONS TABLE
 # ---------------------------------------------------------
@@ -208,7 +204,6 @@ class Activity(Base):
     description = Column(Text, nullable=True)
     created_at = Column(DateTime, server_default=func.now())
 
-
 # ---------------------------------------------------------
 # FEEDBACK TABLE
 # ---------------------------------------------------------
@@ -217,7 +212,12 @@ class Feedback(Base):
     __tablename__ = "feedback"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False
+    )
 
     quotation_id = Column(
         Integer,
@@ -226,5 +226,19 @@ class Feedback(Base):
     )
 
     rating = Column(Integer, nullable=False)
+
     comments = Column(Text, nullable=True)
-    created_at = Column(DateTime, server_default=func.now())
+
+    # Admin's response to the user's feedback
+    admin_response = Column(Text, nullable=True)
+
+    # Date and time when admin responded
+    admin_response_at = Column(
+        DateTime,
+        nullable=True
+    )
+
+    created_at = Column(
+        DateTime,
+        server_default=func.now()
+    )

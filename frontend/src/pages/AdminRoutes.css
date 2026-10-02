@@ -1,0 +1,157 @@
+/* =========================================================
+   ADMIN ROUTES PAGE
+========================================================= */
+
+.admin-routes-page {
+  width: 100%;
+  min-height: 100%;
+  padding: 30px;
+  box-sizing: border-box;
+  background: #f8f4ed;
+  color: #4e342e;
+  font-family: inherit;
+}
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.admin-routes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.admin-routes-header h1 {
+  margin: 0 0 8px;
+  color: #4e342e;
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.admin-routes-header p {
+  margin: 0;
+  color: #806b60;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.admin-routes-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: #fffdf9;
+  border: 1px solid #e4d5c5;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(78, 52, 46, 0.07);
+}
+
+/* =========================================================
+   ROUTES TABLE
+========================================================= */
+
+.admin-routes-table {
+  width: 100%;
+  min-width: 1050px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* TABLE HEADER */
+
+.admin-routes-table thead {
+  background: #5d4037;
+  color: #fffaf4;
+}
+
+.admin-routes-table th {
+  padding: 17px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 2px solid #8d6e63;
+}
+
+/* TABLE BODY */
+
+.admin-routes-table td {
+  padding: 16px 18px;
+  font-size: 14px;
+  color: #4e342e;
+  white-space: nowrap;
+  border-bottom: 1px solid #eee4d8;
+}
+
+/* ALTERNATING ROWS */
+
+.admin-routes-table tbody tr:nth-child(odd) {
+  background: #fffdf9;
+}
+
+.admin-routes-table tbody tr:nth-child(even) {
+  background: #f7f0e7;
+}
+
+/* HOVER EFFECT */
+
+.admin-routes-table tbody tr:hover {
+  background: #efe2d2;
+  transition: background 0.2s ease;
+}
+
+/* LAST ROW */
+
+.admin-routes-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================================================
+   LOADING AND EMPTY STATES
+========================================================= */
+
+.admin-routes-message {
+  padding: 30px 20px;
+  text-align: center;
+  background: #fffdf9;
+  border: 1px solid #e4d5c5;
+  border-radius: 10px;
+  color: #6d5147;
+  font-size: 14px;
+}
+
+/* =========================================================
+   ERROR MESSAGE
+========================================================= */
+
+.admin-routes-error {
+  padding: 18px 20px;
+  background: #f9e9e5;
+  border: 1px solid #d9aaa0;
+  border-radius: 8px;
+  color: #8b3025;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN
+========================================================= */
+
+@media (max-width: 768px) {
+  .admin-routes-page {
+    padding: 20px;
+  }
+
+  .admin-routes-header h1 {
+    font-size: 23px;
+  }
+
+  .admin-routes-table th,
+  .admin-routes-table td {
+    padding: 13px 15px;
+  }
+}

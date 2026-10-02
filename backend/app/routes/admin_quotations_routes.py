@@ -16,12 +16,22 @@ from app.services.auth_dependency import get_current_user
 from app.services.email_service import EmailService
 from app.agents.route_agent import RouteAgent
 from app.agents.pricing_agent import PricingAgent
+from app.agents.weather_agent import WeatherAgent
+from app.agents.customs_agent import CustomsAgent
 
 
 router = APIRouter(
     prefix="/api/admin-quotations",
     tags=["Admin Quotations"]
 )
+
+
+# =========================================================
+# AGENTS
+# =========================================================
+
+weather_agent = WeatherAgent()
+customs_agent = CustomsAgent()
 
 
 # =========================================================
@@ -38,23 +48,6 @@ def verify_admin(current_user):
 
 # =========================================================
 # PRICING FALLBACK
-# =========================================================
-#
-# Some older quotations may already have a Pricing record,
-# but the stored values can be zero.
-#
-# In that situation:
-#
-# Pricing DB
-#     ↓
-# if valid → use stored values
-#
-# if missing / zero
-#     ↓
-# PricingAgent
-#     ↓
-# calculate actual pricing
-#
 # =========================================================
 
 def get_pricing_data(
@@ -814,6 +807,64 @@ def get_admin_quotations(
             )
         )
 
+        # =================================================
+        # WEATHER INFORMATION
+        # =================================================
+
+        weather_condition = "—"
+        weather_risk = "—"
+
+        try:
+
+            weather_result = weather_agent.assess_weather(
+                quotation.selected_route_id
+            )
+
+            if weather_result.get("status") == "success":
+
+                weather_condition = weather_result.get(
+                    "weather_condition",
+                    "—"
+                )
+
+                weather_risk = weather_result.get(
+                    "weather_risk",
+                    "—"
+                )
+
+        except Exception as weather_error:
+
+            print(
+                "Admin weather assessment failed:",
+                weather_error
+            )
+
+        # =================================================
+        # CUSTOMS INFORMATION
+        # =================================================
+
+        customs_status = "—"
+
+        try:
+
+            customs_result = customs_agent.validate_customs(
+                quotation.selected_route_id
+            )
+
+            if customs_result.get("status") == "success":
+
+                customs_status = customs_result.get(
+                    "customs_status",
+                    "—"
+                )
+
+        except Exception as customs_error:
+
+            print(
+                "Admin customs validation failed:",
+                customs_error
+            )
+
         # -------------------------------------------------
         # TARGET MARGIN
         # -------------------------------------------------
@@ -1019,6 +1070,27 @@ def get_admin_quotations(
 
             "top_routes":
                 routes,
+
+            # =================================================
+            # WEATHER
+            # =================================================
+
+            "weather_condition":
+                weather_condition,
+
+            "weather_risk":
+                weather_risk,
+
+            # Frontend compatibility
+            "weather_risk_factor":
+                weather_risk,
+
+            # =================================================
+            # CUSTOMS
+            # =================================================
+
+            "customs_status":
+                customs_status,
 
             # =================================================
             # PRICING

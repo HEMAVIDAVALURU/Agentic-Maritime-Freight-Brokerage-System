@@ -1,0 +1,70 @@
+/* =========================================================
+   ADMIN SETTINGS
+========================================================= */
+
+.admin-settings-page {
+  width: 100%;
+}
+
+.admin-settings-section {
+  width: 100%;
+}
+
+/* =========================================================
+   SETTINGS EMPTY STATE
+========================================================= */
+
+.admin-settings-page .admin-empty-state {
+  min-height: 280px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 40px 24px;
+}
+
+.admin-settings-page .admin-empty-icon {
+  margin-bottom: 14px;
+
+  font-size: 42px;
+}
+
+.admin-settings-page .admin-empty-state h3 {
+  margin: 0 0 8px;
+
+  color: var(--admin-coffee-950);
+
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.admin-settings-page .admin-empty-state p {
+  max-width: 520px;
+
+  margin: 0;
+
+  color: var(--admin-muted);
+
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 640px) {
+  .admin-settings-page .admin-empty-state {
+    min-height: 240px;
+
+    padding: 32px 18px;
+  }
+
+  .admin-settings-page .admin-empty-icon {
+    font-size: 36px;
+  }
+}

@@ -18,6 +18,10 @@ from app.routes.user_dashboard_routes import router as user_dashboard_router
 from app.routes.admin_dashboard_routes import router as admin_dashboard_router
 from app.routes.admin_users_routes import router as admin_users_router
 from app.routes.admin_quotations_routes import router as admin_quotations_router
+from app.routes.weather_routes import router as weather_router
+from app.routes.customs_routes import router as customs_router
+
+
 
 
 from app.models import (
@@ -28,8 +32,12 @@ from app.models import (
 
 from app.agents.route_agent import RouteAgent
 from app.agents.pricing_agent import PricingAgent
+from app.agents.weather_agent import WeatherAgent
+from app.agents.customs_agent import CustomsAgent
 from app.services.quotation_service import QuotationService
+from app.services.route_comparison_service import RouteComparisonService
 from app.services.auth_dependency import get_current_user
+
 
 from app.db_models import (
     Activity,
@@ -47,22 +55,24 @@ Base.metadata.create_all(bind=engine)
 
 
 # ============================================================
-# LOAD ROUTES FROM CSV INTO MYSQL
+# LOAD / SYNC ROUTES FROM CSV INTO MYSQL
 # ============================================================
 
 def load_routes_into_database():
     """
     Loads routes from route.csv into the MySQL routes table.
 
-    Existing route_id values are not duplicated.
-    This keeps the existing customer Route Agent unchanged,
-    while making the same route data available to Admin.
+    Existing route_id values are updated.
+    New route_id values are inserted.
+
+    This keeps the existing Route Agent and other backend
+    functionality unchanged while synchronizing the MySQL
+    routes table with the latest route.csv data.
     """
 
     current_file = os.path.abspath(__file__)
 
     project_root = os.path.dirname(current_file)
-    
 
     route_file = os.path.join(
         project_root,
@@ -82,14 +92,8 @@ def load_routes_into_database():
 
     try:
 
-        existing_route_ids = {
-            route_id
-            for (route_id,) in (
-                db.query(Route.route_id).all()
-            )
-        }
-
         inserted_count = 0
+        updated_count = 0
 
         with open(
             route_file,
@@ -108,13 +112,6 @@ def load_routes_into_database():
                 if not route_id:
                     continue
 
-                # --------------------------------------------
-                # DO NOT INSERT DUPLICATE ROUTES
-                # --------------------------------------------
-
-                if route_id in existing_route_ids:
-                    continue
-
                 origin = (
                     row.get("origin") or ""
                 ).strip()
@@ -123,45 +120,101 @@ def load_routes_into_database():
                     row.get("destination") or ""
                 ).strip()
 
-                route = Route(
-                    route_id=route_id,
+                distance_nm = float(
+                    row.get("distance_nm") or 0
+                )
 
-                    origin=origin,
-
-                    destination=destination,
-
-                    distance_nm=float(
-                        row.get("distance_nm") or 0
-                    ),
-
-                    transit_days=int(
-                        float(
-                            row.get("transit_days") or 0
-                        )
-                    ),
-
-                    transshipments=int(
-                        float(
-                            row.get("transshipments") or 0
-                        )
-                    ),
-
-                    route_type=(
-                        row.get("route_type") or ""
-                    ).strip(),
-
-                    base_freight_usd=float(
-                        row.get("base_freight_usd") or 0
+                transit_days = int(
+                    float(
+                        row.get("transit_days") or 0
                     )
                 )
 
-                db.add(route)
-
-                existing_route_ids.add(
-                    route_id
+                transshipments = int(
+                    float(
+                        row.get("transshipments") or 0
+                    )
                 )
 
-                inserted_count += 1
+                route_type = (
+                    row.get("route_type") or ""
+                ).strip()
+
+                base_freight_usd = float(
+                    row.get("base_freight_usd") or 0
+                )
+
+                cargo_type = (
+                    row.get("cargo_type") or ""
+                ).strip()
+
+                # ------------------------------------------------
+                # CHECK WHETHER ROUTE ALREADY EXISTS
+                # ------------------------------------------------
+
+                existing_route = (
+                    db.query(Route)
+                    .filter(
+                        Route.route_id == route_id
+                    )
+                    .first()
+                )
+
+                # ------------------------------------------------
+                # UPDATE EXISTING ROUTE
+                # ------------------------------------------------
+
+                if existing_route:
+
+                    existing_route.origin = origin
+
+                    existing_route.destination = destination
+
+                    existing_route.distance_nm = distance_nm
+
+                    existing_route.transit_days = transit_days
+
+                    existing_route.transshipments = transshipments
+
+                    existing_route.route_type = route_type
+
+                    existing_route.base_freight_usd = (
+                        base_freight_usd
+                    )
+
+                    existing_route.cargo_type = cargo_type
+
+                    updated_count += 1
+
+                # ------------------------------------------------
+                # INSERT NEW ROUTE
+                # ------------------------------------------------
+
+                else:
+
+                    route = Route(
+                        route_id=route_id,
+
+                        origin=origin,
+
+                        destination=destination,
+
+                        distance_nm=distance_nm,
+
+                        transit_days=transit_days,
+
+                        transshipments=transshipments,
+
+                        route_type=route_type,
+
+                        base_freight_usd=base_freight_usd,
+
+                        cargo_type=cargo_type
+                    )
+
+                    db.add(route)
+
+                    inserted_count += 1
 
         db.commit()
 
@@ -172,6 +225,7 @@ def load_routes_into_database():
         print(
             f"Route database sync completed. "
             f"Inserted: {inserted_count}, "
+            f"Updated: {updated_count}, "
             f"Total routes in MySQL: {total_routes}"
         )
 
@@ -229,6 +283,10 @@ app.include_router(quotation_router)
 
 app.include_router(feedback_router)
 
+app.include_router(weather_router)
+
+app.include_router(customs_router)
+
 
 # ============================================================
 # CORS
@@ -256,6 +314,16 @@ quotation_service = QuotationService()
 
 pricing_agent = PricingAgent()
 
+weather_agent = WeatherAgent()
+
+customs_agent = CustomsAgent()
+
+
+route_comparison_service = RouteComparisonService(
+    pricing_agent=pricing_agent,
+    weather_agent=weather_agent,
+    customs_agent=customs_agent
+)
 
 # ============================================================
 # ACTIVITY REQUEST
@@ -311,6 +379,83 @@ def analyze_route(
     db.commit()
 
     return result
+
+
+@app.post("/api/routes/analyze-price-weather")
+def analyze_price_weather(
+    request: RouteRequest,
+    current_user=Depends(get_current_user)
+):
+    # =========================================================
+    # STEP 1
+    # Route Agent analyzes the shipment
+    # =========================================================
+
+    route_result = route_agent.analyze_route(
+        origin=request.origin,
+        destination=request.destination,
+        cargo_type=request.cargo_type,
+        containers=request.containers
+    )
+
+    # If Route Agent could not find routes,
+    # return its original result.
+    if route_result.get("status") != "success":
+        return route_result
+
+    # =========================================================
+    # STEP 2
+    # Use ALL candidate routes
+    #
+    # Important:
+    # Do NOT use route_result["top_routes"] here.
+    #
+    # available_routes contains all matching candidates.
+    # =========================================================
+
+    candidate_routes = route_result.get(
+        "available_routes",
+        []
+    )
+
+    # =========================================================
+    # STEP 3
+    # Compare:
+    #
+    # Route Agent score
+    # +
+    # Pricing Agent
+    # +
+    # Weather Agent
+    # =========================================================
+
+    comparison_result = (
+        route_comparison_service.compare_routes(
+            candidate_routes=candidate_routes,
+            containers=request.containers
+        )
+    )
+
+    # =========================================================
+    # STEP 4
+    # Add shipment information
+    # =========================================================
+
+    comparison_result["origin"] = request.origin
+
+    comparison_result["destination"] = (
+        request.destination
+    )
+
+    comparison_result["cargo_type"] = (
+        request.cargo_type
+    )
+
+    comparison_result["containers"] = (
+        request.containers
+    )
+
+    return comparison_result
 
 
 # ============================================================
@@ -555,7 +700,6 @@ def get_admin_pricing(
                     )
                 )
             )
-
         # -------------------------------------------------
         # PERSIST PRICING RECORD FOR APPROVED QUOTATION
         # -------------------------------------------------
@@ -721,3 +865,10 @@ def log_activity(
         "activity_id":
             activity.id
     }
+
+
+
+@app.post("/api/customs/validate")
+def validate_customs(route_id: str):
+
+    return customs_agent.validate_customs(route_id)

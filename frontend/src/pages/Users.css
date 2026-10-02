@@ -1,0 +1,687 @@
+/* =========================================================
+   USERS PAGE — COFFEE BROWN & CREAM THEME
+========================================================= */
+
+.users-page {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 24px;
+  color: #3e2723;
+  background: #f5efe6;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.users-page *,
+.users-page *::before,
+.users-page *::after {
+  box-sizing: border-box;
+}
+
+/* Main panels */
+
+.users-panel {
+  width: 100%;
+  min-width: 0;
+  padding: 26px;
+  margin-bottom: 24px;
+  background: #fff9f0;
+  border: 1px solid #e0d2c0;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(62, 39, 35, 0.06);
+}
+
+/* Common headings */
+
+.users-eyebrow {
+  display: inline-block;
+  margin-bottom: 9px;
+  color: #8b6348;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.users-list-header,
+.users-activity-header,
+.users-table-heading,
+.users-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.users-list-header h2,
+.users-activity-heading h2 {
+  margin: 0;
+  color: #3e2723;
+  font-size: 25px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.users-list-header p,
+.users-activity-heading p {
+  margin: 8px 0 0;
+  color: #795548;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.users-activity-heading > small {
+  display: block;
+  margin-top: 7px;
+  color: #8d7666;
+  font-size: 12px;
+}
+
+/* =========================================================
+   TOTAL USERS BADGE
+========================================================= */
+
+.users-total-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 145px;
+  padding: 14px 18px;
+  background: #f0e3d2;
+  border: 1px solid #d7c4ae;
+  border-radius: 12px;
+}
+
+.users-total-badge span {
+  color: #6d4c41;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.users-total-badge strong {
+  color: #5d4037;
+  font-size: 25px;
+}
+
+/* =========================================================
+   USERS LIST
+========================================================= */
+
+.users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 28px;
+  width: 100%;
+  min-width: 0;
+}
+
+.users-user-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+  padding: 20px;
+  background: #fffdf8;
+  border: 1px solid #e0d2c0;
+  border-radius: 13px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.users-user-card:hover {
+  border-color: #b99a7c;
+  box-shadow: 0 5px 16px rgba(78, 52, 46, 0.08);
+  transform: translateY(-1px);
+}
+
+.users-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  color: #fff9f0;
+  background: linear-gradient(135deg, #6f4e37, #3e2723);
+  border-radius: 14px;
+  font-size: 22px;
+  font-weight: 750;
+}
+
+.users-user-information {
+  flex: 1;
+  min-width: 0;
+}
+
+.users-user-information h3 {
+  margin: 0 0 7px;
+  color: #3e2723;
+  font-size: 16px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.users-user-email,
+.users-company {
+  margin: 4px 0;
+  color: #795548;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.users-customer-id {
+  display: inline-block;
+  margin-top: 7px;
+  color: #9a8270;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.users-user-actions {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Verification badges */
+
+.users-verification-badge,
+.users-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 6px 11px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.users-verified {
+  color: #5d4037;
+  background: #e8dccb;
+  border: 1px solid #d7c4ae;
+}
+
+.users-not-verified {
+  color: #795548;
+  background: #f5e6c8;
+  border: 1px solid #e5d1a8;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.users-activity-button,
+.users-back-button,
+.users-retry-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 11px 16px;
+  color: #fff9f0;
+  background: #6f4e37;
+  border: 1px solid #6f4e37;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.users-activity-button:hover,
+.users-back-button:hover,
+.users-retry-button:hover {
+  color: #fff9f0;
+  background: #4e342e;
+  border-color: #4e342e;
+}
+
+.users-activity-button:active,
+.users-back-button:active,
+.users-retry-button:active {
+  transform: scale(0.98);
+}
+
+.users-activity-button:focus-visible,
+.users-back-button:focus-visible,
+.users-retry-button:focus-visible {
+  outline: 2px solid #a1887f;
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   ACTIVITY HEADER
+========================================================= */
+
+.users-activity-header {
+  align-items: center;
+}
+
+.users-back-button {
+  flex-shrink: 0;
+  color: #5d4037;
+  background: #f0e3d2;
+  border-color: #d7c4ae;
+}
+
+.users-back-button:hover {
+  color: #fff9f0;
+}
+
+/* =========================================================
+   SUMMARY SECTION
+========================================================= */
+
+.users-summary-section {
+  width: 100%;
+  margin-bottom: 26px;
+}
+
+.users-section-heading {
+  margin: 0 0 16px;
+}
+
+.users-section-heading h3,
+.users-table-heading h3 {
+  margin: 0;
+  color: #3e2723;
+  font-size: 19px;
+  font-weight: 750;
+}
+
+.users-section-heading p,
+.users-table-heading p {
+  margin: 6px 0 0;
+  color: #795548;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Four summary cards per row */
+
+.users-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 17px;
+  width: 100%;
+}
+
+.users-summary-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 155px;
+  padding: 20px;
+  overflow: hidden;
+  background: #fffdf8;
+  border: 1px solid #e0d2c0;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(62, 39, 35, 0.04);
+}
+
+.users-summary-card::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #6f4e37;
+  content: "";
+}
+
+/* Keep every summary card in the same color family */
+
+.users-summary-total::before,
+.users-summary-approved::before,
+.users-summary-pending::before,
+.users-summary-rejected::before {
+  background: #6f4e37;
+}
+
+.users-summary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.users-summary-top > span:first-child {
+  color: #795548;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.users-summary-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  color: #5d4037;
+  background: #efe2d2;
+  border-radius: 9px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* Same brown and cream treatment for all icons */
+
+.users-summary-approved .users-summary-icon,
+.users-summary-pending .users-summary-icon,
+.users-summary-rejected .users-summary-icon {
+  color: #5d4037;
+  background: #efe2d2;
+}
+
+.users-summary-card > strong {
+  display: block;
+  margin-top: 14px;
+  color: #3e2723;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.users-summary-card > small {
+  display: block;
+  margin-top: 7px;
+  color: #9a8270;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   QUOTATION TABLE
+========================================================= */
+
+.users-quotation-panel {
+  padding-bottom: 20px;
+}
+
+.users-table-heading {
+  margin-bottom: 20px;
+}
+
+.users-record-count {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  color: #5d4037;
+  background: #f0e3d2;
+  border: 1px solid #d7c4ae;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.users-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e0d2c0;
+  border-radius: 11px;
+  scrollbar-width: thin;
+}
+
+.users-quotation-table {
+  width: 100%;
+  min-width: 1120px;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+}
+
+.users-quotation-table thead th {
+  padding: 15px 14px;
+  color: #5d4037;
+  background: #efe2d2;
+  border-bottom: 1px solid #d7c4ae;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.users-quotation-table tbody td {
+  padding: 16px 14px;
+  color: #6d4c41;
+  background: #fffdf8;
+  border-bottom: 1px solid #eee3d6;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.users-quotation-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.users-quotation-table tbody tr:hover td {
+  background: #f7efe5;
+}
+
+.users-quotation-id {
+  color: #6f4e37 !important;
+  font-weight: 800;
+}
+
+.users-selling-price {
+  color: #3e2723 !important;
+  font-weight: 750;
+}
+
+.users-container-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.users-container-info strong {
+  color: #4e342e;
+  font-size: 13px;
+}
+
+.users-container-info small {
+  color: #9a8270;
+  font-size: 10px;
+}
+
+/* Quotation status badges */
+
+.users-status-approved,
+.users-status-pending,
+.users-status-rejected,
+.users-status-default {
+  color: #5d4037;
+  background: #efe2d2;
+  border: 1px solid #dfcbb5;
+}
+
+/* =========================================================
+   LOADING, ERROR AND EMPTY STATES
+========================================================= */
+
+.users-state,
+.users-empty-state {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 220px;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.users-state-icon {
+  margin-bottom: 12px;
+  font-size: 32px;
+}
+
+.users-state h3,
+.users-empty-state h3 {
+  margin: 0;
+  color: #4e342e;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.users-state p,
+.users-empty-state p {
+  max-width: 450px;
+  margin: 8px 0 0;
+  color: #8d7666;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.users-error {
+  margin-top: 22px;
+  padding: 16px 18px;
+  color: #7f342b;
+  background: #f8e9df;
+  border: 1px solid #e4c5b4;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.users-error p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.users-retry-button {
+  margin-top: 12px;
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUT
+========================================================= */
+
+@media (max-width: 1100px) {
+  .users-page {
+    padding: 18px;
+  }
+
+  .users-panel {
+    padding: 22px;
+  }
+
+  .users-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .users-page {
+    padding: 12px;
+  }
+
+  .users-panel {
+    padding: 17px;
+    border-radius: 12px;
+  }
+
+  .users-list-header,
+  .users-activity-header,
+  .users-table-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .users-list-header h2,
+  .users-activity-heading h2 {
+    font-size: 21px;
+  }
+
+  .users-total-badge {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .users-user-card {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 13px;
+    padding: 16px;
+  }
+
+  .users-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+    font-size: 18px;
+  }
+
+  .users-user-information {
+    flex-basis: calc(100% - 60px);
+  }
+
+  .users-user-actions {
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 10px;
+    border-top: 1px solid #eee3d6;
+  }
+
+  .users-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+  }
+
+  .users-summary-card {
+    min-height: 140px;
+    padding: 15px;
+  }
+
+  .users-summary-card > strong {
+    font-size: 26px;
+  }
+
+  .users-summary-top > span:first-child {
+    font-size: 11px;
+  }
+
+  .users-summary-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 15px;
+  }
+
+  .users-back-button {
+    width: 100%;
+  }
+
+  .users-record-count {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 380px) {
+  .users-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .users-summary-card {
+    min-height: 125px;
+  }
+}

@@ -1,0 +1,501 @@
+customs_id,route_id,cargo_type,hs_code_required,commercial_invoice,packing_list,certificate_of_origin,restricted_cargo,customs_status
+C001,R001,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C002,R002,Electronics,No,Yes,Yes,Yes,No,Warning
+C003,R003,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C004,R004,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C005,R005,Electronics,Yes,No,Yes,Yes,No,Warning
+C006,R006,Electronics,No,Yes,Yes,Yes,Yes,Restricted
+C007,R007,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C008,R008,Automotive,Yes,Yes,No,Yes,No,Warning
+C009,R009,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C010,R010,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C011,R011,Automotive,Yes,Yes,Yes,No,No,Warning
+C012,R012,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C013,R013,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C014,R014,Machinery and Equipment,Yes,No,Yes,Yes,No,Warning
+C015,R015,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C016,R016,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C017,R017,General Cargo,Yes,Yes,No,Yes,No,Warning
+C018,R018,General Cargo,No,No,Yes,No,Yes,Restricted
+C019,R019,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C020,R020,General Cargo,Yes,Yes,Yes,No,No,Warning
+C021,R021,General Cargo,Yes,Yes,Yes,Yes,Yes,Restricted
+C022,R022,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C023,R023,Electronics,No,Yes,Yes,Yes,No,Warning
+C024,R024,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C025,R025,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C026,R026,Electronics,Yes,No,Yes,Yes,No,Warning
+C027,R027,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C028,R028,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C029,R029,Automotive,Yes,Yes,No,Yes,No,Warning
+C030,R030,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C031,R031,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C032,R032,Automotive,No,Yes,Yes,Yes,No,Warning
+C033,R033,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C034,R034,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C035,R035,Machinery and Equipment,Yes,No,Yes,Yes,No,Warning
+C036,R036,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C037,R037,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C038,R038,Machinery and Equipment,Yes,Yes,No,Yes,No,Warning
+C039,R039,General Cargo,No,No,Yes,No,Yes,Restricted
+C040,R040,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C041,R041,General Cargo,Yes,Yes,Yes,No,No,Warning
+C042,R042,General Cargo,Yes,Yes,Yes,Yes,Yes,Restricted
+C043,R043,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C044,R044,General Cargo,No,Yes,Yes,Yes,No,Warning
+C045,R045,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C046,R046,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C047,R047,Electronics,Yes,Yes,No,Yes,No,Warning
+C048,R048,Electronics,No,Yes,Yes,Yes,Yes,Restricted
+C049,R049,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C050,R050,Electronics,Yes,Yes,Yes,No,No,Warning
+C051,R051,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C052,R052,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C053,R053,Automotive,Yes,No,Yes,Yes,No,Warning
+C054,R054,Automotive,Yes,No,Yes,No,Yes,Restricted
+C055,R055,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C056,R056,Machinery and Equipment,Yes,Yes,No,Yes,No,Warning
+C057,R057,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C058,R058,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C059,R059,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C060,R060,Machinery and Equipment,No,No,Yes,No,Yes,Restricted
+C061,R061,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C062,R062,General Cargo,No,Yes,Yes,Yes,No,Warning
+C063,R063,General Cargo,No,No,Yes,No,Yes,Restricted
+C064,R064,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C065,R065,General Cargo,Yes,No,Yes,Yes,No,Warning
+C066,R066,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C067,R067,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C068,R068,Electronics,Yes,Yes,Yes,No,No,Warning
+C069,R069,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C070,R070,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C071,R071,Automotive,No,Yes,Yes,Yes,No,Warning
+C072,R072,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C073,R073,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C074,R074,Automotive,Yes,No,Yes,Yes,No,Warning
+C075,R075,Automotive,Yes,No,Yes,No,Yes,Restricted
+C076,R076,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C077,R077,Machinery and Equipment,Yes,Yes,No,Yes,No,Warning
+C078,R078,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C079,R079,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C080,R080,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C081,R081,General Cargo,No,No,Yes,No,Yes,Restricted
+C082,R082,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C083,R083,General Cargo,No,Yes,Yes,Yes,No,Warning
+C084,R084,General Cargo,No,No,Yes,No,Yes,Restricted
+C085,R085,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C086,R086,Electronics,Yes,No,Yes,Yes,No,Warning
+C087,R087,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C088,R088,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C089,R089,Electronics,Yes,Yes,No,Yes,No,Warning
+C090,R090,Electronics,No,Yes,Yes,Yes,Yes,Restricted
+C091,R091,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C092,R092,Automotive,Yes,Yes,Yes,No,No,Warning
+C093,R093,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C094,R094,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C095,R095,Automotive,No,Yes,Yes,Yes,No,Warning
+C096,R096,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C097,R097,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C098,R098,Machinery and Equipment,Yes,No,Yes,Yes,No,Warning
+C099,R099,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C100,R100,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C101,R101,General Cargo,Yes,Yes,No,Yes,No,Warning
+C102,R102,General Cargo,No,No,Yes,No,Yes,Restricted
+C103,R103,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C104,R104,General Cargo,Yes,Yes,Yes,No,No,Warning
+C105,R105,General Cargo,Yes,Yes,Yes,Yes,Yes,Restricted
+C106,R106,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C107,R107,Electronics,No,Yes,Yes,Yes,No,Warning
+C108,R108,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C109,R109,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C110,R110,Electronics,Yes,No,Yes,Yes,No,Warning
+C111,R111,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C112,R112,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C113,R113,Automotive,Yes,Yes,No,Yes,No,Warning
+C114,R114,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C115,R115,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C116,R116,Automotive,No,Yes,Yes,Yes,No,Warning
+C117,R117,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C118,R118,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C119,R119,Machinery and Equipment,Yes,No,Yes,Yes,No,Warning
+C120,R120,General Cargo,Yes,Yes,Yes,Yes,Yes,Restricted
+C121,R121,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C122,R122,Electronics,No,Yes,Yes,Yes,No,Warning
+C123,R123,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C124,R124,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C125,R125,Electronics,Yes,No,Yes,Yes,No,Warning
+C126,R126,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C127,R127,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C128,R128,Automotive,Yes,Yes,No,Yes,No,Warning
+C129,R129,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C130,R130,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C131,R131,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C132,R132,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C133,R133,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C134,R134,Machinery and Equipment,No,Yes,Yes,Yes,No,Warning
+C135,R135,Machinery and Equipment,No,No,Yes,No,Yes,Restricted
+C136,R136,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C137,R137,General Cargo,Yes,No,Yes,Yes,No,Warning
+C138,R138,General Cargo,No,No,Yes,No,Yes,Restricted
+C139,R139,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C140,R140,General Cargo,Yes,Yes,No,Yes,No,Warning
+C141,R141,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C142,R142,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C143,R143,Electronics,Yes,Yes,Yes,No,No,Warning
+C144,R144,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C145,R145,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C146,R146,Automotive,No,Yes,Yes,Yes,No,Warning
+C147,R147,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C148,R148,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C149,R149,Automotive,Yes,No,Yes,Yes,No,Warning
+C150,R150,Automotive,Yes,No,Yes,No,Yes,Restricted
+C151,R151,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C152,R152,Machinery and Equipment,Yes,Yes,No,Yes,No,Warning
+C153,R153,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C154,R154,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C155,R155,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C156,R156,General Cargo,No,No,Yes,No,Yes,Restricted
+C157,R157,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C158,R158,General Cargo,No,Yes,Yes,Yes,No,Warning
+C159,R159,General Cargo,No,No,Yes,No,Yes,Restricted
+C160,R160,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C161,R161,Electronics,Yes,No,Yes,Yes,No,Warning
+C162,R162,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C163,R163,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C164,R164,Electronics,Yes,Yes,No,Yes,No,Warning
+C165,R165,Electronics,No,Yes,Yes,Yes,Yes,Restricted
+C166,R166,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C167,R167,Automotive,Yes,Yes,Yes,No,No,Warning
+C168,R168,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C169,R169,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C170,R170,Automotive,No,Yes,Yes,Yes,No,Warning
+C171,R171,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C172,R172,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C173,R173,Machinery and Equipment,Yes,No,Yes,Yes,No,Warning
+C174,R174,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C175,R175,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C176,R176,General Cargo,Yes,Yes,No,Yes,No,Warning
+C177,R177,General Cargo,No,No,Yes,No,Yes,Restricted
+C178,R178,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C179,R179,General Cargo,Yes,Yes,Yes,No,No,Warning
+C180,R180,General Cargo,Yes,Yes,Yes,Yes,Yes,Restricted
+C181,R181,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C182,R182,Electronics,No,Yes,Yes,Yes,No,Warning
+C183,R183,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C184,R184,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C185,R185,Electronics,Yes,No,Yes,Yes,No,Warning
+C186,R186,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C187,R187,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C188,R188,Automotive,Yes,Yes,No,Yes,No,Warning
+C189,R189,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C190,R190,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C191,R191,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C192,R192,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C193,R193,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C194,R194,Machinery and Equipment,No,Yes,Yes,Yes,No,Warning
+C195,R195,Machinery and Equipment,No,No,Yes,No,Yes,Restricted
+C196,R196,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C197,R197,General Cargo,Yes,No,Yes,Yes,No,Warning
+C198,R198,General Cargo,No,No,Yes,No,Yes,Restricted
+C199,R199,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C200,R200,General Cargo,Yes,Yes,No,Yes,No,Warning
+C201,R201,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C202,R202,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C203,R203,Electronics,Yes,Yes,Yes,No,No,Warning
+C204,R204,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C205,R205,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C206,R206,Automotive,No,Yes,Yes,Yes,No,Warning
+C207,R207,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C208,R208,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C209,R209,Automotive,Yes,No,Yes,Yes,No,Warning
+C210,R210,Automotive,Yes,No,Yes,No,Yes,Restricted
+C211,R211,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C212,R212,Machinery and Equipment,Yes,Yes,No,Yes,No,Warning
+C213,R213,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C214,R214,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C215,R215,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C216,R216,General Cargo,No,No,Yes,No,Yes,Restricted
+C217,R217,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C218,R218,General Cargo,No,Yes,Yes,Yes,No,Warning
+C219,R219,General Cargo,No,No,Yes,No,Yes,Restricted
+C220,R220,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C221,R221,Electronics,Yes,No,Yes,Yes,No,Warning
+C222,R222,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C223,R223,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C224,R224,Electronics,Yes,Yes,No,Yes,No,Warning
+C225,R225,Electronics,No,Yes,Yes,Yes,Yes,Restricted
+C226,R226,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C227,R227,Automotive,Yes,Yes,Yes,No,No,Warning
+C228,R228,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C229,R229,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C230,R230,Automotive,No,Yes,Yes,Yes,No,Warning
+C231,R231,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C232,R232,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C233,R233,Machinery and Equipment,Yes,No,Yes,Yes,No,Warning
+C234,R234,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C235,R235,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C236,R236,General Cargo,Yes,Yes,No,Yes,No,Warning
+C237,R237,General Cargo,No,No,Yes,No,Yes,Restricted
+C238,R238,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C239,R239,General Cargo,Yes,Yes,Yes,No,No,Warning
+C240,R240,General Cargo,Yes,Yes,Yes,Yes,Yes,Restricted
+C241,R241,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C242,R242,Electronics,No,Yes,Yes,Yes,No,Warning
+C243,R243,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C244,R244,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C245,R245,Electronics,Yes,No,Yes,Yes,No,Warning
+C246,R246,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C247,R247,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C248,R248,Automotive,Yes,Yes,No,Yes,No,Warning
+C249,R249,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C250,R250,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C251,R251,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C252,R252,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C253,R253,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C254,R254,Machinery and Equipment,No,Yes,Yes,Yes,No,Warning
+C255,R255,Machinery and Equipment,No,No,Yes,No,Yes,Restricted
+C256,R256,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C257,R257,General Cargo,Yes,No,Yes,Yes,No,Warning
+C258,R258,General Cargo,No,No,Yes,No,Yes,Restricted
+C259,R259,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C260,R260,General Cargo,Yes,Yes,No,Yes,No,Warning
+C261,R261,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C262,R262,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C263,R263,Electronics,Yes,Yes,Yes,No,No,Warning
+C264,R264,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C265,R265,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C266,R266,Automotive,No,Yes,Yes,Yes,No,Warning
+C267,R267,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C268,R268,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C269,R269,Automotive,Yes,No,Yes,Yes,No,Warning
+C270,R270,Automotive,Yes,No,Yes,No,Yes,Restricted
+C271,R271,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C272,R272,Machinery and Equipment,Yes,Yes,No,Yes,No,Warning
+C273,R273,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C274,R274,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C275,R275,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C276,R276,General Cargo,No,No,Yes,No,Yes,Restricted
+C277,R277,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C278,R278,General Cargo,No,Yes,Yes,Yes,No,Warning
+C279,R279,General Cargo,No,No,Yes,No,Yes,Restricted
+C280,R280,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C281,R281,Electronics,Yes,No,Yes,Yes,No,Warning
+C282,R282,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C283,R283,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C284,R284,Electronics,Yes,Yes,No,Yes,No,Warning
+C285,R285,Electronics,No,Yes,Yes,Yes,Yes,Restricted
+C286,R286,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C287,R287,Automotive,Yes,Yes,Yes,No,No,Warning
+C288,R288,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C289,R289,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C290,R290,Automotive,No,Yes,Yes,Yes,No,Warning
+C291,R291,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C292,R292,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C293,R293,Machinery and Equipment,Yes,No,Yes,Yes,No,Warning
+C294,R294,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C295,R295,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C296,R296,General Cargo,Yes,Yes,No,Yes,No,Warning
+C297,R297,General Cargo,No,No,Yes,No,Yes,Restricted
+C298,R298,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C299,R299,General Cargo,Yes,Yes,Yes,No,No,Warning
+C300,R300,General Cargo,Yes,Yes,Yes,Yes,Yes,Restricted
+C301,R301,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C302,R302,Electronics,No,Yes,Yes,Yes,No,Warning
+C303,R303,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C304,R304,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C305,R305,Electronics,Yes,No,Yes,Yes,No,Warning
+C306,R306,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C307,R307,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C308,R308,Automotive,Yes,Yes,No,Yes,No,Warning
+C309,R309,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C310,R310,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C311,R311,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C312,R312,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C313,R313,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C314,R314,Machinery and Equipment,No,Yes,Yes,Yes,No,Warning
+C315,R315,Machinery and Equipment,No,No,Yes,No,Yes,Restricted
+C316,R316,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C317,R317,General Cargo,Yes,No,Yes,Yes,No,Warning
+C318,R318,General Cargo,No,No,Yes,No,Yes,Restricted
+C319,R319,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C320,R320,General Cargo,Yes,Yes,No,Yes,No,Warning
+C321,R321,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C322,R322,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C323,R323,Electronics,Yes,Yes,Yes,No,No,Warning
+C324,R324,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C325,R325,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C326,R326,Automotive,No,Yes,Yes,Yes,No,Warning
+C327,R327,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C328,R328,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C329,R329,Automotive,Yes,No,Yes,Yes,No,Warning
+C330,R330,Automotive,Yes,No,Yes,No,Yes,Restricted
+C331,R331,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C332,R332,Machinery and Equipment,Yes,Yes,No,Yes,No,Warning
+C333,R333,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C334,R334,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C335,R335,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C336,R336,General Cargo,No,No,Yes,No,Yes,Restricted
+C337,R337,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C338,R338,General Cargo,No,Yes,Yes,Yes,No,Warning
+C339,R339,General Cargo,No,No,Yes,No,Yes,Restricted
+C340,R340,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C341,R341,Electronics,Yes,No,Yes,Yes,No,Warning
+C342,R342,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C343,R343,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C344,R344,Electronics,Yes,Yes,No,Yes,No,Warning
+C345,R345,Electronics,No,Yes,Yes,Yes,Yes,Restricted
+C346,R346,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C347,R347,Automotive,Yes,Yes,Yes,No,No,Warning
+C348,R348,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C349,R349,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C350,R350,Automotive,No,Yes,Yes,Yes,No,Warning
+C351,R351,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C352,R352,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C353,R353,Machinery and Equipment,Yes,No,Yes,Yes,No,Warning
+C354,R354,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C355,R355,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C356,R356,General Cargo,Yes,Yes,No,Yes,No,Warning
+C357,R357,General Cargo,No,No,Yes,No,Yes,Restricted
+C358,R358,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C359,R359,General Cargo,Yes,Yes,Yes,No,No,Warning
+C360,R360,General Cargo,Yes,Yes,Yes,Yes,Yes,Restricted
+C361,R361,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C362,R362,Electronics,No,Yes,Yes,Yes,No,Warning
+C363,R363,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C364,R364,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C365,R365,Electronics,Yes,No,Yes,Yes,No,Warning
+C366,R366,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C367,R367,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C368,R368,Automotive,Yes,Yes,No,Yes,No,Warning
+C369,R369,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C370,R370,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C371,R371,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C372,R372,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C373,R373,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C374,R374,Machinery and Equipment,No,Yes,Yes,Yes,No,Warning
+C375,R375,Machinery and Equipment,No,No,Yes,No,Yes,Restricted
+C376,R376,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C377,R377,General Cargo,Yes,No,Yes,Yes,No,Warning
+C378,R378,General Cargo,No,No,Yes,No,Yes,Restricted
+C379,R379,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C380,R380,General Cargo,Yes,Yes,No,Yes,No,Warning
+C381,R381,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C382,R382,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C383,R383,Electronics,Yes,Yes,Yes,No,No,Warning
+C384,R384,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C385,R385,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C386,R386,Automotive,No,Yes,Yes,Yes,No,Warning
+C387,R387,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C388,R388,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C389,R389,Automotive,Yes,No,Yes,Yes,No,Warning
+C390,R390,Automotive,Yes,No,Yes,No,Yes,Restricted
+C391,R391,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C392,R392,Machinery and Equipment,Yes,Yes,No,Yes,No,Warning
+C393,R393,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C394,R394,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C395,R395,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C396,R396,General Cargo,No,No,Yes,No,Yes,Restricted
+C397,R397,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C398,R398,General Cargo,No,Yes,Yes,Yes,No,Warning
+C399,R399,General Cargo,No,No,Yes,No,Yes,Restricted
+C400,R400,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C401,R401,Electronics,Yes,No,Yes,Yes,No,Warning
+C402,R402,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C403,R403,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C404,R404,Electronics,Yes,Yes,No,Yes,No,Warning
+C405,R405,Electronics,No,Yes,Yes,Yes,Yes,Restricted
+C406,R406,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C407,R407,Automotive,Yes,Yes,Yes,No,No,Warning
+C408,R408,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C409,R409,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C410,R410,Automotive,No,Yes,Yes,Yes,No,Warning
+C411,R411,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C412,R412,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C413,R413,Machinery and Equipment,Yes,No,Yes,Yes,No,Warning
+C414,R414,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C415,R415,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C416,R416,General Cargo,Yes,Yes,No,Yes,No,Warning
+C417,R417,General Cargo,No,No,Yes,No,Yes,Restricted
+C418,R418,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C419,R419,General Cargo,Yes,Yes,Yes,No,No,Warning
+C420,R420,General Cargo,Yes,Yes,Yes,Yes,Yes,Restricted
+C421,R421,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C422,R422,Electronics,No,Yes,Yes,Yes,No,Warning
+C423,R423,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C424,R424,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C425,R425,Electronics,Yes,No,Yes,Yes,No,Warning
+C426,R426,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C427,R427,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C428,R428,Automotive,Yes,Yes,No,Yes,No,Warning
+C429,R429,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C430,R430,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C431,R431,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C432,R432,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C433,R433,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C434,R434,Machinery and Equipment,No,Yes,Yes,Yes,No,Warning
+C435,R435,Machinery and Equipment,No,No,Yes,No,Yes,Restricted
+C436,R436,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C437,R437,General Cargo,Yes,No,Yes,Yes,No,Warning
+C438,R438,General Cargo,No,No,Yes,No,Yes,Restricted
+C439,R439,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C440,R440,General Cargo,Yes,Yes,No,Yes,No,Warning
+C441,R441,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C442,R442,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C443,R443,Electronics,Yes,Yes,Yes,No,No,Warning
+C444,R444,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C445,R445,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C446,R446,Automotive,No,Yes,Yes,Yes,No,Warning
+C447,R447,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C448,R448,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C449,R449,Automotive,Yes,No,Yes,Yes,No,Warning
+C450,R450,Automotive,Yes,No,Yes,No,Yes,Restricted
+C451,R451,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C452,R452,Machinery and Equipment,Yes,Yes,No,Yes,No,Warning
+C453,R453,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C454,R454,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C455,R455,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C456,R456,General Cargo,No,No,Yes,No,Yes,Restricted
+C457,R457,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C458,R458,General Cargo,No,Yes,Yes,Yes,No,Warning
+C459,R459,General Cargo,No,No,Yes,No,Yes,Restricted
+C460,R460,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C461,R461,Electronics,Yes,No,Yes,Yes,No,Warning
+C462,R462,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C463,R463,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C464,R464,Electronics,Yes,Yes,No,Yes,No,Warning
+C465,R465,Electronics,No,Yes,Yes,Yes,Yes,Restricted
+C466,R466,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C467,R467,Automotive,Yes,Yes,Yes,No,No,Warning
+C468,R468,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C469,R469,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C470,R470,Automotive,No,Yes,Yes,Yes,No,Warning
+C471,R471,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C472,R472,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C473,R473,Machinery and Equipment,Yes,No,Yes,Yes,No,Warning
+C474,R474,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C475,R475,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C476,R476,General Cargo,Yes,Yes,No,Yes,No,Warning
+C477,R477,General Cargo,No,No,Yes,No,Yes,Restricted
+C478,R478,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C479,R479,General Cargo,Yes,Yes,Yes,No,No,Warning
+C480,R480,General Cargo,Yes,Yes,Yes,Yes,Yes,Restricted
+C481,R481,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C482,R482,Electronics,No,Yes,Yes,Yes,No,Warning
+C483,R483,Electronics,Yes,Yes,Yes,Yes,Yes,Restricted
+C484,R484,Electronics,Yes,Yes,Yes,Yes,No,Valid
+C485,R485,Electronics,Yes,No,Yes,Yes,No,Warning
+C486,R486,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C487,R487,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C488,R488,Automotive,Yes,Yes,No,Yes,No,Warning
+C489,R489,Automotive,No,Yes,Yes,Yes,Yes,Restricted
+C490,R490,Automotive,Yes,Yes,Yes,Yes,No,Valid
+C491,R491,Machinery and Equipment,Yes,Yes,Yes,No,No,Warning
+C492,R492,Machinery and Equipment,Yes,No,Yes,No,Yes,Restricted
+C493,R493,Machinery and Equipment,Yes,Yes,Yes,Yes,No,Valid
+C494,R494,Machinery and Equipment,No,Yes,Yes,Yes,No,Warning
+C495,R495,Machinery and Equipment,No,No,Yes,No,Yes,Restricted
+C496,R496,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C497,R497,General Cargo,Yes,No,Yes,Yes,No,Warning
+C498,R498,General Cargo,No,No,Yes,No,Yes,Restricted
+C499,R499,General Cargo,Yes,Yes,Yes,Yes,No,Valid
+C500,R500,General Cargo,Yes,Yes,No,Yes,No,Warning

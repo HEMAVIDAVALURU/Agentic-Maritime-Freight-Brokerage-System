@@ -25,17 +25,20 @@ router = APIRouter(
 #
 # Reads the current route.csv directly.
 #
+# Returns:
+#   - origins
+#   - destinations_by_origin
+#   - cargo_types
+#
 # Therefore:
 #
-# New route added to CSV
-#          ↓
+# route.csv
+#    ↓
 # /api/routes/options
-#          ↓
-# React Route page
-#          ↓
-# Origin / Destination dropdowns
-#
-# No frontend routeMap maintenance is required.
+#    ↓
+# React Route.jsx
+#    ↓
+# Origin / Destination / Cargo Type dropdowns
 #
 # =========================================================
 
@@ -61,6 +64,10 @@ def get_route_options():
 
     destinations_by_origin = {}
 
+    # NEW:
+    # Cargo types are now read directly from route.csv.
+    cargo_types = set()
+
     if not os.path.exists(route_file):
 
         return {
@@ -68,6 +75,7 @@ def get_route_options():
             "message": "Route data file not found.",
             "origins": [],
             "destinations_by_origin": {},
+            "cargo_types": [],
         }
 
     try:
@@ -90,6 +98,12 @@ def get_route_options():
                     row.get("destination") or ""
                 ).strip()
 
+                # NEW:
+                # Read cargo_type from CSV.
+                cargo_type = (
+                    row.get("cargo_type") or ""
+                ).strip()
+
                 if not origin:
                     continue
 
@@ -105,6 +119,14 @@ def get_route_options():
                         origin
                     ].add(destination)
 
+                # NEW:
+                # Add every unique cargo type from CSV.
+                if cargo_type:
+
+                    cargo_types.add(
+                        cargo_type
+                    )
+
     except Exception as error:
 
         return {
@@ -113,6 +135,7 @@ def get_route_options():
                 f"Unable to read route data: {error}",
             "origins": [],
             "destinations_by_origin": {},
+            "cargo_types": [],
         }
 
     sorted_origins = sorted(
@@ -131,6 +154,13 @@ def get_route_options():
         in destinations_by_origin.items()
     }
 
+    # NEW:
+    # Sort cargo types alphabetically.
+    sorted_cargo_types = sorted(
+        cargo_types,
+        key=lambda value: value.lower()
+    )
+
     return {
 
         "status": "success",
@@ -139,7 +169,11 @@ def get_route_options():
             sorted_origins,
 
         "destinations_by_origin":
-            sorted_destinations_by_origin
+            sorted_destinations_by_origin,
+
+        # NEW
+        "cargo_types":
+            sorted_cargo_types,
     }
 
 
@@ -168,13 +202,9 @@ def sync_routes_to_database(
     )
 
     route_file = os.path.join(
-
         project_root,
-
         "app",
-
         "data",
-
         "route.csv"
     )
 
@@ -205,13 +235,9 @@ def sync_routes_to_database(
     # -----------------------------------------------------
 
     with open(
-
         route_file,
-
         mode="r",
-
         encoding="utf-8"
-
     ) as file:
 
         reader = csv.DictReader(file)
@@ -223,11 +249,9 @@ def sync_routes_to_database(
             ).strip()
 
             if not route_id:
-
                 continue
 
             if route_id in existing_route_ids:
-
                 continue
 
             # -------------------------------------------------
@@ -268,7 +292,13 @@ def sync_routes_to_database(
 
                 base_freight_usd=float(
                     row.get("base_freight_usd") or 0
-                )
+                ),
+
+                # NEW:
+                # Save cargo_type into MySQL too.
+                cargo_type=(
+                    row.get("cargo_type") or ""
+                ).strip(),
             )
 
             db.add(route)
@@ -376,7 +406,6 @@ def get_approved_quotation_routes_for_admin(
         )
 
         if not route:
-
             continue
 
         quotation_route = (
@@ -443,11 +472,12 @@ def get_approved_quotation_routes_for_admin(
             "base_freight_usd":
                 route.base_freight_usd,
 
+            # NEW:
+            "cargo_type":
+                route.cargo_type,
+
             "route_score":
                 route_score,
-
-            "cargo_type":
-                quotation.cargo_type,
 
             "container_type":
                 quotation.container_type,

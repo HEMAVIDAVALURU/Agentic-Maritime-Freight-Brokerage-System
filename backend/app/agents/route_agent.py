@@ -38,22 +38,30 @@ class RouteAgent:
         # =====================================================
 
         matching_routes = self.routes[
-            (
-                self.routes["origin"]
-                .astype(str)
-                .str.strip()
-                .str.lower()
-                == origin.strip().lower()
-            )
-            &
-            (
-                self.routes["destination"]
-                .astype(str)
-                .str.strip()
-                .str.lower()
-                == destination.strip().lower()
-            )
-        ].copy()
+    (
+        self.routes["origin"]
+        .astype(str)
+        .str.strip()
+        .str.lower()
+        == origin.strip().lower()
+    )
+    &
+    (
+        self.routes["destination"]
+        .astype(str)
+        .str.strip()
+        .str.lower()
+        == destination.strip().lower()
+    )
+    &
+    (
+        self.routes["cargo_type"]
+        .astype(str)
+        .str.strip()
+        .str.lower()
+        == cargo_type.strip().lower()
+    )
+].copy()
 
         # =====================================================
         # 2. NO ROUTE FOUND

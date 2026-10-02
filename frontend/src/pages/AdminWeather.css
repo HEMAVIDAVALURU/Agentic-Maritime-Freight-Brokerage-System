@@ -1,0 +1,350 @@
+/* =========================================================
+   ADMIN WEATHER MANAGEMENT
+   Coffee Brown / Cream Theme
+========================================================= */
+
+.admin-weather-page {
+  width: 100%;
+  min-height: 100%;
+  padding: 30px;
+  box-sizing: border-box;
+  background: #f7f2ec;
+  color: #4a2d1d;
+  font-family: inherit;
+}
+
+/* PAGE HEADER */
+
+.admin-weather-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.admin-weather-header h1 {
+  margin: 0;
+  color: #4a2d1d;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.admin-weather-header p {
+  margin: 8px 0 0;
+  color: #806957;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* REFRESH BUTTON */
+
+.admin-weather-refresh {
+  flex-shrink: 0;
+  padding: 11px 18px;
+  border: 1px solid #795235;
+  border-radius: 8px;
+  background: #795235;
+  color: #fffaf5;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.admin-weather-refresh:hover {
+  background: #5c3825;
+  transform: translateY(-1px);
+}
+
+/* TABLE CARD */
+
+.admin-weather-table-card {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #e7d9cb;
+  border-radius: 12px;
+  background: #fffaf5;
+  box-shadow: 0 4px 16px rgba(74, 45, 29, 0.06);
+}
+
+.admin-weather-table-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px;
+  border-bottom: 1px solid #eadfd4;
+  background: #fffaf5;
+}
+
+.admin-weather-table-heading h2 {
+  margin: 0;
+  color: #4a2d1d;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.admin-weather-table-heading p {
+  margin: 7px 0 0;
+  color: #806957;
+  font-size: 13px;
+}
+
+/* TABLE WRAPPER */
+
+.admin-weather-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* TABLE */
+
+.admin-weather-table {
+  width: 100%;
+  min-width: 1300px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* DARK COFFEE BROWN HEADINGS */
+
+.admin-weather-table thead {
+  background: #5c3825;
+}
+
+.admin-weather-table th {
+  padding: 16px 18px;
+  border-bottom: 1px solid #452819;
+  color: #fffaf5;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* TABLE ROWS */
+
+.admin-weather-table td {
+  padding: 17px 18px;
+  border-bottom: 1px solid #eee5dc;
+  color: #5c4636;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.admin-weather-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.admin-weather-table tbody tr:hover {
+  background: #f8efe5;
+}
+
+.admin-weather-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* QUOTATION ID */
+
+.admin-weather-quotation-id {
+  color: #795235 !important;
+  font-weight: 700;
+}
+
+/* ROUTE BADGE */
+
+.admin-weather-route-badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border: 1px solid #dfc7af;
+  border-radius: 5px;
+  background: #f4e8da;
+  color: #6b452c;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* WEATHER VALUES */
+
+.admin-weather-value {
+  color: #4a2d1d !important;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.admin-weather-unit {
+  color: #806957;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+/* STORM PROBABILITY */
+
+.admin-weather-storm-badge {
+  display: inline-block;
+  min-width: 44px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.admin-weather-storm-low {
+  background: #e4eddf;
+  color: #456438;
+}
+
+.admin-weather-storm-medium {
+  background: #f7e9cb;
+  color: #87601b;
+}
+
+.admin-weather-storm-high {
+  background: #f4ddd6;
+  color: #963e2d;
+}
+
+/* WEATHER CONDITION */
+
+.admin-weather-condition {
+  color: #5c4636;
+  font-weight: 500;
+}
+
+/* WEATHER RISK */
+
+.admin-weather-risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.admin-weather-risk-dot {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.admin-weather-risk-low {
+  background: #e4eddf;
+  color: #456438;
+}
+
+.admin-weather-risk-medium {
+  background: #f7e9cb;
+  color: #87601b;
+}
+
+.admin-weather-risk-high {
+  background: #f4ddd6;
+  color: #963e2d;
+}
+
+.admin-weather-risk-unknown {
+  background: #eee5dc;
+  color: #715b49;
+}
+
+/* LOADING / EMPTY MESSAGE */
+
+.admin-weather-message {
+  padding: 45px 20px;
+  border: 1px solid #e7d9cb;
+  border-radius: 12px;
+  background: #fffaf5;
+  color: #806957;
+  font-size: 14px;
+  text-align: center;
+}
+
+.admin-weather-empty {
+  height: 150px;
+  color: #806957 !important;
+  font-size: 14px !important;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* ERROR MESSAGE */
+
+.admin-weather-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 16px 18px;
+  border: 1px solid #e2bdb3;
+  border-radius: 8px;
+  background: #fff0ec;
+  color: #873e31;
+  font-size: 14px;
+}
+
+.admin-weather-error button {
+  flex-shrink: 0;
+  padding: 8px 13px;
+  border: 1px solid #a0523d;
+  border-radius: 6px;
+  background: #a0523d;
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-weather-error button:hover {
+  background: #803c2d;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .admin-weather-page {
+    padding: 18px;
+  }
+
+  .admin-weather-header h1 {
+    font-size: 22px;
+  }
+
+  .admin-weather-table-heading {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-weather-page {
+    padding: 12px;
+  }
+
+  .admin-weather-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-weather-header h1 {
+    font-size: 20px;
+  }
+
+  .admin-weather-refresh {
+    align-self: flex-start;
+  }
+
+  .admin-weather-error {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

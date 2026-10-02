@@ -1,32 +1,526 @@
 /* =========================================================
-   FEEDBACK PAGE
-   Cream + Coffee Brown Theme
-   ========================================================= */
+   LOADING CARD
+========================================================= */
 
-.feedback-page {
-  width: 100%;
-  min-height: calc(100vh - 0px);
-  padding: 34px 42px 50px;
+.feedback-loading-card {
+  width: min(900px, 100%);
+  margin: 0 auto;
+  padding: 30px;
   box-sizing: border-box;
+  text-align: center;
+  background: #f8f0e4;
+  border: 1px solid #dcc6ac;
+  border-radius: 14px;
+}
+
+.feedback-loading {
+  color: #765f50;
+  font-size: 15px;
+  padding: 20px;
+}
+
+/* =========================================================
+   SUCCESS BANNER
+========================================================= */
+
+.feedback-success-banner {
+  width: min(900px, 100%);
+  margin: 0 auto 22px;
+  padding: 17px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-sizing: border-box;
+  background: #e9f2e5;
+  border: 1px solid #b8cfad;
+  border-radius: 10px;
+  color: #34572e;
+}
+
+.feedback-banner-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #527b45;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.feedback-success-banner strong {
+  display: block;
+  font-size: 15px;
+}
+
+.feedback-success-banner p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.feedback-banner-close {
+  margin-left: auto;
+  padding: 2px 7px;
+  border: none;
+  background: transparent;
+  color: #34572e;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   CHARACTER COUNT
+========================================================= */
+
+.feedback-character-count {
+  margin-top: 7px;
+  text-align: right;
+  color: #947d6c;
+  font-size: 12px;
+}
+
+/* =========================================================
+   HISTORY SECTION
+========================================================= */
+
+.feedback-history-section {
+  width: min(900px, 100%);
+  margin: 48px auto 0;
+}
+
+.feedback-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.feedback-history-header h2 {
+  margin: 0;
+  color: #4d2d1d;
+  font-size: 27px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.feedback-history-header > div > p:last-child {
+  margin: 8px 0 0;
+  color: #765f50;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.feedback-refresh-button {
+  flex-shrink: 0;
+  padding: 11px 16px;
+  border: 1px solid #b99170;
+  border-radius: 8px;
+  background: #fff8ef;
+  color: #704329;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.feedback-refresh-button:hover:not(:disabled) {
+  background: #ead9c5;
+}
+
+.feedback-refresh-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+/* =========================================================
+   HISTORY EMPTY STATE
+========================================================= */
+
+.feedback-history-empty {
+  padding: 42px 25px;
+  text-align: center;
+  background: #f8f0e4;
+  border: 1px dashed #d4b99d;
+  border-radius: 12px;
+}
+
+.feedback-empty-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ead9c5;
+  border-radius: 50%;
+  color: #704329;
+  font-size: 27px;
+}
+
+.feedback-history-empty h3 {
+  margin: 0;
+  color: #4d2d1d;
+  font-size: 19px;
+}
+
+.feedback-history-empty p {
+  margin: 9px 0 0;
+  color: #765f50;
+  font-size: 14px;
+}
+
+/* =========================================================
+   HISTORY ERROR
+========================================================= */
+
+.feedback-history-error {
+  padding: 17px 20px;
+  background: #f4dfda;
+  border: 1px solid #d5aaa0;
+  border-radius: 9px;
+  color: #8b3f32;
+}
+
+.feedback-history-error p {
+  margin: 0 0 10px;
+  line-height: 1.5;
+}
+
+.feedback-history-error button {
+  padding: 8px 13px;
+  border: 1px solid #b86d5d;
+  border-radius: 6px;
+  background: #fff7f4;
+  color: #8b3f32;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* =========================================================
+   HISTORY LIST AND CARDS
+========================================================= */
+
+.feedback-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feedback-history-card {
+  padding: 25px;
+  background: #f8f0e4;
+  border: 1px solid #dcc6ac;
+  border-radius: 12px;
+  box-shadow: 0 7px 20px rgba(78, 48, 31, 0.07);
+}
+
+.feedback-history-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.feedback-history-label {
+  display: block;
+  margin-bottom: 9px;
+  color: #8a5a3b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.feedback-history-stars {
+  display: flex;
+  gap: 3px;
+}
+
+.feedback-history-star {
+  color: #cdb9a5;
+  font-size: 21px;
+  line-height: 1;
+}
+
+.feedback-history-star.filled {
+  color: #b87928;
+}
+
+.feedback-response-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.response-received {
+  background: #e2eddb;
+  color: #3f6635;
+  border: 1px solid #bdd1b3;
+}
+
+.response-pending {
+  background: #f2e5d3;
+  color: #875d2f;
+  border: 1px solid #dfc4a0;
+}
+
+/* =========================================================
+   USER FEEDBACK MESSAGE
+========================================================= */
+
+.feedback-history-message {
+  margin-top: 20px;
+  padding: 17px 19px;
+  background: #fffaf3;
+  border: 1px solid #e2d0bb;
+  border-radius: 10px 10px 10px 2px;
+}
+
+.feedback-history-message p {
+  margin: 0;
+  color: #4d2d1d;
+  font-size: 14px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.feedback-history-date {
+  margin: 10px 0 0;
+  color: #927b68;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   RELATED QUOTATION
+========================================================= */
+
+.feedback-related-quotation {
+  margin-top: 15px;
+  padding: 13px 15px;
+  background: #efe2d1;
+  border-radius: 8px;
+}
+
+.feedback-related-quotation strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #704329;
+  font-size: 12px;
+}
+
+.feedback-related-quotation p {
+  margin: 0;
+  color: #4d2d1d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.feedback-related-quotation span {
+  display: block;
+  margin-top: 5px;
+  color: #765f50;
+  font-size: 12px;
+}
+
+/* =========================================================
+   ADMIN RESPONSE
+========================================================= */
+
+.feedback-admin-response {
+  margin-top: 22px;
+  padding: 18px;
+  background: #eee2d5;
+  border: 1px solid #d9c2aa;
+  border-radius: 11px;
+}
+
+.feedback-admin-response-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 13px;
+}
+
+.feedback-admin-avatar {
+  width: 37px;
+  height: 37px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #704329;
+  border-radius: 50%;
+  color: #fffaf4;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.feedback-admin-response-header strong {
+  display: block;
+  color: #4d2d1d;
+  font-size: 13px;
+}
+
+.feedback-admin-response-header span {
+  display: block;
+  margin-top: 4px;
+  color: #8a7361;
+  font-size: 11px;
+}
+
+.feedback-admin-message {
+  margin-left: 10px;
+  padding: 14px 16px;
+  background: #fffaf3;
+  border: 1px solid #e1cfbb;
+  border-radius: 3px 10px 10px 10px;
+}
+
+.feedback-admin-message p {
+  margin: 0;
+  color: #4d2d1d;
+  font-size: 14px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   PENDING RESPONSE
+========================================================= */
+
+.feedback-pending-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 18px;
+  padding: 13px 15px;
+  background: #f1e6d8;
+  border: 1px solid #e2cfb8;
+  border-radius: 8px;
+  color: #80644e;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.feedback-pending-dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  margin-top: 5px;
+  background: #b58a57;
+  border-radius: 50%;
+}
+
+/* =========================================================
+   RESPONSIVE HISTORY
+========================================================= */
+
+@media (max-width: 760px) {
+  .feedback-history-section {
+    margin-top: 38px;
+  }
+
+  .feedback-history-header {
+    align-items: flex-start;
+  }
+
+  .feedback-history-header h2 {
+    font-size: 23px;
+  }
+
+  .feedback-history-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .feedback-success-banner {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .feedback-history-header {
+    flex-direction: column;
+  }
+
+  .feedback-history-header h2 {
+    font-size: 21px;
+  }
+
+  .feedback-refresh-button {
+    width: 100%;
+  }
+
+  .feedback-history-card {
+    padding: 16px;
+  }
+
+  .feedback-history-card-header {
+    flex-direction: column;
+  }
+
+  .feedback-response-status {
+    white-space: normal;
+  }
+
+  .feedback-history-message {
+    padding: 14px;
+  }
+
+  .feedback-admin-response {
+    padding: 13px;
+  }
+
+  .feedback-admin-message {
+    margin-left: 0;
+    padding: 12px;
+  }
 }
 
 
 /* =========================================================
-   PAGE HEADER
-   ========================================================= */
+   FEEDBACK PAGE LAYOUT
+========================================================= */
 
-.feedback-header {
-  max-width: 900px;
-  margin: 0 auto 26px;
+.feedback-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 34px 45px;
+  box-sizing: border-box;
+  color: #4d2d1d;
 }
 
-.feedback-eyebrow {
-  margin: 0 0 7px;
-  color: #8a5a3b;
+.feedback-page *,
+.feedback-page *::before,
+.feedback-page *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.feedback-header {
+  margin-bottom: 28px;
+}
+
+.feedback-header .feedback-eyebrow {
+  margin: 0 0 8px;
+  color: #946b4c;
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 1.5px;
 }
 
 .feedback-header h1 {
@@ -34,259 +528,205 @@
   color: #4d2d1d;
   font-size: 32px;
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.3;
 }
 
 .feedback-header > p:last-child {
   margin: 9px 0 0;
   color: #765f50;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
 }
 
-
 /* =========================================================
-   MAIN FEEDBACK CARD
-   ========================================================= */
+   FEEDBACK FORM CARD
+========================================================= */
 
 .feedback-card {
-  width: min(900px, 100%);
+  width: 100%;
+  max-width: 900px;
   margin: 0 auto;
-
-  padding: 38px 42px 34px;
-
+  padding: 30px;
   background: #f8f0e4;
-
   border: 1px solid #dcc6ac;
   border-radius: 14px;
-
-  box-shadow:
-    0 10px 28px rgba(78, 48, 31, 0.10);
-
-  box-sizing: border-box;
+  box-shadow: 0 7px 22px rgba(78, 48, 31, 0.06);
 }
 
-
 /* =========================================================
-   FEEDBACK QUESTION
-   ========================================================= */
+   SATISFACTION QUESTION
+========================================================= */
 
 .feedback-question {
-  text-align: center;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .feedback-question h2 {
-  margin: 0;
-
+  margin: 0 0 7px;
   color: #4d2d1d;
-
   font-size: 23px;
   font-weight: 800;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .feedback-question p {
-  margin: 8px 0 0;
-
+  margin: 0;
   color: #765f50;
-
-  font-size: 15px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-
 /* =========================================================
-   STAR RATING
-   ========================================================= */
+   INTERACTIVE STAR RATING
+========================================================= */
 
 .feedback-stars {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 12px;
-
-  margin: 4px 0 10px;
+  gap: 8px;
+  margin: 0 0 8px;
 }
 
 .feedback-star {
-  width: 54px;
-  height: 54px;
-
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-
+  width: 43px;
+  height: 43px;
   padding: 0;
-
-  border: 1px solid #d5b89a;
-  border-radius: 10px;
-
-  background: #eee1d0;
-
-  color: #9b806c;
-
+  background: #fffaf3;
+  border: 1px solid #d8bea4;
+  border-radius: 9px;
+  color: #cdb9a5;
+  font-family: inherit;
   font-size: 28px;
   line-height: 1;
-
   cursor: pointer;
-
   transition:
-    background 0.2s ease,
     color 0.2s ease,
+    background 0.2s ease,
     border-color 0.2s ease,
     transform 0.2s ease;
 }
 
 .feedback-star:hover {
-  background: #e5d1b8;
-  border-color: #b88963;
-  color: #8a5a3b;
+  border-color: #b87928;
+  background: #f1e3cf;
   transform: translateY(-2px);
 }
 
 .feedback-star.active {
-  background: #8a5a3b;
-  border-color: #8a5a3b;
-  color: #fff8ef;
+  color: #b87928;
+  border-color: #c49a64;
+  background: #f2e5d3;
 }
 
-.feedback-star.active:hover {
-  background: #74472f;
-  border-color: #74472f;
+.feedback-star:focus-visible {
+  outline: 2px solid #704329;
+  outline-offset: 3px;
 }
-
-
-/* =========================================================
-   RATING TEXT
-   ========================================================= */
 
 .feedback-rating-text {
-  margin: 8px 0 24px;
-
-  text-align: center;
-
-  color: #8a5a3b;
-
-  font-size: 15px;
+  margin: 5px 0 20px;
+  color: #875d2f;
+  font-size: 13px;
   font-weight: 700;
 }
 
-
 /* =========================================================
-   FEEDBACK TEXT AREA SECTION
-   ========================================================= */
+   FEEDBACK TEXTAREA
+========================================================= */
 
 .feedback-text-section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
   margin-top: 22px;
 }
 
 .feedback-text-section label {
   display: block;
-
-  margin-bottom: 9px;
-
+  margin: 0;
   color: #4d2d1d;
-
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.feedback-text-section textarea {
-  width: 100%;
-  min-height: 190px;
-
-  padding: 17px 18px;
-
-  box-sizing: border-box;
-
-  resize: vertical;
-
-  border: 1px solid #d8c0a5;
-  border-radius: 10px;
-
-  background: #fffaf3;
-
-  color: #4d2d1d;
-
-  font-family: inherit;
-  font-size: 15px;
-  line-height: 1.6;
-
-  outline: none;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-}
-
-.feedback-text-section textarea::placeholder {
-  color: #9b897b;
-}
-
-.feedback-text-section textarea:focus {
-  border-color: #9a6948;
-
-  background: #fffdf9;
-
-  box-shadow:
-    0 0 0 3px rgba(138, 90, 59, 0.10);
-}
-
-
-/* =========================================================
-   ERROR MESSAGE
-   ========================================================= */
-
-.feedback-error {
-  margin: 16px 0 0;
-
-  padding: 12px 15px;
-
-  border: 1px solid #d5aaa0;
-  border-radius: 8px;
-
-  background: #f4dfda;
-
-  color: #8b3f32;
-
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.5;
 }
 
+.feedback-text-section textarea {
+  display: block;
+  width: 100%;
+  min-height: 170px;
+  padding: 15px 16px;
+  resize: vertical;
+  background: #fffaf3;
+  border: 1px solid #d8bea4;
+  border-radius: 9px;
+  color: #4d2d1d;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.7;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.feedback-text-section textarea::placeholder {
+  color: #a18a77;
+  opacity: 1;
+}
+
+.feedback-text-section textarea:focus {
+  border-color: #946b4c;
+  box-shadow: 0 0 0 3px rgba(148, 107, 76, 0.13);
+}
+
+.feedback-character-count {
+  display: block;
+  width: 100%;
+  margin-top: 0;
+  text-align: right;
+  color: #947d6c;
+  font-size: 12px;
+}
 
 /* =========================================================
-   SUBMIT BUTTON
-   ========================================================= */
+   ERROR MESSAGE
+========================================================= */
+
+.feedback-error {
+  margin: 15px 0 0;
+  padding: 11px 14px;
+  background: #f4dfda;
+  border: 1px solid #d5aaa0;
+  border-radius: 8px;
+  color: #8b3f32;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   SUBMIT BUTTON AND VALIDATION HINT
+========================================================= */
 
 .feedback-submit-button {
-  width: 100%;
-
-  margin-top: 22px;
-
-  min-height: 52px;
-
-  padding: 13px 20px;
-
-  border: none;
-  border-radius: 9px;
-
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 20px;
+  padding: 12px 23px;
   background: #704329;
-
-  color: #fffaf4;
-
+  border: 1px solid #704329;
+  border-radius: 8px;
+  color: #fffaf3;
   font-family: inherit;
-
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
-
   cursor: pointer;
-
-  box-shadow:
-    0 5px 14px rgba(87, 50, 31, 0.16);
-
   transition:
     background 0.2s ease,
     transform 0.2s ease,
@@ -294,193 +734,104 @@
 }
 
 .feedback-submit-button:hover:not(:disabled) {
-  background: #5d351f;
-
+  background: #54301e;
+  box-shadow: 0 4px 12px rgba(78, 48, 31, 0.15);
   transform: translateY(-1px);
-
-  box-shadow:
-    0 7px 18px rgba(87, 50, 31, 0.20);
 }
 
-.feedback-submit-button:active:not(:disabled) {
-  transform: translateY(0);
+.feedback-submit-button:focus-visible {
+  outline: 2px solid #946b4c;
+  outline-offset: 3px;
 }
 
 .feedback-submit-button:disabled {
-  background: #d8c5b0;
-  color: #f8f0e5;
-
+  background: #d8c8b8;
+  border-color: #d8c8b8;
+  color: #806f60;
   cursor: not-allowed;
-
   box-shadow: none;
+  transform: none;
 }
 
-
-/* =========================================================
-   HINT
-   ========================================================= */
-
 .feedback-hint {
-  margin: 11px 0 0;
-
-  text-align: center;
-
-  color: #947d6c;
-
-  font-size: 13px;
+  margin: 10px 0 0;
+  color: #946b4c;
+  font-size: 12px;
   line-height: 1.5;
 }
 
+/* =========================================================
+   SUCCESS BANNER ALIGNMENT
+========================================================= */
+
+.feedback-success-banner {
+  max-width: 900px;
+}
 
 /* =========================================================
-   SUCCESS CARD
-   ========================================================= */
+   FEEDBACK HISTORY LAYOUT
+========================================================= */
 
-.feedback-success-card {
-  width: min(700px, 100%);
-  margin: 55px auto 0;
-
-  padding: 48px 40px;
-
-  box-sizing: border-box;
-
-  text-align: center;
-
-  background: #f8f0e4;
-
-  border: 1px solid #dcc6ac;
-  border-radius: 14px;
-
-  box-shadow:
-    0 10px 28px rgba(78, 48, 31, 0.10);
+.feedback-history-section {
+  width: 100%;
+  max-width: 900px;
+  margin: 38px auto 0;
 }
 
-.feedback-success-icon {
-  width: 66px;
-  height: 66px;
+.feedback-history-header > div {
+  min-width: 0;
+}
 
-  margin: 0 auto 20px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  background: #8a5a3b;
-
-  color: #fffaf4;
-
-  font-size: 32px;
+.feedback-history-header .feedback-eyebrow {
+  margin: 0 0 7px;
+  color: #946b4c;
+  font-size: 12px;
   font-weight: 800;
+  letter-spacing: 1.5px;
 }
 
-.feedback-success-card h2 {
-  margin: 0;
-
-  color: #4d2d1d;
-
-  font-size: 24px;
-  font-weight: 800;
-  line-height: 1.4;
-}
-
-.feedback-success-card p {
-  margin: 10px 0 0;
-
+.feedback-history-header > div > p:last-child {
+  margin: 8px 0 0;
   color: #765f50;
-
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
 }
 
-
 /* =========================================================
-   RESPONSIVE — LAPTOP / TABLET
-   ========================================================= */
-
-@media (max-width: 1100px) {
-  .feedback-page {
-    padding: 30px 30px 45px;
-  }
-
-  .feedback-card {
-    width: min(850px, 100%);
-    padding: 34px 36px 32px;
-  }
-
-  .feedback-header h1 {
-    font-size: 30px;
-  }
-
-  .feedback-question h2 {
-    font-size: 22px;
-  }
-
-  .feedback-star {
-    width: 50px;
-    height: 50px;
-    font-size: 26px;
-  }
-}
-
-
-/* =========================================================
-   RESPONSIVE — SMALLER SCREEN
-   ========================================================= */
+   RESPONSIVE DESIGN
+========================================================= */
 
 @media (max-width: 760px) {
   .feedback-page {
-    padding: 25px 20px 40px;
-  }
-
-  .feedback-header {
-    margin-bottom: 20px;
+    padding: 24px 18px 35px;
   }
 
   .feedback-header h1 {
-    font-size: 27px;
-  }
-
-  .feedback-header > p:last-child {
-    font-size: 14px;
+    font-size: 28px;
   }
 
   .feedback-card {
-    padding: 30px 25px;
+    padding: 22px;
   }
 
   .feedback-question h2 {
     font-size: 21px;
   }
 
-  .feedback-question p {
-    font-size: 14px;
-  }
-
-  .feedback-stars {
-    gap: 9px;
-  }
-
   .feedback-star {
-    width: 48px;
-    height: 48px;
-    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    font-size: 26px;
   }
 
-  .feedback-text-section textarea {
-    min-height: 170px;
+  .feedback-history-section {
+    margin-top: 32px;
   }
 }
 
-
-/* =========================================================
-   RESPONSIVE — MOBILE
-   ========================================================= */
-
 @media (max-width: 480px) {
   .feedback-page {
-    padding: 22px 14px 35px;
+    padding: 20px 12px 30px;
   }
 
   .feedback-header h1 {
@@ -488,46 +839,305 @@
   }
 
   .feedback-card {
-    padding: 26px 18px 25px;
-    border-radius: 12px;
+    padding: 18px;
   }
 
   .feedback-question h2 {
-    font-size: 20px;
+    font-size: 19px;
   }
 
   .feedback-stars {
-    gap: 7px;
+    gap: 6px;
   }
 
   .feedback-star {
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
-    font-size: 22px;
-  }
-
-  .feedback-text-section label {
-    font-size: 14px;
+    width: 37px;
+    height: 37px;
+    font-size: 24px;
   }
 
   .feedback-text-section textarea {
-    min-height: 155px;
-    padding: 14px;
-    font-size: 14px;
+    min-height: 145px;
   }
 
   .feedback-submit-button {
-    min-height: 50px;
-    font-size: 15px;
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   FEEDBACK PAGE — IMPROVED ALIGNMENT
+========================================================= */
+
+.feedback-page {
+  width: 100%;
+  max-width: 1450px;
+  margin: 0 auto;
+  padding: 32px 42px 55px;
+  box-sizing: border-box;
+}
+
+/* Keep all main sections aligned */
+
+.feedback-header {
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto 28px;
+}
+
+.feedback-success-banner {
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto 24px;
+}
+
+/* =========================================================
+   LARGER FEEDBACK FORM CARD
+========================================================= */
+
+.feedback-card {
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 36px 38px;
+  box-sizing: border-box;
+  border-radius: 16px;
+}
+
+/* Form heading */
+
+.feedback-question {
+  margin-bottom: 24px;
+}
+
+.feedback-question h2 {
+  font-size: 26px;
+  line-height: 1.4;
+  margin-bottom: 9px;
+}
+
+.feedback-question p {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Larger rating stars */
+
+.feedback-stars {
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.feedback-star {
+  width: 48px;
+  height: 48px;
+  font-size: 30px;
+  border-radius: 10px;
+}
+
+/* Feedback text area */
+
+.feedback-text-section {
+  margin-top: 26px;
+  gap: 12px;
+}
+
+.feedback-text-section label {
+  font-size: 15px;
+}
+
+.feedback-text-section textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 18px 20px;
+  font-size: 15px;
+  line-height: 1.8;
+  border-radius: 10px;
+}
+
+/* Character counter */
+
+.feedback-character-count {
+  margin-top: 0;
+  font-size: 12px;
+}
+
+/* Submit button */
+
+.feedback-submit-button {
+  min-height: 48px;
+  margin-top: 24px;
+  padding: 13px 28px;
+  font-size: 14px;
+  border-radius: 9px;
+}
+
+/* =========================================================
+   FEEDBACK HISTORY — MATCH FORM WIDTH
+========================================================= */
+
+.feedback-history-section {
+  width: 100%;
+  max-width: 1050px;
+  margin: 46px auto 0;
+}
+
+/* History heading */
+
+.feedback-history-header {
+  width: 100%;
+  margin-bottom: 25px;
+  align-items: center;
+}
+
+.feedback-history-header h2 {
+  font-size: 29px;
+  line-height: 1.4;
+}
+
+.feedback-history-header > div > p:last-child {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Larger history cards */
+
+.feedback-history-list {
+  gap: 24px;
+}
+
+.feedback-history-card {
+  width: 100%;
+  padding: 30px;
+  border-radius: 14px;
+}
+
+/* Feedback content inside history cards */
+
+.feedback-history-message {
+  margin-top: 22px;
+  padding: 20px 22px;
+}
+
+.feedback-history-message p {
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Admin response */
+
+.feedback-admin-response {
+  margin-top: 24px;
+  padding: 22px;
+}
+
+.feedback-admin-message {
+  padding: 17px 19px;
+}
+
+.feedback-admin-message p {
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Empty state */
+
+.feedback-history-empty {
+  padding: 55px 30px;
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUT
+========================================================= */
+
+@media (max-width: 900px) {
+  .feedback-page {
+    padding: 28px 24px 40px;
   }
 
-  .feedback-success-card {
-    margin-top: 35px;
-    padding: 38px 22px;
+  .feedback-header,
+  .feedback-success-banner,
+  .feedback-card,
+  .feedback-history-section {
+    max-width: 100%;
   }
 
-  .feedback-success-card h2 {
-    font-size: 21px;
+  .feedback-card {
+    padding: 28px;
+  }
+
+  .feedback-history-card {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .feedback-page {
+    padding: 22px 14px 35px;
+  }
+
+  .feedback-header {
+    margin-bottom: 22px;
+  }
+
+  .feedback-header h1 {
+    font-size: 27px;
+  }
+
+  .feedback-card {
+    padding: 21px 17px;
+  }
+
+  .feedback-question h2 {
+    font-size: 22px;
+  }
+
+  .feedback-question p {
+    font-size: 14px;
+  }
+
+  .feedback-star {
+    width: 42px;
+    height: 42px;
+    font-size: 27px;
+  }
+
+  .feedback-text-section textarea {
+    min-height: 160px;
+    padding: 14px;
+  }
+
+  .feedback-submit-button {
+    width: 100%;
+  }
+
+  .feedback-history-section {
+    margin-top: 34px;
+  }
+
+  .feedback-history-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .feedback-history-header h2 {
+    font-size: 24px;
+  }
+
+  .feedback-refresh-button {
+    width: auto;
+  }
+
+  .feedback-history-card {
+    padding: 19px;
+  }
+
+  .feedback-history-card-header {
+    gap: 14px;
+  }
+
+  .feedback-history-message {
+    padding: 15px;
   }
 }

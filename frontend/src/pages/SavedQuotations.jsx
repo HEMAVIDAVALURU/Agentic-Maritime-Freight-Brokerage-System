@@ -1417,7 +1417,7 @@ function SavedQuotations() {
             }
 
             // =================================================
-            // FINAL SELLING PRICE
+            // QUOTATION SUMMARY
             // =================================================
 
             const finalSellingPrice =
@@ -1428,11 +1428,17 @@ function SavedQuotations() {
                   0
               ) || 0;
 
-            ensureSpace(31);
+            const weatherCondition =
+              quotation.weather_condition || "—";
+
+            const customsStatus =
+              quotation.customs_status || "—";
+
+            ensureSpace(47);
 
             drawSectionTitle(
               doc,
-              "FINAL SELLING PRICE",
+              "QUOTATION SUMMARY",
               margin + 7,
               y,
               pageWidth,
@@ -1441,12 +1447,20 @@ function SavedQuotations() {
 
             y += 8;
 
+            const summaryGap = 4;
+            const summaryX = margin + 7;
+            const summaryWidth = contentWidth - 14;
+            const summaryCardWidth =
+              (summaryWidth - summaryGap * 2) / 3;
+            const summaryCardHeight = 30;
+
+            // Selling Price Card
             drawRoundedBox(
               doc,
-              margin + 7,
+              summaryX,
               y,
-              contentWidth - 14,
-              28,
+              summaryCardWidth,
+              summaryCardHeight,
               [248, 234, 219],
               COFFEE_BROWN,
               4
@@ -1454,41 +1468,151 @@ function SavedQuotations() {
 
             doc.setFont(
               "helvetica",
-              "normal"
+              "bold"
             );
-
-            doc.setFontSize(7.5);
-
+            doc.setFontSize(7);
             doc.setTextColor(
               ...MEDIUM_BROWN
             );
-
             doc.text(
-              "Final Selling Price",
-              margin + 13,
-              y + 9
+              "SELLING PRICE",
+              summaryX + summaryCardWidth / 2,
+              y + 9,
+              { align: "center" }
             );
 
             doc.setFont(
               "helvetica",
               "bold"
             );
+            doc.setFontSize(13);
+            doc.setTextColor(
+              ...DARK_BROWN
+            );
+            doc.text(
+              `$${formatCurrency(finalSellingPrice)}`,
+              summaryX + summaryCardWidth / 2,
+              y + 21,
+              { align: "center" }
+            );
 
-            doc.setFontSize(16);
+            // Weather Condition Card
+            const weatherX =
+              summaryX + summaryCardWidth + summaryGap;
 
+            drawRoundedBox(
+              doc,
+              weatherX,
+              y,
+              summaryCardWidth,
+              summaryCardHeight,
+              WHITE,
+              [224, 204, 181],
+              4
+            );
+
+            doc.setFont(
+              "helvetica",
+              "bold"
+            );
+            doc.setFontSize(7);
+            doc.setTextColor(
+              ...MEDIUM_BROWN
+            );
+            doc.text(
+              "WEATHER CONDITION",
+              weatherX + summaryCardWidth / 2,
+              y + 9,
+              { align: "center" }
+            );
+
+            doc.setFont(
+              "helvetica",
+              "bold"
+            );
+            doc.setFontSize(10);
             doc.setTextColor(
               ...DARK_BROWN
             );
 
+            const weatherText =
+              doc.splitTextToSize(
+                String(weatherCondition),
+                summaryCardWidth - 8
+              );
+
             doc.text(
-              `$${formatCurrency(
-                finalSellingPrice
-              )}`,
-              margin + 13,
-              y + 20
+              weatherText,
+              weatherX + summaryCardWidth / 2,
+              y + 19,
+              { align: "center" }
             );
 
-            y += 36;
+            // Customs Status Card
+            const customsX =
+              weatherX + summaryCardWidth + summaryGap;
+
+            let customsFill = WHITE;
+            let customsTextColor = DARK_BROWN;
+
+            const normalizedCustomsStatus =
+              String(customsStatus)
+                .toLowerCase()
+                .trim();
+
+            if (normalizedCustomsStatus === "valid") {
+              customsFill = [225, 245, 230];
+              customsTextColor = [32, 115, 53];
+            } else if (normalizedCustomsStatus === "warning") {
+              customsFill = [255, 242, 202];
+              customsTextColor = [145, 103, 20];
+            } else if (normalizedCustomsStatus === "restricted") {
+              customsFill = [249, 230, 226];
+              customsTextColor = [150, 61, 50];
+            }
+
+            drawRoundedBox(
+              doc,
+              customsX,
+              y,
+              summaryCardWidth,
+              summaryCardHeight,
+              customsFill,
+              [224, 204, 181],
+              4
+            );
+
+            doc.setFont(
+              "helvetica",
+              "bold"
+            );
+            doc.setFontSize(7);
+            doc.setTextColor(
+              ...MEDIUM_BROWN
+            );
+            doc.text(
+              "CUSTOMS STATUS",
+              customsX + summaryCardWidth / 2,
+              y + 9,
+              { align: "center" }
+            );
+
+            doc.setFont(
+              "helvetica",
+              "bold"
+            );
+            doc.setFontSize(10);
+            doc.setTextColor(
+              ...customsTextColor
+            );
+            doc.text(
+              String(customsStatus),
+              customsX + summaryCardWidth / 2,
+              y + 19,
+              { align: "center" }
+            );
+
+            y += 38;
 
             // =================================================
             // SAVED DATE
@@ -2194,24 +2318,28 @@ function SavedQuotations() {
                   )}
 
                   {/* =========================================
-                      FINAL SELLING PRICE
+                      QUOTATION SUMMARY
                   ========================================= */}
 
-                  <div className="saved-quotation-section margin-analysis-section">
+                  <div className="saved-quotation-section quotation-summary-section">
 
                     <h3>
-                      Final Selling Price
+                      Quotation Summary
                     </h3>
 
-                    <div className="saved-margin-grid">
+                    <div className="saved-summary-grid">
 
-                      <div className="saved-margin-card final-selling-price-card centered-final-selling-price">
+                      {/* =====================================
+                          SELLING PRICE
+                      ===================================== */}
+
+                      <div className="saved-summary-card">
 
                         <span>
-                          Final Selling Price
+                          Selling Price
                         </span>
 
-                        <strong>
+                        <strong className="summary-price">
                           {quotation.final_selling_price_usd !=
                           null
                             ? `$${formatCurrency(
@@ -2228,6 +2356,49 @@ function SavedQuotations() {
                                 pricing.final_selling_price_usd
                               )}`
                             : "—"}
+                        </strong>
+
+                      </div>
+
+                      {/* =====================================
+                          WEATHER CONDITION
+                      ===================================== */}
+
+                      <div className="saved-summary-card">
+
+                        <span>
+                          Weather Condition
+                        </span>
+
+                        <strong className="summary-weather">
+                          {quotation.weather_condition ||
+                            "—"}
+                        </strong>
+
+                      </div>
+
+                      {/* =====================================
+                          CUSTOMS STATUS
+                      ===================================== */}
+
+                      <div className="saved-summary-card">
+
+                        <span>
+                          Customs Status
+                        </span>
+
+                        <strong
+                          className={`summary-customs summary-customs-${
+                            String(
+                              quotation.customs_status ||
+                                ""
+                            )
+                              .toLowerCase()
+                              .replace(/\s+/g, "-")
+                          }`}
+                        >
+                          {quotation.customs_status ||
+                            "—"}
                         </strong>
 
                       </div>

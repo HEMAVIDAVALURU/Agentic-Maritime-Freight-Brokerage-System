@@ -1,356 +1,129 @@
 const API_BASE_URL = "http://localhost:8000";
 
-/* =========================================================
-   ANALYZE ROUTE
-========================================================= */
+// =========================================================
+// COMMON API HELPER
+// =========================================================
 
-export async function analyzeRoute({
-  origin,
-  destination,
-  cargo_type,
-  containers,
-}) {
+async function apiRequest(endpoint, options = {}) {
   const response = await fetch(
-    `${API_BASE_URL}/api/routes/analyze`,
+    `${API_BASE_URL}${endpoint}`,
     {
-      method: "POST",
+      credentials: "include",
+      ...options,
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        ...(options.headers || {}),
       },
-      credentials: "include",
-      body: JSON.stringify({
-        origin,
-        destination,
-        cargo_type,
-        containers: Number(containers),
-      }),
     }
   );
 
-  if (!response.ok) {
-    let errorMessage =
-      `Route analysis failed: ${response.status}`;
-
-    try {
-      const errorData =
-        await response.json();
-
-      if (errorData?.detail) {
-        errorMessage =
-          Array.isArray(errorData.detail)
-            ? errorData.detail
-                .map((item) => item.msg)
-                .join(", ")
-            : errorData.detail;
-      } else if (errorData?.message) {
-        errorMessage =
-          errorData.message;
-      }
-    } catch {}
-
-    throw new Error(errorMessage);
-  }
-
-  return await response.json();
-}
-
-
-/* =========================================================
-   GENERATE QUOTATION
-========================================================= */
-
-export async function generateQuotation({
-  origin,
-  destination,
-  cargo_type,
-  containers,
-}) {
-  const response = await fetch(
-    `${API_BASE_URL}/api/quotations/generate`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        origin,
-        destination,
-        cargo_type,
-        containers: Number(containers),
-      }),
-    }
-  );
+  const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    let errorMessage =
-      `Quotation generation failed: ${response.status}`;
-
-    try {
-      const errorData =
-        await response.json();
-
-      if (errorData?.detail) {
-        errorMessage =
-          Array.isArray(errorData.detail)
-            ? errorData.detail
-                .map((item) => item.msg)
-                .join(", ")
-            : errorData.detail;
-      } else if (errorData?.message) {
-        errorMessage =
-          errorData.message;
-      }
-    } catch {}
-
-    throw new Error(errorMessage);
+    throw new Error(
+      data.detail ||
+        data.message ||
+        `Request failed with status ${response.status}`
+    );
   }
 
-  return await response.json();
+  return data;
 }
 
+// =========================================================
+// ANALYZE ROUTE
+// =========================================================
 
-/* =========================================================
-   CALCULATE PRICING
-========================================================= */
+export async function analyzeRoute(payload) {
+  return apiRequest("/api/routes/analyze", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
 
-export async function calculatePricing({
-  route_id,
-  origin,
-  destination,
-  cargo_type,
-  containers,
-}) {
-  const response = await fetch(
-    `${API_BASE_URL}/api/pricing/calculate`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        route_id,
-        origin,
-        destination,
-        cargo_type,
-        containers: Number(containers),
-      }),
-    }
-  );
+// =========================================================
+// GENERATE QUOTATION
+// =========================================================
 
-  if (!response.ok) {
-    let errorMessage =
-      `Pricing calculation failed: ${response.status}`;
+export async function generateQuotation(payload) {
+  return apiRequest("/api/quotations/generate", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
 
-    try {
-      const errorData =
-        await response.json();
+// =========================================================
+// CALCULATE PRICING
+// =========================================================
 
-      if (errorData?.detail) {
-        errorMessage =
-          Array.isArray(errorData.detail)
-            ? errorData.detail
-                .map((item) => item.msg)
-                .join(", ")
-            : errorData.detail;
-      } else if (errorData?.message) {
-        errorMessage =
-          errorData.message;
-      }
-    } catch {}
+export async function calculatePricing(payload) {
+  return apiRequest("/api/pricing/calculate", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
 
-    throw new Error(errorMessage);
+// =========================================================
+// SAVE QUOTATION
+// =========================================================
+
+export async function saveQuotation(payload) {
+  return apiRequest("/api/quotations/save", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+// =========================================================
+// GET SAVED QUOTATIONS
+// =========================================================
+
+export async function getSavedQuotations(userId) {
+  if (!userId) {
+    throw new Error("User ID is required.");
   }
 
-  return await response.json();
-}
-
-
-/* =========================================================
-   SAVE QUOTATION
-========================================================= */
-
-export async function saveQuotation(
-  quotationData
-) {
-  const response = await fetch(
-    `${API_BASE_URL}/api/quotations/save`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(
-        quotationData
-      ),
-    }
-  );
-
-  if (!response.ok) {
-    let errorMessage =
-      `Save quotation failed: ${response.status}`;
-
-    try {
-      const errorData =
-        await response.json();
-
-      if (errorData?.detail) {
-        errorMessage =
-          Array.isArray(errorData.detail)
-            ? errorData.detail
-                .map((item) => item.msg)
-                .join(", ")
-            : errorData.detail;
-      } else if (errorData?.message) {
-        errorMessage =
-          errorData.message;
-      }
-    } catch {}
-
-    throw new Error(errorMessage);
-  }
-
-  return await response.json();
-}
-
-
-/* =========================================================
-   GET SAVED QUOTATIONS
-========================================================= */
-
-export async function getSavedQuotations() {
-  const response = await fetch(
-    `${API_BASE_URL}/api/quotations/saved`,
+  return apiRequest(
+    `/api/quotations/saved/${encodeURIComponent(userId)}`,
     {
       method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-      credentials: "include",
     }
   );
-
-  if (!response.ok) {
-    let errorMessage =
-      `Failed to fetch saved quotations: ${response.status}`;
-
-    try {
-      const errorData =
-        await response.json();
-
-      if (errorData?.detail) {
-        errorMessage =
-          Array.isArray(errorData.detail)
-            ? errorData.detail
-                .map((item) => item.msg)
-                .join(", ")
-            : errorData.detail;
-      } else if (errorData?.message) {
-        errorMessage =
-          errorData.message;
-      }
-    } catch {}
-
-    throw new Error(errorMessage);
-  }
-
-  return await response.json();
 }
 
+// =========================================================
+// REMOVE SAVED QUOTATION
+// IMPORTANT: Pass SavedQuotation.id, not quotation_id.
+// =========================================================
 
-/* =========================================================
-   REMOVE SAVED QUOTATION
-========================================================= */
+export async function removeSavedQuotation(savedQuotationId) {
+  if (!savedQuotationId) {
+    throw new Error("Saved quotation ID is required.");
+  }
 
-export async function removeSavedQuotation(
-  quotationId
-) {
-  const response = await fetch(
-    `${API_BASE_URL}/api/quotations/saved/${quotationId}`,
+  return apiRequest(
+    `/api/quotations/saved/${encodeURIComponent(savedQuotationId)}`,
     {
       method: "DELETE",
-      headers: {
-        Accept: "application/json",
-      },
-      credentials: "include",
     }
   );
-
-  if (!response.ok) {
-    let errorMessage =
-      `Remove saved quotation failed: ${response.status}`;
-
-    try {
-      const errorData =
-        await response.json();
-
-      if (errorData?.detail) {
-        errorMessage =
-          Array.isArray(errorData.detail)
-            ? errorData.detail
-                .map((item) => item.msg)
-                .join(", ")
-            : errorData.detail;
-      } else if (errorData?.message) {
-        errorMessage =
-          errorData.message;
-      }
-    } catch {}
-
-    throw new Error(errorMessage);
-  }
-
-  return await response.json();
 }
 
+// =========================================================
+// REQUEST QUOTATION APPROVAL
+// IMPORTANT: Pass QuotationRequestDB.id.
+// =========================================================
 
-/* =========================================================
-   REQUEST QUOTATION APPROVAL
-========================================================= */
-
-export async function requestQuotationApproval(
-  quotationId
-) {
-  const response = await fetch(
-    `${API_BASE_URL}/api/quotations/${quotationId}/request-approval`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      credentials: "include",
-    }
-  );
-
-  if (!response.ok) {
-    let errorMessage =
-      `Request Approval API failed: ${response.status}`;
-
-    try {
-      const errorData =
-        await response.json();
-
-      if (errorData?.detail) {
-        errorMessage =
-          Array.isArray(errorData.detail)
-            ? errorData.detail
-                .map((item) => item.msg)
-                .join(", ")
-            : errorData.detail;
-      } else if (errorData?.message) {
-        errorMessage =
-          errorData.message;
-      }
-    } catch {}
-
-    throw new Error(errorMessage);
+export async function requestQuotationApproval(quotationId) {
+  if (!quotationId) {
+    throw new Error("Quotation ID is required.");
   }
 
-  return await response.json();
+  return apiRequest(
+    `/api/quotations/${encodeURIComponent(quotationId)}/request-approval`,
+    {
+      method: "POST",
+      body: JSON.stringify({}),
+    }
+  );
 }

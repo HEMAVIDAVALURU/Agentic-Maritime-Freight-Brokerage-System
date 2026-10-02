@@ -1,0 +1,231 @@
+.admin-customs-page {
+  width: 100%;
+  min-width: 0;
+  padding: 25px;
+  box-sizing: border-box;
+  color: #452b1d;
+  background: transparent;
+  font-family: Arial, sans-serif;
+}
+
+/* Page heading */
+
+.customs-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.customs-page-header h1 {
+  margin: 0;
+  color: #452b1d;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.customs-page-header p {
+  margin: 11px 0 0;
+  color: #92745e;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Refresh button */
+
+.customs-refresh-button {
+  flex-shrink: 0;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #805334;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.customs-refresh-button:hover {
+  background: #674128;
+}
+
+.customs-refresh-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+/* Main table card */
+
+.customs-table-card {
+  width: 100%;
+  overflow: hidden;
+  background: #fffaf5;
+  border: 1px solid #eadbcd;
+  border-radius: 11px;
+  box-shadow: 0 4px 12px rgba(75, 45, 25, 0.04);
+}
+
+/* Table heading */
+
+.customs-table-title {
+  padding: 19px 21px 16px;
+}
+
+.customs-table-title h2 {
+  margin: 0;
+  color: #452b1d;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.customs-table-title p {
+  margin: 8px 0 0;
+  color: #92745e;
+  font-size: 12px;
+}
+
+/* Horizontal scrolling */
+
+.customs-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Table */
+
+.customs-table {
+  width: 100%;
+  min-width: 1250px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* Brown header like Weather page */
+
+.customs-table thead {
+  background: #5b3825;
+}
+
+.customs-table th {
+  padding: 14px 15px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: normal;
+  border-bottom: 1px solid #5b3825;
+}
+
+.customs-table td {
+  padding: 15px;
+  color: #593b29;
+  font-size: 11px;
+  white-space: nowrap;
+  border-bottom: 1px solid #eee2d7;
+}
+
+.customs-table tbody tr:hover {
+  background: #fdf3e9;
+}
+
+.customs-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Route ID badge */
+
+.customs-route-id {
+  display: inline-block;
+  padding: 4px 9px;
+  border: 1px solid #e6cbb3;
+  border-radius: 5px;
+  background: #f6e9dc;
+  color: #69452d;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Yes / No document requirements */
+
+.customs-requirement {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.requirement-yes {
+  background: #e2f0e3;
+  color: #347448;
+}
+
+.requirement-no {
+  background: #fff0d5;
+  color: #a46c16;
+}
+
+/* Customs status badges */
+
+.customs-status {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-valid {
+  background: #e2f0e3;
+  color: #347448;
+}
+
+.status-warning {
+  background: #fff0d5;
+  color: #a46c16;
+}
+
+.status-restricted {
+  background: #fde4e1;
+  color: #b43f36;
+}
+
+.status-no-data {
+  background: #ece6df;
+  color: #75665a;
+}
+
+/* Loading / empty / error */
+
+.customs-message {
+  padding: 35px 20px;
+  color: #92745e;
+  font-size: 13px;
+  text-align: center;
+}
+
+.customs-error {
+  color: #b43f36;
+}
+
+/* Responsive layout */
+
+@media (max-width: 768px) {
+  .admin-customs-page {
+    padding: 16px;
+  }
+
+  .customs-page-header {
+    align-items: flex-start;
+  }
+
+  .customs-page-header h1 {
+    font-size: 22px;
+  }
+
+  .customs-table-title {
+    padding: 16px;
+  }
+}

@@ -1,0 +1,1008 @@
+/* =========================================================
+   ADMIN QUOTATIONS — MAIN PAGE
+   ========================================================= */
+
+.aq-page,
+.aq-page * {
+  box-sizing: border-box;
+}
+
+.aq-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 34px 38px 50px;
+  background: #f7f2ec;
+  color: #4a2d1d;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.aq-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #dfd2c5;
+}
+
+.aq-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #8b5e3c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.aq-page-header h1 {
+  margin: 0;
+  color: #4a2d1d;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.aq-page-header p {
+  margin: 9px 0 0;
+  color: #806f62;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.aq-refresh-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 17px;
+  border: 1px solid #3b2418;
+  border-radius: 8px;
+  background: #3b2418;
+  color: #fffaf5;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.aq-refresh-button:hover:not(:disabled) {
+  background: #795235;
+  transform: translateY(-1px);
+}
+
+.aq-refresh-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   ALERT MESSAGES
+   ========================================================= */
+
+.aq-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.aq-alert-error {
+  border-color: #e4b8b1;
+  background: #fde8e7;
+  color: #9b3028;
+}
+
+.aq-alert-success {
+  border-color: #b9dfc1;
+  background: #e8f5e9;
+  color: #24733b;
+}
+
+.aq-alert button {
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* =========================================================
+   SUMMARY CARDS
+   ========================================================= */
+
+.aq-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+  margin-bottom: 34px;
+}
+
+.aq-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+  min-height: 115px;
+  padding: 20px;
+  border: 1px solid #dfd2c5;
+  border-radius: 12px;
+  background: #fffaf5;
+  box-shadow: 0 2px 8px rgba(74, 45, 29, 0.05);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.aq-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(74, 45, 29, 0.09);
+}
+
+.aq-summary-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 43px;
+  height: 43px;
+  border-radius: 10px;
+  background: #eee1d5;
+  color: #795235;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.aq-summary-card > div {
+  min-width: 0;
+}
+
+.aq-summary-card p {
+  margin: 0 0 7px;
+  color: #806f62;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.aq-summary-card strong {
+  display: block;
+  color: #4a2d1d;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.aq-summary-pending .aq-summary-icon {
+  background: #fff0d2;
+  color: #946200;
+}
+
+.aq-summary-approved .aq-summary-icon {
+  background: #e4f5e9;
+  color: #16713a;
+}
+
+.aq-summary-rejected .aq-summary-icon {
+  background: #fde8e7;
+  color: #b42318;
+}
+
+/* =========================================================
+   QUOTATION LIST SECTION
+   ========================================================= */
+
+.aq-list-section {
+  width: 100%;
+  min-width: 0;
+}
+
+.aq-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.aq-list-heading h2 {
+  margin: 0;
+  color: #4a2d1d;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.aq-list-heading p {
+  margin: 6px 0 0;
+  color: #806f62;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.aq-record-count {
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border: 1px solid #dfd2c5;
+  border-radius: 20px;
+  background: #fffaf5;
+  color: #795235;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   SEARCH AND FILTERS
+   ========================================================= */
+
+.aq-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.aq-search-input {
+  flex: 1;
+  min-width: 220px;
+  max-width: 440px;
+  height: 43px;
+  padding: 0 14px;
+  outline: none;
+  border: 1px solid #d9c9bb;
+  border-radius: 8px;
+  background: #fffaf5;
+  color: #4a2d1d;
+  font-family: inherit;
+  font-size: 13px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.aq-search-input::placeholder {
+  color: #a08d7d;
+}
+
+.aq-search-input:focus {
+  border-color: #8b5e3c;
+  box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.12);
+}
+
+.aq-filter-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.aq-filter-button {
+  min-height: 36px;
+  padding: 0 13px;
+  border: 1px solid #dfd2c5;
+  border-radius: 7px;
+  background: #fffaf5;
+  color: #6b5140;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.aq-filter-button:hover {
+  border-color: #8b5e3c;
+  color: #4a2d1d;
+}
+
+.aq-filter-button.active {
+  border-color: #3b2418;
+  background: #3b2418;
+  color: #ffffff;
+}
+
+/* =========================================================
+   QUOTATION TABLE
+   ========================================================= */
+
+.aq-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #dfd2c5;
+  border-radius: 12px;
+  background: #fffaf5;
+  box-shadow: 0 2px 8px rgba(74, 45, 29, 0.06);
+}
+
+.aq-table {
+  width: 100%;
+  min-width: 1200px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.aq-table thead {
+  background: #3b2418;
+  color: #fffaf5;
+}
+
+.aq-table th {
+  padding: 16px 14px;
+  border-bottom: 1px solid #dfd2c5;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.aq-table td {
+  padding: 15px 14px;
+  border-bottom: 1px solid #eee3d9;
+  color: #5c4434;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.aq-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.aq-table tbody tr:hover {
+  background: #f4e9de;
+}
+
+.aq-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.aq-quotation-id {
+  color: #795235 !important;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.aq-customer-name {
+  color: #4a2d1d;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.aq-secondary-text {
+  margin-top: 5px;
+  color: #8b796b;
+  font-size: 11px;
+}
+
+.aq-route-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.aq-route-arrow {
+  color: #a18168;
+  font-weight: 700;
+}
+
+.aq-money-cell {
+  color: #6b452d !important;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.aq-empty-cell {
+  padding: 38px 20px !important;
+  color: #806f62 !important;
+  text-align: center;
+  font-size: 13px !important;
+}
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.aq-page .admin-quotation-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 98px;
+  padding: 7px 11px;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.aq-page .admin-status-dot {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.aq-page .admin-status-approved {
+  border-color: #b9e5c6;
+  background: #e4f5e9;
+  color: #16713a;
+}
+
+.aq-page .admin-status-approved .admin-status-dot {
+  background: #20a052;
+}
+
+.aq-page .admin-status-pending {
+  border-color: #f1d48d;
+  background: #fff3d6;
+  color: #946200;
+}
+
+.aq-page .admin-status-pending .admin-status-dot {
+  background: #d99a12;
+}
+
+.aq-page .admin-status-rejected {
+  border-color: #f5c2bf;
+  background: #fde8e7;
+  color: #b42318;
+}
+
+.aq-page .admin-status-rejected .admin-status-dot {
+  background: #dc3545;
+}
+
+.aq-page .admin-status-unknown {
+  border-color: #d8c9bd;
+  background: #eee7e1;
+  color: #6b5140;
+}
+
+.aq-page .admin-status-unknown .admin-status-dot {
+  background: #8c7768;
+}
+
+/* =========================================================
+   VIEW DETAILS BUTTON
+   ========================================================= */
+
+.aq-view-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 35px;
+  padding: 0 12px;
+  border: 1px solid #8b5e3c;
+  border-radius: 7px;
+  background: #fffaf5;
+  color: #795235;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.aq-view-button:hover {
+  background: #8b5e3c;
+  color: #ffffff;
+}
+
+/* =========================================================
+   DETAILS MODAL BACKDROP
+   ========================================================= */
+
+.aq-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(35, 22, 15, 0.62);
+  overflow-y: auto;
+  animation: aqFadeIn 0.2s ease;
+}
+
+@keyframes aqFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   DETAILS MODAL
+   ========================================================= */
+
+.aq-modal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1050px;
+  max-height: calc(100vh - 48px);
+  overflow: hidden;
+  border: 1px solid #dfd2c5;
+  border-radius: 15px;
+  background: #f7f2ec;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  animation: aqModalIn 0.25s ease;
+}
+
+@keyframes aqModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.aq-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 25px 28px;
+  border-bottom: 1px solid #dfd2c5;
+  background: #fffaf5;
+}
+
+.aq-modal-header h2 {
+  margin: 0;
+  color: #4a2d1d;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.aq-modal-status {
+  margin-top: 12px;
+}
+
+.aq-close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #dfd2c5;
+  border-radius: 8px;
+  background: #f7f2ec;
+  color: #795235;
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.aq-close-button:hover:not(:disabled) {
+  background: #3b2418;
+  color: #ffffff;
+}
+
+.aq-close-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.aq-modal-body {
+  flex: 1;
+  padding: 24px 28px;
+  overflow-y: auto;
+}
+
+/* =========================================================
+   DETAIL SECTIONS
+   ========================================================= */
+
+.aq-detail-section {
+  margin-bottom: 24px;
+  padding: 22px;
+  border: 1px solid #dfd2c5;
+  border-radius: 12px;
+  background: #fffaf5;
+  box-shadow: 0 2px 7px rgba(74, 45, 29, 0.04);
+}
+
+.aq-section-heading {
+  margin-bottom: 18px;
+}
+
+.aq-section-heading h3 {
+  margin: 0;
+  color: #4a2d1d;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.aq-section-heading p {
+  margin: 6px 0 0;
+  color: #806f62;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.aq-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.aq-detail-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  min-height: 77px;
+  padding: 14px 15px;
+  border: 1px solid #e6d9cd;
+  border-radius: 8px;
+  background: #fcf7f1;
+  overflow-wrap: anywhere;
+}
+
+.aq-detail-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #806f62;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.aq-detail-value {
+  display: block;
+  color: #4a2d1d;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* =========================================================
+   PRICING DETAILS
+   ========================================================= */
+
+.aq-pricing-section {
+  border-color: #d8c3b0;
+  background: #fffaf5;
+}
+
+.aq-pricing-section .aq-detail-field {
+  border-color: #e1d0c0;
+  background: #f8eee4;
+}
+
+.aq-pricing-section .aq-detail-value {
+  color: #6b452d;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================
+   ADMIN DECISION
+   ========================================================= */
+
+.aq-decision-section {
+  margin-bottom: 6px;
+  padding: 23px;
+  border: 1px solid #d8c3b0;
+  border-radius: 12px;
+  background: #f2e6da;
+}
+
+.aq-decision-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.aq-approve-button,
+.aq-reject-button,
+.aq-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 43px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.aq-approve-button {
+  border-color: #287444;
+  background: #287444;
+  color: #ffffff;
+}
+
+.aq-approve-button:hover:not(:disabled) {
+  background: #1f6037;
+  transform: translateY(-1px);
+}
+
+.aq-reject-button {
+  border-color: #a33d34;
+  background: #a33d34;
+  color: #ffffff;
+}
+
+.aq-reject-button:hover:not(:disabled) {
+  background: #852c25;
+  transform: translateY(-1px);
+}
+
+.aq-approve-button:disabled,
+.aq-reject-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.aq-decision-complete {
+  margin: 16px 0 0;
+  padding: 13px 15px;
+  border: 1px solid #dfd2c5;
+  border-radius: 8px;
+  background: #fffaf5;
+  color: #6b5140;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   MODAL FOOTER
+   ========================================================= */
+
+.aq-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 28px;
+  border-top: 1px solid #dfd2c5;
+  background: #fffaf5;
+}
+
+.aq-secondary-button {
+  border-color: #cdb9a8;
+  background: #fffaf5;
+  color: #6b5140;
+}
+
+.aq-secondary-button:hover:not(:disabled) {
+  border-color: #8b5e3c;
+  background: #f2e6da;
+}
+
+.aq-secondary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .aq-page {
+    padding: 28px 26px 40px;
+  }
+
+  .aq-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .aq-detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .aq-modal {
+    max-width: 900px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .aq-page {
+    padding: 22px 16px 32px;
+  }
+
+  .aq-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .aq-page-header h1 {
+    font-size: 23px;
+  }
+
+  .aq-refresh-button {
+    align-self: flex-start;
+  }
+
+  .aq-summary-grid {
+    gap: 12px;
+  }
+
+  .aq-summary-card {
+    min-height: 100px;
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .aq-summary-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .aq-summary-card p {
+    font-size: 11px;
+  }
+
+  .aq-summary-card strong {
+    font-size: 23px;
+  }
+
+  .aq-list-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .aq-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .aq-search-input {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .aq-filter-buttons {
+    gap: 6px;
+  }
+
+  .aq-filter-button {
+    flex: 1;
+    padding: 0 9px;
+  }
+
+  .aq-modal-backdrop {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .aq-modal {
+    max-height: calc(100vh - 24px);
+    border-radius: 11px;
+  }
+
+  .aq-modal-header {
+    padding: 19px;
+  }
+
+  .aq-modal-header h2 {
+    font-size: 19px;
+  }
+
+  .aq-modal-body {
+    padding: 16px;
+  }
+
+  .aq-detail-section {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .aq-section-heading h3 {
+    font-size: 16px;
+  }
+
+  .aq-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .aq-detail-field {
+    min-height: 68px;
+    padding: 12px;
+  }
+
+  .aq-decision-section {
+    padding: 16px;
+  }
+
+  .aq-decision-buttons {
+    flex-direction: column;
+  }
+
+  .aq-approve-button,
+  .aq-reject-button {
+    width: 100%;
+  }
+
+  .aq-modal-footer {
+    padding: 14px 16px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 380px) {
+  .aq-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .aq-summary-card {
+    min-height: 85px;
+  }
+
+  .aq-page-header h1 {
+    font-size: 21px;
+  }
+
+  .aq-filter-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
