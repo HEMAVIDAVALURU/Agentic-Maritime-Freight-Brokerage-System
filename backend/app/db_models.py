@@ -9,7 +9,6 @@ from sqlalchemy import (
     Text
 )
 from sqlalchemy.sql import func
-from datetime import datetime
 
 from app.database import Base
 
@@ -57,6 +56,24 @@ class Admin(Base):
         nullable=False
     )
 
+    # -----------------------------------------------------
+    # ADMIN PROFILE
+    # -----------------------------------------------------
+
+    mobile_number = Column(
+        String(20),
+        nullable=True
+    )
+
+    gender = Column(
+        String(20),
+        nullable=True
+    )
+
+    # -----------------------------------------------------
+    # ADMIN ROLE / STATUS
+    # -----------------------------------------------------
+
     role = Column(
         String(20),
         default="admin",
@@ -64,6 +81,32 @@ class Admin(Base):
     )
 
     is_active = Column(
+        Boolean,
+        default=True,
+        nullable=False
+    )
+
+    # -----------------------------------------------------
+    # ADMIN NOTIFICATION SETTINGS
+    # -----------------------------------------------------
+
+    # Master switch for all admin email notifications
+    email_notifications = Column(
+        Boolean,
+        default=True,
+        nullable=False
+    )
+
+    # Email alert when a new quotation approval request
+    # is submitted by a customer
+    quotation_alerts = Column(
+        Boolean,
+        default=True,
+        nullable=False
+    )
+
+    # Email alert when a customer submits feedback
+    feedback_alerts = Column(
         Boolean,
         default=True,
         nullable=False
@@ -203,6 +246,7 @@ class Activity(Base):
     activity_type = Column(String(100), nullable=False)
     description = Column(Text, nullable=True)
     created_at = Column(DateTime, server_default=func.now())
+
 
 # ---------------------------------------------------------
 # FEEDBACK TABLE

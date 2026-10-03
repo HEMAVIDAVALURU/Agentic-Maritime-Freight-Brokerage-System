@@ -5,8 +5,15 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.db_models import Feedback, Activity, User, QuotationRequestDB
+from app.db_models import (
+    Feedback,
+    Activity,
+    User,
+    QuotationRequestDB,
+    Admin,
+)
 from app.services.auth_dependency import get_current_user
+from app.services.email_service import EmailService
 
 
 router = APIRouter(
@@ -22,12 +29,18 @@ router = APIRouter(
 class FeedbackRequest(BaseModel):
     user_id: int
     rating: int = Field(ge=1, le=5)
-    feedback_text: str = Field(default="", max_length=5000)
+    feedback_text: str = Field(
+        default="",
+        max_length=5000
+    )
     quotation_id: int | None = None
 
 
 class FeedbackReplyRequest(BaseModel):
-    response: str = Field(min_length=1, max_length=5000)
+    response: str = Field(
+        min_length=1,
+        max_length=5000
+    )
 
 
 # =========================================================
@@ -46,29 +59,43 @@ def require_admin(current_user):
 # HELPER: FORMAT FEEDBACK
 # =========================================================
 
-def format_feedback(feedback, customer=None, quotation=None):
+def format_feedback(
+    feedback,
+    customer=None,
+    quotation=None
+):
     return {
         "id": feedback.id,
         "user_id": feedback.user_id,
+
         "customer": {
-            "id": customer.id if customer else feedback.user_id,
+            "id": (
+                customer.id
+                if customer
+                else feedback.user_id
+            ),
+
             "name": (
                 customer.name
                 if customer and customer.name
                 else "Unknown Customer"
             ),
+
             "email": (
                 customer.email
                 if customer and customer.email
                 else ""
             ),
+
             "company_name": (
                 customer.company_name
                 if customer and customer.company_name
                 else ""
             ),
         },
+
         "quotation_id": feedback.quotation_id,
+
         "quotation": (
             {
                 "origin": quotation.origin,
@@ -79,11 +106,22 @@ def format_feedback(feedback, customer=None, quotation=None):
             if quotation
             else None
         ),
+
         "rating": feedback.rating,
-        "comments": feedback.comments or "",
-        "admin_response": feedback.admin_response or "",
-        "admin_response_at": feedback.admin_response_at,
-        "created_at": feedback.created_at,
+
+        "comments": (
+            feedback.comments or ""
+        ),
+
+        "admin_response": (
+            feedback.admin_response or ""
+        ),
+
+        "admin_response_at":
+            feedback.admin_response_at,
+
+        "created_at":
+            feedback.created_at,
     }
 
 
@@ -98,19 +136,32 @@ def submit_feedback(
     current_user=Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    # Ensure users can submit feedback only for themselves.
+    # ---------------------------------------------------------
+    # Ensure normal users can submit feedback only for
+    # their own account.
+    # ---------------------------------------------------------
+
     if (
         getattr(current_user, "role", None) != "admin"
         and current_user.id != request.user_id
     ):
         raise HTTPException(
             status_code=403,
-            detail="You can submit feedback only for your own account."
+            detail=(
+                "You can submit feedback only "
+                "for your own account."
+            )
         )
 
-    customer = db.query(User).filter(
-        User.id == request.user_id
-    ).first()
+    # ---------------------------------------------------------
+    # Find customer
+    # ---------------------------------------------------------
+
+    customer = (
+        db.query(User)
+        .filter(User.id == request.user_id)
+        .first()
+    )
 
     if not customer:
         raise HTTPException(
@@ -118,17 +169,38 @@ def submit_feedback(
             detail="User not found."
         )
 
+    # ---------------------------------------------------------
+    # Validate quotation if provided
+    # ---------------------------------------------------------
+
+    quotation = None
+
     if request.quotation_id is not None:
-        quotation = db.query(QuotationRequestDB).filter(
-            QuotationRequestDB.id == request.quotation_id,
-            QuotationRequestDB.user_id == request.user_id,
-        ).first()
+
+        quotation = (
+            db.query(QuotationRequestDB)
+            .filter(
+                QuotationRequestDB.id ==
+                request.quotation_id,
+
+                QuotationRequestDB.user_id ==
+                request.user_id,
+            )
+            .first()
+        )
 
         if not quotation:
             raise HTTPException(
                 status_code=404,
-                detail="Quotation not found for this user."
+                detail=(
+                    "Quotation not found "
+                    "for this user."
+                )
             )
+
+    # ---------------------------------------------------------
+    # Create feedback
+    # ---------------------------------------------------------
 
     feedback = Feedback(
         user_id=request.user_id,
@@ -138,23 +210,128 @@ def submit_feedback(
     )
 
     db.add(feedback)
+
+    # Get feedback ID before commit
     db.flush()
+
+    # ---------------------------------------------------------
+    # Create activity record
+    # ---------------------------------------------------------
 
     activity = Activity(
         user_id=request.user_id,
         activity_type="feedback_submitted",
         description=(
-            f"Feedback submitted with {request.rating}/5 rating."
+            f"Feedback submitted with "
+            f"{request.rating}/5 rating."
         ),
     )
 
     db.add(activity)
+
+    # ---------------------------------------------------------
+    # Save feedback + activity
+    # ---------------------------------------------------------
+
     db.commit()
     db.refresh(feedback)
 
+    # =========================================================
+    # SEND ADMIN FEEDBACK EMAIL
+    # =========================================================
+    #
+    # IMPORTANT:
+    #
+    # Email is sent ONLY when:
+    #
+    # email_notifications = True
+    #
+    # AND
+    #
+    # feedback_alerts = True
+    #
+    # Feedback itself is already saved above.
+    # Therefore email failure will NOT delete/fail the feedback.
+    # =========================================================
+
+    email_result = {
+        "success": False,
+        "message": "Feedback notification was not sent."
+    }
+
+    try:
+
+        admin = (
+            db.query(Admin)
+            .filter(
+                Admin.is_active == True,
+                Admin.email_notifications == True,
+                Admin.feedback_alerts == True,
+            )
+            .first()
+        )
+
+        if admin and admin.email:
+
+            email_result = (
+                EmailService
+                .send_feedback_received_email(
+                    admin_email=admin.email,
+
+                    customer_name=(
+                        customer.name
+                        or "Customer"
+                    ),
+
+                    customer_email=(
+                        customer.email
+                        or ""
+                    ),
+
+                    rating=request.rating,
+
+                    feedback_text=(
+                        request.feedback_text.strip()
+                        or "No written feedback provided."
+                    ),
+
+                    quotation_id=(
+                        request.quotation_id
+                    ),
+                )
+            )
+
+            # Email failure should not affect
+            # successful feedback submission.
+
+            if not email_result.get("success"):
+                print(
+                    "Feedback notification email failed:",
+                    email_result.get("message")
+                )
+
+        else:
+            print(
+                "Feedback email notification skipped "
+                "because admin notification settings are OFF."
+            )
+
+    except Exception as error:
+
+        print(
+            "Feedback notification error:",
+            error
+        )
+
+    # ---------------------------------------------------------
+    # Return successful feedback response
+    # ---------------------------------------------------------
+
     return {
         "status": "success",
-        "message": "Thank you for your valuable feedback!",
+        "message": (
+            "Thank you for your valuable feedback!"
+        ),
         "feedback_id": feedback.id,
     }
 
@@ -173,23 +350,36 @@ def get_admin_feedback(
 
     records = (
         db.query(Feedback)
-        .order_by(Feedback.created_at.desc())
+        .order_by(
+            Feedback.created_at.desc()
+        )
         .all()
     )
 
     feedback_list = []
 
     for feedback in records:
-        customer = db.query(User).filter(
-            User.id == feedback.user_id
-        ).first()
+
+        customer = (
+            db.query(User)
+            .filter(
+                User.id == feedback.user_id
+            )
+            .first()
+        )
 
         quotation = None
 
         if feedback.quotation_id is not None:
-            quotation = db.query(QuotationRequestDB).filter(
-                QuotationRequestDB.id == feedback.quotation_id
-            ).first()
+
+            quotation = (
+                db.query(QuotationRequestDB)
+                .filter(
+                    QuotationRequestDB.id ==
+                    feedback.quotation_id
+                )
+                .first()
+            )
 
         feedback_list.append(
             format_feedback(
@@ -201,7 +391,9 @@ def get_admin_feedback(
 
     return {
         "success": True,
-        "total_feedback": len(feedback_list),
+        "total_feedback": len(
+            feedback_list
+        ),
         "feedback": feedback_list,
     }
 
@@ -225,12 +417,19 @@ def reply_to_feedback(
     if not response_text:
         raise HTTPException(
             status_code=400,
-            detail="Please enter a response before sending."
+            detail=(
+                "Please enter a response "
+                "before sending."
+            )
         )
 
-    feedback = db.query(Feedback).filter(
-        Feedback.id == feedback_id
-    ).first()
+    feedback = (
+        db.query(Feedback)
+        .filter(
+            Feedback.id == feedback_id
+        )
+        .first()
+    )
 
     if not feedback:
         raise HTTPException(
@@ -239,18 +438,28 @@ def reply_to_feedback(
         )
 
     feedback.admin_response = response_text
-    feedback.admin_response_at = datetime.now(timezone.utc)
+
+    feedback.admin_response_at = (
+        datetime.now(timezone.utc)
+    )
 
     db.commit()
     db.refresh(feedback)
 
     return {
         "success": True,
-        "message": "Response sent successfully.",
+        "message": (
+            "Response sent successfully."
+        ),
+
         "feedback": {
             "id": feedback.id,
-            "admin_response": feedback.admin_response,
-            "admin_response_at": feedback.admin_response_at,
+
+            "admin_response":
+                feedback.admin_response,
+
+            "admin_response_at":
+                feedback.admin_response_at,
         },
     }
 
@@ -267,20 +476,32 @@ def get_my_feedback(
 ):
     records = (
         db.query(Feedback)
-        .filter(Feedback.user_id == current_user.id)
-        .order_by(Feedback.created_at.desc())
+        .filter(
+            Feedback.user_id ==
+            current_user.id
+        )
+        .order_by(
+            Feedback.created_at.desc()
+        )
         .all()
     )
 
     feedback_list = []
 
     for feedback in records:
+
         quotation = None
 
         if feedback.quotation_id is not None:
-            quotation = db.query(QuotationRequestDB).filter(
-                QuotationRequestDB.id == feedback.quotation_id
-            ).first()
+
+            quotation = (
+                db.query(QuotationRequestDB)
+                .filter(
+                    QuotationRequestDB.id ==
+                    feedback.quotation_id
+                )
+                .first()
+            )
 
         feedback_list.append(
             format_feedback(
@@ -292,6 +513,10 @@ def get_my_feedback(
 
     return {
         "success": True,
-        "total_feedback": len(feedback_list),
-        "feedback": feedback_list,
+
+        "total_feedback":
+            len(feedback_list),
+
+        "feedback":
+            feedback_list,
     }

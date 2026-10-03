@@ -1624,3 +1624,124 @@
     padding: 20px 14px 30px;
   }
 }
+/* =========================================================
+   SETTINGS SUBMENU
+   Same Coffee-Brown Sidebar Theme
+========================================================= */
+
+.admin-settings-submenu {
+  width: 100%;
+  margin: 0;
+  padding: 4px 0 8px 0;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+
+  box-sizing: border-box;
+}
+
+/* Individual Settings Options */
+
+.admin-settings-submenu-item {
+  width: calc(100% - 16px);
+  margin: 2px 8px;
+
+  min-height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 0 14px;
+
+  box-sizing: border-box;
+
+  border: none;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #f5eadc;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* Icon */
+
+.admin-settings-submenu-icon {
+  width: 20px;
+  min-width: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #f5eadc;
+
+  font-size: 15px;
+}
+
+/* Hover */
+
+.admin-settings-submenu-item:hover {
+  background: #6f4a30;
+
+  color: #fff8ef;
+}
+
+/* Active Settings Option */
+
+.admin-settings-submenu-item.active {
+  background: #93633f;
+
+  color: #fff8ef;
+
+  font-weight: 600;
+}
+
+/* Active Icon */
+
+.admin-settings-submenu-item.active
+  .admin-settings-submenu-icon {
+  color: #fff8ef;
+}
+
+/* Hover Icon */
+
+.admin-settings-submenu-item:hover
+  .admin-settings-submenu-icon {
+  color: #fff8ef;
+}
+
+/* Settings Arrow */
+
+.admin-settings-arrow {
+  margin-left: auto;
+
+  color: #f5eadc;
+
+  font-size: 11px;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.admin-settings-arrow.open {
+  transform: rotate(180deg);
+
+  color: #fff8ef;
+}

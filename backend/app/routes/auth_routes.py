@@ -52,6 +52,24 @@ class LoginRequest(BaseModel):
 
 
 # =========================================================
+# CHANGE ADMIN EMAIL REQUEST
+# =========================================================
+
+class ChangeAdminEmailRequest(BaseModel):
+    current_password: str
+    new_email: EmailStr
+
+
+# =========================================================
+# CHANGE ADMIN PASSWORD REQUEST
+# =========================================================
+
+class ChangeAdminPasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+
+# =========================================================
 # REGISTER CUSTOMER
 # =========================================================
 
@@ -224,6 +242,80 @@ def get_me(
             "role": role
         }
     }
+
+
+# =========================================================
+# CHANGE ADMIN EMAIL
+# =========================================================
+
+@router.put("/admin/change-email")
+def change_admin_email(
+    request: ChangeAdminEmailRequest,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    # This endpoint is only for administrators
+    if getattr(current_user, "role", None) != "admin":
+        raise HTTPException(
+            status_code=403,
+            detail="Admin access required."
+        )
+
+    result = AuthService.change_admin_email(
+        db=db,
+        admin_id=current_user.id,
+        current_password=request.current_password,
+        new_email=request.new_email
+    )
+
+    if result.get("status") != "success":
+        raise HTTPException(
+            status_code=400,
+            detail=result.get(
+                "message",
+                "Unable to change email."
+            )
+        )
+
+    return result
+
+
+# =========================================================
+# CHANGE ADMIN PASSWORD
+# =========================================================
+
+@router.put("/admin/change-password")
+def change_admin_password(
+    request: ChangeAdminPasswordRequest,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    # This endpoint is only for administrators
+    if getattr(current_user, "role", None) != "admin":
+        raise HTTPException(
+            status_code=403,
+            detail="Admin access required."
+        )
+
+    result = AuthService.change_admin_password(
+        db=db,
+        admin_id=current_user.id,
+        current_password=request.current_password,
+        new_password=request.new_password
+    )
+
+    if result.get("status") != "success":
+        raise HTTPException(
+            status_code=400,
+            detail=result.get(
+                "message",
+                "Unable to change password."
+            )
+        )
+
+    return result
 
 
 # =========================================================

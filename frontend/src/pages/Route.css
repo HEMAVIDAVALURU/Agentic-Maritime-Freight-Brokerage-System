@@ -2768,3 +2768,65 @@
     font-size: 24px;
   }
 }
+
+
+/* =========================================================
+   FINAL QUOTATION ACTION / MESSAGE SPACING
+   Keep buttons and success message visually separated.
+========================================================= */
+
+.top-route-card .selected-quotation-actions,
+.top-route-card > .selected-quotation-actions {
+  width: 100%;
+  margin-top: 18px;
+  margin-bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  box-sizing: border-box;
+}
+
+.top-route-card .selected-quotation-actions button,
+.top-route-card > .selected-quotation-actions button {
+  width: 100%;
+  min-height: 46px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Success message must sit below the buttons with clear spacing. */
+.top-route-card .selected-quotation-result-card .saved-quotation-message,
+.top-route-card .saved-quotation-message {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 16px;
+  margin-bottom: 0;
+  padding: 13px 16px;
+  border: 1px solid rgba(90, 56, 37, 0.20);
+  border-radius: 8px;
+  background: #eee0cf;
+  color: #5f3c27;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+}
+
+/* Prevent the message from looking attached to either button. */
+.top-route-card .selected-quotation-actions + .saved-quotation-message {
+  margin-top: 16px;
+}
+
+/* Mobile: stack buttons cleanly. */
+@media (max-width: 700px) {
+  .top-route-card .selected-quotation-actions,
+  .top-route-card > .selected-quotation-actions {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .top-route-card .selected-quotation-result-card .saved-quotation-message,
+  .top-route-card .saved-quotation-message {
+    margin-top: 14px;
+  }
+}

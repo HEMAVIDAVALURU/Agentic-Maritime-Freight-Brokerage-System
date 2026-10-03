@@ -1,9 +1,10 @@
-
 import os
 import smtplib
+from html import escape
 
 from email.message import EmailMessage
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
@@ -87,7 +88,10 @@ class EmailService:
             }
 
         except smtplib.SMTPAuthenticationError as error:
-            print("Gmail SMTP authentication error:", error)
+            print(
+                "Gmail SMTP authentication error:",
+                error
+            )
 
             return {
                 "success": False,
@@ -95,7 +99,10 @@ class EmailService:
             }
 
         except smtplib.SMTPException as error:
-            print("Gmail SMTP error:", error)
+            print(
+                "Gmail SMTP error:",
+                error
+            )
 
             return {
                 "success": False,
@@ -103,7 +110,10 @@ class EmailService:
             }
 
         except Exception as error:
-            print("Email sending error:", error)
+            print(
+                "Email sending error:",
+                error
+            )
 
             return {
                 "success": False,
@@ -130,7 +140,7 @@ class EmailService:
                         Your OTP for email verification is:
                     </p>
 
-                    <h1>{otp}</h1>
+                    <h1>{escape(str(otp))}</h1>
 
                     <p>
                         This OTP is valid for
@@ -177,7 +187,7 @@ class EmailService:
                     <h2>Registration Successful</h2>
 
                     <p>
-                        Hello <strong>{name}</strong>,
+                        Hello <strong>{escape(name)}</strong>,
                     </p>
 
                     <p>
@@ -188,7 +198,7 @@ class EmailService:
 
                     <p>
                         <strong>Registered Email:</strong>
-                        {recipient_email}
+                        {escape(recipient_email)}
                     </p>
 
                     <p>
@@ -233,7 +243,7 @@ class EmailService:
                     <h2>Successful Login</h2>
 
                     <p>
-                        Hello <strong>{name}</strong>,
+                        Hello <strong>{escape(name)}</strong>,
                     </p>
 
                     <p>
@@ -243,7 +253,7 @@ class EmailService:
 
                     <p>
                         <strong>Login Email:</strong>
-                        {recipient_email}
+                        {escape(recipient_email)}
                     </p>
 
                     <p>
@@ -282,7 +292,7 @@ class EmailService:
                     <h2>Admin Login Successful</h2>
 
                     <p>
-                        Hello <strong>{name}</strong>,
+                        Hello <strong>{escape(name)}</strong>,
                     </p>
 
                     <p>
@@ -292,7 +302,7 @@ class EmailService:
 
                     <p>
                         <strong>Admin Email:</strong>
-                        {recipient_email}
+                        {escape(recipient_email)}
                     </p>
 
                     <p>
@@ -348,17 +358,27 @@ class EmailService:
                     <h3>Customer Details</h3>
 
                     <p>
-                        <strong>Name:</strong> {customer_name}<br>
-                        <strong>Email:</strong> {customer_email}
+                        <strong>Name:</strong>
+                        {escape(customer_name)}<br>
+
+                        <strong>Email:</strong>
+                        {escape(customer_email)}
                     </p>
 
                     <h3>Quotation Details</h3>
 
                     <p>
-                        <strong>Origin:</strong> {origin}<br>
-                        <strong>Destination:</strong> {destination}<br>
-                        <strong>Cargo Type:</strong> {cargo_type}<br>
-                        <strong>Containers:</strong> {containers}
+                        <strong>Origin:</strong>
+                        {escape(origin)}<br>
+
+                        <strong>Destination:</strong>
+                        {escape(destination)}<br>
+
+                        <strong>Cargo Type:</strong>
+                        {escape(cargo_type)}<br>
+
+                        <strong>Containers:</strong>
+                        {containers}
                     </p>
 
                     <p>
@@ -402,7 +422,7 @@ class EmailService:
                     <h2>Quotation Sent for Approval</h2>
 
                     <p>
-                        Hello <strong>{customer_name}</strong>,
+                        Hello <strong>{escape(customer_name)}</strong>,
                     </p>
 
                     <p>
@@ -414,10 +434,17 @@ class EmailService:
                     <h3>Quotation Details</h3>
 
                     <p>
-                        <strong>Origin:</strong> {origin}<br>
-                        <strong>Destination:</strong> {destination}<br>
-                        <strong>Cargo Type:</strong> {cargo_type}<br>
-                        <strong>Containers:</strong> {containers}
+                        <strong>Origin:</strong>
+                        {escape(origin)}<br>
+
+                        <strong>Destination:</strong>
+                        {escape(destination)}<br>
+
+                        <strong>Cargo Type:</strong>
+                        {escape(cargo_type)}<br>
+
+                        <strong>Containers:</strong>
+                        {containers}
                     </p>
 
                     <p>
@@ -460,7 +487,7 @@ class EmailService:
                     <h2>Quotation Approved</h2>
 
                     <p>
-                        Hello <strong>{customer_name}</strong>,
+                        Hello <strong>{escape(customer_name)}</strong>,
                     </p>
 
                     <p>
@@ -472,10 +499,17 @@ class EmailService:
                     <h3>Quotation Details</h3>
 
                     <p>
-                        <strong>Origin:</strong> {origin}<br>
-                        <strong>Destination:</strong> {destination}<br>
-                        <strong>Cargo Type:</strong> {cargo_type}<br>
-                        <strong>Containers:</strong> {containers}
+                        <strong>Origin:</strong>
+                        {escape(origin)}<br>
+
+                        <strong>Destination:</strong>
+                        {escape(destination)}<br>
+
+                        <strong>Cargo Type:</strong>
+                        {escape(cargo_type)}<br>
+
+                        <strong>Containers:</strong>
+                        {containers}
                     </p>
 
                     <p>
@@ -519,7 +553,7 @@ class EmailService:
             reason_html = f"""
                 <p>
                     <strong>Reason:</strong>
-                    {rejection_reason}
+                    {escape(rejection_reason)}
                 </p>
             """
 
@@ -529,7 +563,7 @@ class EmailService:
                     <h2>Quotation Rejected</h2>
 
                     <p>
-                        Hello <strong>{customer_name}</strong>,
+                        Hello <strong>{escape(customer_name)}</strong>,
                     </p>
 
                     <p>
@@ -541,10 +575,17 @@ class EmailService:
                     <h3>Quotation Details</h3>
 
                     <p>
-                        <strong>Origin:</strong> {origin}<br>
-                        <strong>Destination:</strong> {destination}<br>
-                        <strong>Cargo Type:</strong> {cargo_type}<br>
-                        <strong>Containers:</strong> {containers}
+                        <strong>Origin:</strong>
+                        {escape(origin)}<br>
+
+                        <strong>Destination:</strong>
+                        {escape(destination)}<br>
+
+                        <strong>Cargo Type:</strong>
+                        {escape(cargo_type)}<br>
+
+                        <strong>Containers:</strong>
+                        {containers}
                     </p>
 
                     {reason_html}
@@ -570,3 +611,97 @@ class EmailService:
             html_content=html_content
         )
 
+    # =========================================================
+    # NEW: FEEDBACK RECEIVED EMAIL - ADMIN
+    # =========================================================
+
+    @staticmethod
+    def send_feedback_received_email(
+        admin_email: str,
+        customer_name: str,
+        customer_email: str,
+        rating: int,
+        feedback_text: str,
+        quotation_id: int | None = None
+    ):
+        quotation_html = ""
+
+        if quotation_id is not None:
+            quotation_html = f"""
+                <p>
+                    <strong>Quotation ID:</strong>
+                    #{quotation_id}
+                </p>
+            """
+
+        safe_feedback = escape(
+            feedback_text or "No written feedback provided."
+        )
+
+        html_content = f"""
+            <html>
+                <body>
+
+                    <h2>New Customer Feedback Received</h2>
+
+                    <p>
+                        A customer has submitted new feedback
+                        through the Maritime Freight system.
+                    </p>
+
+                    <h3>Customer Details</h3>
+
+                    <p>
+                        <strong>Name:</strong>
+                        {escape(customer_name)}<br>
+
+                        <strong>Email:</strong>
+                        {escape(customer_email)}
+                    </p>
+
+                    <h3>Feedback Details</h3>
+
+                    <p>
+                        <strong>Rating:</strong>
+                        {rating}/5
+                    </p>
+
+                    {quotation_html}
+
+                    <p>
+                        <strong>Feedback:</strong>
+                    </p>
+
+                    <div
+                        style="
+                            background:#f7f1e8;
+                            border-left:4px solid #795235;
+                            padding:12px;
+                            margin:10px 0;
+                        "
+                    >
+                        {safe_feedback}
+                    </div>
+
+                    <p>
+                        Please log in to the Maritime Freight
+                        Admin Dashboard to view the feedback
+                        and respond to the customer.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=admin_email,
+            subject="New Customer Feedback - Maritime Freight",
+            html_content=html_content
+        )

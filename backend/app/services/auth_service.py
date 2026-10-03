@@ -410,19 +410,37 @@ class AuthService:
         # =====================================================
         # ADMIN LOGIN SUCCESS EMAIL
         # =====================================================
+        #
+        # Email Notifications is the MASTER switch.
+        #
+        # ON  -> send admin login notification
+        # OFF -> do not send admin login notification
+        #
+        # Admin login itself must NEVER be blocked by
+        # notification email settings.
+        # =====================================================
 
-        admin_login_email_result = (
-            EmailService.send_admin_login_success_email(
-                recipient_email=admin.email,
-                name=admin.name
+        if admin.email_notifications:
+
+            admin_login_email_result = (
+                EmailService.send_admin_login_success_email(
+                    recipient_email=admin.email,
+                    name=admin.name
+                )
             )
-        )
 
-        # Email failure should NOT block admin login
-        if not admin_login_email_result["success"]:
+            # Email failure should NOT block admin login
+            if not admin_login_email_result["success"]:
+                print(
+                    "Admin login success email failed:",
+                    admin_login_email_result["message"]
+                )
+
+        else:
+
             print(
-                "Admin login success email failed:",
-                admin_login_email_result["message"]
+                "Admin login notification email skipped "
+                "because Email Notifications are OFF."
             )
 
         return {
@@ -435,4 +453,139 @@ class AuthService:
                 "name": admin.name,
                 "email": admin.email
             }
+        }
+
+    # =========================================================
+    # CHANGE ADMIN EMAIL
+    # =========================================================
+
+    @staticmethod
+    def change_admin_email(
+        db: Session,
+        admin_id: int,
+        current_password: str,
+        new_email: str
+    ):
+
+        admin = (
+            db.query(Admin)
+            .filter(Admin.id == admin_id)
+            .first()
+        )
+
+        if not admin:
+            return {
+                "status": "error",
+                "message": "Admin account not found."
+            }
+
+        # Verify current password before changing email
+        if not AuthService.verify_password(
+            current_password,
+            admin.password
+        ):
+            return {
+                "status": "error",
+                "message": "Current password is incorrect."
+            }
+
+        # Check whether the new email is already used
+        existing_admin = (
+            db.query(Admin)
+            .filter(
+                Admin.email == new_email,
+                Admin.id != admin_id
+            )
+            .first()
+        )
+
+        if existing_admin:
+            return {
+                "status": "error",
+                "message": "This email is already in use."
+            }
+
+        # No need to update if email is unchanged
+        if admin.email == new_email:
+            return {
+                "status": "error",
+                "message": "New email is the same as the current email."
+            }
+
+        admin.email = new_email
+
+        try:
+            db.commit()
+            db.refresh(admin)
+
+        except Exception:
+            db.rollback()
+            raise
+
+        return {
+            "status": "success",
+            "message": "Admin email updated successfully.",
+            "email": admin.email
+        }
+
+    # =========================================================
+    # CHANGE ADMIN PASSWORD
+    # =========================================================
+
+    @staticmethod
+    def change_admin_password(
+        db: Session,
+        admin_id: int,
+        current_password: str,
+        new_password: str
+    ):
+
+        admin = (
+            db.query(Admin)
+            .filter(Admin.id == admin_id)
+            .first()
+        )
+
+        if not admin:
+            return {
+                "status": "error",
+                "message": "Admin account not found."
+            }
+
+        # Verify current password
+        if not AuthService.verify_password(
+            current_password,
+            admin.password
+        ):
+            return {
+                "status": "error",
+                "message": "Current password is incorrect."
+            }
+
+        # Prevent using the same password
+        if AuthService.verify_password(
+            new_password,
+            admin.password
+        ):
+            return {
+                "status": "error",
+                "message": "New password must be different from the current password."
+            }
+
+        # Hash new password before saving
+        admin.password = AuthService.hash_password(
+            new_password
+        )
+
+        try:
+            db.commit()
+            db.refresh(admin)
+
+        except Exception:
+            db.rollback()
+            raise
+
+        return {
+            "status": "success",
+            "message": "Admin password updated successfully."
         }

@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -116,7 +115,10 @@ def save_quotation(
 
         except Exception as activity_error:
             db.rollback()
-            print("Quotation-saved activity failed:", activity_error)
+            print(
+                "Quotation-saved activity failed:",
+                activity_error
+            )
 
     return result
 
@@ -133,7 +135,9 @@ def remove_saved_quotation(
 ):
     saved_quotation = (
         db.query(SavedQuotation)
-        .filter(SavedQuotation.id == saved_quotation_id)
+        .filter(
+            SavedQuotation.id == saved_quotation_id
+        )
         .first()
     )
 
@@ -157,7 +161,10 @@ def remove_saved_quotation(
 
     except Exception as delete_error:
         db.rollback()
-        print("Saved quotation deletion failed:", delete_error)
+        print(
+            "Saved quotation deletion failed:",
+            delete_error
+        )
 
         raise HTTPException(
             status_code=500,
@@ -169,7 +176,9 @@ def remove_saved_quotation(
         activity = Activity(
             user_id=current_user.id,
             activity_type="quotation_removed",
-            description=f"Saved quotation #{quotation_id} was removed.",
+            description=(
+                f"Saved quotation #{quotation_id} was removed."
+            ),
         )
 
         db.add(activity)
@@ -177,7 +186,10 @@ def remove_saved_quotation(
 
     except Exception as activity_error:
         db.rollback()
-        print("Quotation-removal activity failed:", activity_error)
+        print(
+            "Quotation-removal activity failed:",
+            activity_error
+        )
 
     return {
         "status": "success",
@@ -201,7 +213,9 @@ def request_quotation_approval(
 
     quotation = (
         db.query(QuotationRequestDB)
-        .filter(QuotationRequestDB.id == quotation_id)
+        .filter(
+            QuotationRequestDB.id == quotation_id
+        )
         .first()
     )
 
@@ -218,7 +232,10 @@ def request_quotation_approval(
     if quotation.user_id != current_user.id:
         raise HTTPException(
             status_code=403,
-            detail="You can only request approval for your own quotation.",
+            detail=(
+                "You can only request approval "
+                "for your own quotation."
+            ),
         )
 
     # -----------------------------------------------------
@@ -249,7 +266,10 @@ def request_quotation_approval(
     if quotation.status != "saved":
         raise HTTPException(
             status_code=400,
-            detail="Only saved quotations can be submitted for approval.",
+            detail=(
+                "Only saved quotations can be submitted "
+                "for approval."
+            ),
         )
 
     # -----------------------------------------------------
@@ -258,16 +278,24 @@ def request_quotation_approval(
 
     try:
         quotation.status = "pending"
+
         db.commit()
         db.refresh(quotation)
 
     except Exception as database_error:
         db.rollback()
-        print("Quotation approval status update failed:", database_error)
+
+        print(
+            "Quotation approval status update failed:",
+            database_error
+        )
 
         raise HTTPException(
             status_code=500,
-            detail="Unable to submit the quotation for approval.",
+            detail=(
+                "Unable to submit the quotation "
+                "for approval."
+            ),
         )
 
     # -----------------------------------------------------
@@ -280,7 +308,8 @@ def request_quotation_approval(
             activity_type="quotation_approval_requested",
             description=(
                 f"Quotation #{quotation.id} from "
-                f"{quotation.origin} to {quotation.destination} "
+                f"{quotation.origin} to "
+                f"{quotation.destination} "
                 f"was submitted for admin approval."
             ),
         )
@@ -290,13 +319,18 @@ def request_quotation_approval(
 
     except Exception as activity_error:
         db.rollback()
-        print("Approval-request activity failed:", activity_error)
+
+        print(
+            "Approval-request activity failed:",
+            activity_error
+        )
 
     # -----------------------------------------------------
     # EMAIL RESULT COUNTERS
     # -----------------------------------------------------
 
     admin_email_results = []
+
     customer_email_result = {
         "success": False,
         "message": "Customer email was not attempted.",
@@ -309,7 +343,9 @@ def request_quotation_approval(
     try:
         admin_users = (
             db.query(Admin)
-            .filter(Admin.is_active.is_(True))
+            .filter(
+                Admin.is_active.is_(True)
+            )
             .all()
         )
 
@@ -324,20 +360,68 @@ def request_quotation_approval(
     # -----------------------------------------------------
     # SEND APPROVAL REQUEST EMAILS TO ADMINS
     # -----------------------------------------------------
+    #
+    # Admin notification rules:
+    #
+    # 1. Email Notifications must be ON
+    # 2. Quotation Alerts must be ON
+    #
+    # If either one is OFF, admin does not receive
+    # the quotation approval notification.
+    #
+    # IMPORTANT:
+    # The quotation submission itself is NOT blocked.
+    # The status is already changed to "pending".
+    # -----------------------------------------------------
 
     for admin in admin_users:
+
+        # -------------------------------------------------
+        # ADMIN EMAIL CHECK
+        # -------------------------------------------------
+
         if not admin.email:
             continue
 
+        # -------------------------------------------------
+        # MASTER EMAIL NOTIFICATION CHECK
+        # -------------------------------------------------
+
+        if not admin.email_notifications:
+            print(
+                f"Quotation notification skipped for "
+                f"{admin.email}: "
+                f"Email Notifications are OFF."
+            )
+            continue
+
+        # -------------------------------------------------
+        # QUOTATION ALERT CHECK
+        # -------------------------------------------------
+
+        if not admin.quotation_alerts:
+            print(
+                f"Quotation notification skipped for "
+                f"{admin.email}: "
+                f"Quotation Alerts are OFF."
+            )
+            continue
+
+        # -------------------------------------------------
+        # SEND EMAIL
+        # -------------------------------------------------
+
         try:
-            email_result = EmailService.send_approval_request_email(
-                admin_email=admin.email,
-                customer_name=current_user.name,
-                customer_email=current_user.email,
-                origin=quotation.origin,
-                destination=quotation.destination,
-                cargo_type=quotation.cargo_type,
-                containers=quotation.container_count,
+            email_result = (
+                EmailService.send_approval_request_email(
+                    admin_email=admin.email,
+                    customer_name=current_user.name,
+                    customer_email=current_user.email,
+                    origin=quotation.origin,
+                    destination=quotation.destination,
+                    cargo_type=quotation.cargo_type,
+                    containers=quotation.container_count,
+                )
             )
 
             if (
@@ -347,7 +431,10 @@ def request_quotation_approval(
                 admin_email_results.append({
                     "email": admin.email,
                     "success": True,
-                    "message": email_result.get("message", "Email sent."),
+                    "message": email_result.get(
+                        "message",
+                        "Email sent."
+                    ),
                 })
 
             else:
@@ -355,13 +442,23 @@ def request_quotation_approval(
                     "email": admin.email,
                     "success": False,
                     "message": (
-                        email_result.get("message", "Email sending failed.")
-                        if isinstance(email_result, dict)
-                        else "Email service returned an unexpected result."
+                        email_result.get(
+                            "message",
+                            "Email sending failed."
+                        )
+                        if isinstance(
+                            email_result,
+                            dict
+                        )
+                        else (
+                            "Email service returned "
+                            "an unexpected result."
+                        )
                     ),
                 })
 
         except Exception as email_error:
+
             admin_email_results.append({
                 "email": admin.email,
                 "success": False,
@@ -369,40 +466,61 @@ def request_quotation_approval(
             })
 
             print(
-                f"Admin approval email failed for {admin.email}:",
+                f"Admin approval email failed "
+                f"for {admin.email}:",
                 email_error,
             )
 
     # -----------------------------------------------------
     # SEND CONFIRMATION EMAIL TO CUSTOMER
     # -----------------------------------------------------
+    #
+    # This is a CUSTOMER email.
+    #
+    # It is intentionally NOT controlled by the admin
+    # Email Notifications / Quotation Alerts settings.
+    # -----------------------------------------------------
 
     try:
+
         if current_user.email:
-            result = EmailService.send_quotation_sent_email(
-                recipient_email=current_user.email,
-                customer_name=current_user.name,
-                origin=quotation.origin,
-                destination=quotation.destination,
-                cargo_type=quotation.cargo_type,
-                containers=quotation.container_count,
+
+            result = (
+                EmailService.send_quotation_sent_email(
+                    recipient_email=current_user.email,
+                    customer_name=current_user.name,
+                    origin=quotation.origin,
+                    destination=quotation.destination,
+                    cargo_type=quotation.cargo_type,
+                    containers=quotation.container_count,
+                )
             )
 
             if isinstance(result, dict):
+
                 customer_email_result = result
+
             else:
+
                 customer_email_result = {
                     "success": False,
-                    "message": "Email service returned an unexpected result.",
+                    "message": (
+                        "Email service returned "
+                        "an unexpected result."
+                    ),
                 }
 
         else:
+
             customer_email_result = {
                 "success": False,
-                "message": "Customer email address is missing.",
+                "message": (
+                    "Customer email address is missing."
+                ),
             }
 
     except Exception as customer_email_error:
+
         customer_email_result = {
             "success": False,
             "message": str(customer_email_error),
@@ -418,20 +536,37 @@ def request_quotation_approval(
     # -----------------------------------------------------
 
     successful_admin_emails = sum(
-        1 for item in admin_email_results if item["success"]
+        1
+        for item in admin_email_results
+        if item["success"]
     )
 
     return {
         "success": True,
-        "message": "Quotation has been submitted for admin approval.",
+        "message": (
+            "Quotation has been submitted "
+            "for admin approval."
+        ),
         "quotation_id": quotation.id,
         "status": quotation.status,
+
         "notifications": {
-            "active_admins_found": len(admin_users),
-            "admin_emails_attempted": len(admin_email_results),
-            "admin_emails_sent": successful_admin_emails,
+            "active_admins_found": len(
+                admin_users
+            ),
+
+            "admin_emails_attempted": len(
+                admin_email_results
+            ),
+
+            "admin_emails_sent": (
+                successful_admin_emails
+            ),
+
             "customer_email_sent": bool(
-                customer_email_result.get("success")
+                customer_email_result.get(
+                    "success"
+                )
             ),
         },
     }
@@ -454,7 +589,10 @@ def get_saved_quotations(
     if current_user.id != user_id:
         raise HTTPException(
             status_code=403,
-            detail="You can only view your own saved quotations.",
+            detail=(
+                "You can only view your own "
+                "saved quotations."
+            ),
         )
 
     # -----------------------------------------------------
@@ -468,7 +606,8 @@ def get_saved_quotations(
         )
         .join(
             QuotationRequestDB,
-            SavedQuotation.quotation_id == QuotationRequestDB.id,
+            SavedQuotation.quotation_id
+            == QuotationRequestDB.id,
         )
         .filter(
             SavedQuotation.user_id == user_id,
@@ -494,7 +633,8 @@ def get_saved_quotations(
         route_items = (
             db.query(QuotationRoute)
             .filter(
-                QuotationRoute.quotation_id == quotation.id,
+                QuotationRoute.quotation_id
+                == quotation.id,
             )
             .order_by(
                 QuotationRoute.rank.asc(),
@@ -509,7 +649,8 @@ def get_saved_quotations(
         pricing = (
             db.query(Pricing)
             .filter(
-                Pricing.route_id == quotation.selected_route_id,
+                Pricing.route_id
+                == quotation.selected_route_id,
             )
             .order_by(
                 Pricing.id.desc(),
@@ -524,17 +665,27 @@ def get_saved_quotations(
         weather_condition = None
 
         try:
-            weather_result = weather_agent.assess_weather(
-                route_id=quotation.selected_route_id,
+
+            weather_result = (
+                weather_agent.assess_weather(
+                    route_id=quotation.selected_route_id,
+                )
             )
 
             if weather_result.get("status") == "success":
-                weather_condition = weather_result.get(
-                    "weather_condition"
+
+                weather_condition = (
+                    weather_result.get(
+                        "weather_condition"
+                    )
                 )
 
         except Exception as weather_error:
-            print("Weather assessment failed:", weather_error)
+
+            print(
+                "Weather assessment failed:",
+                weather_error
+            )
 
         # -------------------------------------------------
         # GET CUSTOMS INFORMATION
@@ -543,17 +694,27 @@ def get_saved_quotations(
         customs_status = None
 
         try:
-            customs_result = customs_agent.validate_customs(
-                quotation.selected_route_id,
+
+            customs_result = (
+                customs_agent.validate_customs(
+                    quotation.selected_route_id,
+                )
             )
 
             if customs_result.get("status") == "success":
-                customs_status = customs_result.get(
-                    "customs_status"
+
+                customs_status = (
+                    customs_result.get(
+                        "customs_status"
+                    )
                 )
 
         except Exception as customs_error:
-            print("Customs validation failed:", customs_error)
+
+            print(
+                "Customs validation failed:",
+                customs_error
+            )
 
         # -------------------------------------------------
         # GET SELECTED ROUTE DETAILS
@@ -562,7 +723,8 @@ def get_saved_quotations(
         selected_route = (
             db.query(Route)
             .filter(
-                Route.route_id == quotation.selected_route_id,
+                Route.route_id
+                == quotation.selected_route_id,
             )
             .first()
         )
@@ -574,11 +736,13 @@ def get_saved_quotations(
         top_routes = []
 
         for item in route_items:
+
             top_routes.append({
                 "route_id": item.route_id,
                 "rank": item.rank,
                 "route_score": item.route_score,
-                "base_freight_usd": item.base_freight_usd,
+                "base_freight_usd":
+                    item.base_freight_usd,
             })
 
         # -------------------------------------------------
@@ -588,6 +752,7 @@ def get_saved_quotations(
         target_margin_percent = None
 
         if quotation.target_margin is not None:
+
             target_margin_percent = round(
                 float(quotation.target_margin) * 100,
                 2,
@@ -600,6 +765,7 @@ def get_saved_quotations(
         final_selling_price = None
 
         if quotation.selling_price is not None:
+
             final_selling_price = round(
                 float(quotation.selling_price),
                 2,
@@ -615,8 +781,11 @@ def get_saved_quotations(
             pricing
             and pricing.demand_adjusted_cost is not None
         ):
+
             demand_adjusted_cost = round(
-                float(pricing.demand_adjusted_cost),
+                float(
+                    pricing.demand_adjusted_cost
+                ),
                 2,
             )
 
@@ -630,8 +799,10 @@ def get_saved_quotations(
             final_selling_price is not None
             and demand_adjusted_cost is not None
         ):
+
             margin_amount = round(
-                final_selling_price - demand_adjusted_cost,
+                final_selling_price
+                - demand_adjusted_cost,
                 2,
             )
 
@@ -642,17 +813,37 @@ def get_saved_quotations(
         pricing_data = None
 
         if pricing:
+
             pricing_data = {
-                "route_id": pricing.route_id,
-                "fuel_surcharge_usd": pricing.fuel_surcharge,
-                "port_charge_usd": pricing.port_charge,
-                "risk_surcharge_usd": pricing.risk_surcharge,
-                "operating_cost_usd": pricing.operating_cost,
-                "demand_factor": pricing.demand_factor,
-                "demand_adjusted_cost_usd": pricing.demand_adjusted_cost,
-                "target_margin_percent": target_margin_percent,
-                "margin_amount_usd": margin_amount,
-                "final_selling_price_usd": final_selling_price,
+                "route_id":
+                    pricing.route_id,
+
+                "fuel_surcharge_usd":
+                    pricing.fuel_surcharge,
+
+                "port_charge_usd":
+                    pricing.port_charge,
+
+                "risk_surcharge_usd":
+                    pricing.risk_surcharge,
+
+                "operating_cost_usd":
+                    pricing.operating_cost,
+
+                "demand_factor":
+                    pricing.demand_factor,
+
+                "demand_adjusted_cost_usd":
+                    pricing.demand_adjusted_cost,
+
+                "target_margin_percent":
+                    target_margin_percent,
+
+                "margin_amount_usd":
+                    margin_amount,
+
+                "final_selling_price_usd":
+                    final_selling_price,
             }
 
         # -------------------------------------------------
@@ -660,45 +851,83 @@ def get_saved_quotations(
         # -------------------------------------------------
 
         quotations.append({
+
             "id": saved.id,
-            "quotation_id": quotation.id,
-            "origin": quotation.origin,
-            "destination": quotation.destination,
-            "cargo_type": quotation.cargo_type,
-            "container_type": quotation.container_type,
-            "containers": quotation.container_count,
-            "route_id": quotation.selected_route_id,
+
+            "quotation_id":
+                quotation.id,
+
+            "origin":
+                quotation.origin,
+
+            "destination":
+                quotation.destination,
+
+            "cargo_type":
+                quotation.cargo_type,
+
+            "container_type":
+                quotation.container_type,
+
+            "containers":
+                quotation.container_count,
+
+            "route_id":
+                quotation.selected_route_id,
 
             "distance_nm": (
                 selected_route.distance_nm
-                if selected_route else None
+                if selected_route
+                else None
             ),
 
             "transit_days": (
                 selected_route.transit_days
-                if selected_route else None
+                if selected_route
+                else None
             ),
 
             "transshipments": (
                 selected_route.transshipments
-                if selected_route else None
+                if selected_route
+                else None
             ),
 
             "base_freight_usd": (
                 selected_route.base_freight_usd
-                if selected_route else None
+                if selected_route
+                else None
             ),
 
-            "target_margin_percent": target_margin_percent,
-            "margin_amount_usd": margin_amount,
-            "selling_price": final_selling_price,
-            "final_selling_price_usd": final_selling_price,
-            "weather_condition": weather_condition,
-            "customs_status": customs_status,
-            "status": quotation.status,
-            "top_routes": top_routes,
-            "pricing": pricing_data,
-            "saved_at": saved.saved_at,
+            "target_margin_percent":
+                target_margin_percent,
+
+            "margin_amount_usd":
+                margin_amount,
+
+            "selling_price":
+                final_selling_price,
+
+            "final_selling_price_usd":
+                final_selling_price,
+
+            "weather_condition":
+                weather_condition,
+
+            "customs_status":
+                customs_status,
+
+            "status":
+                quotation.status,
+
+            "top_routes":
+                top_routes,
+
+            "pricing":
+                pricing_data,
+
+            "saved_at":
+                saved.saved_at,
         })
 
     # -----------------------------------------------------

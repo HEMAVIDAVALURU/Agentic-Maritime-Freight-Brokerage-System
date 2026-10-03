@@ -17,6 +17,7 @@ import {
 } from "recharts";
 
 import "./AdminDashboard.css";
+
 import Users from "./Users";
 import AdminRoutes from "./AdminRoutes";
 import AdminPricing from "./AdminPricing";
@@ -24,9 +25,14 @@ import AdminWeather from "./AdminWeather";
 import AdminCustom from "./AdminCustom";
 import AdminQuotation from "./AdminQuotation";
 import AdminFeedback from "./AdminFeedback";
+import AdminSettings from "./AdminSettings";
 
 function AdminDashboard() {
-  const [activePage, setActivePage] = useState("dashboard");
+  const [activePage, setActivePage] =
+    useState("dashboard");
+
+  const [settingsOpen, setSettingsOpen] =
+    useState(false);
 
   const [kpiData, setKpiData] = useState({
     total_users: 0,
@@ -41,37 +47,107 @@ function AdminDashboard() {
     net_profit: 0,
   });
 
-  const [monthlyProfitData, setMonthlyProfitData] = useState([]);
-  const [monthlyQuotationData, setMonthlyQuotationData] = useState([]);
+  const [monthlyProfitData, setMonthlyProfitData] =
+    useState([]);
 
-  const [currentMonthSummary, setCurrentMonthSummary] = useState({
-    month: "",
-    total_quotations: 0,
-    approved_quotations: 0,
-    rejected_quotations: 0,
-    pending_quotations: 0,
-  });
+  const [monthlyQuotationData, setMonthlyQuotationData] =
+    useState([]);
 
-  const [recentQuotations, setRecentQuotations] = useState([]);
+  const [currentMonthSummary, setCurrentMonthSummary] =
+    useState({
+      month: "",
+      total_quotations: 0,
+      approved_quotations: 0,
+      rejected_quotations: 0,
+      pending_quotations: 0,
+    });
 
-  const [kpiLoading, setKpiLoading] = useState(true);
-  const [kpiError, setKpiError] = useState("");
+  const [recentQuotations, setRecentQuotations] =
+    useState([]);
+
+  const [kpiLoading, setKpiLoading] =
+    useState(true);
+
+  const [kpiError, setKpiError] =
+    useState("");
 
   // =========================================================
   // SIDEBAR MENU
   // =========================================================
 
   const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: "▦" },
-    { id: "users", label: "Users", icon: "◉" },
-    { id: "routes", label: "Routes", icon: "⌁" },
-    { id: "pricing", label: "Pricing", icon: "$" },
-    { id: "weather", label: "Weather", icon: "☁" },
-    { id: "customs", label: "Customs", icon: "▤" },
-    { id: "quotation", label: "Quotation", icon: "▣" },
-    { id: "shipment", label: "Shipment", icon: "◆" },
-    { id: "feedback", label: "Feedback", icon: "◇" },
-    { id: "settings", label: "Settings", icon: "⚙" },
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: "▦",
+    },
+    {
+      id: "users",
+      label: "Users",
+      icon: "◉",
+    },
+    {
+      id: "routes",
+      label: "Routes",
+      icon: "⌁",
+    },
+    {
+      id: "pricing",
+      label: "Pricing",
+      icon: "$",
+    },
+    {
+      id: "weather",
+      label: "Weather",
+      icon: "☁",
+    },
+    {
+      id: "customs",
+      label: "Customs",
+      icon: "▤",
+    },
+    {
+      id: "quotation",
+      label: "Quotation",
+      icon: "▣",
+    },
+    {
+      id: "shipment",
+      label: "Shipment",
+      icon: "◆",
+    },
+    {
+      id: "feedback",
+      label: "Feedback",
+      icon: "◇",
+    },
+  ];
+
+  // =========================================================
+  // SETTINGS SUBMENU
+  // =========================================================
+
+  const settingsItems = [
+    {
+      id: "settings-profile",
+      label: "Profile",
+      icon: "👤",
+    },
+    {
+      id: "settings-notifications",
+      label: "Notifications",
+      icon: "🔔",
+    },
+    {
+      id: "settings-security",
+      label: "Security",
+      icon: "🔒",
+    },
+    {
+      id: "settings-about",
+      label: "About",
+      icon: "ℹ️",
+    },
   ];
 
   // =========================================================
@@ -82,38 +158,47 @@ function AdminDashboard() {
     fetchAdminDashboard();
   }, []);
 
+  // =========================================================
+  // ADMIN LOGOUT
+  // =========================================================
 
-// =========================================================
-// ADMIN LOGOUT
-// =========================================================
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        "/api/auth/logout",
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
 
-const handleLogout = async () => {
-  try {
-    const response = await fetch(
-      "http://localhost:8000/api/auth/logout",
-      {
-        method: "POST",
-        credentials: "include",
+      if (!response.ok) {
+        console.error(
+          "Logout API failed:",
+          response.status
+        );
       }
-    );
-
-    if (!response.ok) {
-      console.error("Logout API failed:", response.status);
+    } catch (error) {
+      console.error(
+        "Admin Logout Error:",
+        error
+      );
+    } finally {
+      window.location.href = "/";
     }
-  } catch (error) {
-    console.error("Admin Logout Error:", error);
-  } finally {
-    // Redirect to the Welcome page
-    window.location.href = "/";
-  }
-};
+  };
+
+  // =========================================================
+  // FETCH DASHBOARD DATA
+  // =========================================================
+
   const fetchAdminDashboard = async () => {
     try {
       setKpiLoading(true);
       setKpiError("");
 
       const response = await fetch(
-        "http://localhost:8000/api/admin-dashboard/",
+        "/api/admin-dashboard/",
         {
           method: "GET",
           credentials: "include",
@@ -130,30 +215,52 @@ const handleLogout = async () => {
           );
         }
 
-        throw new Error("Unable to load dashboard data.");
+        throw new Error(
+          "Unable to load dashboard data."
+        );
       }
 
       const data = await response.json();
 
       if (!data.success) {
         throw new Error(
-          data.message || "Unable to load dashboard data."
+          data.message ||
+            "Unable to load dashboard data."
         );
       }
 
       const kpis = data.kpis || {};
 
       setKpiData({
-        total_users: kpis.total_users || 0,
-        total_quotations: kpis.total_quotations || 0,
-        pending_quotations: kpis.pending_quotations || 0,
-        approved_quotations: kpis.approved_quotations || 0,
-        rejected_quotations: kpis.rejected_quotations || 0,
-        monthly_quotations: kpis.monthly_quotations || 0,
-        total_selling_price: kpis.total_selling_price || 0,
-        total_profit: kpis.total_profit || 0,
-        total_loss: kpis.total_loss || 0,
-        net_profit: kpis.net_profit || 0,
+        total_users:
+          kpis.total_users || 0,
+
+        total_quotations:
+          kpis.total_quotations || 0,
+
+        pending_quotations:
+          kpis.pending_quotations || 0,
+
+        approved_quotations:
+          kpis.approved_quotations || 0,
+
+        rejected_quotations:
+          kpis.rejected_quotations || 0,
+
+        monthly_quotations:
+          kpis.monthly_quotations || 0,
+
+        total_selling_price:
+          kpis.total_selling_price || 0,
+
+        total_profit:
+          kpis.total_profit || 0,
+
+        total_loss:
+          kpis.total_loss || 0,
+
+        net_profit:
+          kpis.net_profit || 0,
       });
 
       setMonthlyProfitData(
@@ -184,10 +291,14 @@ const handleLogout = async () => {
           : []
       );
     } catch (error) {
-      console.error("Admin Dashboard Error:", error);
+      console.error(
+        "Admin Dashboard Error:",
+        error
+      );
 
       setKpiError(
-        error.message || "Unable to load dashboard data."
+        error.message ||
+          "Unable to load dashboard data."
       );
     } finally {
       setKpiLoading(false);
@@ -199,7 +310,9 @@ const handleLogout = async () => {
   // =========================================================
 
   const formatCurrency = (value) => {
-    return `$${Number(value || 0).toLocaleString("en-US", {
+    return `$${Number(
+      value || 0
+    ).toLocaleString("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })}`;
@@ -240,22 +353,30 @@ const handleLogout = async () => {
   const secondRowKpis = [
     {
       title: "Total Selling Price",
-      value: formatCurrency(kpiData.total_selling_price),
+      value: formatCurrency(
+        kpiData.total_selling_price
+      ),
       icon: "$",
     },
     {
       title: "Total Profit",
-      value: formatCurrency(kpiData.total_profit),
+      value: formatCurrency(
+        kpiData.total_profit
+      ),
       icon: "↗",
     },
     {
       title: "Total Loss",
-      value: formatCurrency(kpiData.total_loss),
+      value: formatCurrency(
+        kpiData.total_loss
+      ),
       icon: "↘",
     },
     {
       title: "Net Profit",
-      value: formatCurrency(kpiData.net_profit),
+      value: formatCurrency(
+        kpiData.net_profit
+      ),
       icon: "$",
       className: "admin-kpi-net-profit",
     },
@@ -264,14 +385,20 @@ const handleLogout = async () => {
   const renderKpiCard = (item) => (
     <div
       key={item.title}
-      className={`admin-kpi-card ${item.className || ""}`}
+      className={`admin-kpi-card ${
+        item.className || ""
+      }`}
     >
       <div className="admin-kpi-top">
-        <div className="admin-kpi-icon">{item.icon}</div>
+        <div className="admin-kpi-icon">
+          {item.icon}
+        </div>
       </div>
 
       <div className="admin-kpi-details">
-        <span className="admin-kpi-title">{item.title}</span>
+        <span className="admin-kpi-title">
+          {item.title}
+        </span>
 
         <strong className="admin-kpi-value">
           {item.value}
@@ -287,15 +414,21 @@ const handleLogout = async () => {
   const quotationStatusData = [
     {
       name: "Approved",
-      value: Number(kpiData.approved_quotations || 0),
+      value: Number(
+        kpiData.approved_quotations || 0
+      ),
     },
     {
       name: "Pending",
-      value: Number(kpiData.pending_quotations || 0),
+      value: Number(
+        kpiData.pending_quotations || 0
+      ),
     },
     {
       name: "Rejected",
-      value: Number(kpiData.rejected_quotations || 0),
+      value: Number(
+        kpiData.rejected_quotations || 0
+      ),
     },
   ];
 
@@ -306,16 +439,37 @@ const handleLogout = async () => {
   ];
 
   // =========================================================
+  // SETTINGS NAVIGATION
+  // =========================================================
+
+  const handleSettingsClick = () => {
+    setSettingsOpen((previous) => !previous);
+  };
+
+  const handleSettingsSectionClick = (
+    section
+  ) => {
+    setActivePage(section);
+    setSettingsOpen(true);
+  };
+
+  // =========================================================
   // MAIN CONTENT
   // =========================================================
 
   return (
     <div className="admin-dashboard">
-      {/* SIDEBAR */}
+
+      {/* =====================================================
+          SIDEBAR
+      ===================================================== */}
 
       <aside className="admin-sidebar">
+
         <div className="admin-sidebar-header">
-          <div className="admin-logo">AI</div>
+          <div className="admin-logo">
+            AI
+          </div>
 
           <div className="admin-brand">
             <h2>Maritime AI</h2>
@@ -324,16 +478,25 @@ const handleLogout = async () => {
         </div>
 
         <nav className="admin-sidebar-menu">
-          <p className="admin-sidebar-title">MANAGEMENT</p>
+
+          <p className="admin-sidebar-title">
+            MANAGEMENT
+          </p>
+
+          {/* NORMAL MENU ITEMS */}
 
           {menuItems.map((item) => (
             <button
               key={item.id}
               type="button"
               className={`admin-sidebar-item ${
-                activePage === item.id ? "active" : ""
+                activePage === item.id
+                  ? "active"
+                  : ""
               }`}
-              onClick={() => setActivePage(item.id)}
+              onClick={() =>
+                setActivePage(item.id)
+              }
             >
               <span className="admin-sidebar-icon">
                 {item.icon}
@@ -344,62 +507,172 @@ const handleLogout = async () => {
               </span>
             </button>
           ))}
+
+          {/* =================================================
+              SETTINGS MAIN ITEM
+          ================================================= */}
+
+          <button
+            type="button"
+            className={`admin-sidebar-item admin-settings-main-item ${
+              settingsOpen ||
+              activePage.startsWith(
+                "settings-"
+              )
+                ? "active"
+                : ""
+            }`}
+            onClick={handleSettingsClick}
+          >
+            <span className="admin-sidebar-icon">
+              ⚙
+            </span>
+
+            <span className="admin-sidebar-label">
+              Settings
+            </span>
+
+            <span
+              className={`admin-settings-arrow ${
+                settingsOpen
+                  ? "open"
+                  : ""
+              }`}
+            >
+              ▾
+            </span>
+          </button>
+
+          {/* =================================================
+              SETTINGS SUBMENU
+          ================================================= */}
+
+          {settingsOpen && (
+            <div className="admin-settings-submenu">
+
+              {settingsItems.map(
+                (item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`admin-settings-submenu-item ${
+                      activePage ===
+                      item.id
+                        ? "active"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      handleSettingsSectionClick(
+                        item.id
+                      )
+                    }
+                  >
+                    <span className="admin-settings-submenu-icon">
+                      {item.icon}
+                    </span>
+
+                    <span>
+                      {item.label}
+                    </span>
+                  </button>
+                )
+              )}
+
+            </div>
+          )}
+
         </nav>
 
+        {/* =================================================
+            LOGOUT
+        ================================================= */}
+
         <div className="admin-sidebar-bottom">
-  <button
-    type="button"
-    className="admin-logout-button"
-    onClick={handleLogout}
-  >
-    <span className="admin-sidebar-icon">⇥</span>
-    <span>Logout</span>
-  </button>
-</div>
+
+          <button
+            type="button"
+            className="admin-logout-button"
+            onClick={handleLogout}
+          >
+            <span className="admin-sidebar-icon">
+              ⇥
+            </span>
+
+            <span>Logout</span>
+          </button>
+
+        </div>
+
       </aside>
 
-      {/* MAIN AREA */}
+      {/* =====================================================
+          MAIN AREA
+      ===================================================== */}
 
       <main className="admin-main">
+
+        {/* =================================================
+            DASHBOARD
+        ================================================= */}
+
         {activePage === "dashboard" && (
           <div className="admin-dashboard-content">
+
             {/* DASHBOARD HEADER */}
 
             <div className="admin-dashboard-header">
+
               <div className="admin-dashboard-header-text">
+
                 <h1>
-                  Agentic AI for Maritime Freight Pricing and Route
+                  Agentic AI for Maritime
+                  Freight Pricing and Route
                   Optimization
                 </h1>
 
                 <p>
-                  Monitor users, quotations, financial performance, and
+                  Monitor users, quotations,
+                  financial performance, and
                   overall business activity.
                 </p>
+
               </div>
 
               <div className="admin-admin-live-status">
+
                 <span className="admin-live-dot"></span>
-                <span>Admin Active</span>
+
+                <span>
+                  Admin Active
+                </span>
+
               </div>
+
             </div>
 
             {/* KPI SECTION */}
 
             <section className="admin-kpi-section">
+
               {kpiLoading ? (
                 <div className="admin-kpi-loading">
                   Loading dashboard data...
                 </div>
               ) : (
                 <div className="admin-kpi-grid">
+
                   <div className="admin-kpi-row admin-kpi-row-five">
-                    {firstRowKpis.map(renderKpiCard)}
+                    {firstRowKpis.map(
+                      renderKpiCard
+                    )}
                   </div>
 
                   <div className="admin-kpi-row admin-kpi-row-four">
-                    {secondRowKpis.map(renderKpiCard)}
+                    {secondRowKpis.map(
+                      renderKpiCard
+                    )}
                   </div>
+
                 </div>
               )}
 
@@ -408,450 +681,804 @@ const handleLogout = async () => {
                   {kpiError}
                 </div>
               )}
+
             </section>
 
-            {/* CHARTS SECTION */}
+            {/* CHARTS */}
 
-            {!kpiLoading && !kpiError && (
-              <section className="admin-charts-section">
-                <div className="admin-section-heading">
-                  <h2>Performance Overview</h2>
+            {!kpiLoading &&
+              !kpiError && (
+                <section className="admin-charts-section">
 
-                  <p>
-                    Quotation distribution and monthly financial
-                    performance.
-                  </p>
-                </div>
+                  <div className="admin-section-heading">
 
-                <div className="admin-charts-grid">
-                  {/* QUOTATION STATUS */}
+                    <h2>
+                      Performance Overview
+                    </h2>
 
-                  <div className="admin-chart-card">
-                    <div className="admin-chart-header">
-                      <h3>Quotation Status</h3>
-                      <span>Current quotation distribution</span>
+                    <p>
+                      Quotation distribution
+                      and monthly financial
+                      performance.
+                    </p>
+
+                  </div>
+
+                  <div className="admin-charts-grid">
+
+                    {/* QUOTATION STATUS */}
+
+                    <div className="admin-chart-card">
+
+                      <div className="admin-chart-header">
+
+                        <h3>
+                          Quotation Status
+                        </h3>
+
+                        <span>
+                          Current quotation
+                          distribution
+                        </span>
+
+                      </div>
+
+                      <div className="admin-donut-wrapper">
+
+                        <ResponsiveContainer
+                          width="100%"
+                          height={280}
+                        >
+                          <PieChart>
+
+                            <Pie
+                              data={
+                                quotationStatusData
+                              }
+                              cx="50%"
+                              cy="45%"
+                              innerRadius={60}
+                              outerRadius={88}
+                              paddingAngle={3}
+                              dataKey="value"
+                              label={({
+                                value,
+                              }) =>
+                                value
+                              }
+                              labelLine={
+                                false
+                              }
+                            >
+
+                              {quotationStatusData.map(
+                                (
+                                  entry,
+                                  index
+                                ) => (
+                                  <Cell
+                                    key={`cell-${index}`}
+                                    fill={
+                                      quotationStatusColors[
+                                        index
+                                      ]
+                                    }
+                                  />
+                                )
+                              )}
+
+                            </Pie>
+
+                            <Tooltip />
+
+                            <Legend
+                              verticalAlign="bottom"
+                              height={36}
+                            />
+
+                          </PieChart>
+                        </ResponsiveContainer>
+
+                      </div>
+
                     </div>
 
-                    <div className="admin-donut-wrapper">
-                      <ResponsiveContainer width="100%" height={280}>
-                        <PieChart>
-                          <Pie
-                            data={quotationStatusData}
-                            cx="50%"
-                            cy="45%"
-                            innerRadius={60}
-                            outerRadius={88}
-                            paddingAngle={3}
-                            dataKey="value"
-                            label={({ value }) => value}
-                            labelLine={false}
-                          >
-                            {quotationStatusData.map(
-                              (entry, index) => (
-                                <Cell
-                                  key={`cell-${index}`}
-                                  fill={quotationStatusColors[index]}
-                                />
+                    {/* MONTHLY PROFIT */}
+
+                    <div className="admin-chart-card">
+
+                      <div className="admin-chart-header">
+
+                        <h3>
+                          Monthly Profit
+                        </h3>
+
+                        <span>
+                          Monthly profit
+                          performance
+                        </span>
+
+                      </div>
+
+                      <ResponsiveContainer
+                        width="100%"
+                        height={280}
+                      >
+
+                        <LineChart
+                          data={
+                            monthlyProfitData
+                          }
+                          margin={{
+                            top: 25,
+                            right: 15,
+                            left: 0,
+                            bottom: 5,
+                          }}
+                        >
+
+                          <CartesianGrid
+                            strokeDasharray="3 3"
+                          />
+
+                          <XAxis
+                            dataKey="month"
+                          />
+
+                          <YAxis
+                            tickFormatter={(
+                              value
+                            ) =>
+                              `$${Number(
+                                value
+                              ).toLocaleString()}`
+                            }
+                          />
+
+                          <Tooltip
+                            formatter={(
+                              value
+                            ) =>
+                              formatCurrency(
+                                value
                               )
-                            )}
-                          </Pie>
+                            }
+                          />
+
+                          <Line
+                            type="monotone"
+                            dataKey="profit"
+                            name="Profit"
+                            stroke="#795235"
+                            strokeWidth={3}
+                            dot={{
+                              r: 5,
+                              fill: "#795235",
+                            }}
+                            activeDot={{
+                              r: 7,
+                            }}
+                            label={{
+                              position:
+                                "top",
+                              formatter: (
+                                value
+                              ) =>
+                                `$${Number(
+                                  value
+                                ).toLocaleString()}`,
+                              fill:
+                                "#4a2d1d",
+                              fontSize: 11,
+                              fontWeight: 600,
+                            }}
+                          />
+
+                        </LineChart>
+
+                      </ResponsiveContainer>
+
+                    </div>
+
+                    {/* MONTHLY QUOTATIONS */}
+
+                    <div className="admin-chart-card">
+
+                      <div className="admin-chart-header">
+
+                        <h3>
+                          Monthly Quotations
+                        </h3>
+
+                        <span>
+                          Quotation activity
+                          by month
+                        </span>
+
+                      </div>
+
+                      <ResponsiveContainer
+                        width="100%"
+                        height={280}
+                      >
+
+                        <BarChart
+                          data={
+                            monthlyQuotationData
+                          }
+                          margin={{
+                            top: 25,
+                            right: 15,
+                            left: 0,
+                            bottom: 5,
+                          }}
+                        >
+
+                          <CartesianGrid
+                            strokeDasharray="3 3"
+                          />
+
+                          <XAxis
+                            dataKey="month"
+                          />
+
+                          <YAxis
+                            allowDecimals={
+                              false
+                            }
+                          />
 
                           <Tooltip />
 
-                          <Legend
-                            verticalAlign="bottom"
-                            height={36}
+                          <Bar
+                            dataKey="quotations"
+                            name="Quotations"
+                            fill="#8b5e3c"
+                            radius={[
+                              5,
+                              5,
+                              0,
+                              0,
+                            ]}
+                            label={{
+                              position:
+                                "top",
+                              fill:
+                                "#4a2d1d",
+                              fontSize: 12,
+                              fontWeight: 600,
+                            }}
                           />
-                        </PieChart>
+
+                        </BarChart>
+
                       </ResponsiveContainer>
-                    </div>
-                  </div>
 
-                  {/* MONTHLY PROFIT */}
-
-                  <div className="admin-chart-card">
-                    <div className="admin-chart-header">
-                      <h3>Monthly Profit</h3>
-                      <span>Monthly profit performance</span>
                     </div>
 
-                    <ResponsiveContainer width="100%" height={280}>
-                      <LineChart
-                        data={monthlyProfitData}
-                        margin={{
-                          top: 25,
-                          right: 15,
-                          left: 0,
-                          bottom: 5,
-                        }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" />
-
-                        <XAxis dataKey="month" />
-
-                        <YAxis
-                          tickFormatter={(value) =>
-                            `$${Number(value).toLocaleString()}`
-                          }
-                        />
-
-                        <Tooltip
-                          formatter={(value) => formatCurrency(value)}
-                        />
-
-                        <Line
-                          type="monotone"
-                          dataKey="profit"
-                          name="Profit"
-                          stroke="#795235"
-                          strokeWidth={3}
-                          dot={{
-                            r: 5,
-                            fill: "#795235",
-                          }}
-                          activeDot={{ r: 7 }}
-                          label={{
-                            position: "top",
-                            formatter: (value) =>
-                              `$${Number(value).toLocaleString()}`,
-                            fill: "#4a2d1d",
-                            fontSize: 11,
-                            fontWeight: 600,
-                          }}
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
                   </div>
 
-                  {/* MONTHLY QUOTATIONS */}
-
-                  <div className="admin-chart-card">
-                    <div className="admin-chart-header">
-                      <h3>Monthly Quotations</h3>
-                      <span>Quotation activity by month</span>
-                    </div>
-
-                    <ResponsiveContainer width="100%" height={280}>
-                      <BarChart
-                        data={monthlyQuotationData}
-                        margin={{
-                          top: 25,
-                          right: 15,
-                          left: 0,
-                          bottom: 5,
-                        }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" />
-
-                        <XAxis dataKey="month" />
-
-                        <YAxis allowDecimals={false} />
-
-                        <Tooltip />
-
-                        <Bar
-                          dataKey="quotations"
-                          name="Quotations"
-                          fill="#8b5e3c"
-                          radius={[5, 5, 0, 0]}
-                          label={{
-                            position: "top",
-                            fill: "#4a2d1d",
-                            fontSize: 12,
-                            fontWeight: 600,
-                          }}
-                        />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-              </section>
-            )}
+                </section>
+              )}
 
             {/* RECENT QUOTATIONS */}
 
-            {!kpiLoading && !kpiError && (
-              <section className="admin-recent-quotations-section">
-                <div className="admin-section-heading">
-                  <div>
-                    <h2>Recent Quotations</h2>
-                    <p>Latest 10 quotations</p>
-                  </div>
+            {!kpiLoading &&
+              !kpiError && (
+                <section className="admin-recent-quotations-section">
 
-                  <button
-                    type="button"
-                    className="admin-view-all-btn"
-                    onClick={() => setActivePage("quotation")}
-                  >
-                    View All →
-                  </button>
-                </div>
-
-                <div className="admin-recent-table-wrapper">
-                  <table className="admin-recent-table">
-                    <thead>
-                      <tr>
-                        <th>Quotation ID</th>
-                        <th>Route ID</th>
-                        <th>Origin</th>
-                        <th>Destination</th>
-                        <th>Container Type</th>
-                        <th>Total Selling Price</th>
-                        <th>Profit</th>
-                        <th>Weather Risk</th>
-                        <th>Customs Status</th>
-                        <th>Quotation Status</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {recentQuotations.length > 0 ? (
-                        recentQuotations.slice(0, 10).map(
-                          (quotation, index) => {
-                            const weatherRisk = String(
-                              quotation.weather_risk || "—"
-                            ).toUpperCase();
-
-                            const customsStatus = String(
-                              quotation.customs_status || "—"
-                            ).toLowerCase();
-
-                            const status = String(
-                              quotation.status || "unknown"
-                            )
-                              .trim()
-                              .toLowerCase();
-
-                            const statusLabel =
-                              status === "approved"
-                                ? "Approved"
-                                : status === "pending"
-                                ? "Pending"
-                                : status === "rejected"
-                                ? "Rejected"
-                                : "Unknown";
-
-                            return (
-                              <tr
-                                key={
-                                  quotation.quotation_id ??
-                                  quotation.id ??
-                                  index
-                                }
-                              >
-                                <td className="admin-recent-quotation-id">
-                                  #
-                                  {quotation.quotation_id ??
-                                    quotation.id ??
-                                    "—"}
-                                </td>
-
-                                <td>
-                                  {quotation.route_id ??
-                                    quotation.selected_route_id ??
-                                    "—"}
-                                </td>
-
-                                <td>{quotation.origin || "—"}</td>
-
-                                <td>{quotation.destination || "—"}</td>
-
-                                <td>{quotation.container_type || "—"}</td>
-
-                                <td className="admin-recent-money">
-                                  {formatCurrency(
-                                    quotation.total_selling_price ??
-                                      quotation.selling_price ??
-                                      quotation.final_selling_price_usd ??
-                                      0
-                                  )}
-                                </td>
-
-                                <td className="admin-recent-money">
-                                  {quotation.profit != null
-                                    ? formatCurrency(quotation.profit)
-                                    : "—"}
-                                </td>
-
-                                <td>
-                                  <span
-                                    className={`admin-risk-badge admin-risk-${weatherRisk.toLowerCase()}`}
-                                  >
-                                    {weatherRisk}
-                                  </span>
-                                </td>
-
-                                <td>
-                                  <span
-                                    className={`admin-customs-badge admin-customs-${customsStatus}`}
-                                  >
-                                    {quotation.customs_status || "—"}
-                                  </span>
-                                </td>
-
-                                <td>
-                                  <span
-                                    className={`admin-quotation-status-badge admin-status-${status}`}
-                                  >
-                                    <span className="admin-status-dot"></span>
-                                    {statusLabel}
-                                  </span>
-                                </td>
-                              </tr>
-                            );
-                          }
-                        )
-                      ) : (
-                        <tr>
-                          <td
-                            colSpan="10"
-                            className="admin-recent-empty"
-                          >
-                            No quotations available.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            )}
-
-            {/* =================================================
-                MONTHLY PERFORMANCE
-                Placed directly below Recent Quotations
-            ================================================= */}
-
-            {!kpiLoading && !kpiError && (
-              <section className="admin-monthly-performance">
-                <div className="admin-section-heading">
-                  <h2>Monthly Performance</h2>
-                </div>
-
-                {/* THREE MONTHLY CARDS */}
-
-                <div className="admin-monthly-cards">
-                  {monthlyQuotationData.map((item, index) => {
-                    const isCurrentMonth =
-                      item.month === currentMonthSummary.month;
-
-                    return (
-                      <div
-                        key={`${item.month}-${item.year ?? index}`}
-                        className={`admin-month-card ${
-                          isCurrentMonth
-                            ? "admin-month-card-current"
-                            : ""
-                        }`}
-                      >
-                        <div className="admin-month-card-header">
-                          <h3>{item.month}</h3>
-
-                          {isCurrentMonth && (
-                            <span className="admin-current-month-badge">
-                              Current Month
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="admin-month-card-count">
-                          <strong>{item.quotations ?? 0}</strong>
-                          <span>Total Quotations</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* CURRENT MONTH SUMMARY */}
-
-                <div className="admin-current-month-section">
                   <div className="admin-section-heading">
-                    <h3>
-                      {currentMonthSummary.month || "Current Month"}
-                      {" — "}Quotation Summary
-                    </h3>
+
+                    <div>
+                      <h2>
+                        Recent Quotations
+                      </h2>
+
+                      <p>
+                        Latest 10 quotations
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="admin-view-all-btn"
+                      onClick={() =>
+                        setActivePage(
+                          "quotation"
+                        )
+                      }
+                    >
+                      View All →
+                    </button>
+
                   </div>
 
-                  <div className="admin-current-month-grid">
-                    <div className="admin-month-summary-card summary-total">
-                      <span>Total Quotations</span>
-                      <strong>
-                        {currentMonthSummary.total_quotations ?? 0}
-                      </strong>
-                    </div>
+                  <div className="admin-recent-table-wrapper">
 
-                    <div className="admin-month-summary-card summary-approved">
-                      <span>Approved</span>
-                      <strong>
-                        {currentMonthSummary.approved_quotations ?? 0}
-                      </strong>
-                    </div>
+                    <table className="admin-recent-table">
 
-                    <div className="admin-month-summary-card summary-rejected">
-                      <span>Rejected</span>
-                      <strong>
-                        {currentMonthSummary.rejected_quotations ?? 0}
-                      </strong>
-                    </div>
+                      <thead>
 
-                    <div className="admin-month-summary-card summary-pending">
-                      <span>Pending</span>
-                      <strong>
-                        {currentMonthSummary.pending_quotations ?? 0}
-                      </strong>
-                    </div>
+                        <tr>
+                          <th>
+                            Quotation ID
+                          </th>
+
+                          <th>
+                            Route ID
+                          </th>
+
+                          <th>
+                            Origin
+                          </th>
+
+                          <th>
+                            Destination
+                          </th>
+
+                          <th>
+                            Container Type
+                          </th>
+
+                          <th>
+                            Total Selling
+                            Price
+                          </th>
+
+                          <th>
+                            Profit
+                          </th>
+
+                          <th>
+                            Weather Risk
+                          </th>
+
+                          <th>
+                            Customs Status
+                          </th>
+
+                          <th>
+                            Quotation Status
+                          </th>
+                        </tr>
+
+                      </thead>
+
+                      <tbody>
+
+                        {recentQuotations.length >
+                        0 ? (
+                          recentQuotations
+                            .slice(
+                              0,
+                              10
+                            )
+                            .map(
+                              (
+                                quotation,
+                                index
+                              ) => {
+
+                                const weatherRisk =
+                                  String(
+                                    quotation.weather_risk ||
+                                      "—"
+                                  ).toUpperCase();
+
+                                const customsStatus =
+                                  String(
+                                    quotation.customs_status ||
+                                      "—"
+                                  ).toLowerCase();
+
+                                const status =
+                                  String(
+                                    quotation.status ||
+                                      "unknown"
+                                  )
+                                    .trim()
+                                    .toLowerCase();
+
+                                const statusLabel =
+                                  status ===
+                                  "approved"
+                                    ? "Approved"
+                                    : status ===
+                                      "pending"
+                                    ? "Pending"
+                                    : status ===
+                                      "rejected"
+                                    ? "Rejected"
+                                    : "Unknown";
+
+                                return (
+                                  <tr
+                                    key={
+                                      quotation.quotation_id ??
+                                      quotation.id ??
+                                      index
+                                    }
+                                  >
+
+                                    <td className="admin-recent-quotation-id">
+                                      #
+                                      {quotation.quotation_id ??
+                                        quotation.id ??
+                                        "—"}
+                                    </td>
+
+                                    <td>
+                                      {quotation.route_id ??
+                                        quotation.selected_route_id ??
+                                        "—"}
+                                    </td>
+
+                                    <td>
+                                      {quotation.origin ||
+                                        "—"}
+                                    </td>
+
+                                    <td>
+                                      {quotation.destination ||
+                                        "—"}
+                                    </td>
+
+                                    <td>
+                                      {quotation.container_type ||
+                                        "—"}
+                                    </td>
+
+                                    <td className="admin-recent-money">
+                                      {formatCurrency(
+                                        quotation.total_selling_price ??
+                                          quotation.selling_price ??
+                                          quotation.final_selling_price_usd ??
+                                          0
+                                      )}
+                                    </td>
+
+                                    <td className="admin-recent-money">
+                                      {quotation.profit !=
+                                      null
+                                        ? formatCurrency(
+                                            quotation.profit
+                                          )
+                                        : "—"}
+                                    </td>
+
+                                    <td>
+                                      <span
+                                        className={`admin-risk-badge admin-risk-${weatherRisk.toLowerCase()}`}
+                                      >
+                                        {
+                                          weatherRisk
+                                        }
+                                      </span>
+                                    </td>
+
+                                    <td>
+                                      <span
+                                        className={`admin-customs-badge admin-customs-${customsStatus}`}
+                                      >
+                                        {
+                                          quotation.customs_status ||
+                                          "—"
+                                        }
+                                      </span>
+                                    </td>
+
+                                    <td>
+                                      <span
+                                        className={`admin-quotation-status-badge admin-status-${status}`}
+                                      >
+                                        <span className="admin-status-dot"></span>
+
+                                        {
+                                          statusLabel
+                                        }
+                                      </span>
+                                    </td>
+
+                                  </tr>
+                                );
+                              }
+                            )
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan="10"
+                              className="admin-recent-empty"
+                            >
+                              No quotations
+                              available.
+                            </td>
+                          </tr>
+                        )}
+
+                      </tbody>
+
+                    </table>
+
                   </div>
-                </div>
-              </section>
-            )}
+
+                </section>
+              )}
+
+            {/* MONTHLY PERFORMANCE */}
+
+            {!kpiLoading &&
+              !kpiError && (
+                <section className="admin-monthly-performance">
+
+                  <div className="admin-section-heading">
+
+                    <h2>
+                      Monthly Performance
+                    </h2>
+
+                  </div>
+
+                  <div className="admin-monthly-cards">
+
+                    {monthlyQuotationData.map(
+                      (
+                        item,
+                        index
+                      ) => {
+
+                        const isCurrentMonth =
+                          item.month ===
+                          currentMonthSummary.month;
+
+                        return (
+                          <div
+                            key={`${item.month}-${item.year ?? index}`}
+                            className={`admin-month-card ${
+                              isCurrentMonth
+                                ? "admin-month-card-current"
+                                : ""
+                            }`}
+                          >
+
+                            <div className="admin-month-card-header">
+
+                              <h3>
+                                {item.month}
+                              </h3>
+
+                              {isCurrentMonth && (
+                                <span className="admin-current-month-badge">
+                                  Current
+                                  Month
+                                </span>
+                              )}
+
+                            </div>
+
+                            <div className="admin-month-card-count">
+
+                              <strong>
+                                {item.quotations ??
+                                  0}
+                              </strong>
+
+                              <span>
+                                Total
+                                Quotations
+                              </span>
+
+                            </div>
+
+                          </div>
+                        );
+                      }
+                    )}
+
+                  </div>
+
+                  <div className="admin-current-month-section">
+
+                    <div className="admin-section-heading">
+
+                      <h3>
+                        {currentMonthSummary.month ||
+                          "Current Month"}
+                        {" — "}
+                        Quotation Summary
+                      </h3>
+
+                    </div>
+
+                    <div className="admin-current-month-grid">
+
+                      <div className="admin-month-summary-card summary-total">
+                        <span>
+                          Total Quotations
+                        </span>
+
+                        <strong>
+                          {currentMonthSummary.total_quotations ??
+                            0}
+                        </strong>
+                      </div>
+
+                      <div className="admin-month-summary-card summary-approved">
+                        <span>
+                          Approved
+                        </span>
+
+                        <strong>
+                          {currentMonthSummary.approved_quotations ??
+                            0}
+                        </strong>
+                      </div>
+
+                      <div className="admin-month-summary-card summary-rejected">
+                        <span>
+                          Rejected
+                        </span>
+
+                        <strong>
+                          {currentMonthSummary.rejected_quotations ??
+                            0}
+                        </strong>
+                      </div>
+
+                      <div className="admin-month-summary-card summary-pending">
+                        <span>
+                          Pending
+                        </span>
+
+                        <strong>
+                          {currentMonthSummary.pending_quotations ??
+                            0}
+                        </strong>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </section>
+              )}
+
           </div>
         )}
 
-        {/* USERS PAGE */}
+        {/* =================================================
+            USERS
+        ================================================= */}
 
-{activePage === "users" && <Users />}
+        {activePage === "users" && (
+          <Users />
+        )}
 
+        {/* =================================================
+            ROUTES
+        ================================================= */}
 
-{/* ROUTES PAGE */}
+        {activePage === "routes" && (
+          <AdminRoutes />
+        )}
 
-        {activePage === "routes" && <AdminRoutes />}
+        {/* =================================================
+            PRICING
+        ================================================= */}
 
-{/* PRICING PAGE */}
+        {activePage === "pricing" && (
+          <AdminPricing />
+        )}
 
-{activePage === "pricing" && <AdminPricing />}
+        {/* =================================================
+            WEATHER
+        ================================================= */}
 
-{/* WEATHER PAGE */}
+        {activePage === "weather" && (
+          <AdminWeather />
+        )}
 
-{activePage === "weather" && <AdminWeather />}
+        {/* =================================================
+            CUSTOMS
+        ================================================= */}
 
-{activePage === "customs" && <AdminCustom />}
+        {activePage === "customs" && (
+          <AdminCustom />
+        )}
 
-{activePage === "quotation" && <AdminQuotation />}
+        {/* =================================================
+            QUOTATION
+        ================================================= */}
 
-{activePage === "feedback" && <AdminFeedback />}
+        {activePage === "quotation" && (
+          <AdminQuotation />
+        )}
 
-{/* OTHER PAGES */}
+        {/* =================================================
+            FEEDBACK
+        ================================================= */}
 
-{activePage !== "dashboard" &&
-  activePage !== "users" &&
-  activePage !== "routes" &&
-  activePage !== "pricing" &&
-  activePage !== "weather" &&
-  activePage !== "customs" &&
-  activePage !== "quotation" &&
-  activePage !== "feedback" && (
-    <div className="admin-empty-page">
-      <h2>
-        {
-          menuItems.find(
-            (item) => item.id === activePage
-          )?.label
-        }
-      </h2>
-    </div>
-  )}
+        {activePage === "feedback" && (
+          <AdminFeedback />
+        )}
+
+        {/* =================================================
+            SETTINGS - PROFILE
+        ================================================= */}
+
+        {activePage === "settings-profile" && (
+          <AdminSettings
+            initialSection="profile"
+          />
+        )}
+
+        {/* =================================================
+            SETTINGS - NOTIFICATIONS
+        ================================================= */}
+
+        {activePage ===
+          "settings-notifications" && (
+          <AdminSettings
+            initialSection="notifications"
+          />
+        )}
+
+        {/* =================================================
+            SETTINGS - SECURITY
+        ================================================= */}
+
+        {activePage ===
+          "settings-security" && (
+          <AdminSettings
+            initialSection="security"
+          />
+        )}
+
+        {/* =================================================
+            SETTINGS - ABOUT
+        ================================================= */}
+
+        {activePage === "settings-about" && (
+          <AdminSettings
+            initialSection="about"
+          />
+        )}
+
+        {/* =================================================
+            OTHER PAGES
+        ================================================= */}
+
+        {activePage !== "dashboard" &&
+          activePage !== "users" &&
+          activePage !== "routes" &&
+          activePage !== "pricing" &&
+          activePage !== "weather" &&
+          activePage !== "customs" &&
+          activePage !== "quotation" &&
+          activePage !== "feedback" &&
+          activePage !== "settings-profile" &&
+          activePage !==
+            "settings-notifications" &&
+          activePage !==
+            "settings-security" &&
+          activePage !==
+            "settings-about" && (
+            <div className="admin-empty-page">
+
+              <h2>
+                {
+                  menuItems.find(
+                    (item) =>
+                      item.id ===
+                      activePage
+                  )?.label
+                }
+              </h2>
+
+            </div>
+          )}
+
       </main>
+
     </div>
   );
 }

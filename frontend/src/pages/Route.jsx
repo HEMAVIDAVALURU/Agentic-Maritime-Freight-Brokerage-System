@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   analyzeRoute,
@@ -40,8 +40,13 @@ function Route() {
 
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [savedQuotationIds, setSavedQuotationIds] = useState({});
-  const [savedQuotationMessages, setSavedQuotationMessages] = useState({});
+  const [saveQuotationMessages, setSaveQuotationMessages] = useState({});
+  const [approvalQuotationMessages, setApprovalQuotationMessages] = useState({});
   const [quotationActionLoading, setQuotationActionLoading] = useState("");
+
+  // Prevent Save / Request Approval from being triggered twice
+  // before React has a chance to re-render.
+  const quotationActionLockRef = useRef(false);
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -199,7 +204,8 @@ function Route() {
     setSelectedRoute(null);
 
     setSavedQuotationIds({});
-    setSavedQuotationMessages({});
+    setSaveQuotationMessages({});
+    setApprovalQuotationMessages({});
     setQuotationActionLoading("");
 
     setErrorMessage("");
@@ -338,7 +344,8 @@ function Route() {
     setSelectedRoute(null);
 
     setSavedQuotationIds({});
-    setSavedQuotationMessages({});
+    setSaveQuotationMessages({});
+    setApprovalQuotationMessages({});
 
     // -------------------------------------------------------
     // VALIDATION
@@ -1100,27 +1107,21 @@ function Route() {
   });
 
   // =========================================================
-  // SAVE QUOTATION
-  // UNCHANGED FUNCTIONALITY
+  // SAVE / REQUEST APPROVAL
+  //
+  // IMPORTANT:
+  // Save Quotation and Request Approval use separate message
+  // states. Request Approval performs an internal save without
+  // displaying the normal "Quotation saved successfully."
+  // message.
   // =========================================================
 
-  const handleSaveQuotation = async (
-    route
-  ) => {
-    setErrorMessage("");
-    setSelectedRoute(route);
+  const saveQuotationInternal = async (route) => {
+    const routeId = route?.route_id;
 
-    const routeId =
-      route?.route_id;
-
-    const pricing =
-      pricingResults[routeId];
-
-    const comparison =
-      comparisonResults[routeId] || {};
-
-    const weather =
-      weatherResults[routeId] || {};
+    const pricing = pricingResults[routeId];
+    const comparison = comparisonResults[routeId] || {};
+    const weather = weatherResults[routeId] || {};
 
     if (!route || !pricing) {
       setErrorMessage(
@@ -1154,42 +1155,25 @@ function Route() {
       return null;
     }
 
+    // If this route is already saved, reuse its quotation ID.
     if (savedQuotationIds[routeId]) {
-      setSavedQuotationMessages(
-        (previous) => ({
-          ...previous,
-          [routeId]:
-            "Quotation is already saved.",
-        })
-      );
-
       return savedQuotationIds[routeId];
     }
 
-    setQuotationActionLoading(
-      `save:${routeId}`
-    );
-
     try {
-      const result =
-        await saveQuotation({
-          user_id: Number(
-            currentUser.id
-          ),
-
-          quotation:
-            buildQuotation(
-              route,
-              pricing,
-              comparison,
-              weather
-            ),
-        });
+      const result = await saveQuotation({
+        user_id: Number(currentUser.id),
+        quotation: buildQuotation(
+          route,
+          pricing,
+          comparison,
+          weather
+        ),
+      });
 
       if (
         result?.status === "success" ||
-        result?.status ===
-          "already_saved"
+        result?.status === "already_saved"
       ) {
         const quotationId =
           result?.quotation_id ||
@@ -1197,25 +1181,11 @@ function Route() {
           null;
 
         if (quotationId) {
-          setSavedQuotationIds(
-            (previous) => ({
-              ...previous,
-              [routeId]:
-                quotationId,
-            })
-          );
-        }
-
-        setSavedQuotationMessages(
-          (previous) => ({
+          setSavedQuotationIds((previous) => ({
             ...previous,
-            [routeId]:
-              result?.status ===
-              "already_saved"
-                ? "Quotation is already saved."
-                : "Quotation saved successfully.",
-          })
-        );
+            [routeId]: quotationId,
+          }));
+        }
 
         return quotationId;
       }
@@ -1238,26 +1208,80 @@ function Route() {
       );
 
       return null;
-    } finally {
-      setQuotationActionLoading("");
     }
   };
 
-  // =========================================================
-  // REQUEST APPROVAL
-  // UNCHANGED FUNCTIONALITY
-  // =========================================================
+  const handleSaveQuotation = async (route) => {
+    if (quotationActionLockRef.current) {
+      return;
+    }
 
-  const handleRequestApproval = async (
-    route
-  ) => {
+    quotationActionLockRef.current = true;
+
+    const routeId = route?.route_id;
+
     setErrorMessage("");
     setSelectedRoute(route);
+
+    // Clear both action messages first.
+    // This guarantees that only the current action's message
+    // can be visible.
+    setSaveQuotationMessages({});
+    setApprovalQuotationMessages({});
+
+    setQuotationActionLoading(
+      `save:${routeId}`
+    );
+
+    try {
+      const alreadySaved =
+        Boolean(savedQuotationIds[routeId]);
+
+      const quotationId =
+        await saveQuotationInternal(route);
+
+      if (!quotationId) {
+        return;
+      }
+
+      setSavedQuotationIds((previous) => ({
+        ...previous,
+        [routeId]: quotationId,
+      }));
+
+      setSaveQuotationMessages({
+        [routeId]:
+          alreadySaved
+            ? "Quotation is already saved."
+            : "Quotation saved successfully.",
+      });
+    } finally {
+      setQuotationActionLoading("");
+      quotationActionLockRef.current = false;
+    }
+  };
+
+  const handleRequestApproval = async (route) => {
+    if (quotationActionLockRef.current) {
+      return;
+    }
+
+    quotationActionLockRef.current = true;
+
+    const routeId = route?.route_id;
+
+    setErrorMessage("");
+    setSelectedRoute(route);
+
+    // Remove any previous Save/Approval message immediately.
+    setSaveQuotationMessages({});
+    setApprovalQuotationMessages({});
 
     if (userLoading) {
       setErrorMessage(
         "Please wait while your account is being verified."
       );
+      quotationActionLockRef.current = false;
       return;
     }
 
@@ -1265,25 +1289,24 @@ function Route() {
       setErrorMessage(
         "Please login before requesting approval."
       );
+      quotationActionLockRef.current = false;
       return;
     }
-
-    const routeId =
-      route.route_id;
 
     setQuotationActionLoading(
       `approval:${routeId}`
     );
 
     try {
+      // Internal save:
+      // IMPORTANT — this does NOT display
+      // "Quotation saved successfully."
       let quotationId =
         savedQuotationIds[routeId];
 
       if (!quotationId) {
         quotationId =
-          await handleSaveQuotation(
-            route
-          );
+          await saveQuotationInternal(route);
       }
 
       if (!quotationId) {
@@ -1300,25 +1323,19 @@ function Route() {
           result?.message ||
             "Unable to request quotation approval. Please try again."
         );
-
         return;
       }
 
-      setSavedQuotationIds(
-        (previous) => ({
-          ...previous,
-          [routeId]:
-            quotationId,
-        })
-      );
+      setSavedQuotationIds((previous) => ({
+        ...previous,
+        [routeId]: quotationId,
+      }));
 
-      setSavedQuotationMessages(
-        (previous) => ({
-          ...previous,
-          [routeId]:
-            "Quotation saved and submitted for admin approval successfully.",
-        })
-      );
+      // ONLY the approval message is shown.
+      setApprovalQuotationMessages({
+        [routeId]:
+          "Quotation saved and submitted for admin approval successfully.",
+      });
     } catch (error) {
       console.error(
         "Quotation approval request error:",
@@ -1331,6 +1348,7 @@ function Route() {
       );
     } finally {
       setQuotationActionLoading("");
+      quotationActionLockRef.current = false;
     }
   };
 
@@ -1875,10 +1893,19 @@ function Route() {
                         mapRoute?.route_id ===
                           route.route_id;
 
-                      const savedMessage =
-                        savedQuotationMessages[
+                      const saveMessage =
+                        saveQuotationMessages[
                           route.route_id
                         ];
+
+                      const approvalMessage =
+                        approvalQuotationMessages[
+                          route.route_id
+                        ];
+
+                      const quotationMessage =
+                        approvalMessage ||
+                        saveMessage;
 
                       const saveLoading =
                         quotationActionLoading ===
@@ -2648,11 +2675,9 @@ function Route() {
 
                           </div>
 
-                          {savedMessage && (
+                          {quotationMessage && (
                             <div className="saved-quotation-message">
-                              {
-                                savedMessage
-                              }
+                              {quotationMessage}
                             </div>
                           )}
 

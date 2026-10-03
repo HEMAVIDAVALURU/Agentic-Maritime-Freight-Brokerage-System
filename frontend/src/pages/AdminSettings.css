@@ -1,70 +1,515 @@
 /* =========================================================
    ADMIN SETTINGS
-========================================================= */
+   Coffee Brown + Cream Theme
+   ========================================================= */
 
-.admin-settings-page {
+.admin-settings-container {
   width: 100%;
-}
-
-.admin-settings-section {
-  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 30px 34px 50px;
+  background: #f7f2eb;
+  color: #3f2a1d;
 }
 
 /* =========================================================
-   SETTINGS EMPTY STATE
-========================================================= */
+   GLOBAL MESSAGE
+   ========================================================= */
 
-.admin-settings-page .admin-empty-state {
-  min-height: 280px;
+.settings-message {
+  width: 100%;
+  max-width: 1100px;
+  box-sizing: border-box;
+  padding: 13px 17px;
+  margin: 0 auto 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
 
+.settings-message-success {
+  background: #eee2d5;
+  color: #4d2f1f;
+  border: 1px solid #c9b29d;
+}
+
+.settings-message-error {
+  background: #f3dfd8;
+  color: #6d3023;
+  border: 1px solid #d4aaa0;
+}
+
+/* =========================================================
+   SECTION
+   ========================================================= */
+
+.settings-section {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.settings-section-header {
+  margin-bottom: 22px;
+}
+
+.settings-section-header h2 {
+  margin: 0 0 7px;
+  color: #4b2e1e;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.settings-section-header p {
+  margin: 0;
+  color: #806b5c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.settings-card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 25px 27px;
+  margin-bottom: 22px;
+
+  background: #fffdf9;
+  border: 1px solid #dfd1c3;
+  border-radius: 10px;
+
+  box-shadow:
+    0 2px 7px rgba(76, 50, 33, 0.06);
+}
+
+/* =========================================================
+   FORM GRID
+   ========================================================= */
+
+.settings-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 24px;
+  row-gap: 2px;
+}
+
+/* =========================================================
+   FIELD
+   ========================================================= */
+
+.settings-field {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-
-  padding: 40px 24px;
+  gap: 7px;
+  margin-bottom: 18px;
 }
 
-.admin-settings-page .admin-empty-icon {
-  margin-bottom: 14px;
-
-  font-size: 42px;
+.settings-field label {
+  color: #4b3021;
+  font-size: 13px;
+  font-weight: 700;
 }
 
-.admin-settings-page .admin-empty-state h3 {
-  margin: 0 0 8px;
+.settings-field input,
+.settings-field select {
+  width: 100%;
+  min-height: 40px;
+  box-sizing: border-box;
 
-  color: var(--admin-coffee-950);
+  padding: 9px 11px;
 
+  border: 1px solid #d6c5b5;
+  border-radius: 7px;
+
+  background: #fffdf9;
+  color: #3f2a1d;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.settings-field input::placeholder {
+  color: #aa9a8c;
+}
+
+.settings-field input:focus,
+.settings-field select:focus {
+  border-color: #8b5e3c;
+
+  box-shadow:
+    0 0 0 3px rgba(139, 94, 60, 0.12);
+
+  background: #ffffff;
+}
+
+.settings-field input:disabled {
+  background: #eee8e1;
+  color: #6f6259;
+  cursor: not-allowed;
+}
+
+.settings-field select {
+  cursor: pointer;
+}
+
+.settings-field small {
+  color: #907d6d;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.settings-primary-button {
+  min-width: 150px;
+
+  padding: 11px 20px;
+  margin-top: 5px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: #70482f;
+  color: #fffaf3;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.settings-primary-button:hover:not(:disabled) {
+  background: #5f3c27;
+
+  box-shadow:
+    0 3px 8px rgba(75, 46, 30, 0.16);
+
+  transform: translateY(-1px);
+}
+
+.settings-primary-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.settings-primary-button:disabled {
+  background: #b9a89a;
+  color: #f7f0e9;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   CARD TITLE
+   ========================================================= */
+
+.settings-card-title {
+  margin-bottom: 22px;
+}
+
+.settings-card-title h3 {
+  margin: 0 0 6px;
+
+  color: #4b2e1e;
   font-size: 18px;
-  font-weight: 850;
+  font-weight: 700;
 }
 
-.admin-settings-page .admin-empty-state p {
-  max-width: 520px;
-
+.settings-card-title p {
   margin: 0;
 
-  color: var(--admin-muted);
-
+  color: #806d5e;
   font-size: 13px;
   line-height: 1.55;
 }
 
 /* =========================================================
-   RESPONSIVE
-========================================================= */
+   NOTIFICATION TOGGLE ROW
+   ========================================================= */
 
-@media (max-width: 640px) {
-  .admin-settings-page .admin-empty-state {
-    min-height: 240px;
+.settings-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    padding: 32px 18px;
+  gap: 25px;
+  min-height: 58px;
+}
+
+.settings-toggle-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.settings-toggle-content h3 {
+  margin: 0 0 5px;
+
+  color: #4b2e1e;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.settings-toggle-content p {
+  margin: 0;
+
+  color: #877466;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.settings-toggle-disabled {
+  opacity: 0.48;
+}
+
+/* =========================================================
+   SWITCH
+   ========================================================= */
+
+.settings-switch {
+  position: relative;
+
+  flex: 0 0 auto;
+
+  width: 48px;
+  height: 26px;
+
+  display: inline-block;
+}
+
+.settings-switch input {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+.settings-slider {
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: 999px;
+
+  background: #c9b9ab;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.settings-slider::before {
+  content: "";
+
+  position: absolute;
+
+  width: 20px;
+  height: 20px;
+
+  left: 3px;
+  top: 3px;
+
+  border-radius: 50%;
+
+  background: #fffdf9;
+
+  box-shadow:
+    0 1px 4px rgba(50, 30, 18, 0.22);
+
+  transition:
+    transform 0.2s ease;
+}
+
+.settings-switch input:checked + .settings-slider {
+  background: #70482f;
+}
+
+.settings-switch input:checked + .settings-slider::before {
+  transform: translateX(22px);
+}
+
+.settings-switch input:focus-visible + .settings-slider {
+  box-shadow:
+    0 0 0 3px rgba(112, 72, 47, 0.18);
+}
+
+.settings-switch input:disabled + .settings-slider {
+  background: #d8cec5;
+  cursor: not-allowed;
+}
+
+.settings-switch input:disabled + .settings-slider::before {
+  background: #eee9e4;
+}
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+.settings-divider {
+  width: 100%;
+  height: 1px;
+
+  margin: 18px 0;
+
+  background: #e6dbd0;
+}
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.settings-loading-text {
+  margin-top: 12px;
+
+  color: #806d5e;
+  font-size: 12px;
+}
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+
+.settings-about-card {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.settings-about-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  padding: 18px 5px;
+}
+
+.settings-about-row span {
+  flex: 0 0 180px;
+
+  color: #806d5e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.settings-about-row strong {
+  flex: 1;
+
+  color: #4b2e1e;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+
+  text-align: right;
+}
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+
+.settings-section > .settings-card + .settings-card {
+  margin-top: 22px;
+}
+
+/* =========================================================
+   RESPONSIVE - TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .admin-settings-container {
+    padding: 25px 22px 40px;
   }
 
-  .admin-settings-page .admin-empty-icon {
-    font-size: 36px;
+  .settings-section {
+    max-width: 100%;
+  }
+
+  .settings-form-grid {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+
+  .settings-about-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .settings-about-row span {
+    flex: none;
+  }
+
+  .settings-about-row strong {
+    text-align: left;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .admin-settings-container {
+    padding: 20px 15px 35px;
+  }
+
+  .settings-section-header h2 {
+    font-size: 23px;
+  }
+
+  .settings-section-header p {
+    font-size: 13px;
+  }
+
+  .settings-card {
+    padding: 20px 18px;
+    border-radius: 9px;
+  }
+
+  .settings-toggle-row {
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .settings-toggle-content h3 {
+    font-size: 14px;
+  }
+
+  .settings-toggle-content p {
+    font-size: 12px;
+  }
+
+  .settings-switch {
+    margin-top: 2px;
+  }
+
+  .settings-primary-button {
+    width: 100%;
+  }
+
+  .settings-about-row {
+    padding: 15px 2px;
   }
 }
