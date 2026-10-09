@@ -1006,3 +1006,146 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* =========================================================
+   REJECTION REASON CARD
+   ========================================================= */
+
+.aq-rejection-card {
+  margin-top: 16px;
+  padding: 18px;
+  border: 1px solid #e2cdbb;
+  border-radius: 10px;
+  background: #fff8f1;
+  box-shadow: 0 3px 10px rgba(74, 45, 29, 0.05);
+}
+
+.aq-rejection-card-heading h4 {
+  margin: 0;
+  color: #4a2d1d;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.aq-rejection-card-heading p {
+  margin: 5px 0 14px;
+  color: #806f62;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.aq-rejection-label {
+  display: block;
+  margin-bottom: 6px;
+  color: #6f594b;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.aq-rejection-select,
+.aq-rejection-textarea {
+  width: 100%;
+  border: 1px solid #d9c6b5;
+  border-radius: 7px;
+  background: #fffdfb;
+  color: #4a2d1d;
+  font-family: inherit;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aq-rejection-select {
+  min-height: 40px;
+  padding: 0 11px;
+}
+
+.aq-rejection-textarea {
+  margin-top: 10px;
+  padding: 10px 11px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.aq-rejection-select:focus,
+.aq-rejection-textarea:focus {
+  border-color: #8b5e3c;
+  box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.1);
+}
+
+.aq-rejection-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 13px;
+  flex-wrap: wrap;
+}
+
+.aq-skip-rejection-button,
+.aq-confirm-reject-button,
+.aq-add-reason-button {
+  min-height: 35px;
+  padding: 0 12px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.aq-skip-rejection-button {
+  border: 1px solid #cdbbaa;
+  background: #fffaf5;
+  color: #6f594b;
+}
+
+.aq-confirm-reject-button {
+  border: 1px solid #a9362c;
+  background: #b83a30;
+  color: #ffffff;
+}
+
+.aq-add-reason-button {
+  margin-top: 10px;
+  border: 1px solid #8b5e3c;
+  background: #fffaf5;
+  color: #795235;
+}
+
+.aq-skip-rejection-button:hover:not(:disabled),
+.aq-add-reason-button:hover:not(:disabled) {
+  background: #f1e5da;
+}
+
+.aq-confirm-reject-button:hover:not(:disabled) {
+  background: #922d25;
+}
+
+.aq-skip-rejection-button:disabled,
+.aq-confirm-reject-button:disabled,
+.aq-add-reason-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.aq-existing-rejection-card {
+  margin-top: 14px;
+}
+
+.aq-existing-reason {
+  padding: 11px 12px;
+  border: 1px solid #eadbd0;
+  border-radius: 7px;
+  background: #fcf7f1;
+  color: #4a2d1d;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.aq-rejection-editor {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #e7d8ca;
+}

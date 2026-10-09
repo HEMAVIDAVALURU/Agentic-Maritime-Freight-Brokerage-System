@@ -1,6 +1,7 @@
 /* ================================
    ADMIN LOGIN PAGE
 ================================ */
+
 .admin-login-container {
   position: relative;
   width: 100%;
@@ -25,39 +26,293 @@
   background-repeat: no-repeat;
 }
 
-/* Admin Login Card */
-.admin-login-container > div {
-  width: 100%;
-  max-width: 430px;
-  padding: 35px 32px;
-  background: rgba(255, 250, 242, 0.96);
-  border: 1px solid rgba(126, 78, 42, 0.18);
-  border-radius: 18px;
-  box-shadow: 0 18px 45px rgba(40, 22, 12, 0.28);
+
+/* =========================================================
+   BACKGROUND LIGHT EFFECT
+========================================================= */
+
+.admin-login-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 20% 35%,
+      rgba(224, 157, 75, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 82% 25%,
+      rgba(255, 203, 120, 0.10),
+      transparent 28%
+    );
+
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+/* =========================================================
+   ADMIN MARITIME VISUAL PANEL
+========================================================= */
+
+.admin-auth-visual-panel {
+  width: min(520px, 42vw);
+  height: 500px;
+  min-height: 500px;
+
+  box-sizing: border-box;
+
+  padding: 48px 42px;
+
+  color: #fffaf2;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(74, 42, 25, 0.96),
+      rgba(128, 78, 42, 0.84)
+    );
+
+  border-radius: 22px 0 0 22px;
+
+  box-shadow:
+    0 22px 55px rgba(30, 16, 8, 0.28);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
   position: relative;
+  overflow: hidden;
+
   z-index: 2;
 }
 
-/* Heading */
+
+/* =========================================================
+   DECORATIVE CIRCLES
+========================================================= */
+
+.admin-auth-visual-panel::after {
+  content: "";
+
+  position: absolute;
+
+  width: 280px;
+  height: 280px;
+
+  right: -115px;
+  bottom: -115px;
+
+  border: 1px solid rgba(255, 232, 195, 0.18);
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 32px rgba(255, 232, 195, 0.05),
+    0 0 0 64px rgba(255, 232, 195, 0.035);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   SMALL PANEL HEADING
+========================================================= */
+
+.admin-auth-kicker {
+  font-size: 11px;
+  letter-spacing: 2.2px;
+  font-weight: 700;
+
+  opacity: 0.88;
+
+  margin-bottom: 18px;
+
+  color: #fff3e3;
+}
+
+
+/* =========================================================
+   MAIN PANEL HEADING
+========================================================= */
+
+.admin-auth-visual-panel h1 {
+  margin: 0 0 18px;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(32px, 3.2vw, 48px);
+
+  line-height: 1.08;
+
+  color: #fffaf2;
+
+  text-shadow:
+    0 2px 3px rgba(35, 17, 8, 0.35);
+}
+
+
+/* =========================================================
+   MIDDLE DESCRIPTION TEXT
+   UPDATED FOR BETTER VISIBILITY
+========================================================= */
+
+.admin-auth-visual-panel p {
+  max-width: 430px;
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 1.8;
+
+  color: #fff8ed;
+
+  opacity: 1;
+
+  text-shadow: 0 1px 3px rgba(35, 17, 8, 0.55);
+}
+
+/* =========================================================
+   ADMIN WORKFLOW INDICATOR
+========================================================= */
+
+.admin-auth-route-note {
+  margin-top: 34px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 10px;
+
+  letter-spacing: 1px;
+
+  color: #fff3e3;
+}
+
+.admin-auth-route-note b {
+  padding: 10px 13px;
+
+  border: 1px solid rgba(255, 236, 205, 0.30);
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.09);
+
+  font-size: 9px;
+
+  color: #fff8ed;
+}
+
+
+/* =========================================================
+   ADMIN LOGIN CARD
+========================================================= */
+
+.admin-login-container > .admin-login-card {
+  width: 430px;
+  max-width: 430px;
+
+  height: 500px;
+  min-height: 500px;
+
+  box-sizing: border-box;
+
+  padding: 35px 32px;
+
+  background: rgba(255, 250, 242, 0.97);
+
+  border: 1px solid rgba(126, 78, 42, 0.18);
+
+  border-left: 0;
+
+  border-radius: 0 22px 22px 0;
+
+  box-shadow:
+    0 22px 55px rgba(40, 22, 12, 0.28);
+
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   LOGIN HEADING
+========================================================= */
+
 .admin-login-container h2 {
-  margin: 0 0 24px;
+  margin: 0 0 18px;
+
   text-align: center;
+
   color: #5a321f;
+
   font-size: 28px;
+
   font-weight: 700;
 }
 
-/* Inputs */
+
+/* =========================================================
+   SUPPORTING TEXT
+========================================================= */
+
+.admin-login-container p {
+  margin: 8px 0 18px;
+
+  text-align: center;
+
+  color: #80604e;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+.admin-login-container .admin-login-info {
+  margin-top: 0;
+  margin-bottom: 20px;
+
+  color: #795b49;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
 .admin-login-container input {
   width: 100%;
+
+  box-sizing: border-box;
+
   padding: 13px 14px;
+
   margin-bottom: 14px;
+
   border: 1px solid rgba(126, 78, 42, 0.28);
+
   border-radius: 9px;
+
   background: #fffdf9;
+
   color: #3f261b;
+
   font-size: 14px;
+
   outline: none;
+
   transition: 0.2s ease;
 }
 
@@ -67,87 +322,345 @@
 
 .admin-login-container input:focus {
   border-color: #a86b38;
-  box-shadow: 0 0 0 3px rgba(168, 107, 56, 0.12);
+
+  box-shadow:
+    0 0 0 3px rgba(168, 107, 56, 0.12);
 }
 
-/* Button */
-.admin-login-container button {
-  width: 100%;
-  padding: 13px 16px;
-  margin-top: 4px;
-  border: none;
-  border-radius: 9px;
-  background: #7e4e2a;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
+.admin-login-container input:disabled {
+  opacity: 0.7;
 
-.admin-login-container button:hover {
-  background: #633a20;
-  transform: translateY(-1px);
-}
-
-.admin-login-container button:disabled {
-  opacity: 0.65;
   cursor: not-allowed;
-  transform: none;
 }
 
-/* Messages */
+
+/* =========================================================
+   PASSWORD FIELD
+========================================================= */
+
+.admin-password-field-wrap {
+  position: relative;
+
+  width: 100%;
+}
+
+.admin-password-field-wrap input {
+  padding-right: 50px;
+
+  margin-bottom: 14px;
+}
+
+
+/* =========================================================
+   PASSWORD VISIBILITY ICON
+   NO BOX / NO BACKGROUND
+========================================================= */
+
+.admin-password-toggle {
+  position: absolute !important;
+
+  right: 5px;
+
+  top: 50%;
+
+  transform: translateY(-50%) !important;
+
+  width: 42px !important;
+  height: 42px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  border: 0 !important;
+
+  border-radius: 50% !important;
+
+  background: transparent !important;
+
+  color: #5a321f !important;
+
+  box-shadow: none !important;
+
+  font-size: 17px !important;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  opacity: 0.9;
+}
+
+.admin-password-toggle:hover {
+  background: transparent !important;
+
+  color: #3f261b !important;
+
+  opacity: 1;
+
+  transform: translateY(-50%) !important;
+}
+
+.admin-password-toggle:focus {
+  background: transparent !important;
+
+  outline: none !important;
+
+  box-shadow: none !important;
+}
+
+.admin-password-toggle:disabled {
+  background: transparent !important;
+
+  opacity: 0.55;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
 .admin-login-container .message {
   margin: 4px 0 12px;
+
   padding: 10px 12px;
+
   border-radius: 8px;
+
   font-size: 13px;
+
   line-height: 1.4;
+
   text-align: center;
 }
 
 .admin-login-container .message.error {
   color: #9f2f2f;
+
   background: rgba(180, 50, 50, 0.08);
+
   border: 1px solid rgba(180, 50, 50, 0.18);
 }
 
 .admin-login-container .message.success {
   color: #397044;
+
   background: rgba(70, 130, 80, 0.08);
+
   border: 1px solid rgba(70, 130, 80, 0.18);
 }
 
-/* Supporting Text */
-.admin-login-container p {
-  margin: 8px 0 18px;
-  text-align: center;
-  color: #80604e;
-  font-size: 13px;
-  line-height: 1.5;
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.admin-login-container form > button {
+  width: 100%;
+
+  padding: 13px 16px;
+
+  margin-top: 4px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #7e4e2a;
+
+  color: #ffffff;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
-/* Mobile */
-@media (max-width: 480px) {
+.admin-login-container form > button:hover {
+  background: #633a20;
+
+  transform: translateY(-1px);
+}
+
+.admin-login-container form > button:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* =========================================================
+   CUSTOMER LOGIN LINK
+========================================================= */
+
+.admin-login-container .login-text {
+  margin: 20px 0 0;
+
+  text-align: center;
+
+  color: #80604e;
+
+  font-size: 13px;
+}
+
+.admin-login-container .login-text span {
+  color: #7e4e2a;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.admin-login-container .login-text span:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   TABLET / SMALL DESKTOP
+========================================================= */
+
+@media (max-width: 900px) {
+
   .admin-login-container {
-    padding: 30px 18px;
+    gap: 18px;
+
+    flex-wrap: wrap;
+
+    padding: 40px 22px;
   }
 
-  .admin-login-container > div {
+  .admin-auth-visual-panel {
+    width: 100%;
+
+    height: auto;
+
+    min-height: 270px;
+
+    padding: 36px 32px;
+
+    border-radius: 20px;
+  }
+
+  .admin-login-container > .admin-login-card {
+    width: 100%;
+
+    max-width: 430px;
+
+    height: auto;
+
+    min-height: 0;
+
+    border-left: 1px solid rgba(126, 78, 42, 0.18);
+
+    border-radius: 18px;
+
+    padding: 32px 28px;
+  }
+
+  .admin-auth-visual-panel h1 {
+    font-size: 36px;
+  }
+
+  .admin-auth-visual-panel p {
+    color: #fff3e3;
+
+    opacity: 0.96;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .admin-login-container {
+    min-height: calc(100vh - 92px);
+
+    padding: 30px 18px;
+
+    align-items: stretch;
+  }
+
+  .admin-auth-visual-panel {
+    min-height: 230px;
+
+    padding: 30px 25px;
+
+    border-radius: 18px;
+  }
+
+  .admin-auth-kicker {
+    font-size: 9px;
+
+    letter-spacing: 1.7px;
+
+    margin-bottom: 14px;
+  }
+
+  .admin-auth-visual-panel h1 {
+    font-size: 30px;
+
+    margin-bottom: 14px;
+  }
+
+  .admin-auth-visual-panel p {
+    font-size: 13px;
+
+    line-height: 1.65;
+
+    color: #fff3e3;
+
+    opacity: 0.96;
+  }
+
+  .admin-auth-route-note {
+    margin-top: 22px;
+
+    gap: 6px;
+  }
+
+  .admin-auth-route-note b {
+    padding: 8px 10px;
+
+    font-size: 8px;
+  }
+
+  .admin-login-container > .admin-login-card {
     padding: 28px 22px;
-    border-radius: 15px;
+
+    border-radius: 18px;
   }
 
   .admin-login-container h2 {
     font-size: 24px;
-    margin-bottom: 20px;
+
+    margin-bottom: 18px;
   }
 
   .admin-login-container input {
     padding: 12px;
   }
 
-  .admin-login-container button {
+  .admin-login-container form > button {
     padding: 12px;
   }
+}
+
+/* =========================================================
+   MARITIME PANEL DESCRIPTION - FINAL TEXT COLOR
+========================================================= */
+
+.admin-login-container .admin-auth-visual-panel p {
+  color: #f1bcb3;
+  opacity: 1;
+  text-shadow: 0 1px 3px rgba(35, 17, 8, 0.55);
 }

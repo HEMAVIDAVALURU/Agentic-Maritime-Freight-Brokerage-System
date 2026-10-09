@@ -20,14 +20,109 @@ from app.database import Base
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), nullable=False)
-    email = Column(String(150), unique=True, nullable=False, index=True)
-    password = Column(String(255), nullable=False)
-    company_name = Column(String(150), nullable=True)
-    role = Column(String(20), default="customer", nullable=False)
-    is_verified = Column(Boolean, default=False, nullable=False)
-    created_at = Column(DateTime, server_default=func.now())
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    name = Column(
+        String(100),
+        nullable=False
+    )
+
+    email = Column(
+        String(150),
+        unique=True,
+        nullable=False,
+        index=True
+    )
+
+    password = Column(
+        String(255),
+        nullable=False
+    )
+
+    company_name = Column(
+        String(150),
+        nullable=True
+    )
+
+    # -----------------------------------------------------
+    # USER PROFILE
+    # -----------------------------------------------------
+
+    phone_number = Column(
+        String(20),
+        nullable=True
+    )
+
+    city = Column(
+        String(100),
+        nullable=True
+    )
+
+    gender = Column(
+        String(20),
+        nullable=True
+    )
+
+    profile_picture = Column(
+        Text,
+        nullable=True
+    )
+
+    # -----------------------------------------------------
+    # USER ROLE / STATUS
+    # -----------------------------------------------------
+
+    role = Column(
+        String(20),
+        default="customer",
+        nullable=False
+    )
+
+    is_verified = Column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    is_active = Column(
+        Boolean,
+        default=True,
+        nullable=False
+    )
+
+    # -----------------------------------------------------
+    # USER NOTIFICATION SETTINGS
+    # -----------------------------------------------------
+
+    # Master switch for all customer email notifications
+    email_notifications = Column(
+        Boolean,
+        default=True,
+        nullable=False
+    )
+
+    # Email notification for quotation approval/rejection
+    quotation_notifications = Column(
+        Boolean,
+        default=True,
+        nullable=False
+    )
+
+    # Email notification for feedback updates
+    feedback_notifications = Column(
+        Boolean,
+        default=True,
+        nullable=False
+    )
+
+    created_at = Column(
+        DateTime,
+        server_default=func.now()
+    )
 
 
 # ---------------------------------------------------------
@@ -37,7 +132,11 @@ class User(Base):
 class Admin(Base):
     __tablename__ = "admins"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
 
     name = Column(
         String(100),
@@ -68,6 +167,10 @@ class Admin(Base):
     gender = Column(
         String(20),
         nullable=True
+    )
+    city = Column(
+    String(100),
+    nullable=True
     )
 
     # -----------------------------------------------------
@@ -125,12 +228,54 @@ class Admin(Base):
 class EmailOTP(Base):
     __tablename__ = "email_otps"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    otp = Column(String(10), nullable=False)
-    expires_at = Column(DateTime, nullable=False)
-    is_used = Column(Boolean, default=False, nullable=False)
-    created_at = Column(DateTime, server_default=func.now())
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False
+    )
+
+    otp = Column(
+        String(10),
+        nullable=False
+    )
+
+    # -----------------------------------------------------
+    # OTP PURPOSE
+    # -----------------------------------------------------
+    # registration  -> OTP used for new account verification
+    # password_reset -> OTP used for forgot-password flow
+    #
+    # This prevents a registration OTP from being used
+    # as a password-reset OTP and vice versa.
+    # -----------------------------------------------------
+
+    purpose = Column(
+        String(50),
+        nullable=False,
+        default="registration"
+    )
+
+    expires_at = Column(
+        DateTime,
+        nullable=False
+    )
+
+    is_used = Column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    created_at = Column(
+        DateTime,
+        server_default=func.now()
+    )
 
 
 # ---------------------------------------------------------
@@ -140,16 +285,57 @@ class EmailOTP(Base):
 class Route(Base):
     __tablename__ = "routes"
 
-    id = Column(Integer, primary_key=True, index=True)
-    route_id = Column(String(50), unique=True, nullable=False)
-    origin = Column(String(100), nullable=False)
-    destination = Column(String(100), nullable=False)
-    distance_nm = Column(Float, nullable=False)
-    transit_days = Column(Integer, nullable=False)
-    transshipments = Column(Integer, nullable=False)
-    route_type = Column(String(50), nullable=False)
-    base_freight_usd = Column(Float, nullable=False)
-    cargo_type = Column(String(100), nullable=False)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    route_id = Column(
+        String(50),
+        unique=True,
+        nullable=False
+    )
+
+    origin = Column(
+        String(100),
+        nullable=False
+    )
+
+    destination = Column(
+        String(100),
+        nullable=False
+    )
+
+    distance_nm = Column(
+        Float,
+        nullable=False
+    )
+
+    transit_days = Column(
+        Integer,
+        nullable=False
+    )
+
+    transshipments = Column(
+        Integer,
+        nullable=False
+    )
+
+    route_type = Column(
+        String(50),
+        nullable=False
+    )
+
+    base_freight_usd = Column(
+        Float,
+        nullable=False
+    )
+
+    cargo_type = Column(
+        String(100),
+        nullable=False
+    )
 
 
 # ---------------------------------------------------------
@@ -159,15 +345,51 @@ class Route(Base):
 class Pricing(Base):
     __tablename__ = "pricing"
 
-    id = Column(Integer, primary_key=True, index=True)
-    route_id = Column(String(50), nullable=False)
-    fuel_surcharge = Column(Float, default=0)
-    port_charge = Column(Float, default=0)
-    risk_surcharge = Column(Float, default=0)
-    operating_cost = Column(Float, default=0)
-    demand_factor = Column(Float, default=1.0)
-    demand_adjusted_cost = Column(Float, default=0)
-    created_at = Column(DateTime, server_default=func.now())
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    route_id = Column(
+        String(50),
+        nullable=False
+    )
+
+    fuel_surcharge = Column(
+        Float,
+        default=0
+    )
+
+    port_charge = Column(
+        Float,
+        default=0
+    )
+
+    risk_surcharge = Column(
+        Float,
+        default=0
+    )
+
+    operating_cost = Column(
+        Float,
+        default=0
+    )
+
+    demand_factor = Column(
+        Float,
+        default=1.0
+    )
+
+    demand_adjusted_cost = Column(
+        Float,
+        default=0
+    )
+
+    created_at = Column(
+        DateTime,
+        server_default=func.now()
+    )
 
 
 # ---------------------------------------------------------
@@ -177,18 +399,105 @@ class Pricing(Base):
 class QuotationRequestDB(Base):
     __tablename__ = "quotation_requests"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    origin = Column(String(100), nullable=False)
-    destination = Column(String(100), nullable=False)
-    cargo_type = Column(String(100), nullable=False)
-    container_type = Column(String(50), nullable=False)
-    container_count = Column(Integer, nullable=False)
-    selected_route_id = Column(String(50), nullable=False)
-    target_margin = Column(Float, default=0.10)
-    selling_price = Column(Float, default=0)
-    status = Column(String(20), default="pending", nullable=False)
-    created_at = Column(DateTime, server_default=func.now())
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False
+    )
+
+    origin = Column(
+        String(100),
+        nullable=False
+    )
+
+    destination = Column(
+        String(100),
+        nullable=False
+    )
+
+    cargo_type = Column(
+        String(100),
+        nullable=False
+    )
+
+    container_type = Column(
+        String(50),
+        nullable=False
+    )
+
+    container_count = Column(
+        Integer,
+        nullable=False
+    )
+
+    selected_route_id = Column(
+        String(50),
+        nullable=False
+    )
+
+    target_margin = Column(
+        Float,
+        default=0.10
+    )
+
+    selling_price = Column(
+        Float,
+        default=0
+    )
+
+    status = Column(
+        String(20),
+        default="pending",
+        nullable=False
+    )
+
+    created_at = Column(
+        DateTime,
+        server_default=func.now()
+    )
+
+
+# ---------------------------------------------------------
+# QUOTATION REJECTION REASONS TABLE
+# ---------------------------------------------------------
+
+class QuotationRejectionReason(Base):
+    __tablename__ = "quotation_rejection_reasons"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    quotation_id = Column(
+        Integer,
+        ForeignKey("quotation_requests.id"),
+        unique=True,
+        nullable=False
+    )
+
+    reason = Column(
+        String(500),
+        nullable=True
+    )
+
+    created_at = Column(
+        DateTime,
+        server_default=func.now()
+    )
+
+    updated_at = Column(
+        DateTime,
+        server_default=func.now(),
+        onupdate=func.now()
+    )
 
 
 # ---------------------------------------------------------
@@ -198,7 +507,11 @@ class QuotationRequestDB(Base):
 class QuotationRoute(Base):
     __tablename__ = "quotation_routes"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
 
     quotation_id = Column(
         Integer,
@@ -206,10 +519,25 @@ class QuotationRoute(Base):
         nullable=False
     )
 
-    route_id = Column(String(50), nullable=False)
-    rank = Column(Integer, nullable=False)
-    route_score = Column(Float, nullable=False)
-    base_freight_usd = Column(Float, nullable=False)
+    route_id = Column(
+        String(50),
+        nullable=False
+    )
+
+    rank = Column(
+        Integer,
+        nullable=False
+    )
+
+    route_score = Column(
+        Float,
+        nullable=False
+    )
+
+    base_freight_usd = Column(
+        Float,
+        nullable=False
+    )
 
 
 # ---------------------------------------------------------
@@ -219,8 +547,17 @@ class QuotationRoute(Base):
 class SavedQuotation(Base):
     __tablename__ = "saved_quotations"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False
+    )
 
     quotation_id = Column(
         Integer,
@@ -241,11 +578,32 @@ class SavedQuotation(Base):
 class Activity(Base):
     __tablename__ = "activities"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    activity_type = Column(String(100), nullable=False)
-    description = Column(Text, nullable=True)
-    created_at = Column(DateTime, server_default=func.now())
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False
+    )
+
+    activity_type = Column(
+        String(100),
+        nullable=False
+    )
+
+    description = Column(
+        Text,
+        nullable=True
+    )
+
+    created_at = Column(
+        DateTime,
+        server_default=func.now()
+    )
 
 
 # ---------------------------------------------------------
@@ -255,7 +613,11 @@ class Activity(Base):
 class Feedback(Base):
     __tablename__ = "feedback"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
 
     user_id = Column(
         Integer,
@@ -269,12 +631,21 @@ class Feedback(Base):
         nullable=True
     )
 
-    rating = Column(Integer, nullable=False)
+    rating = Column(
+        Integer,
+        nullable=False
+    )
 
-    comments = Column(Text, nullable=True)
+    comments = Column(
+        Text,
+        nullable=True
+    )
 
     # Admin's response to the user's feedback
-    admin_response = Column(Text, nullable=True)
+    admin_response = Column(
+        Text,
+        nullable=True
+    )
 
     # Date and time when admin responded
     admin_response_at = Column(

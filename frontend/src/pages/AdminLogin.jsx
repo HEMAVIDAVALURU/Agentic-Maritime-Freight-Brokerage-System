@@ -6,6 +6,8 @@ function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,10 +19,6 @@ function AdminLogin() {
 
     setMessage("");
     setMessageType("");
-
-    // -----------------------------------------------------
-    // Validate fields
-    // -----------------------------------------------------
 
     if (!email.trim() || !password) {
       setMessage("Please enter admin email and password.");
@@ -40,7 +38,6 @@ function AdminLogin() {
             "Content-Type": "application/json",
           },
 
-          // Allows browser to receive/store HttpOnly JWT cookie
           credentials: "include",
 
           body: JSON.stringify({
@@ -54,10 +51,6 @@ function AdminLogin() {
 
       console.log("Admin login response:", data);
 
-      // -----------------------------------------------------
-      // LOGIN FAILED
-      // -----------------------------------------------------
-
       if (!response.ok || data.status !== "success") {
         setMessage(
           data.message || "Invalid admin credentials."
@@ -66,10 +59,6 @@ function AdminLogin() {
         setMessageType("error");
         return;
       }
-
-      // -----------------------------------------------------
-      // LOGIN SUCCESSFUL
-      // -----------------------------------------------------
 
       setMessage(
         "Admin login successful! Redirecting..."
@@ -80,7 +69,6 @@ function AdminLogin() {
       console.log("Admin login successful.");
       console.log("Navigating to /admin-dashboard");
 
-      // Small delay so the success message is visible
       setTimeout(() => {
         navigate("/admin-dashboard");
       }, 1000);
@@ -102,11 +90,49 @@ function AdminLogin() {
   return (
     <div className="admin-login-container">
 
+      {/* =================================================
+          MARITIME INFORMATION PANEL
+      ================================================= */}
+
+      <div className="admin-auth-visual-panel">
+
+        <div className="admin-auth-kicker">
+          MARITIME FREIGHT BROKERAGE
+        </div>
+
+        <h1>
+          Command Your
+          <br />
+          Fleet
+        </h1>
+
+        <p>
+          Access the administrative control center for maritime
+          freight operations. Manage quotations, users, approvals,
+          pricing, routes and platform activity from one secure
+          workspace.
+        </p>
+
+        <div className="admin-auth-route-note">
+          <b>CONTROL</b>
+          <span>→</span>
+          <b>MANAGE</b>
+          <span>→</span>
+          <b>APPROVE</b>
+        </div>
+
+      </div>
+
+
+      {/* =================================================
+          ADMIN LOGIN CARD
+      ================================================= */}
+
       <div className="admin-login-card">
 
         <h2>Admin Login</h2>
 
-        <p className="otp-info">
+        <p className="admin-login-info">
           Login to access the Maritime Freight Admin Dashboard.
         </p>
 
@@ -117,7 +143,7 @@ function AdminLogin() {
 
           {/* =================================================
               ADMIN EMAIL
-              ================================================= */}
+          ================================================= */}
 
           <input
             type="email"
@@ -130,24 +156,51 @@ function AdminLogin() {
             required
           />
 
+
           {/* =================================================
               ADMIN PASSWORD
-              ================================================= */}
+          ================================================= */}
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Admin Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-            disabled={loading}
-            required
-          />
+          <div className="admin-password-field-wrap">
+
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Admin Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              disabled={loading}
+              required
+            />
+
+            <button
+              type="button"
+              className="admin-password-toggle"
+              onClick={() =>
+                setShowPassword((previous) => !previous)
+              }
+              aria-label={
+                showPassword
+                  ? "Hide admin password"
+                  : "Show admin password"
+              }
+              title={
+                showPassword
+                  ? "Hide password"
+                  : "Show password"
+              }
+              disabled={loading}
+            >
+              {showPassword ? "◉" : "◉"}
+            </button>
+
+          </div>
+
 
           {/* =================================================
               MESSAGE
-              ================================================= */}
+          ================================================= */}
 
           {message && (
             <p className={`message ${messageType}`}>
@@ -155,9 +208,10 @@ function AdminLogin() {
             </p>
           )}
 
+
           {/* =================================================
               LOGIN BUTTON
-              ================================================= */}
+          ================================================= */}
 
           <button
             type="submit"
@@ -168,9 +222,10 @@ function AdminLogin() {
 
         </form>
 
+
         {/* =================================================
             CUSTOMER LOGIN
-            ================================================= */}
+        ================================================= */}
 
         <p className="login-text">
           Customer?{" "}

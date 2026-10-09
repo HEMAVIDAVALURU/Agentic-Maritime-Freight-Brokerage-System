@@ -201,6 +201,18 @@ function getStatusCounts(quotations) {
   );
 }
 
+const REJECTION_REASONS = [
+  "Price is too high",
+  "Route score below requirement",
+  "Customer compliance or clearance risk",
+  "Weather or operational risk",
+  "Incomplete shipment information",
+  "Customs or documentation risk",
+  "Customer request changed",
+  "Route or capacity availability issue",
+  "Other",
+];
+
 function AdminQuotations() {
   const [quotations, setQuotations] = useState([]);
   const [selectedQuotation, setSelectedQuotation] = useState(null);
@@ -211,6 +223,10 @@ function AdminQuotations() {
   const [actionError, setActionError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
+  const [showRejectReason, setShowRejectReason] = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
+  const [customRejectReason, setCustomRejectReason] = useState("");
+  const [highlightedQuotationId, setHighlightedQuotationId] = useState(null);
 
   const loadQuotations = useCallback(async () => {
     setLoading(true);
@@ -263,6 +279,54 @@ function AdminQuotations() {
     loadQuotations();
   }, [loadQuotations]);
 
+  // Open the exact quotation referenced by an admin notification.
+  useEffect(() => {
+    if (!quotations.length) return;
+
+    try {
+      const storedTarget = sessionStorage.getItem(
+        "admin_notification_target"
+      );
+
+      if (!storedTarget) return;
+
+      const target = JSON.parse(storedTarget);
+
+      if (target?.type !== "quotation") return;
+
+      const quotation = quotations.find(
+        (item) =>
+          String(item.id ?? item.quotation_id) ===
+          String(target.id)
+      );
+
+      if (!quotation) return;
+
+      sessionStorage.removeItem("admin_notification_target");
+
+      const quotationId = quotation.id ?? quotation.quotation_id;
+      setHighlightedQuotationId(String(quotationId));
+
+      window.setTimeout(() => {
+        document
+          .getElementById(`admin-quotation-${quotationId}`)
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+      }, 100);
+
+      window.setTimeout(() => {
+        setHighlightedQuotationId(null);
+      }, 4500);
+    } catch (error) {
+      console.error(
+        "Admin quotation notification target error:",
+        error
+      );
+    }
+  }, [quotations]);
+
   const counts = getStatusCounts(quotations);
   const filteredQuotations = quotations.filter((quotation) => {
     const status = normalizeStatus(quotation.status);
@@ -287,6 +351,9 @@ function AdminQuotations() {
     setSelectedQuotation(quotation);
     setActionError("");
     setSuccessMessage("");
+    setShowRejectReason(false);
+    setRejectReason("");
+    setCustomRejectReason("");
   }
 
   function closeDetails() {
@@ -295,9 +362,16 @@ function AdminQuotations() {
     setActionError("");
   }
 
-  async function handleDecision(decision) {
+  async function handleDecision(decision, rejectionReason = null) {
     if (!selectedQuotation || actionLoading) return;
-    if (normalizeStatus(selectedQuotation.status) !== "pending") {
+    const currentStatus = normalizeStatus(selectedQuotation.status);
+
+    if (decision === "reject" && currentStatus === "rejected") {
+      setShowRejectReason(true);
+      return;
+    }
+
+    if (currentStatus !== "pending") {
       setActionError("Only pending quotations can be approved or rejected.");
       return;
     }
@@ -309,7 +383,7 @@ function AdminQuotations() {
     }
 
     const actionLabel = decision === "approve" ? "approve" : "reject";
-    if (!window.confirm(`Are you sure you want to ${actionLabel} quotation ${quotationId}?`)) {
+    if (decision === "approve" && !window.confirm(`Are you sure you want to approve quotation ${quotationId}?`)) {
       return;
     }
 
@@ -318,13 +392,20 @@ function AdminQuotations() {
     setSuccessMessage("");
 
     try {
+      const requestOptions = {
+        method: "POST",
+        credentials: "include",
+        headers: { Accept: "application/json" },
+      };
+
+      if (decision === "reject") {
+        requestOptions.headers["Content-Type"] = "application/json";
+        requestOptions.body = JSON.stringify({ reason: rejectionReason || null });
+      }
+
       const response = await fetch(
         `${API_BASE}/api/admin-quotations/${encodeURIComponent(quotationId)}/${actionLabel}`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { Accept: "application/json" },
-        }
+        requestOptions
       );
 
       if (!response.ok) {
@@ -352,26 +433,84 @@ function AdminQuotations() {
           ? "approved"
           : "rejected";
 
+      const returnedReason = result.rejection_reason ?? rejectionReason ?? null;
+
       setQuotations((previous) =>
         previous.map((quotation) => {
           const currentId = quotation.id ?? quotation.quotation_id;
           return String(currentId) !== String(quotationId)
             ? quotation
-            : { ...quotation, ...result, status: updatedStatus };
+            : { ...quotation, ...result, status: updatedStatus, rejection_reason: returnedReason };
         })
       );
 
       setSelectedQuotation((previous) =>
         previous
-          ? { ...previous, ...result, status: updatedStatus }
+          ? { ...previous, ...result, status: updatedStatus, rejection_reason: returnedReason }
           : null
       );
-      setSuccessMessage(`Quotation ${quotationId} was ${updatedStatus}.`);
+      setSuccessMessage(
+        decision === "reject"
+          ? returnedReason
+            ? `Quotation ${quotationId} was rejected with a reason.`
+            : `Quotation ${quotationId} was rejected. You can add a reason later.`
+          : `Quotation ${quotationId} was approved.`
+      );
+      setShowRejectReason(false);
+      setRejectReason("");
+      setCustomRejectReason("");
 
-      // Refresh persisted status and pricing fields from the backend.
       await loadQuotations();
     } catch (err) {
       setActionError(err.message || `Unable to ${actionLabel} this quotation.`);
+    } finally {
+      setActionLoading(false);
+    }
+  }
+
+  async function saveLaterRejectionReason() {
+    if (!selectedQuotation || actionLoading) return;
+    const quotationId = selectedQuotation.id ?? selectedQuotation.quotation_id;
+    const finalReason = rejectReason === "Other" ? customRejectReason.trim() : rejectReason;
+    if (!finalReason) {
+      setActionError("Please select or enter a rejection reason.");
+      return;
+    }
+
+    setActionLoading(true);
+    setActionError("");
+    try {
+      const response = await fetch(
+        `${API_BASE}/api/admin-quotations/${encodeURIComponent(quotationId)}/rejection-reason`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ reason: finalReason }),
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.detail || "Unable to save the rejection reason.");
+
+      setSelectedQuotation((previous) =>
+        previous ? { ...previous, rejection_reason: finalReason } : null
+      );
+      setQuotations((previous) =>
+        previous.map((quotation) =>
+          String(quotation.id ?? quotation.quotation_id) === String(quotationId)
+            ? { ...quotation, rejection_reason: finalReason }
+            : quotation
+        )
+      );
+      setShowRejectReason(false);
+      setRejectReason("");
+      setCustomRejectReason("");
+      setSuccessMessage("Rejection reason saved successfully.");
+    } catch (err) {
+      setActionError(err.message || "Unable to save the rejection reason.");
     } finally {
       setActionLoading(false);
     }
@@ -543,7 +682,16 @@ function AdminQuotations() {
                 filteredQuotations.map((quotation) => {
                   const customer = getCustomer(quotation);
                   return (
-                    <tr key={quotation.id ?? quotation.quotation_id}>
+                    <tr
+                      key={quotation.id ?? quotation.quotation_id}
+                      id={`admin-quotation-${quotation.id ?? quotation.quotation_id}`}
+                      className={
+                        String(quotation.id ?? quotation.quotation_id) ===
+                        String(highlightedQuotationId)
+                          ? "aq-notification-highlight"
+                          : ""
+                      }
+                    >
                       <td className="aq-quotation-id">#{getQuotationId(quotation)}</td>
                       <td>
                         <div className="aq-customer-name">{customer.name || "—"}</div>
@@ -642,17 +790,102 @@ function AdminQuotations() {
 
               <DetailSection
                 title="D. Weather Assessment"
-                description="Weather assessment associated with the route."
+                description="Complete weather assessment associated with the selected route."
               >
-                <DetailField label="Weather Risk Level" value={getWeatherRisk(selectedQuotation)} />
-                <DetailField label="Weather Condition" value={getWeatherCondition(selectedQuotation)} />
+                <DetailField
+                  label="Weather Risk Level"
+                  value={getWeatherRisk(selectedQuotation)}
+                />
+                <DetailField
+                  label="Weather Condition"
+                  value={getWeatherCondition(selectedQuotation)}
+                />
+                <DetailField
+                  label="Wind Speed"
+                  value={
+                    selectedQuotation.weather?.wind_speed_knots ??
+                    selectedQuotation.wind_speed_knots
+                  }
+                />
+                <DetailField
+                  label="Wave Height"
+                  value={
+                    selectedQuotation.weather?.wave_height_m ??
+                    selectedQuotation.wave_height_m
+                  }
+                />
+                <DetailField
+                  label="Visibility"
+                  value={
+                    selectedQuotation.weather?.visibility_km ??
+                    selectedQuotation.visibility_km
+                  }
+                />
+                <DetailField
+                  label="Storm Probability"
+                  value={
+                    selectedQuotation.weather?.storm_probability_percent ??
+                    selectedQuotation.weather?.storm_probability ??
+                    selectedQuotation.storm_probability_percent
+                  }
+                />
+                <DetailField
+                  label="Risk Points"
+                  value={
+                    selectedQuotation.weather?.risk_points ??
+                    selectedQuotation.risk_points
+                  }
+                />
               </DetailSection>
 
               <DetailSection
                 title="E. Customs Assessment"
-                description="Customs validation status."
+                description="Complete customs documentation and compliance assessment."
               >
-                <DetailField label="Customs Status" value={getCustomsStatus(selectedQuotation)} />
+                <DetailField
+                  label="Customs ID"
+                  value={selectedQuotation.customs?.customs_id ?? selectedQuotation.customs_id}
+                />
+                <DetailField
+                  label="Cargo Type"
+                  value={selectedQuotation.customs?.cargo_type ?? selectedQuotation.cargo_type}
+                />
+                <DetailField
+                  label="HS Code Required"
+                  value={selectedQuotation.customs?.hs_code_required}
+                />
+                <DetailField
+                  label="Commercial Invoice"
+                  value={selectedQuotation.customs?.commercial_invoice}
+                />
+                <DetailField
+                  label="Packing List"
+                  value={selectedQuotation.customs?.packing_list}
+                />
+                <DetailField
+                  label="Certificate of Origin"
+                  value={selectedQuotation.customs?.certificate_of_origin}
+                />
+                <DetailField
+                  label="Restricted Cargo"
+                  value={selectedQuotation.customs?.restricted_cargo}
+                />
+                <DetailField
+                  label="Customs Status"
+                  value={getCustomsStatus(selectedQuotation)}
+                />
+                <DetailField
+                  label="Missing Documents"
+                  value={
+                    Array.isArray(selectedQuotation.customs?.missing_documents)
+                      ? selectedQuotation.customs.missing_documents.join(", ") || "None"
+                      : "None"
+                  }
+                />
+                <DetailField
+                  label="Recommendation"
+                  value={selectedQuotation.customs?.recommendation}
+                />
               </DetailSection>
 
               <section className="aq-decision-section">
@@ -661,30 +894,184 @@ function AdminQuotations() {
                   <p>Approve or reject this customer quotation request.</p>
                 </div>
                 {normalizeStatus(selectedQuotation.status) === "pending" ? (
-                  <div className="aq-decision-buttons">
-                    <button
-                      type="button"
-                      className="aq-approve-button"
-                      onClick={() => handleDecision("approve")}
-                      disabled={actionLoading}
-                    >
-                      {actionLoading ? "Processing..." : "✓ Approve Quotation"}
-                    </button>
-                    <button
-                      type="button"
-                      className="aq-reject-button"
-                      onClick={() => handleDecision("reject")}
-                      disabled={actionLoading}
-                    >
-                      {actionLoading ? "Processing..." : "× Reject Quotation"}
-                    </button>
-                  </div>
+                  <>
+                    <div className="aq-decision-buttons">
+                      <button
+                        type="button"
+                        className="aq-approve-button"
+                        onClick={() => handleDecision("approve")}
+                        disabled={actionLoading}
+                      >
+                        {actionLoading ? "Processing..." : "✓ Approve Quotation"}
+                      </button>
+                      <button
+                        type="button"
+                        className="aq-reject-button"
+                        onClick={() => {
+                          setShowRejectReason(true);
+                          setActionError("");
+                          setSuccessMessage("");
+                          setRejectReason("");
+                          setCustomRejectReason("");
+                        }}
+                        disabled={actionLoading}
+                      >
+                        × Reject Quotation
+                      </button>
+                    </div>
+
+                    {showRejectReason && (
+                      <div className="aq-rejection-card">
+                        <div className="aq-rejection-card-heading">
+                          <div>
+                            <h4>Rejection Reason</h4>
+                            <p>Select a reason for rejecting this quotation, or skip for now.</p>
+                          </div>
+                        </div>
+                        <label className="aq-rejection-label" htmlFor="aq-rejection-reason">Reason</label>
+                        <select
+                          id="aq-rejection-reason"
+                          className="aq-rejection-select"
+                          value={rejectReason}
+                          onChange={(event) => setRejectReason(event.target.value)}
+                          disabled={actionLoading}
+                        >
+                          <option value="">Select a reason</option>
+                          {REJECTION_REASONS.map((reason) => (
+                            <option key={reason} value={reason}>{reason}</option>
+                          ))}
+                        </select>
+
+                        {rejectReason === "Other" && (
+                          <textarea
+                            className="aq-rejection-textarea"
+                            value={customRejectReason}
+                            onChange={(event) => setCustomRejectReason(event.target.value)}
+                            placeholder="Enter the rejection reason..."
+                            rows={3}
+                            disabled={actionLoading}
+                          />
+                        )}
+
+                        <div className="aq-rejection-actions">
+                          <button
+                            type="button"
+                            className="aq-secondary-button"
+                            onClick={() => {
+                              setShowRejectReason(false);
+                              setRejectReason("");
+                              setCustomRejectReason("");
+                            }}
+                            disabled={actionLoading}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="button"
+                            className="aq-skip-rejection-button"
+                            onClick={() => handleDecision("reject", null)}
+                            disabled={actionLoading}
+                          >
+                            Skip for now & Reject
+                          </button>
+                          <button
+                            type="button"
+                            className="aq-confirm-reject-button"
+                            onClick={() => {
+                              const finalReason = rejectReason === "Other" ? customRejectReason.trim() : rejectReason;
+                              if (!finalReason) {
+                                setActionError("Please select a rejection reason or use Skip for now.");
+                                return;
+                              }
+                              handleDecision("reject", finalReason);
+                            }}
+                            disabled={actionLoading}
+                          >
+                            Reject with Reason
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </>
                 ) : (
-                  <p className="aq-decision-complete">
-                    This quotation has already been{" "}
-                    {normalizeStatus(selectedQuotation.status) === "approved" ? "approved" : "rejected"}.
-                    {" "}No further decision is available.
-                  </p>
+                  <>
+                    <p className="aq-decision-complete">
+                      This quotation has already been{" "}
+                      {normalizeStatus(selectedQuotation.status) === "approved" ? "approved" : "rejected"}.
+                    </p>
+                    {normalizeStatus(selectedQuotation.status) === "rejected" && (
+                      <div className="aq-rejection-card aq-existing-rejection-card">
+                        <div className="aq-rejection-card-heading">
+                          <div>
+                            <h4>Rejection Reason</h4>
+                            <p>
+                              {selectedQuotation.rejection_reason
+                                ? "This is the reason shown to the customer."
+                                : "No reason was provided when this quotation was rejected. You can add one now."}
+                            </p>
+                          </div>
+                        </div>
+                        {selectedQuotation.rejection_reason ? (
+                          <div className="aq-existing-reason">{selectedQuotation.rejection_reason}</div>
+                        ) : null}
+                        <button
+                          type="button"
+                          className="aq-add-reason-button"
+                          onClick={() => {
+                            setShowRejectReason(true);
+                            setRejectReason("");
+                            setCustomRejectReason("");
+                            setActionError("");
+                          }}
+                          disabled={actionLoading}
+                        >
+                          {selectedQuotation.rejection_reason ? "Update Rejection Reason" : "Add Rejection Reason"}
+                        </button>
+
+                        {showRejectReason && (
+                          <div className="aq-rejection-editor">
+                            <label className="aq-rejection-label" htmlFor="aq-existing-rejection-reason">Reason</label>
+                            <select
+                              id="aq-existing-rejection-reason"
+                              className="aq-rejection-select"
+                              value={rejectReason}
+                              onChange={(event) => setRejectReason(event.target.value)}
+                              disabled={actionLoading}
+                            >
+                              <option value="">Select a reason</option>
+                              {REJECTION_REASONS.map((reason) => (
+                                <option key={reason} value={reason}>{reason}</option>
+                              ))}
+                            </select>
+                            {rejectReason === "Other" && (
+                              <textarea
+                                className="aq-rejection-textarea"
+                                value={customRejectReason}
+                                onChange={(event) => setCustomRejectReason(event.target.value)}
+                                placeholder="Enter the rejection reason..."
+                                rows={3}
+                                disabled={actionLoading}
+                              />
+                            )}
+                            <div className="aq-rejection-actions">
+                              <button
+                                type="button"
+                                className="aq-secondary-button"
+                                onClick={() => setShowRejectReason(false)}
+                                disabled={actionLoading}
+                              >Cancel</button>
+                              <button
+                                type="button"
+                                className="aq-confirm-reject-button"
+                                onClick={saveLaterRejectionReason}
+                                disabled={actionLoading}
+                              >Save Reason</button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </>
                 )}
               </section>
             </div>

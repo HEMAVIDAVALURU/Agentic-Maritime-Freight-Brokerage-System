@@ -2,23 +2,26 @@
    SAVED QUOTATIONS PAGE
 ========================================================= */
 
-.saved-quotations-page {
-  min-height: 100vh;
-  width: 100%;
-
-  padding: 32px 40px 50px;
-
+.saved-quotations-page,
+.saved-quotations-page * {
   box-sizing: border-box;
+}
+
+.saved-quotations-page {
+  width: 100%;
+  min-height: 100vh;
+
+  padding: 30px 22px 46px;
 
   background:
     linear-gradient(
       180deg,
       #fffaf3 0%,
       #fdf7ee 45%,
-      #f8efe3 100%
+      #f7f2ec 100%
     );
 
-  color: #2f241c;
+  color: #4a2d1d;
 }
 
 
@@ -26,14 +29,15 @@
    PAGE HEADER
 ========================================================= */
 
-.saved-quotations-header {
+.saved-quotations-header,
+.saved-quotations-page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 25px;
+
+  gap: 20px;
 
   max-width: 1180px;
-
   margin: 0 auto 28px;
 
   padding: 24px 28px;
@@ -41,25 +45,27 @@
   background: rgba(255, 255, 255, 0.94);
 
   border: 1px solid #ead8c2;
-
   border-radius: 16px;
 
   box-shadow:
     0 7px 24px rgba(91, 58, 32, 0.08);
 }
 
-.saved-quotations-header h1 {
+.saved-quotations-header h1,
+.saved-quotations-page-header h1 {
   margin: 0 0 7px;
 
-  color: #4a2c1a;
+  color: #4a2d1d;
 
   font-size: 28px;
   font-weight: 800;
 
+  line-height: 1.35;
   letter-spacing: -0.4px;
 }
 
-.saved-quotations-header p {
+.saved-quotations-header p,
+.saved-quotations-page-header p {
   margin: 0;
 
   color: #806650;
@@ -68,30 +74,46 @@
   line-height: 1.6;
 }
 
+.saved-quotations-eyebrow {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #8b5e3c;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 1.3px;
+}
+
 
 /* =========================================================
-   DOWNLOAD PDF BUTTON
+   DOWNLOAD / REFRESH BUTTONS
 ========================================================= */
 
-.download-quotation-pdf-button {
+.download-quotation-pdf-button,
+.saved-quotations-refresh-button {
   flex-shrink: 0;
 
-  padding: 12px 20px;
+  min-height: 40px;
 
-  border: 1px solid #9c6338;
-  border-radius: 9px;
+  padding: 0 18px;
+
+  border: 1px solid #7d512f;
+  border-radius: 8px;
 
   background: #8a5a32;
 
   color: #fffaf3;
 
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
 
   cursor: pointer;
 
   box-shadow:
-    0 4px 12px rgba(91, 58, 32, 0.16);
+    0 4px 12px rgba(91, 58, 32, 0.14);
 
   transition:
     background-color 0.2s ease,
@@ -100,7 +122,8 @@
     box-shadow 0.2s ease;
 }
 
-.download-quotation-pdf-button:hover:not(:disabled) {
+.download-quotation-pdf-button:hover:not(:disabled),
+.saved-quotations-refresh-button:hover:not(:disabled) {
   background: #704522;
 
   border-color: #704522;
@@ -111,32 +134,35 @@
     0 6px 15px rgba(91, 58, 32, 0.2);
 }
 
-.download-quotation-pdf-button:disabled {
+.download-quotation-pdf-button:disabled,
+.saved-quotations-refresh-button:disabled {
   opacity: 0.65;
   cursor: not-allowed;
 }
 
 
 /* =========================================================
-   MESSAGE
+   MESSAGE / ALERT
 ========================================================= */
 
-.saved-quotations-message {
+.saved-quotations-message,
+.saved-quotations-alert {
   max-width: 1180px;
 
   margin: 0 auto 20px;
 
-  padding: 14px 18px;
+  padding: 13px 17px;
 
-  border-radius: 10px;
+  border-radius: 9px;
 
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
 
   box-sizing: border-box;
 }
 
-.saved-quotations-message.success {
+.saved-quotations-message.success,
+.saved-quotations-alert-success {
   background: #e9f7ed;
 
   border: 1px solid #a9d3b3;
@@ -144,7 +170,8 @@
   color: #26723a;
 }
 
-.saved-quotations-message.error {
+.saved-quotations-message.error,
+.saved-quotations-alert-error {
   background: #fdeceb;
 
   border: 1px solid #dfb2aa;
@@ -217,6 +244,7 @@
 .saved-quotations-list {
   display: flex;
   flex-direction: column;
+
   gap: 24px;
 
   max-width: 1180px;
@@ -234,12 +262,9 @@
 
   padding: 24px;
 
-  box-sizing: border-box;
-
   background: #ffffff;
 
   border: 1px solid #ead8c2;
-
   border-radius: 16px;
 
   box-shadow:
@@ -292,7 +317,8 @@
    QUOTATION STATUS
 ========================================================= */
 
-.quotation-status {
+.quotation-status,
+.saved-quotations-status {
   display: inline-flex;
 
   align-items: center;
@@ -302,13 +328,11 @@
 
   min-width: 92px;
 
-  padding: 8px 16px;
-
-  box-sizing: border-box;
+  padding: 7px 14px;
 
   border-radius: 999px;
 
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
 
   line-height: 1.2;
@@ -316,19 +340,7 @@
   text-transform: capitalize;
 
   white-space: nowrap;
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
 }
-
-
-/* =========================================================
-   SAVED STATUS
-========================================================= */
 
 .quotation-status-saved {
   background: #f3e7d8;
@@ -336,57 +348,33 @@
   border: 1px solid #d6b58f;
 
   color: #79512f;
-
-  box-shadow:
-    0 2px 7px rgba(91, 58, 32, 0.08);
 }
 
-
-/* =========================================================
-   PENDING STATUS
-========================================================= */
-
-.quotation-status-pending {
+.quotation-status-pending,
+.saved-status-pending {
   background: #fff3cd;
 
   border: 1px solid #e4c45f;
 
   color: #946b16;
-
-  box-shadow:
-    0 3px 9px rgba(148, 107, 22, 0.14);
 }
 
-
-/* =========================================================
-   APPROVED STATUS
-========================================================= */
-
-.quotation-status-approved {
+.quotation-status-approved,
+.saved-status-approved {
   background: #e7f6eb;
 
   border: 1px solid #9dccaa;
 
   color: #217a38;
-
-  box-shadow:
-    0 3px 10px rgba(33, 122, 56, 0.14);
 }
 
-
-/* =========================================================
-   REJECTED STATUS
-========================================================= */
-
-.quotation-status-rejected {
+.quotation-status-rejected,
+.saved-status-rejected {
   background: #fdebea;
 
   border: 1px solid #dfa9a0;
 
   color: #a33d33;
-
-  box-shadow:
-    0 3px 9px rgba(163, 61, 51, 0.12);
 }
 
 
@@ -396,181 +384,18 @@
 
 .quotation-status-approved:hover {
   background: #dcf1e2;
-
-  border-color: #83bd91;
 }
 
 .quotation-status-pending:hover {
   background: #ffedb8;
-
-  border-color: #d8b44d;
 }
 
 .quotation-status-saved:hover {
   background: #ecdecd;
-
-  border-color: #cba77d;
 }
 
 .quotation-status-rejected:hover {
   background: #f9e1dd;
-
-  border-color: #d2948a;
-}
-
-
-/* =========================================================
-   REMOVE QUOTATION SECTION
-========================================================= */
-
-.saved-quotation-remove-section {
-  display: flex;
-
-  justify-content: flex-end;
-
-  margin-top: 12px;
-  margin-bottom: 8px;
-}
-
-.remove-quotation-button {
-  padding: 8px 15px;
-
-  border: 1px solid #d6d1cb;
-
-  border-radius: 7px;
-
-  background: #ffffff;
-
-  color: #6f6862;
-
-  font-size: 12px;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.remove-quotation-button:hover:not(:disabled) {
-  background: #f8f2eb;
-
-  border-color: #bfa990;
-
-  color: #69462c;
-}
-
-.remove-quotation-button:disabled {
-  opacity: 0.55;
-
-  cursor: not-allowed;
-}
-
-
-/* =========================================================
-   APPROVED MESSAGE
-========================================================= */
-
-.quotation-approved-message {
-  display: flex;
-  flex-direction: column;
-
-  gap: 5px;
-
-  margin: 14px 0;
-
-  padding: 13px 16px;
-
-  background: #edf8f0;
-
-  border: 1px solid #acd5b5;
-
-  border-left: 4px solid #3c914f;
-
-  border-radius: 9px;
-
-  color: #286a38;
-}
-
-.quotation-approved-message strong {
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.quotation-approved-message span {
-  font-size: 12px;
-}
-
-
-/* =========================================================
-   PENDING MESSAGE
-========================================================= */
-
-.quotation-pending-message {
-  display: flex;
-  flex-direction: column;
-
-  gap: 5px;
-
-  margin: 14px 0;
-
-  padding: 13px 16px;
-
-  background: #fff8df;
-
-  border: 1px solid #e6ca79;
-
-  border-left: 4px solid #d4a72c;
-
-  border-radius: 9px;
-
-  color: #8b681d;
-}
-
-.quotation-pending-message strong {
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.quotation-pending-message span {
-  font-size: 12px;
-}
-
-
-/* =========================================================
-   REJECTED MESSAGE
-========================================================= */
-
-.quotation-rejected-message {
-  display: flex;
-  flex-direction: column;
-
-  gap: 5px;
-
-  margin: 14px 0;
-
-  padding: 13px 16px;
-
-  background: #fff0ee;
-
-  border: 1px solid #dfb2aa;
-
-  border-left: 4px solid #bd5a4d;
-
-  border-radius: 9px;
-
-  color: #9a4239;
-}
-
-.quotation-rejected-message strong {
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.quotation-rejected-message span {
-  font-size: 12px;
 }
 
 
@@ -597,10 +422,7 @@
   background: #fffaf4;
 
   border: 1px solid #eadbc9;
-
   border-radius: 9px;
-
-  box-sizing: border-box;
 }
 
 .quotation-detail span {
@@ -614,7 +436,6 @@
   font-weight: 700;
 
   text-transform: uppercase;
-
   letter-spacing: 0.3px;
 }
 
@@ -629,8 +450,106 @@
   font-weight: 800;
 
   text-overflow: ellipsis;
-
   white-space: nowrap;
+}
+
+
+/* =========================================================
+   QUOTATION SUMMARY
+========================================================= */
+
+.saved-quotations-page .quotation-summary-section {
+  margin-top: 18px;
+}
+
+.saved-quotations-page .saved-summary-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 12px;
+
+  width: 100%;
+}
+
+.saved-quotations-page .saved-summary-card {
+  min-width: 0;
+  min-height: 105px;
+
+  display: flex;
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 18px 14px;
+
+  text-align: center;
+
+  background: #fffaf3;
+
+  border: 1px solid #e1cdb8;
+  border-radius: 10px;
+
+  box-shadow:
+    0 3px 9px rgba(59, 33, 23, 0.045);
+}
+
+.saved-quotations-page .saved-summary-card span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #80624f;
+
+  font-size: 10px;
+  line-height: 1.25;
+  font-weight: 750;
+
+  letter-spacing: 0.05em;
+
+  text-transform: uppercase;
+}
+
+.saved-quotations-page .saved-summary-card strong {
+  display: block;
+
+  max-width: 100%;
+
+  color: #4a2c1a;
+
+  font-size: 17px;
+  line-height: 1.3;
+  font-weight: 850;
+
+  overflow-wrap: anywhere;
+}
+
+.saved-quotations-page .saved-summary-card .summary-price {
+  color: #5f351f;
+
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.saved-quotations-page .saved-summary-card .summary-weather {
+  color: #4a2c1a;
+
+  font-size: 17px;
+  font-weight: 850;
+}
+
+.saved-quotations-page .saved-summary-card .summary-customs-valid {
+  color: #4f6f52;
+}
+
+.saved-quotations-page .saved-summary-card .summary-customs-warning {
+  color: #9a6a2f;
+}
+
+.saved-quotations-page .saved-summary-card .summary-customs-restricted {
+  color: #a04d42;
 }
 
 
@@ -653,17 +572,19 @@
 
 
 /* =========================================================
-   SAVED ROUTE LIST
+   SAVED ROUTES
 ========================================================= */
 
-.saved-route-list {
+.saved-route-list,
+.saved-detail-routes {
   display: flex;
   flex-direction: column;
 
   gap: 8px;
 }
 
-.saved-route-item {
+.saved-route-item,
+.saved-detail-route {
   display: flex;
 
   align-items: center;
@@ -676,7 +597,6 @@
   background: #fffdf9;
 
   border: 1px solid #eadfd3;
-
   border-radius: 9px;
 
   transition:
@@ -685,13 +605,15 @@
     box-shadow 0.2s ease;
 }
 
-.saved-route-item:hover {
+.saved-route-item:hover,
+.saved-detail-route:hover {
   background: #fff9f1;
 
   border-color: #dbc5ad;
 }
 
-.saved-route-item.selected-route {
+.saved-route-item.selected-route,
+.saved-detail-route.selected {
   background: #f9f0e5;
 
   border-color: #cba980;
@@ -720,8 +642,6 @@
   height: 24px;
 
   padding: 0 7px;
-
-  box-sizing: border-box;
 
   border-radius: 6px;
 
@@ -805,8 +725,6 @@
 }
 
 .saved-margin-card {
-  box-sizing: border-box;
-
   width: 100%;
 }
 
@@ -830,7 +748,6 @@
     );
 
   border: 1px solid #d9b990;
-
   border-radius: 12px;
 
   box-shadow:
@@ -865,7 +782,7 @@
 
 
 /* =========================================================
-   REQUEST APPROVAL
+   REQUEST APPROVAL SECTION
 ========================================================= */
 
 .quotation-approval-section {
@@ -882,17 +799,22 @@
   background: #faf5ee;
 
   border: 1px solid #eadbc9;
-
   border-radius: 10px;
 }
 
 .request-approval-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
   flex-shrink: 0;
 
-  padding: 11px 19px;
+  min-height: 40px;
+
+  padding: 0 19px;
 
   border: 1px solid #7d512f;
-
   border-radius: 8px;
 
   background: #8a5a32;
@@ -931,6 +853,7 @@
   color: #806650;
 
   font-size: 11px;
+
   line-height: 1.5;
 }
 
@@ -953,7 +876,6 @@
   background: #fff8df;
 
   border: 1px solid #e5c978;
-
   border-radius: 9px;
 }
 
@@ -968,6 +890,127 @@
   color: #98783c;
 
   font-size: 11px;
+}
+
+
+/* =========================================================
+   REMOVE QUOTATION
+========================================================= */
+
+.saved-quotation-remove-section {
+  display: flex;
+
+  justify-content: flex-end;
+
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+.remove-quotation-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 36px;
+
+  padding: 0 15px;
+
+  border: 1px solid #d6d1cb;
+  border-radius: 7px;
+
+  background: #ffffff;
+
+  color: #6f6862;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.remove-quotation-button:hover:not(:disabled) {
+  background: #f8f2eb;
+
+  border-color: #bfa990;
+
+  color: #69462c;
+
+  transform: translateY(-1px);
+}
+
+.remove-quotation-button:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   APPROVED / PENDING / REJECTED MESSAGE
+========================================================= */
+
+.quotation-approved-message,
+.quotation-pending-message,
+.quotation-rejected-message {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  margin: 14px 0;
+
+  padding: 13px 16px;
+
+  border-radius: 9px;
+}
+
+.quotation-approved-message {
+  background: #edf8f0;
+
+  border: 1px solid #acd5b5;
+  border-left: 4px solid #3c914f;
+
+  color: #286a38;
+}
+
+.quotation-pending-message {
+  background: #fff8df;
+
+  border: 1px solid #e6ca79;
+  border-left: 4px solid #d4a72c;
+
+  color: #8b681d;
+}
+
+.quotation-rejected-message {
+  background: #fff0ee;
+
+  border: 1px solid #dfb2aa;
+  border-left: 4px solid #bd5a4d;
+
+  color: #9a4239;
+}
+
+.quotation-approved-message strong,
+.quotation-pending-message strong,
+.quotation-rejected-message strong {
+  font-size: 13px;
+
+  font-weight: 800;
+}
+
+.quotation-approved-message span,
+.quotation-pending-message span,
+.quotation-rejected-message span {
+  font-size: 12px;
 }
 
 
@@ -991,10 +1034,890 @@
 
 
 /* =========================================================
+   ADMIN-STYLE SUMMARY
+========================================================= */
+
+.saved-quotations-summary-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 16px;
+
+  width: 100%;
+
+  max-width: 1180px;
+
+  margin: 0 auto 32px;
+}
+
+.saved-quotations-summary-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  min-width: 0;
+  min-height: 98px;
+
+  padding: 18px;
+
+  border: 1px solid #dfd2c5;
+  border-radius: 11px;
+
+  background: #fffaf5;
+
+  box-shadow:
+    0 2px 8px rgba(74, 45, 29, 0.05);
+}
+
+.saved-quotations-summary-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 9px;
+
+  background: #eee1d5;
+
+  color: #795235;
+
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.saved-quotations-summary-card p {
+  margin: 0 0 5px;
+
+  color: #806f62;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.saved-quotations-summary-card strong {
+  display: block;
+
+  color: #4a2d1d;
+
+  font-size: 25px;
+
+  line-height: 1.2;
+}
+
+.saved-quotations-summary-pending
+.saved-quotations-summary-icon {
+  background: #fff0d2;
+
+  color: #946200;
+}
+
+.saved-quotations-summary-approved
+.saved-quotations-summary-icon {
+  background: #e4f5e9;
+
+  color: #16713a;
+}
+
+.saved-quotations-summary-rejected
+.saved-quotations-summary-icon {
+  background: #fde8e7;
+
+  color: #b42318;
+}
+
+
+/* =========================================================
+   QUOTATIONS TABLE
+========================================================= */
+
+.saved-quotations-list-section {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.saved-quotations-list-heading {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  margin-bottom: 18px;
+}
+
+.saved-quotations-list-heading h2 {
+  margin: 0;
+
+  color: #4a2d1d;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.saved-quotations-list-heading p {
+  margin: 5px 0 0;
+
+  color: #806f62;
+
+  font-size: 12px;
+}
+
+.saved-quotations-record-count {
+  flex-shrink: 0;
+
+  padding: 6px 11px;
+
+  border: 1px solid #dfd2c5;
+  border-radius: 18px;
+
+  background: #fffaf5;
+
+  color: #795235;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.saved-quotations-toolbar {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 16px;
+}
+
+.saved-quotations-search {
+  width: min(390px, 100%);
+  height: 38px;
+
+  padding: 0 12px;
+
+  border: 1px solid #dfd2c5;
+  border-radius: 7px;
+
+  outline: none;
+
+  background: #fffaf5;
+
+  color: #4a2d1d;
+
+  font-size: 12px;
+}
+
+.saved-quotations-search:focus {
+  border-color: #a97a54;
+
+  box-shadow:
+    0 0 0 2px rgba(169, 122, 84, 0.12);
+}
+
+.saved-quotations-filter-buttons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+}
+
+.saved-quotations-filter {
+  min-height: 34px;
+
+  padding: 0 12px;
+
+  border: 1px solid #dfd2c5;
+  border-radius: 7px;
+
+  background: #fffaf5;
+
+  color: #624735;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.saved-quotations-filter.active {
+  border-color: #3b2418;
+
+  background: #3b2418;
+
+  color: #fffaf5;
+}
+
+.saved-quotations-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  border: 1px solid #dfd2c5;
+  border-radius: 10px 10px 0 0;
+
+  background: #fffaf5;
+}
+
+.saved-quotations-table {
+  width: 100%;
+
+  min-width: 900px;
+
+  border-collapse: collapse;
+
+  font-size: 11px;
+}
+
+.saved-quotations-table thead th {
+  padding: 12px;
+
+  border-bottom: 1px solid #3b2418;
+
+  background: #3b2418;
+
+  color: #fffaf5;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+.saved-quotations-table tbody td {
+  padding: 13px 12px;
+
+  border-bottom: 1px solid #eadfd5;
+
+  color: #5c4638;
+
+  vertical-align: middle;
+}
+
+.saved-quotations-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.saved-quotations-table tbody tr:hover {
+  background: #fff7ee;
+}
+
+.saved-quotations-id,
+.saved-quotations-money {
+  color: #4a2d1d !important;
+
+  font-weight: 700;
+}
+
+.saved-quotations-route-cell {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  color: #4a2d1d;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.saved-quotations-route-arrow {
+  color: #a27a5a;
+}
+
+.saved-quotations-secondary {
+  margin-top: 3px;
+
+  color: #927d6d;
+
+  font-size: 9px;
+}
+
+.saved-quotations-view-button {
+  min-height: 32px;
+
+  padding: 0 12px;
+
+  border: 1px solid #9c6c49;
+  border-radius: 6px;
+
+  background: #fffaf5;
+
+  color: #704522;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+.saved-quotations-view-button:hover {
+  background: #704522;
+
+  color: #fffaf5;
+}
+
+.saved-quotations-empty-cell {
+  padding: 38px 20px !important;
+
+  text-align: center;
+
+  color: #806f62 !important;
+}
+
+.saved-quotations-download-row {
+  display: flex;
+
+  justify-content: flex-end;
+
+  margin-top: 16px;
+}
+
+
+/* =========================================================
+   DETAILS MODAL
+   IMPORTANT:
+   Header stays visible.
+   Body scrolls independently.
+========================================================= */
+
+.saved-quotations-modal-backdrop {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(44, 28, 18, 0.48);
+}
+
+.saved-quotations-modal {
+  display: flex;
+
+  flex-direction: column;
+
+  width: min(980px, 100%);
+
+  height: min(88vh, 900px);
+
+  max-height: 88vh;
+
+  overflow: hidden;
+
+  border: 1px solid #dfd2c5;
+  border-radius: 14px;
+
+  background: #fffaf5;
+
+  box-shadow:
+    0 20px 55px rgba(44, 28, 18, 0.22);
+}
+
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+
+.saved-quotations-modal-header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  flex-shrink: 0;
+
+  gap: 18px;
+
+  padding: 20px 22px;
+
+  border-bottom: 1px solid #eadfd5;
+
+  background: #fffaf5;
+}
+
+.saved-quotations-modal-header h2 {
+  margin: 0 0 8px;
+
+  color: #4a2d1d;
+
+  font-size: 21px;
+}
+
+.saved-quotations-modal-header .quotation-status {
+  margin-top: 2px;
+}
+
+.saved-quotations-close-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 34px;
+  height: 34px;
+
+  border: 1px solid #dfd2c5;
+  border-radius: 50%;
+
+  background: #fffaf5;
+
+  color: #5d4332;
+
+  font-size: 22px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.saved-quotations-close-button:hover {
+  background: #3b2418;
+
+  border-color: #3b2418;
+
+  color: #fffaf5;
+
+  transform: rotate(3deg);
+}
+
+
+/* =========================================================
+   MODAL BODY
+========================================================= */
+
+.saved-quotations-modal-body {
+  position: relative;
+
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  padding: 22px;
+
+  scroll-behavior: smooth;
+}
+
+
+/* Custom scrollbar */
+
+.saved-quotations-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.saved-quotations-modal-body::-webkit-scrollbar-track {
+  background: #f4ece3;
+}
+
+.saved-quotations-modal-body::-webkit-scrollbar-thumb {
+  background: #c9b09a;
+
+  border-radius: 10px;
+}
+
+.saved-quotations-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #a8876b;
+}
+
+
+/* =========================================================
+   MODAL DETAIL SECTIONS
+========================================================= */
+
+.saved-detail-section {
+  margin-bottom: 22px;
+
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid #eadfd5;
+}
+
+.saved-detail-heading h3 {
+  margin: 0;
+
+  color: #4a2d1d;
+
+  font-size: 15px;
+}
+
+.saved-detail-heading p {
+  margin: 5px 0 13px;
+
+  color: #806f62;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   MODAL DETAIL GRID
+========================================================= */
+
+.saved-detail-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+.saved-detail-grid > div {
+  min-width: 0;
+
+  padding: 12px;
+
+  border: 1px solid #eadfd5;
+  border-radius: 8px;
+
+  background: #fffdf9;
+}
+
+.saved-detail-grid span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #8b7463;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.35px;
+}
+
+.saved-detail-grid strong {
+  display: block;
+
+  color: #4a2d1d;
+
+  font-size: 12px;
+
+  overflow-wrap: anywhere;
+}
+
+.saved-detail-highlight {
+  border-color: #c9a477 !important;
+
+  background: #f8eee2 !important;
+}
+
+.saved-detail-highlight strong {
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   MODAL STATUS PANEL
+========================================================= */
+
+.saved-detail-status-panel {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 13px 15px;
+
+  border: 1px solid #eadfd5;
+  border-radius: 8px;
+
+  background: #fffdf9;
+}
+
+.saved-detail-status-panel p {
+  margin: 0;
+
+  color: #6f5b4c;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+
+  text-align: right;
+}
+
+
+/* =========================================================
+   MODAL ROUTES
+========================================================= */
+
+.saved-detail-route {
+  padding: 11px 13px;
+}
+
+.saved-detail-route > div:last-child {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-end;
+
+  gap: 3px;
+}
+
+.saved-detail-route strong {
+  color: #4a2d1d;
+
+  font-size: 11px;
+}
+
+.saved-detail-route small {
+  color: #8b7463;
+
+  font-size: 9px;
+}
+
+.saved-detail-route span {
+  display: inline-block;
+
+  margin-left: 8px;
+
+  padding: 3px 7px;
+
+  border-radius: 999px;
+
+  background: #ead9c4;
+
+  color: #765033;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   MODAL DETAIL STATUS
+========================================================= */
+
+.saved-detail-status {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+  margin-bottom: 18px;
+
+  padding: 13px 15px;
+
+  border: 1px solid;
+
+  border-radius: 8px;
+
+  font-size: 11px;
+}
+
+.saved-detail-approved {
+  border-color: #b8dfc4;
+
+  background: #e7f6eb;
+
+  color: #16713a;
+}
+
+.saved-detail-rejected {
+  border-color: #efc4bf;
+
+  background: #fdeceb;
+
+  color: #b42318;
+}
+
+.saved-detail-pending {
+  border-color: #f0d28c;
+
+  background: #fff5dd;
+
+  color: #946200;
+}
+
+
+/* =========================================================
+   IMPORTANT:
+   MODAL ACTION BUTTON AREA
+========================================================= */
+
+.saved-detail-actions {
+  position: sticky;
+
+  bottom: 0;
+
+  z-index: 20;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  gap: 12px;
+
+  margin-top: 22px;
+
+  margin-left: -22px;
+  margin-right: -22px;
+
+  padding: 15px 22px;
+
+  border-top: 1px solid #dfd2c5;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 250, 245, 0.92) 0%,
+      #fffaf5 30%,
+      #fffaf5 100%
+    );
+
+  box-shadow:
+    0 -5px 14px rgba(74, 45, 29, 0.06);
+
+  backdrop-filter: blur(4px);
+}
+
+
+/* Request Approval inside modal */
+
+.saved-detail-actions .request-approval-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 145px;
+  min-height: 40px;
+
+  margin: 0;
+
+  padding: 0 20px;
+
+  border: 1px solid #7d512f;
+  border-radius: 8px;
+
+  background: #8a5a32;
+
+  color: #fffaf3;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 3px 8px rgba(91, 58, 32, 0.12);
+}
+
+.saved-detail-actions .request-approval-button:hover:not(:disabled) {
+  background: #704522;
+
+  border-color: #704522;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 5px 12px rgba(91, 58, 32, 0.18);
+}
+
+
+/* Remove inside modal */
+
+.saved-detail-actions .remove-quotation-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 100px;
+  min-height: 40px;
+
+  margin: 0;
+
+  padding: 0 18px;
+
+  border: 1px solid #cfc7bf;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #6f6862;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+.saved-detail-actions .remove-quotation-button:hover:not(:disabled) {
+  background: #f8f2eb;
+
+  border-color: #b49c86;
+
+  color: #69462c;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   MODAL ACTION FOCUS
+========================================================= */
+
+.saved-detail-actions button:focus-visible {
+  outline: 3px solid rgba(138, 90, 50, 0.22);
+
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
    TABLET
 ========================================================= */
 
 @media (max-width: 1050px) {
+
   .saved-quotations-page {
     padding: 28px 25px 45px;
   }
@@ -1002,6 +1925,11 @@
   .saved-quotation-details {
     grid-template-columns:
       repeat(3, minmax(0, 1fr));
+  }
+
+  .saved-quotations-summary-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1011,13 +1939,16 @@
 ========================================================= */
 
 @media (max-width: 800px) {
-  .saved-quotations-header {
+
+  .saved-quotations-header,
+  .saved-quotations-page-header {
     align-items: flex-start;
 
     flex-direction: column;
   }
 
-  .download-quotation-pdf-button {
+  .download-quotation-pdf-button,
+  .saved-quotations-refresh-button {
     width: 100%;
   }
 
@@ -1036,6 +1967,10 @@
       repeat(2, minmax(0, 1fr));
   }
 
+  .saved-quotations-page .saved-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
   .quotation-approval-section {
     align-items: flex-start;
 
@@ -1045,6 +1980,21 @@
   .request-approval-button {
     width: 100%;
   }
+
+  .saved-detail-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .saved-detail-status-panel {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .saved-detail-status-panel p {
+    text-align: left;
+  }
 }
 
 
@@ -1053,21 +2003,25 @@
 ========================================================= */
 
 @media (max-width: 560px) {
+
   .saved-quotations-page {
     padding: 20px 14px 35px;
   }
 
-  .saved-quotations-header {
+  .saved-quotations-header,
+  .saved-quotations-page-header {
     padding: 20px;
 
     border-radius: 13px;
   }
 
-  .saved-quotations-header h1 {
+  .saved-quotations-header h1,
+  .saved-quotations-page-header h1 {
     font-size: 23px;
   }
 
-  .saved-quotations-header p {
+  .saved-quotations-header p,
+  .saved-quotations-page-header p {
     font-size: 12px;
   }
 
@@ -1117,6 +2071,80 @@
   .remove-quotation-button {
     width: 100%;
   }
+
+
+  /* -------------------------
+     MOBILE MODAL
+  ------------------------- */
+
+  .saved-quotations-modal-backdrop {
+    align-items: center;
+
+    padding: 10px;
+  }
+
+  .saved-quotations-modal {
+    width: 100%;
+
+    height: 92vh;
+
+    max-height: 92vh;
+
+    border-radius: 12px;
+  }
+
+  .saved-quotations-modal-header {
+    padding: 16px;
+  }
+
+  .saved-quotations-modal-header h2 {
+    font-size: 18px;
+  }
+
+  .saved-quotations-modal-body {
+    padding: 16px;
+  }
+
+  .saved-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .saved-detail-route {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .saved-detail-route > div:last-child {
+    align-items: flex-start;
+  }
+
+
+  /* -------------------------
+     MOBILE ACTION BAR
+  ------------------------- */
+
+  .saved-detail-actions {
+    align-items: stretch;
+
+    flex-direction: column;
+
+    gap: 9px;
+
+    margin-left: -16px;
+    margin-right: -16px;
+
+    padding: 13px 16px;
+  }
+
+  .saved-detail-actions .request-approval-button,
+  .saved-detail-actions .remove-quotation-button {
+    width: 100%;
+
+    min-width: 0;
+
+    min-height: 42px;
+  }
 }
 
 
@@ -1125,6 +2153,7 @@
 ========================================================= */
 
 @media (max-width: 380px) {
+
   .saved-quotations-page {
     padding-left: 10px;
     padding-right: 10px;
@@ -1141,87 +2170,26 @@
   .quotation-status {
     width: 100%;
   }
-}
 
-/* =========================================================
-   QUOTATION SUMMARY
-   Selling Price + Weather Condition + Customs Status
-========================================================= */
+  .saved-quotations-modal {
+    height: 94vh;
 
-.saved-quotations-page .quotation-summary-section {
-  margin-top: 18px;
-}
+    max-height: 94vh;
+  }
 
-.saved-quotations-page .saved-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  width: 100%;
-}
+  .saved-quotations-modal-header {
+    padding: 14px;
+  }
 
-.saved-quotations-page .saved-summary-card {
-  min-width: 0;
-  min-height: 105px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 18px 14px;
-  box-sizing: border-box;
-  border: 1px solid #e1cdb8;
-  border-radius: 10px;
-  background: #fffaf3;
-  box-shadow: 0 3px 9px rgba(59, 33, 23, 0.045);
-}
+  .saved-quotations-modal-body {
+    padding: 14px;
+  }
 
-.saved-quotations-page .saved-summary-card span {
-  display: block;
-  margin-bottom: 8px;
-  color: #80624f;
-  font-size: 10px;
-  line-height: 1.25;
-  font-weight: 750;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
+  .saved-detail-actions {
+    margin-left: -14px;
+    margin-right: -14px;
 
-.saved-quotations-page .saved-summary-card strong {
-  display: block;
-  max-width: 100%;
-  color: #4a2c1a;
-  font-size: 17px;
-  line-height: 1.3;
-  font-weight: 850;
-  overflow-wrap: anywhere;
-}
-
-.saved-quotations-page .saved-summary-card .summary-price {
-  color: #5f351f;
-  font-size: 23px;
-  font-weight: 900;
-}
-
-.saved-quotations-page .saved-summary-card .summary-weather {
-  color: #4a2c1a;
-  font-size: 17px;
-  font-weight: 850;
-}
-
-.saved-quotations-page .saved-summary-card .summary-customs-valid {
-  color: #4f6f52;
-}
-
-.saved-quotations-page .saved-summary-card .summary-customs-warning {
-  color: #9a6a2f;
-}
-
-.saved-quotations-page .saved-summary-card .summary-customs-restricted {
-  color: #a04d42;
-}
-
-@media (max-width: 850px) {
-  .saved-quotations-page .saved-summary-grid {
-    grid-template-columns: 1fr;
+    padding-left: 14px;
+    padding-right: 14px;
   }
 }

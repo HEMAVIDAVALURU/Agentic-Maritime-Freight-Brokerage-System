@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Body, HTTPException
 from sqlalchemy.orm import Session
 from types import SimpleNamespace
 
@@ -11,6 +11,7 @@ from app.db_models import (
     Route,
     Pricing,
     Activity,
+    QuotationRejectionReason,
 )
 from app.services.auth_dependency import get_current_user
 from app.services.email_service import EmailService
@@ -811,8 +812,15 @@ def get_admin_quotations(
         # WEATHER INFORMATION
         # =================================================
 
-        weather_condition = "—"
-        weather_risk = "—"
+        weather_data = {
+            "weather_condition": "—",
+            "weather_risk": "—",
+            "wind_speed_knots": None,
+            "wave_height_m": None,
+            "visibility_km": None,
+            "storm_probability_percent": None,
+            "risk_points": None,
+        }
 
         try:
 
@@ -821,16 +829,31 @@ def get_admin_quotations(
             )
 
             if weather_result.get("status") == "success":
-
-                weather_condition = weather_result.get(
-                    "weather_condition",
-                    "—"
-                )
-
-                weather_risk = weather_result.get(
-                    "weather_risk",
-                    "—"
-                )
+                weather_data = {
+                    "weather_condition": weather_result.get(
+                        "weather_condition", "—"
+                    ),
+                    "weather_risk": weather_result.get(
+                        "weather_risk",
+                        weather_result.get("risk_level", "—")
+                    ),
+                    "wind_speed_knots": weather_result.get(
+                        "wind_speed_knots"
+                    ),
+                    "wave_height_m": weather_result.get(
+                        "wave_height_m"
+                    ),
+                    "visibility_km": weather_result.get(
+                        "visibility_km"
+                    ),
+                    "storm_probability_percent": weather_result.get(
+                        "storm_probability_percent",
+                        weather_result.get("storm_probability")
+                    ),
+                    "risk_points": weather_result.get(
+                        "risk_points"
+                    ),
+                }
 
         except Exception as weather_error:
 
@@ -843,20 +866,60 @@ def get_admin_quotations(
         # CUSTOMS INFORMATION
         # =================================================
 
-        customs_status = "—"
+        customs_data = {
+            "customs_id": None,
+            "cargo_type": quotation.cargo_type,
+            "hs_code_required": None,
+            "commercial_invoice": None,
+            "packing_list": None,
+            "certificate_of_origin": None,
+            "restricted_cargo": None,
+            "customs_status": "—",
+            "missing_documents": [],
+            "recommendation": None,
+        }
 
         try:
 
+            # IMPORTANT: customs.csv is matched by BOTH route ID
+            # and cargo type. Passing cargo_type prevents an
+            # unrelated row for the same route from being used.
             customs_result = customs_agent.validate_customs(
-                quotation.selected_route_id
+                quotation.selected_route_id,
+                quotation.cargo_type
             )
 
             if customs_result.get("status") == "success":
-
-                customs_status = customs_result.get(
-                    "customs_status",
-                    "—"
-                )
+                customs_data = {
+                    "customs_id": customs_result.get("customs_id"),
+                    "cargo_type": customs_result.get(
+                        "cargo_type", quotation.cargo_type
+                    ),
+                    "hs_code_required": customs_result.get(
+                        "hs_code_required"
+                    ),
+                    "commercial_invoice": customs_result.get(
+                        "commercial_invoice"
+                    ),
+                    "packing_list": customs_result.get(
+                        "packing_list"
+                    ),
+                    "certificate_of_origin": customs_result.get(
+                        "certificate_of_origin"
+                    ),
+                    "restricted_cargo": customs_result.get(
+                        "restricted_cargo"
+                    ),
+                    "customs_status": customs_result.get(
+                        "customs_status", "—"
+                    ),
+                    "missing_documents": customs_result.get(
+                        "missing_documents"
+                    ) or [],
+                    "recommendation": customs_result.get(
+                        "recommendation"
+                    ),
+                }
 
         except Exception as customs_error:
 
@@ -1076,21 +1139,27 @@ def get_admin_quotations(
             # =================================================
 
             "weather_condition":
-                weather_condition,
+                weather_data.get("weather_condition"),
 
             "weather_risk":
-                weather_risk,
+                weather_data.get("weather_risk"),
+
+            "weather":
+                weather_data,
 
             # Frontend compatibility
             "weather_risk_factor":
-                weather_risk,
+                weather_data.get("weather_risk"),
 
             # =================================================
             # CUSTOMS
             # =================================================
 
             "customs_status":
-                customs_status,
+                customs_data.get("customs_status"),
+
+            "customs":
+                customs_data,
 
             # =================================================
             # PRICING
@@ -1181,6 +1250,18 @@ def get_admin_quotations(
 
             "status":
                 status,
+
+            # ---------------------------------------------
+            # REJECTION REASON
+            # ---------------------------------------------
+
+            "rejection_reason": (
+                db.query(QuotationRejectionReason.reason)
+                .filter(
+                    QuotationRejectionReason.quotation_id == quotation.id
+                )
+                .scalar()
+            ),
 
             # ---------------------------------------------
             # DATE
@@ -1377,12 +1458,12 @@ def approve_quotation(
 @router.post("/{quotation_id}/reject")
 def reject_quotation(
     quotation_id: int,
+    reason: str | None = Body(default=None, embed=True),
     current_user=Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
 
     if not verify_admin(current_user):
-
         return {
             "success": False,
             "message": "Admin access required."
@@ -1390,144 +1471,131 @@ def reject_quotation(
 
     quotation = (
         db.query(QuotationRequestDB)
-        .filter(
-            QuotationRequestDB.id ==
-            quotation_id
-        )
+        .filter(QuotationRequestDB.id == quotation_id)
         .first()
     )
 
     if not quotation:
-
         return {
             "success": False,
             "message": "Quotation not found."
         }
 
-    current_status = (
-        quotation.status or ""
-    ).lower()
-
+    current_status = (quotation.status or "").lower()
     if current_status == "saved":
-
-        return {
-            "success": False,
-            "message": (
-                "This quotation has not been "
-                "sent for approval."
-            )
-        }
-
+        return {"success": False, "message": "This quotation has not been sent for approval."}
     if current_status == "approved":
-
-        return {
-            "success": False,
-            "message": (
-                "This quotation has already "
-                "been approved."
-            )
-        }
-
+        return {"success": False, "message": "This quotation has already been approved."}
     if current_status == "rejected":
-
-        return {
-            "success": False,
-            "message": (
-                "This quotation has already "
-                "been rejected."
-            )
-        }
-
+        return {"success": False, "message": "This quotation has already been rejected."}
     if current_status != "pending":
+        return {"success": False, "message": "Only pending quotations can be rejected."}
 
-        return {
-            "success": False,
-            "message": (
-                "Only pending quotations "
-                "can be rejected."
-            )
-        }
-
+    cleaned_reason = (reason or "").strip() or None
     quotation.status = "rejected"
-
     db.commit()
     db.refresh(quotation)
 
+    # A skipped reason is intentionally stored as NULL. The admin can add it later.
+    rejection = QuotationRejectionReason(
+        quotation_id=quotation.id,
+        reason=cleaned_reason
+    )
+    db.add(rejection)
+
     activity = Activity(
-
-        user_id=
-            quotation.user_id,
-
-        activity_type=
-            "quotation_rejected",
-
+        user_id=quotation.user_id,
+        activity_type="quotation_rejected",
         description=(
-            f"Quotation #{quotation.id} "
-            f"for route "
-            f"{quotation.selected_route_id} "
-            f"was rejected by admin."
+            f"Quotation #{quotation.id} for route "
+            f"{quotation.selected_route_id} was rejected by admin."
+            + (f" Reason: {cleaned_reason}" if cleaned_reason else "")
         )
     )
-
     db.add(activity)
-
     db.commit()
 
     try:
-
         customer = (
             db.query(User)
-            .filter(
-                User.id ==
-                quotation.user_id
-            )
+            .filter(User.id == quotation.user_id)
             .first()
         )
-
         if customer and customer.email:
-
             EmailService.send_quotation_rejected_email(
-
-                recipient_email=
-                    customer.email,
-
-                customer_name=
-                    customer.name,
-
-                origin=
-                    quotation.origin,
-
-                destination=
-                    quotation.destination,
-
-                cargo_type=
-                    quotation.cargo_type,
-
-                containers=
-                    quotation.container_count
+                recipient_email=customer.email,
+                customer_name=customer.name,
+                origin=quotation.origin,
+                destination=quotation.destination,
+                cargo_type=quotation.cargo_type,
+                containers=quotation.container_count
             )
-
     except Exception as email_error:
-
-        print(
-            "Quotation rejection email failed:",
-            email_error
-        )
+        print("Quotation rejection email failed:", email_error)
 
     return {
-
-        "success":
-            True,
-
-        "message":
-            "Quotation rejected successfully.",
-
+        "success": True,
+        "message": "Quotation rejected successfully.",
         "quotation": {
-
-            "id":
-                quotation.id,
-
-            "status":
-                quotation.status
-        }
+            "id": quotation.id,
+            "status": quotation.status,
+            "rejection_reason": cleaned_reason
+        },
+        "id": quotation.id,
+        "status": quotation.status,
+        "rejection_reason": cleaned_reason
     }
+
+
+# =========================================================
+# ADD / UPDATE REJECTION REASON AFTER REJECTION
+# =========================================================
+
+@router.put("/{quotation_id}/rejection-reason")
+def update_rejection_reason(
+    quotation_id: int,
+    reason: str = Body(..., embed=True),
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    if not verify_admin(current_user):
+        raise HTTPException(status_code=403, detail="Admin access required.")
+
+    quotation = (
+        db.query(QuotationRequestDB)
+        .filter(QuotationRequestDB.id == quotation_id)
+        .first()
+    )
+    if not quotation:
+        raise HTTPException(status_code=404, detail="Quotation not found.")
+
+    if (quotation.status or "").lower() != "rejected":
+        raise HTTPException(status_code=400, detail="A rejection reason can only be added to a rejected quotation.")
+
+    cleaned_reason = (reason or "").strip()
+    if not cleaned_reason:
+        raise HTTPException(status_code=400, detail="Please provide a rejection reason.")
+
+    rejection = (
+        db.query(QuotationRejectionReason)
+        .filter(QuotationRejectionReason.quotation_id == quotation_id)
+        .first()
+    )
+    if rejection:
+        rejection.reason = cleaned_reason
+    else:
+        rejection = QuotationRejectionReason(
+            quotation_id=quotation_id,
+            reason=cleaned_reason
+        )
+        db.add(rejection)
+
+    db.commit()
+
+    return {
+        "success": True,
+        "quotation_id": quotation_id,
+        "rejection_reason": cleaned_reason
+    }
+

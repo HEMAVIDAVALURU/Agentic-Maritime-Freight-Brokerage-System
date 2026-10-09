@@ -14,7 +14,6 @@
 
   padding: 45px 25px;
 
-  /* Same background image as Welcome page */
   background-image:
     linear-gradient(
       rgba(55, 31, 20, 0.58),
@@ -58,16 +57,15 @@
    LOGIN CARD
 ================================ */
 
-.login-container > div {
+.login-container > .login-card {
   width: 100%;
   max-width: 430px;
 
-  padding: 35px 32px;
+  padding: 42px 38px;
 
-  background: rgba(255, 250, 242, 0.96);
+  background: rgba(255, 250, 242, 0.97);
 
   border: 1px solid rgba(126, 78, 42, 0.18);
-
   border-radius: 18px;
 
   box-shadow:
@@ -83,13 +81,13 @@
 ================================ */
 
 .login-container h2 {
-  margin: 0 0 24px;
+  margin: 0 0 28px;
 
   text-align: center;
 
   color: #5a321f;
 
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 700;
 }
 
@@ -100,13 +98,13 @@
 
 .login-container input {
   width: 100%;
+  box-sizing: border-box;
 
-  padding: 13px 14px;
+  padding: 14px 15px;
 
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 
   border: 1px solid rgba(126, 78, 42, 0.28);
-
   border-radius: 9px;
 
   background: #fffdf9;
@@ -139,12 +137,11 @@
 .login-container button {
   width: 100%;
 
-  padding: 13px 16px;
+  padding: 14px 16px;
 
-  margin-top: 4px;
+  margin-top: 6px;
 
   border: none;
-
   border-radius: 9px;
 
   background: #7e4e2a;
@@ -152,7 +149,6 @@
   color: #ffffff;
 
   font-size: 14px;
-
   font-weight: 600;
 
   cursor: pointer;
@@ -162,15 +158,12 @@
 
 .login-container button:hover {
   background: #633a20;
-
   transform: translateY(-1px);
 }
 
 .login-container button:disabled {
   opacity: 0.65;
-
   cursor: not-allowed;
-
   transform: none;
 }
 
@@ -187,7 +180,6 @@
   border-radius: 8px;
 
   font-size: 13px;
-
   line-height: 1.4;
 
   text-align: center;
@@ -195,17 +187,13 @@
 
 .login-container .message.error {
   color: #9f2f2f;
-
   background: rgba(180, 50, 50, 0.08);
-
   border: 1px solid rgba(180, 50, 50, 0.18);
 }
 
 .login-container .message.success {
   color: #397044;
-
   background: rgba(70, 130, 80, 0.08);
-
   border: 1px solid rgba(70, 130, 80, 0.18);
 }
 
@@ -215,7 +203,7 @@
 ================================ */
 
 .login-container .login-text {
-  margin: 20px 0 0;
+  margin: 22px 0 0;
 
   text-align: center;
 
@@ -226,9 +214,7 @@
 
 .login-container .login-text span {
   color: #7e4e2a;
-
   font-weight: 600;
-
   cursor: pointer;
 }
 
@@ -237,28 +223,335 @@
 }
 
 
-/* ================================
-   MOBILE
-================================ */
+/* =========================================================
+   MARITIME AUTH SPLIT LAYOUT
+   ========================================================= */
+
+.auth-visual-panel {
+  width: min(520px, 42vw);
+
+  /* Increased so both sides match the full original login-card height */
+  height: 540px;
+  min-height: 540px;
+
+  box-sizing: border-box;
+
+  padding: 52px 42px;
+
+  border-radius: 24px;
+
+  color: #fffaf2;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(74, 42, 25, 0.96),
+      rgba(128, 78, 42, 0.82)
+    );
+
+  box-shadow:
+    0 22px 55px rgba(30, 16, 8, 0.28);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-visual-panel::after {
+  content: "";
+
+  position: absolute;
+
+  width: 260px;
+  height: 260px;
+
+  border: 1px solid rgba(255, 232, 195, 0.18);
+
+  border-radius: 50%;
+
+  right: -100px;
+  bottom: -100px;
+
+  box-shadow:
+    0 0 0 32px rgba(255, 232, 195, 0.05),
+    0 0 0 64px rgba(255, 232, 195, 0.035);
+}
+
+.auth-kicker {
+  font-size: 11px;
+  letter-spacing: 2.2px;
+  font-weight: 700;
+  opacity: 0.78;
+  margin-bottom: 18px;
+}
+
+.auth-visual-panel h1 {
+  margin: 0 0 18px;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(30px, 3.2vw, 48px);
+  line-height: 1.08;
+}
+
+.auth-visual-panel p {
+  max-width: 430px;
+
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 1.8;
+
+  color: rgba(255, 250, 242, 0.82);
+}
+
+.auth-route-note {
+  margin-top: 34px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  font-size: 10px;
+  letter-spacing: 1.2px;
+}
+
+.auth-route-note b {
+  padding: 10px 14px;
+
+  border: 1px solid rgba(255, 236, 205, 0.25);
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.07);
+}
+
+
+/* =========================================================
+   PASSWORD FIELD + LARGE, VISIBLE EYE ICON
+   ========================================================= */
+
+.password-field-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.password-field-wrap input {
+  padding-right: 52px !important;
+  margin-bottom: 16px !important;
+}
+
+/*
+   Important:
+   The global button rule above makes buttons full width.
+   This rule intentionally overrides it for the password icon.
+*/
+.password-toggle {
+  position: absolute !important;
+
+  right: 5px !important;
+  top: 50% !important;
+
+  width: 40px !important;
+  height: 40px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  transform: translateY(-58%) !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  background: transparent !important;
+
+  color: #5a321f !important;
+
+  border: 0 !important;
+
+  border-radius: 0 !important;
+
+  box-shadow: none !important;
+
+  font-size: 20px !important;
+  font-weight: 700 !important;
+
+  line-height: 1 !important;
+
+  cursor: pointer !important;
+
+  z-index: 3;
+}
+
+.password-toggle:hover {
+  background: transparent !important;
+  color: #3f261b !important;
+
+  transform: translateY(-58%) !important;
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid #a86b38 !important;
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   FORGOT PASSWORD
+   ========================================================= */
+
+.forgot-password-link {
+  margin: 0 0 12px;
+
+  text-align: right;
+
+  color: #7e4e2a;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   CONNECTED AUTH CARD
+   Both sections have the same full height and behave as
+   one large authentication card.
+   ========================================================= */
+
+@media (min-width: 901px) {
+
+  .login-container {
+    align-items: center;
+    justify-content: center;
+
+    gap: 0;
+    flex-wrap: nowrap;
+
+    padding: 45px 25px;
+  }
+
+  .login-container > .auth-visual-panel,
+  .login-container > .login-card {
+    box-sizing: border-box;
+
+    height: 540px;
+    min-height: 540px;
+
+    margin: 0;
+  }
+
+  .login-container > .auth-visual-panel {
+    width: min(520px, 42vw);
+    flex: 0 1 520px;
+
+    border-radius: 22px 0 0 22px;
+
+    box-shadow:
+      0 22px 55px rgba(30, 16, 8, 0.28);
+
+    display: flex;
+    justify-content: center;
+  }
+
+  .login-container > .login-card {
+    width: 430px;
+    max-width: 430px;
+
+    flex: 0 1 430px;
+
+    padding: 52px 38px;
+
+    border-radius: 0 22px 22px 0;
+
+    border-left: 0;
+
+    box-shadow:
+      0 22px 55px rgba(30, 16, 8, 0.28);
+
+    display: flex;
+    flex-direction: column;
+
+    /*
+       Start the login content lower inside the taller card
+       so "Welcome Back" has comfortable breathing room.
+    */
+    justify-content: flex-start;
+  }
+
+  .login-container > .login-card h2 {
+    margin-top: 0;
+    margin-bottom: 30px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE / TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .login-container {
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .login-container > .auth-visual-panel,
+  .login-container > .login-card {
+    height: auto;
+    min-height: 0;
+  }
+
+  .login-container > .auth-visual-panel {
+    width: 100%;
+    min-height: 260px;
+
+    border-radius: 20px;
+  }
+
+  .login-container > .login-card {
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+
+  .auth-visual-panel {
+    min-height: 220px !important;
+    padding: 30px 26px;
+  }
+
+  .auth-visual-panel h1 {
+    font-size: 30px;
+  }
+}
 
 @media (max-width: 480px) {
 
   .login-container {
     min-height: calc(100vh - 92px);
-
     padding: 30px 18px;
   }
 
-  .login-container > div {
-    padding: 28px 22px;
-
+  .login-container > .login-card {
+    padding: 32px 22px;
     border-radius: 15px;
   }
 
   .login-container h2 {
     font-size: 24px;
-
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
 
   .login-container input {
@@ -267,5 +560,11 @@
 
   .login-container button {
     padding: 12px;
+  }
+
+  .password-toggle {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 19px !important;
   }
 }

@@ -1,0 +1,1472 @@
+/* =========================================================
+   USER SETTINGS
+   COFFEE BROWN + CREAM THEME
+   Matches the existing User Dashboard
+   ========================================================= */
+
+
+/* =========================================================
+   MAIN SETTINGS PAGE
+   ========================================================= */
+
+.user-settings-page {
+  width: 100%;
+  min-height: 100%;
+
+  box-sizing: border-box;
+
+  background: transparent;
+
+  color: var(--coffee-blue);
+}
+
+
+/* =========================================================
+   SETTINGS CONTENT
+   No internal sidebar
+   ========================================================= */
+
+.user-settings-content {
+  width: 100%;
+  max-width: 1500px;
+
+  box-sizing: border-box;
+
+  margin: 0 auto;
+
+  padding:
+    0 0 40px;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   Matches existing dashboard header
+   ========================================================= */
+
+.user-settings-header {
+  margin-bottom: 30px;
+}
+
+
+.user-settings-eyebrow {
+  display: block;
+
+  margin: 0 0 7px;
+
+  color: var(--coffee-brown);
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+
+.user-settings-header h1 {
+  margin: 0;
+
+  color: var(--coffee-blue-dark);
+
+  font-size: 32px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+}
+
+
+.user-settings-header p {
+  margin: 10px 0 0;
+
+  max-width: 650px;
+
+  color: var(--text-muted);
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.user-settings-message {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding:
+    13px 17px;
+
+  margin-bottom: 22px;
+
+  border-radius: 9px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   SUCCESS MESSAGE
+   ========================================================= */
+
+.user-settings-message-success {
+  background:
+    rgba(90, 56, 37, 0.08);
+
+  border:
+    1px solid rgba(90, 56, 37, 0.18);
+
+  color:
+    var(--coffee-brown-dark);
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+   ========================================================= */
+
+.user-settings-message-error {
+  background:
+    rgba(168, 95, 79, 0.08);
+
+  border:
+    1px solid rgba(168, 95, 79, 0.22);
+
+  color:
+    #8b4433;
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.user-settings-loading {
+  min-height: 220px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid var(--border-brown);
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--cream-light),
+      var(--cream)
+    );
+
+  color: var(--text-muted);
+
+  font-size: 14px;
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+
+/* =========================================================
+   PROFILE FORM
+   ========================================================= */
+
+.user-profile-form {
+  width: 100%;
+}
+
+
+/* =========================================================
+   PROFILE PICTURE CARD
+   ========================================================= */
+
+.user-profile-picture-card {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 24px;
+
+  padding:
+    25px;
+
+  margin-bottom: 22px;
+
+  border:
+    1px solid var(--border-brown);
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--cream-light),
+      #f9f0e2
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+
+/* =========================================================
+   PROFILE IMAGE
+   ========================================================= */
+
+.user-profile-picture-wrapper {
+  width: 96px;
+
+  height: 96px;
+
+  min-width: 96px;
+
+  overflow: hidden;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  border:
+    3px solid var(--cream-dark);
+
+  background:
+    var(--coffee-brown);
+
+  box-shadow:
+    0 4px 12px
+    rgba(67, 41, 28, 0.12);
+}
+
+
+.user-profile-picture {
+  width: 100%;
+
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+
+/* =========================================================
+   DEFAULT PROFILE AVATAR
+   ========================================================= */
+
+.user-profile-picture-placeholder {
+  width: 100%;
+
+  height: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    var(--coffee-brown);
+
+  color:
+    var(--cream);
+
+  font-size: 32px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   PROFILE PICTURE INFORMATION
+   ========================================================= */
+
+.user-profile-picture-info {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+
+.user-profile-picture-info h3 {
+  margin: 0 0 6px;
+
+  color:
+    var(--coffee-blue-dark);
+
+  font-size: 18px;
+
+  font-weight: 700;
+}
+
+
+.user-profile-picture-info p {
+  margin: 0 0 13px;
+
+  color:
+    var(--text-muted);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   PROFILE PICTURE ACTIONS
+   ========================================================= */
+
+.profile-picture-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+}
+
+
+/* =========================================================
+   UPLOAD BUTTON
+   ========================================================= */
+
+.profile-upload-button {
+  padding:
+    10px 16px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background:
+    var(--coffee-brown);
+
+  color:
+    var(--cream);
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.profile-upload-button:hover {
+  background:
+    var(--coffee-brown-dark);
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 6px 16px
+    rgba(67, 41, 28, 0.16);
+}
+
+
+/* =========================================================
+   REMOVE BUTTON
+   ========================================================= */
+
+.profile-remove-button {
+  padding:
+    9px 15px;
+
+  border:
+    1px solid var(--border-brown);
+
+  border-radius: 7px;
+
+  background:
+    transparent;
+
+  color:
+    var(--coffee-brown);
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.profile-remove-button:hover {
+  background:
+    rgba(90, 56, 37, 0.08);
+
+  color:
+    var(--coffee-brown-dark);
+
+  transform:
+    translateY(-1px);
+}
+
+
+/* =========================================================
+   IMAGE NOTE
+   ========================================================= */
+
+.user-profile-picture-info small {
+  margin-top: 9px;
+
+  color:
+    var(--text-muted);
+
+  font-size: 11px;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   BASIC INFORMATION CARD
+   ========================================================= */
+
+.user-settings-card {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding:
+    25px;
+
+  margin-bottom: 22px;
+
+  border:
+    1px solid var(--border-brown);
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--cream-light),
+      #f9f0e2
+    );
+
+  box-shadow:
+    var(--shadow-soft);
+}
+
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.user-settings-card-header {
+  padding-bottom: 18px;
+
+  margin-bottom: 20px;
+
+  border-bottom:
+    1px solid var(--border-brown);
+}
+
+
+.user-settings-card-header h2 {
+  margin: 0 0 6px;
+
+  color:
+    var(--coffee-blue-dark);
+
+  font-size: 21px;
+
+  font-weight: 700;
+}
+
+
+.user-settings-card-header p {
+  margin: 0;
+
+  color:
+    var(--text-muted);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   PROFILE GRID
+   ========================================================= */
+
+.user-profile-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  column-gap: 24px;
+
+  row-gap: 2px;
+}
+
+
+/* =========================================================
+   FORM FIELD
+   ========================================================= */
+
+.user-settings-field {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+
+  margin-bottom: 18px;
+}
+
+
+.user-settings-field label {
+  color:
+    var(--coffee-brown-dark);
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   INPUT + SELECT
+   ========================================================= */
+
+.user-settings-field input,
+.user-settings-field select {
+  width: 100%;
+
+  min-height: 42px;
+
+  box-sizing: border-box;
+
+  padding:
+    9px 12px;
+
+  border:
+    1px solid rgba(
+      90,
+      56,
+      37,
+      0.22
+    );
+
+  border-radius: 7px;
+
+  background:
+    rgba(
+      255,
+      250,
+      242,
+      0.92
+    );
+
+  color:
+    var(--coffee-blue-dark);
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.user-settings-field input::placeholder {
+  color:
+    #9a8778;
+}
+
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+.user-settings-field input:focus,
+.user-settings-field select:focus {
+  border-color:
+    var(--coffee-brown);
+
+  background:
+    var(--cream-light);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      90,
+      56,
+      37,
+      0.10
+    );
+}
+
+
+/* =========================================================
+   DISABLED EMAIL
+   ========================================================= */
+
+.user-settings-field input:disabled {
+  background:
+    var(--cream-dark);
+
+  border-color:
+    rgba(
+      90,
+      56,
+      37,
+      0.14
+    );
+
+  color:
+    #76685f;
+
+  cursor:
+    not-allowed;
+
+  opacity:
+    1;
+}
+
+
+/* =========================================================
+   SELECT
+   ========================================================= */
+
+.user-settings-field select {
+  cursor:
+    pointer;
+}
+
+
+/* =========================================================
+   FIELD NOTE
+   ========================================================= */
+
+.user-settings-field small {
+  color:
+    var(--text-muted);
+
+  font-size: 11px;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   SAVE ROW
+   ========================================================= */
+
+.user-profile-save-row {
+  display: flex;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  padding-top: 7px;
+
+  margin-top: 3px;
+
+  border-top:
+    1px solid var(--border-brown);
+}
+
+
+/* =========================================================
+   UPDATE PROFILE BUTTON
+   ========================================================= */
+
+.user-settings-primary-button {
+  min-width: 180px;
+
+  padding:
+    11px 20px;
+
+  margin-top: 18px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background:
+    var(--coffee-brown);
+
+  color:
+    var(--cream);
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.user-settings-primary-button:hover:not(:disabled) {
+  background:
+    var(--coffee-brown-dark);
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 6px 16px
+    rgba(
+      67,
+      41,
+      28,
+      0.16
+    );
+}
+
+
+.user-settings-primary-button:active:not(:disabled) {
+  transform:
+    translateY(0);
+}
+
+
+.user-settings-primary-button:disabled {
+  background:
+    var(--coffee-brown-light);
+
+  color:
+    rgba(
+      248,
+      241,
+      229,
+      0.75
+    );
+
+  cursor:
+    not-allowed;
+
+  transform:
+    none;
+
+  box-shadow:
+    none;
+}
+
+
+/* =========================================================
+   NOTIFICATION SETTINGS
+   ========================================================= */
+
+.user-settings-form {
+  width: 100%;
+}
+
+
+/* =========================================================
+   NOTIFICATION SETTING ROW
+   ========================================================= */
+
+.notification-setting-row {
+  width: 100%;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 25px;
+
+  padding: 18px 0;
+
+  border-bottom:
+    1px solid var(--border-brown);
+}
+
+
+.notification-setting-row:last-of-type {
+  border-bottom: none;
+}
+
+
+/* =========================================================
+   NOTIFICATION INFORMATION
+   ========================================================= */
+
+.notification-setting-info {
+  flex: 1;
+  min-width: 0;
+}
+
+
+.notification-setting-info h3 {
+  margin: 0 0 5px;
+
+  color:
+    var(--coffee-blue-dark);
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+
+.notification-setting-info p {
+  max-width: 720px;
+
+  margin: 0;
+
+  color:
+    var(--text-muted);
+
+  font-size: 12.5px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   DISABLED NOTIFICATION
+   ========================================================= */
+
+.notification-setting-disabled {
+  opacity: 0.55;
+}
+
+
+.notification-setting-disabled
+.notification-setting-info h3 {
+  color:
+    #887a70;
+}
+
+
+.notification-setting-disabled
+.notification-setting-info p {
+  color:
+    #9a8e85;
+}
+
+
+/* =========================================================
+   NOTIFICATION TOGGLE
+   ========================================================= */
+
+.notification-toggle {
+  position: relative;
+
+  width: 48px;
+  height: 26px;
+
+  min-width: 48px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 20px;
+
+  background:
+    #c8b9aa;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.notification-toggle:hover:not(:disabled) {
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      90,
+      56,
+      37,
+      0.08
+    );
+}
+
+
+/* =========================================================
+   ACTIVE TOGGLE
+   ========================================================= */
+
+.notification-toggle.active {
+  background:
+    var(--coffee-brown);
+}
+
+
+/* =========================================================
+   DISABLED TOGGLE
+   ========================================================= */
+
+.notification-toggle:disabled {
+  background:
+    #d9cec3;
+
+  cursor:
+    not-allowed;
+
+  box-shadow:
+    none;
+}
+
+
+/* =========================================================
+   TOGGLE KNOB
+   ========================================================= */
+
+.notification-toggle-knob {
+  position: absolute;
+
+  top: 3px;
+  left: 3px;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+
+  background:
+    var(--cream-light);
+
+  box-shadow:
+    0 2px 5px
+    rgba(
+      67,
+      41,
+      28,
+      0.18
+    );
+
+  transition:
+    transform 0.2s ease;
+}
+
+
+/* =========================================================
+   ACTIVE TOGGLE KNOB
+   ========================================================= */
+
+.notification-toggle.active
+.notification-toggle-knob {
+  transform:
+    translateX(22px);
+}
+
+
+/* =========================================================
+   GENERAL SETTINGS SAVE ROW
+   ========================================================= */
+
+.user-settings-save-row {
+  display: flex;
+
+  justify-content: flex-end;
+  align-items: center;
+
+  padding-top: 7px;
+
+  margin-top: 10px;
+
+  border-top:
+    1px solid var(--border-brown);
+}
+
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+
+.user-security-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  column-gap: 24px;
+
+  row-gap: 2px;
+}
+
+
+.user-security-grid
+.user-settings-field:last-child {
+  grid-column:
+    1 / -1;
+}
+
+
+/* =========================================================
+   SECURITY FORM SPACING
+   ========================================================= */
+
+.user-settings-form + .user-settings-form {
+  margin-top: 22px;
+}
+
+
+/* =========================================================
+   ABOUT SYSTEM CARD
+   ========================================================= */
+
+.about-system-card {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+
+.about-system-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 18px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(
+      90,
+      56,
+      37,
+      0.09
+    );
+
+  color:
+    var(--coffee-brown);
+
+  font-size: 25px;
+
+  box-shadow:
+    inset 0 0 0 1px
+    rgba(
+      90,
+      56,
+      37,
+      0.08
+    );
+}
+
+
+.about-system-card
+.user-settings-card-header {
+  width: 100%;
+}
+
+
+.about-system-description {
+  width: 100%;
+}
+
+
+.about-system-description p {
+  max-width: 900px;
+
+  margin: 0 0 13px;
+
+  color:
+    var(--text-muted);
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+.about-system-description p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   ABOUT INFORMATION GRID
+   ========================================================= */
+
+.about-information-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+
+.about-information-item {
+  min-height: 82px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  padding: 15px 16px;
+
+  border:
+    1px solid rgba(
+      90,
+      56,
+      37,
+      0.15
+    );
+
+  border-radius: 9px;
+
+  background:
+    rgba(
+      255,
+      250,
+      242,
+      0.65
+    );
+}
+
+
+.about-information-item span {
+  margin-bottom: 5px;
+
+  color:
+    var(--text-muted);
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    0.7px;
+}
+
+
+.about-information-item strong {
+  color:
+    var(--coffee-blue-dark);
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   ABOUT TEXT SECTION
+   ========================================================= */
+
+.about-text-section {
+  width: 100%;
+}
+
+
+.about-text-section p {
+  max-width: 950px;
+
+  margin: 0 0 14px;
+
+  color:
+    var(--text-muted);
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+.about-text-section p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   ABOUT HELP
+   ========================================================= */
+
+.about-help-list {
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 17px;
+}
+
+
+.about-help-item {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 14px;
+
+  padding: 4px 0;
+}
+
+
+.about-help-icon {
+  width: 29px;
+  height: 29px;
+
+  min-width: 29px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    var(--coffee-brown);
+
+  color:
+    var(--cream);
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+
+.about-help-item h3 {
+  margin: 1px 0 5px;
+
+  color:
+    var(--coffee-blue-dark);
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+
+.about-help-item p {
+  max-width: 850px;
+
+  margin: 0;
+
+  color:
+    var(--text-muted);
+
+  font-size: 12.5px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   RESPONSIVE - SETTINGS
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+  .about-information-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .user-profile-grid,
+  .user-security-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .user-security-grid
+  .user-settings-field:last-child {
+    grid-column: auto;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL TABLET
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .user-settings-content {
+    padding-bottom: 30px;
+  }
+
+
+  .user-profile-picture-card {
+    align-items: flex-start;
+  }
+
+
+  .user-settings-card,
+  .user-profile-picture-card {
+    padding: 20px;
+  }
+
+
+  .notification-setting-row {
+    align-items: flex-start;
+  }
+
+
+  .notification-setting-info p {
+    max-width: 100%;
+  }
+
+
+  .about-information-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 550px) {
+
+  .user-settings-header h1 {
+    font-size: 27px;
+  }
+
+
+  .user-settings-header p {
+    font-size: 13px;
+  }
+
+
+  .user-profile-picture-card {
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+  }
+
+
+  .user-profile-picture-info {
+    align-items: center;
+  }
+
+
+  .profile-picture-actions {
+    justify-content: center;
+
+    flex-wrap: wrap;
+  }
+
+
+  .user-settings-card {
+    padding: 18px;
+  }
+
+
+  .user-profile-save-row,
+  .user-settings-save-row {
+    justify-content: stretch;
+  }
+
+
+  .user-settings-primary-button {
+    width: 100%;
+  }
+
+
+  .notification-setting-row {
+    gap: 15px;
+  }
+
+
+  .notification-setting-info h3 {
+    font-size: 14px;
+  }
+
+
+  .notification-setting-info p {
+    font-size: 12px;
+  }
+
+
+  .notification-toggle {
+    width: 45px;
+    min-width: 45px;
+  }
+
+
+  .notification-toggle.active
+  .notification-toggle-knob {
+    transform:
+      translateX(19px);
+  }
+
+}
+  

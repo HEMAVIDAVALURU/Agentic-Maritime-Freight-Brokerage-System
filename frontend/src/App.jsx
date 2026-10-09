@@ -5,6 +5,7 @@ import Welcome from "./pages/Welcome";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import VerifyOTP from "./pages/VerifyOTP";
+import ForgotPassword from "./pages/ForgotPassword";
 import AdminLogin from "./pages/AdminLogin";
 import UserDashboard from "./pages/UserDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -73,6 +74,16 @@ function App() {
               <Login />
             </>
           }
+        />
+
+
+        {/* =====================================================
+            FORGOT PASSWORD
+        ===================================================== */}
+
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
         />
 
 

@@ -483,10 +483,11 @@ def request_quotation_approval(
 
     try:
 
-        if current_user.email:
-
-            result = (
-                EmailService.send_quotation_sent_email(
+        if (
+            current_user.email
+            and current_user.email_notification
+            ):
+            email_result = EmailService.send_quotation_sent_email(
                     recipient_email=current_user.email,
                     customer_name=current_user.name,
                     origin=quotation.origin,
@@ -494,7 +495,7 @@ def request_quotation_approval(
                     cargo_type=quotation.cargo_type,
                     containers=quotation.container_count,
                 )
-            )
+            
 
             if isinstance(result, dict):
 
@@ -662,7 +663,14 @@ def get_saved_quotations(
         # GET WEATHER INFORMATION
         # -------------------------------------------------
 
-        weather_condition = None
+        weather_data = {
+            "wind_speed_knots": None,
+            "wave_height_m": None,
+            "storm_probability_percent": None,
+            "visibility_km": None,
+            "weather_condition": None,
+            "weather_risk": None,
+        }
 
         try:
 
@@ -674,11 +682,14 @@ def get_saved_quotations(
 
             if weather_result.get("status") == "success":
 
-                weather_condition = (
-                    weather_result.get(
-                        "weather_condition"
-                    )
-                )
+                weather_data = {
+                    "wind_speed_knots": weather_result.get("wind_speed_knots"),
+                    "wave_height_m": weather_result.get("wave_height_m"),
+                    "storm_probability_percent": weather_result.get("storm_probability_percent"),
+                    "visibility_km": weather_result.get("visibility_km"),
+                    "weather_condition": weather_result.get("weather_condition"),
+                    "weather_risk": weather_result.get("weather_risk"),
+                }
 
         except Exception as weather_error:
 
@@ -691,7 +702,18 @@ def get_saved_quotations(
         # GET CUSTOMS INFORMATION
         # -------------------------------------------------
 
-        customs_status = None
+        customs_data = {
+            "customs_id": None,
+            "cargo_type": None,
+            "hs_code_required": None,
+            "commercial_invoice": None,
+            "packing_list": None,
+            "certificate_of_origin": None,
+            "restricted_cargo": None,
+            "customs_status": None,
+            "missing_documents": [],
+            "recommendation": None,
+        }
 
         try:
 
@@ -703,11 +725,18 @@ def get_saved_quotations(
 
             if customs_result.get("status") == "success":
 
-                customs_status = (
-                    customs_result.get(
-                        "customs_status"
-                    )
-                )
+                customs_data = {
+                    "customs_id": customs_result.get("customs_id"),
+                    "cargo_type": customs_result.get("cargo_type"),
+                    "hs_code_required": customs_result.get("hs_code_required"),
+                    "commercial_invoice": customs_result.get("commercial_invoice"),
+                    "packing_list": customs_result.get("packing_list"),
+                    "certificate_of_origin": customs_result.get("certificate_of_origin"),
+                    "restricted_cargo": customs_result.get("restricted_cargo"),
+                    "customs_status": customs_result.get("customs_status"),
+                    "missing_documents": customs_result.get("missing_documents") or [],
+                    "recommendation": customs_result.get("recommendation"),
+                }
 
         except Exception as customs_error:
 
@@ -794,6 +823,7 @@ def get_saved_quotations(
         # -------------------------------------------------
 
         margin_amount = None
+        actual_margin_percent = None
 
         if (
             final_selling_price is not None
@@ -806,6 +836,12 @@ def get_saved_quotations(
                 2,
             )
 
+            if final_selling_price > 0:
+                actual_margin_percent = round(
+                    (margin_amount / final_selling_price) * 100,
+                    2,
+                )
+
         # -------------------------------------------------
         # BUILD PRICING DETAILS
         # -------------------------------------------------
@@ -817,6 +853,13 @@ def get_saved_quotations(
             pricing_data = {
                 "route_id":
                     pricing.route_id,
+
+                "base_freight_usd":
+                    (
+                        selected_route.base_freight_usd
+                        if selected_route
+                        else None
+                    ),
 
                 "fuel_surcharge_usd":
                     pricing.fuel_surcharge,
@@ -841,6 +884,9 @@ def get_saved_quotations(
 
                 "margin_amount_usd":
                     margin_amount,
+
+                "actual_margin_percent":
+                    actual_margin_percent,
 
                 "final_selling_price_usd":
                     final_selling_price,
@@ -905,6 +951,9 @@ def get_saved_quotations(
             "margin_amount_usd":
                 margin_amount,
 
+            "actual_margin_percent":
+                actual_margin_percent,
+
             "selling_price":
                 final_selling_price,
 
@@ -912,10 +961,16 @@ def get_saved_quotations(
                 final_selling_price,
 
             "weather_condition":
-                weather_condition,
+                weather_data.get("weather_condition"),
+
+            "weather":
+                weather_data,
 
             "customs_status":
-                customs_status,
+                customs_data.get("customs_status"),
+
+            "customs":
+                customs_data,
 
             "status":
                 quotation.status,

@@ -34,6 +34,40 @@ function AdminDashboard() {
   const [settingsOpen, setSettingsOpen] =
     useState(false);
 
+  const [profileMenuOpen, setProfileMenuOpen] =
+    useState(false);
+
+  const [adminProfile, setAdminProfile] =
+    useState({
+      name: "Admin",
+      email: "",
+      mobile_number: "",
+      city: "",
+      gender: "",
+    });
+
+  const [adminNotifications, setAdminNotifications] =
+    useState([]);
+
+  const [notificationsLoading, setNotificationsLoading] =
+    useState(false);
+
+  const [notificationsError, setNotificationsError] =
+    useState("");
+
+  const [readNotificationIds, setReadNotificationIds] =
+    useState(() => {
+      try {
+        const stored = localStorage.getItem(
+          "admin_notification_read_ids"
+        );
+        const parsed = stored ? JSON.parse(stored) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    });
+
   const [kpiData, setKpiData] = useState({
     total_users: 0,
     total_quotations: 0,
@@ -156,7 +190,161 @@ function AdminDashboard() {
 
   useEffect(() => {
     fetchAdminDashboard();
+    fetchAdminProfile();
+    fetchAdminNotifications();
   }, []);
+
+  const fetchAdminNotifications = async () => {
+    setNotificationsLoading(true);
+    setNotificationsError("");
+
+    try {
+      const [quotationResponse, feedbackResponse] =
+        await Promise.all([
+          fetch("/api/admin-quotations/", {
+            method: "GET",
+            credentials: "include",
+            headers: { Accept: "application/json" },
+          }),
+          fetch("http://localhost:8000/api/feedback/admin", {
+            method: "GET",
+            credentials: "include",
+            headers: { Accept: "application/json" },
+          }),
+        ]);
+
+      if (!quotationResponse.ok) {
+        throw new Error("Unable to load quotation notifications.");
+      }
+
+      if (!feedbackResponse.ok) {
+        throw new Error("Unable to load feedback notifications.");
+      }
+
+      const quotationData = await quotationResponse.json();
+      const feedbackData = await feedbackResponse.json();
+
+      const quotationList = Array.isArray(quotationData)
+        ? quotationData
+        : Array.isArray(quotationData.quotations)
+        ? quotationData.quotations
+        : [];
+
+      const feedbackList = Array.isArray(feedbackData.feedback)
+        ? feedbackData.feedback
+        : [];
+
+      const quotationNotifications = quotationList
+        .filter((item) =>
+          String(item.status || "").toLowerCase() === "pending"
+        )
+        .map((item) => ({
+          id: `quotation-${item.id ?? item.quotation_id}`,
+          type: "quotation",
+          targetId: item.id ?? item.quotation_id,
+          title: "Quotation Approval Request",
+          message: `${item.customer?.name || item.customer_name || "Customer"} requested approval for quotation #${item.id ?? item.quotation_id}.`,
+          createdAt: item.created_at,
+        }));
+
+      const feedbackNotifications = feedbackList.map((item) => ({
+        id: `feedback-${item.id}`,
+        type: "feedback",
+        targetId: item.id,
+        title: "New Customer Feedback",
+        message: `${item.customer?.name || item.customer_name || "Customer"} submitted feedback${item.quotation_id ? ` for quotation #${item.quotation_id}` : ""}.`,
+        createdAt: item.created_at,
+      }));
+
+      const merged = [
+        ...quotationNotifications,
+        ...feedbackNotifications,
+      ].sort((a, b) => {
+        const aTime = new Date(a.createdAt || 0).getTime();
+        const bTime = new Date(b.createdAt || 0).getTime();
+        return bTime - aTime;
+      });
+
+      setAdminNotifications(merged);
+    } catch (error) {
+      console.error("Admin notifications loading error:", error);
+      setNotificationsError(
+        error.message || "Unable to load notifications."
+      );
+    } finally {
+      setNotificationsLoading(false);
+    }
+  };
+
+  const markAdminNotificationRead = (notification) => {
+    setReadNotificationIds((previous) => {
+      if (previous.includes(notification.id)) {
+        return previous;
+      }
+
+      const updated = [...previous, notification.id];
+
+      try {
+        localStorage.setItem(
+          "admin_notification_read_ids",
+          JSON.stringify(updated)
+        );
+      } catch {
+        // Local storage is optional; the in-memory state still works.
+      }
+
+      return updated;
+    });
+  };
+
+  const handleAdminNotificationOpen = (notification) => {
+    markAdminNotificationRead(notification);
+
+    sessionStorage.setItem(
+      "admin_notification_target",
+      JSON.stringify({
+        type: notification.type,
+        id: notification.targetId,
+      })
+    );
+
+    if (notification.type === "quotation") {
+      setActivePage("quotation");
+    } else {
+      setActivePage("feedback");
+    }
+  };
+
+  const fetchAdminProfile = async () => {
+    try {
+      const response = await fetch(
+        "/api/admin/settings/profile",
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        return;
+      }
+
+      const data = await response.json();
+
+      setAdminProfile({
+        name: data.name || "Admin",
+        email: data.email || "",
+        mobile_number: data.mobile_number || "",
+        city: data.city || "",
+        gender: data.gender || "",
+      });
+    } catch (error) {
+      console.error("Admin profile loading error:", error);
+    }
+  };
 
   // =========================================================
   // ADMIN LOGOUT
@@ -451,7 +639,28 @@ function AdminDashboard() {
   ) => {
     setActivePage(section);
     setSettingsOpen(true);
+    setProfileMenuOpen(false);
   };
+
+  const handleAdminProfileClick = () => {
+    setProfileMenuOpen((previous) => !previous);
+    setSettingsOpen(false);
+  };
+
+  const handleAdminNotificationsClick = () => {
+    setActivePage("admin-notifications");
+    setSettingsOpen(false);
+    setProfileMenuOpen(false);
+    fetchAdminNotifications();
+  };
+
+  // =========================================================
+  // DERIVED NOTIFICATION COUNT
+  // =========================================================
+
+  const unreadAdminNotificationCount = adminNotifications.filter(
+    (item) => !readNotificationIds.includes(item.id)
+  ).length;
 
   // =========================================================
   // MAIN CONTENT
@@ -589,6 +798,21 @@ function AdminDashboard() {
 
         <div className="admin-sidebar-bottom">
 
+          <div className="admin-logged-user">
+            <div className="admin-logged-user-avatar">
+              {(adminProfile.name || "Admin")
+                .charAt(0)
+                .toUpperCase()}
+            </div>
+
+            <div className="admin-logged-user-info">
+              <span>Logged in as</span>
+              <strong>
+                {adminProfile.name || "Admin"}
+              </strong>
+            </div>
+          </div>
+
           <button
             type="button"
             className="admin-logout-button"
@@ -610,6 +834,209 @@ function AdminDashboard() {
       ===================================================== */}
 
       <main className="admin-main">
+
+        {/* =================================================
+            ADMIN TOP BAR
+        ================================================= */}
+
+        {activePage !== "dashboard" && (
+        <div className="admin-topbar">
+          <div className="admin-topbar-brand">
+            <strong>Agentic Maritime Freight Brokerage</strong>
+          </div>
+
+          <div className="admin-topbar-actions">
+            <button
+              type="button"
+              className="admin-topbar-icon-button"
+              onClick={handleAdminNotificationsClick}
+              aria-label="Notifications"
+              title="Notifications"
+            >
+              <span className="admin-notification-bell-icon">🔔</span>
+              {unreadAdminNotificationCount > 0 && (
+                <span
+                  className="admin-notification-count-badge"
+                  aria-label={`${unreadAdminNotificationCount} unread notifications`}
+                >
+                  {unreadAdminNotificationCount > 99
+                    ? "99+"
+                    : unreadAdminNotificationCount}
+                </span>
+              )}
+            </button>
+
+            <div className="admin-profile-wrap">
+              <button
+                type="button"
+                className="admin-profile-button"
+                onClick={handleAdminProfileClick}
+                aria-expanded={profileMenuOpen}
+              >
+                <span className="admin-profile-initial">
+                  {(adminProfile.name || "Admin")
+                    .charAt(0)
+                    .toUpperCase()}
+                </span>
+
+                <div className="admin-profile-text">
+                  <strong>
+                    {adminProfile.name || "Admin"}
+                  </strong>
+                  <small>
+                    {adminProfile.email || "Administrator"}
+                  </small>
+                </div>
+
+                <b>▾</b>
+              </button>
+
+              {profileMenuOpen && (
+                <div className="admin-profile-panel">
+                  <div className="admin-profile-panel-card">
+                    <span className="admin-profile-panel-initial">
+                      {(adminProfile.name || "Admin")
+                        .charAt(0)
+                        .toUpperCase()}
+                    </span>
+
+                    <div>
+                      <strong>
+                        {adminProfile.name || "Admin"}
+                      </strong>
+                      <p>
+                        {adminProfile.email || ""}
+                      </p>
+                      {adminProfile.mobile_number && (
+                        <p>{adminProfile.mobile_number}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleSettingsSectionClick(
+                        "settings-profile"
+                      )
+                    }
+                  >
+                    Edit profile in Settings
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+            )}   
+
+        {/* =================================================
+            ADMIN NOTIFICATIONS
+        ================================================= */}
+
+        {activePage === "admin-notifications" && (
+          <section className="admin-notifications-page">
+            <header className="admin-notifications-header">
+              <div>
+                <span className="admin-notifications-eyebrow">
+                  ADMIN NOTIFICATIONS
+                </span>
+                <h1>Notifications</h1>
+                <p>
+                  Review quotation approval requests and customer feedback.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                className="admin-notifications-refresh"
+                onClick={fetchAdminNotifications}
+                disabled={notificationsLoading}
+              >
+                {notificationsLoading ? "Refreshing..." : "↻ Refresh"}
+              </button>
+            </header>
+
+            <section className="admin-notifications-card">
+              <div className="admin-notifications-card-header">
+                <div>
+                  <strong>{adminNotifications.length}</strong>
+                  <span>Recent Notifications</span>
+                </div>
+                <span className="admin-notifications-unread-count">
+                  {adminNotifications.filter(
+                    (item) => !readNotificationIds.includes(item.id)
+                  ).length} unread
+                </span>
+              </div>
+
+              {notificationsError ? (
+                <div className="admin-notifications-message error">
+                  {notificationsError}
+                </div>
+              ) : notificationsLoading ? (
+                <div className="admin-notifications-message">
+                  Loading notifications...
+                </div>
+              ) : adminNotifications.length === 0 ? (
+                <div className="admin-notifications-message">
+                  No quotation requests or customer feedback notifications.
+                </div>
+              ) : (
+                <div className="admin-notifications-list">
+                  {adminNotifications.map((notification) => {
+                    const isUnread = !readNotificationIds.includes(
+                      notification.id
+                    );
+
+                    return (
+                      <button
+                        key={notification.id}
+                        type="button"
+                        className={`admin-notification-item ${
+                          isUnread ? "unread" : ""
+                        }`}
+                        onClick={() =>
+                          handleAdminNotificationOpen(notification)
+                        }
+                      >
+                        <span className="admin-notification-icon">
+                          {notification.type === "quotation" ? "▣" : "◇"}
+                        </span>
+
+                        <span className="admin-notification-content">
+                          <strong>{notification.title}</strong>
+                          <span>{notification.message}</span>
+                          <small>
+                            {notification.createdAt
+                              ? new Date(
+                                  notification.createdAt
+                                ).toLocaleString("en-IN", {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })
+                              : "Date unavailable"}
+                          </small>
+                        </span>
+
+                        {isUnread && (
+                          <span
+                            className="admin-notification-unread-dot"
+                            aria-label="Unread notification"
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+          </section>
+        )}
 
         {/* =================================================
             DASHBOARD
@@ -638,14 +1065,87 @@ function AdminDashboard() {
 
               </div>
 
-              <div className="admin-admin-live-status">
+              <div className="admin-dashboard-header-actions admin-topbar-actions">
+                <button
+                  type="button"
+                  className="admin-topbar-icon-button"
+                  onClick={handleAdminNotificationsClick}
+                  aria-label="Notifications"
+                  title="Notifications"
+                >
+                  <span className="admin-notification-bell-icon">🔔</span>
+                  {unreadAdminNotificationCount > 0 && (
+                    <span
+                      className="admin-notification-count-badge"
+                      aria-label={`${unreadAdminNotificationCount} unread notifications`}
+                    >
+                      {unreadAdminNotificationCount > 99
+                        ? "99+"
+                        : unreadAdminNotificationCount}
+                    </span>
+                  )}
+                </button>
 
-                <span className="admin-live-dot"></span>
+                <div className="admin-profile-wrap">
+                  <button
+                    type="button"
+                    className="admin-profile-button"
+                    onClick={handleAdminProfileClick}
+                    aria-expanded={profileMenuOpen}
+                  >
+                    <span className="admin-profile-initial">
+                      {(adminProfile.name || "Admin")
+                        .charAt(0)
+                        .toUpperCase()}
+                    </span>
 
-                <span>
-                  Admin Active
-                </span>
+                    <div className="admin-profile-text">
+                      <strong>
+                        {adminProfile.name || "Admin"}
+                      </strong>
+                      <small>
+                        {adminProfile.email || "Administrator"}
+                      </small>
+                    </div>
 
+                    <b>▾</b>
+                  </button>
+
+                  {profileMenuOpen && (
+                    <div className="admin-profile-panel">
+                      <div className="admin-profile-panel-card">
+                        <span className="admin-profile-panel-initial">
+                          {(adminProfile.name || "Admin")
+                            .charAt(0)
+                            .toUpperCase()}
+                        </span>
+
+                        <div>
+                          <strong>
+                            {adminProfile.name || "Admin"}
+                          </strong>
+                          <p>
+                            {adminProfile.email || ""}
+                          </p>
+                          {adminProfile.mobile_number && (
+                            <p>{adminProfile.mobile_number}</p>
+                          )}
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleSettingsSectionClick(
+                            "settings-profile"
+                          )
+                        }
+                      >
+                        Edit profile in Settings
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
 
             </div>
@@ -1448,6 +1948,7 @@ function AdminDashboard() {
         ================================================= */}
 
         {activePage !== "dashboard" &&
+          activePage !== "admin-notifications" &&
           activePage !== "users" &&
           activePage !== "routes" &&
           activePage !== "pricing" &&

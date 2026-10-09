@@ -9,6 +9,9 @@ function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
   const [loading, setLoading] = useState(false);
@@ -62,10 +65,11 @@ function Register() {
         return;
       }
 
-      // Store only the email needed for OTP verification.
-      sessionStorage.setItem("otpEmail", data.email || email.trim());
+      sessionStorage.setItem(
+        "otpEmail",
+        data.email || email.trim()
+      );
 
-      // Remove any old OTP session data.
       sessionStorage.removeItem("otpUserId");
       sessionStorage.removeItem("developmentOtp");
 
@@ -91,9 +95,60 @@ function Register() {
 
   return (
     <div className="register-container">
+
+      {/* LEFT MARITIME INFORMATION PANEL */}
+      <div className="register-visual-panel">
+
+        <div className="register-kicker">
+          MARITIME FREIGHT INTELLIGENCE
+        </div>
+
+        <h1>
+          Build your
+          <br />
+          maritime workspace.
+        </h1>
+
+        <p>
+          Create your account to explore intelligent sea routes,
+          compare freight pricing, analyze weather conditions,
+          and manage your quotation requests in one connected
+          maritime workspace.
+        </p>
+
+        <div className="register-route-note">
+          <span>ORIGIN</span>
+          <b>SEA ROUTE</b>
+          <span>DESTINATION</span>
+        </div>
+
+        <div className="register-benefits">
+          <div>
+            <span className="benefit-icon">✓</span>
+            Smart route analysis
+          </div>
+
+          <div>
+            <span className="benefit-icon">✓</span>
+            Freight quotation intelligence
+          </div>
+
+          <div>
+            <span className="benefit-icon">✓</span>
+            Weather & customs insights
+          </div>
+        </div>
+
+      </div>
+
+      {/* RIGHT REGISTRATION CARD */}
       <div className="register-card">
 
         <h2>Create Your Account</h2>
+
+        <p className="register-subtitle">
+          Join Maritime Freight Intelligence.
+        </p>
 
         <form onSubmit={handleRegister} autoComplete="on">
 
@@ -126,25 +181,67 @@ function Register() {
             autoComplete="organization"
           />
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="new-password"
-            required
-          />
+          {/* PASSWORD */}
+          <div className="register-password-wrap">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="new-password"
+              required
+            />
 
-          <input
-            type="password"
-            name="confirm_password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            autoComplete="new-password"
-            required
-          />
+            <button
+              type="button"
+              className={`register-password-toggle ${
+                showPassword ? "active" : ""
+              }`}
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={
+                showPassword ? "Hide password" : "Show password"
+              }
+              title={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? "◉" : "◌"}
+            </button>
+          </div>
+
+          {/* CONFIRM PASSWORD */}
+          <div className="register-password-wrap">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirm_password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              autoComplete="new-password"
+              required
+            />
+
+            <button
+              type="button"
+              className={`register-password-toggle ${
+                showConfirmPassword ? "active" : ""
+              }`}
+              onClick={() =>
+                setShowConfirmPassword(!showConfirmPassword)
+              }
+              aria-label={
+                showConfirmPassword
+                  ? "Hide confirm password"
+                  : "Show confirm password"
+              }
+              title={
+                showConfirmPassword
+                  ? "Hide confirm password"
+                  : "Show confirm password"
+              }
+            >
+              {showConfirmPassword ? "◉" : "◌"}
+            </button>
+          </div>
 
           {message && (
             <p className={`message ${messageType}`}>
@@ -152,7 +249,11 @@ function Register() {
             </p>
           )}
 
-          <button type="submit" disabled={loading}>
+          <button
+            type="submit"
+            className="register-submit"
+            disabled={loading}
+          >
             {loading ? "Registering..." : "Register Now"}
           </button>
 

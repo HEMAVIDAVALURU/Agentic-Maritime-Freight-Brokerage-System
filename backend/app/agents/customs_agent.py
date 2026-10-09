@@ -105,14 +105,23 @@ class CustomsAgent:
     # VALIDATE CUSTOMS REQUIREMENTS
     # =====================================================
 
-    def validate_customs(self, route_id):
+    def validate_customs(self, route_id, cargo_type=None):
 
         route_id = str(route_id).strip().upper()
 
-        # Find customs records for the route
+        # Customs records are related by route + cargo type.
         customs_data = self.customs_data[
             self.customs_data["route_id"] == route_id
         ]
+
+        if cargo_type is not None and not customs_data.empty:
+            normalized_cargo = str(cargo_type).strip().casefold()
+            cargo_matches = customs_data[
+                customs_data["cargo_type"].astype(str).str.strip().str.casefold()
+                == normalized_cargo
+            ]
+            if not cargo_matches.empty:
+                customs_data = cargo_matches
 
         if customs_data.empty:
             return {
@@ -143,7 +152,19 @@ class CustomsAgent:
 
         restricted_value = customs["restricted_cargo"]
 
-        # Determine customs status
+        # Determine customs status from the actual validation fields.
+        #
+        # Business rule:
+        #   1. Restricted cargo always requires compliance review.
+        #   2. If cargo is not restricted AND all required documents
+        #      are marked Yes, the quotation is Valid.
+        #   3. Otherwise it is Warning.
+        #
+        # We intentionally do NOT blindly trust a precomputed
+        # customs_status value from the CSV because the dashboard
+        # status must reflect the individual document fields shown
+        # to the admin.
+
         if restricted_value == "Yes":
 
             customs_status = "Restricted"

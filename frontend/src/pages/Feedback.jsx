@@ -110,6 +110,51 @@ function Feedback() {
     }
   }, [currentUser, fetchFeedbackHistory]);
 
+  useEffect(() => {
+    if (!feedbackHistory.length) return;
+
+    let targetFeedbackId = null;
+
+    try {
+      targetFeedbackId = sessionStorage.getItem(
+        "user_dashboard_notification_target_feedback"
+      );
+    } catch (error) {
+      console.error("Unable to read feedback notification target:", error);
+    }
+
+    if (!targetFeedbackId) return;
+
+    const target = feedbackHistory.find(
+      (item) => String(item.id) === String(targetFeedbackId)
+    );
+
+    if (!target) return;
+
+    requestAnimationFrame(() => {
+      const element = document.getElementById(
+        `feedback-history-${target.id}`
+      );
+
+      if (!element) return;
+
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      element.classList.add("notification-target-feedback");
+
+      window.setTimeout(() => {
+        element.classList.remove("notification-target-feedback");
+      }, 1800);
+    });
+
+    try {
+      sessionStorage.removeItem(
+        "user_dashboard_notification_target_feedback"
+      );
+    } catch (error) {
+      console.error("Unable to clear feedback notification target:", error);
+    }
+  }, [feedbackHistory]);
+
   // =========================================================
   // SUBMIT FEEDBACK
   // =========================================================
@@ -474,6 +519,7 @@ function Feedback() {
               return (
                 <article
                   className="feedback-history-card"
+                  id={`feedback-history-${item.id}`}
                   key={item.id}
                 >
                   {/* USER FEEDBACK */}

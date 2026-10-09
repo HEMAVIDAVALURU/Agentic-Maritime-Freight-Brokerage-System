@@ -240,8 +240,6 @@ def submit_feedback(
     # SEND ADMIN FEEDBACK EMAIL
     # =========================================================
     #
-    # IMPORTANT:
-    #
     # Email is sent ONLY when:
     #
     # email_notifications = True
@@ -320,6 +318,62 @@ def submit_feedback(
 
         print(
             "Feedback notification error:",
+            error
+        )
+
+    # =========================================================
+    # SEND USER FEEDBACK SUBMISSION CONFIRMATION EMAIL
+    # =========================================================
+    #
+    # This is a GENERAL email.
+    #
+    # Controlled ONLY by:
+    #
+    # email_notifications = True
+    #
+    # Feedback Alerts are NOT required for this email.
+    #
+    # Email failure must never fail an already-saved feedback.
+    # =========================================================
+
+    try:
+        if (
+            customer.email
+            and customer.email_notifications
+        ):
+            user_email_result = (
+                EmailService
+                .send_feedback_submission_confirmation_email(
+                    customer_email=customer.email,
+                    customer_name=(
+                        customer.name
+                        or "Customer"
+                    ),
+                    rating=request.rating,
+                    feedback_text=(
+                        request.feedback_text.strip()
+                        or "No written feedback provided."
+                    ),
+                    quotation_id=request.quotation_id,
+                )
+            )
+
+            if not user_email_result.get("success"):
+                print(
+                    "User feedback confirmation email failed:",
+                    user_email_result.get("message")
+                )
+
+        else:
+            print(
+                "User feedback confirmation email skipped "
+                "because customer email notifications are OFF "
+                "or customer email is unavailable."
+            )
+
+    except Exception as error:
+        print(
+            "User feedback confirmation email error:",
             error
         )
 
@@ -445,6 +499,163 @@ def reply_to_feedback(
 
     db.commit()
     db.refresh(feedback)
+
+    # ---------------------------------------------------------
+    # Find the customer who submitted this feedback
+    # ---------------------------------------------------------
+
+    customer = (
+        db.query(User)
+        .filter(User.id == feedback.user_id)
+        .first()
+    )
+
+    # =========================================================
+    # SEND USER ADMIN-REPLY EMAIL
+    # =========================================================
+    #
+    # This is a FEEDBACK ALERT.
+    #
+    # Controlled by:
+    #
+    # email_notifications = True
+    #
+    # AND
+    #
+    # feedback_notifications = True
+    #
+    # Email failure must never undo the saved admin response.
+    # =========================================================
+
+    if customer and customer.email:
+        try:
+            if (
+                customer.email_notifications
+                and customer.feedback_notifications
+            ):
+                user_reply_result = (
+                    EmailService
+                    .send_feedback_reply_email(
+                        customer_email=customer.email,
+                        customer_name=(
+                            customer.name
+                            or "Customer"
+                        ),
+                        rating=feedback.rating,
+                        feedback_text=(
+                            feedback.comments
+                            or "No written feedback provided."
+                        ),
+                        admin_response=response_text,
+                        quotation_id=feedback.quotation_id,
+                    )
+                )
+
+                if not user_reply_result.get("success"):
+                    print(
+                        "User feedback reply email failed:",
+                        user_reply_result.get("message")
+                    )
+            else:
+                print(
+                    "User feedback reply email skipped because "
+                    "customer notification settings are OFF."
+                )
+
+        except Exception as error:
+            print(
+                "User feedback reply email error:",
+                error
+            )
+
+    # =========================================================
+    # SEND ADMIN REPLY-SENT CONFIRMATION EMAIL
+    # =========================================================
+    #
+    # This is a GENERAL email.
+    #
+    # Controlled ONLY by:
+    #
+    # email_notifications = True
+    #
+    # Feedback Alerts are NOT required for this email.
+    # =========================================================
+
+    try:
+        if (
+            current_user.email
+            and current_user.email_notifications
+        ):
+            admin_reply_result = (
+                EmailService
+                .send_feedback_reply_confirmation_email(
+                    admin_email=current_user.email,
+                    admin_name=(
+                        current_user.name
+                        or "Admin"
+                    ),
+                    customer_name=(
+                        customer.name
+                        if customer
+                        else "Customer"
+                    ),
+                    customer_email=(
+                        customer.email
+                        if customer
+                        else ""
+                    ),
+                    rating=feedback.rating,
+                    admin_response=response_text,
+                    quotation_id=feedback.quotation_id,
+                )
+            )
+
+            if not admin_reply_result.get("success"):
+                print(
+                    "Admin feedback reply confirmation email failed:",
+                    admin_reply_result.get("message")
+                )
+
+        else:
+            print(
+                "Admin feedback reply confirmation email skipped "
+                "because admin email notifications are OFF "
+                "or admin email is unavailable."
+            )
+
+    except Exception as error:
+        print(
+            "Admin feedback reply confirmation email error:",
+            error
+        )
+
+    # ---------------------------------------------------------
+    # Create activity record
+    # ---------------------------------------------------------
+
+    try:
+        activity = Activity(
+            user_id=feedback.user_id,
+            activity_type="feedback_response",
+            description=(
+                f"Admin responded to your feedback #{feedback.id}."
+            ),
+        )
+
+        db.add(activity)
+        db.commit()
+
+    except Exception as activity_error:
+        db.rollback()
+
+        print(
+            "Feedback-response activity failed:",
+            activity_error
+        )
+
+    # ---------------------------------------------------------
+    # Return successful response
+    # ---------------------------------------------------------
 
     return {
         "success": True,

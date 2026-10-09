@@ -11,6 +11,8 @@ from app.db_models import (
     Route,
     Activity,
 )
+from app.agents.weather_agent import WeatherAgent
+from app.agents.customs_agent import CustomsAgent
 from app.services.auth_dependency import get_current_user
 
 
@@ -18,6 +20,9 @@ router = APIRouter(
     prefix="/api/user-dashboard",
     tags=["User Dashboard"]
 )
+
+weather_agent = WeatherAgent()
+customs_agent = CustomsAgent()
 
 
 # =========================================================
@@ -331,6 +336,9 @@ def get_user_dashboard(
         "quotation_saved",
 
         "quotation_approval_requested",
+        "quotation_approved",
+        "quotation_rejected",
+        "feedback_response",
     ]
 
 
@@ -348,7 +356,7 @@ def get_user_dashboard(
         .order_by(
             Activity.created_at.desc()
         )
-        .limit(20)
+        .limit(10)
         .all()
     )
 
@@ -375,6 +383,57 @@ def get_user_dashboard(
 
 
     # =====================================================
+    # RECENT QUOTATIONS
+    # =====================================================
+
+    quotation_rows = (
+        db.query(QuotationRequestDB)
+        .filter(QuotationRequestDB.user_id == user_id)
+        .order_by(QuotationRequestDB.created_at.desc())
+        .limit(10)
+        .all()
+    )
+
+    recent_quotations = []
+
+    for quotation in quotation_rows:
+        weather_condition = None
+        customs_status = None
+
+        try:
+            weather_result = weather_agent.assess_weather(
+                route_id=quotation.selected_route_id
+            )
+            if weather_result.get("status") == "success":
+                weather_condition = weather_result.get("weather_condition")
+        except Exception as weather_error:
+            print("Dashboard weather lookup failed:", weather_error)
+
+        try:
+            customs_result = customs_agent.validate_customs(
+                quotation.selected_route_id
+            )
+            if customs_result.get("status") == "success":
+                customs_status = customs_result.get("customs_status")
+        except Exception as customs_error:
+            print("Dashboard customs lookup failed:", customs_error)
+
+        recent_quotations.append({
+            "quotation_id": quotation.id,
+            "quotation_date": quotation.created_at,
+            "origin": quotation.origin,
+            "destination": quotation.destination,
+            "cargo_type": quotation.cargo_type,
+            "container_type": quotation.container_type,
+            "container_count": quotation.container_count,
+            "selling_price": float(quotation.selling_price or 0),
+            "weather_condition": weather_condition,
+            "customs_status": customs_status,
+            "status": quotation.status,
+        })
+
+
+    # =====================================================
     # RESPONSE
     # =====================================================
 
@@ -392,7 +451,16 @@ def get_user_dashboard(
                 current_user.name,
 
             "email":
-                current_user.email
+                current_user.email,
+
+            "company_name":
+                getattr(current_user, "company_name", None),
+
+            "phone_number":
+                getattr(current_user, "phone_number", None),
+
+            "profile_picture":
+                getattr(current_user, "profile_picture", None)
 
         },
 
@@ -441,5 +509,60 @@ def get_user_dashboard(
         },
 
         "recent_activity":
-            recent_activity
+            recent_activity,
+
+        "recent_quotations":
+            recent_quotations
+    }
+
+# =========================================================
+# USER NOTIFICATIONS
+# =========================================================
+
+@router.get("/notifications")
+def get_user_notifications(
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    allowed_types = [
+        "quotation_approved",
+        "quotation_rejected",
+        "feedback_response",
+    ]
+
+    activities = (
+        db.query(Activity)
+        .filter(
+            Activity.user_id == current_user.id,
+            Activity.activity_type.in_(allowed_types),
+        )
+        .order_by(Activity.created_at.desc())
+        .limit(10)
+        .all()
+    )
+
+    notifications = []
+    for activity in activities:
+        if activity.activity_type == "quotation_approved":
+            title = "Quotation Approved"
+            icon = "✓"
+        elif activity.activity_type == "quotation_rejected":
+            title = "Quotation Rejected"
+            icon = "×"
+        else:
+            title = "Admin Feedback Response"
+            icon = "✦"
+
+        notifications.append({
+            "id": activity.id,
+            "type": activity.activity_type,
+            "title": title,
+            "message": activity.description or "You have a new notification.",
+            "created_at": activity.created_at,
+            "icon": icon,
+        })
+
+    return {
+        "status": "success",
+        "notifications": notifications,
     }

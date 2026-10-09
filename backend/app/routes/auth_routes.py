@@ -43,6 +43,33 @@ class ResendOTPRequest(BaseModel):
 
 
 # =========================================================
+# FORGOT PASSWORD - REQUEST OTP
+# =========================================================
+
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+
+# =========================================================
+# FORGOT PASSWORD - VERIFY OTP
+# =========================================================
+
+class VerifyPasswordResetOTPRequest(BaseModel):
+    email: EmailStr
+    otp: str
+
+
+# =========================================================
+# FORGOT PASSWORD - RESET PASSWORD
+# =========================================================
+
+class ResetPasswordRequest(BaseModel):
+    email: EmailStr
+    otp: str
+    new_password: str
+
+
+# =========================================================
 # LOGIN REQUEST
 # =========================================================
 
@@ -52,10 +79,30 @@ class LoginRequest(BaseModel):
 
 
 # =========================================================
+# CHANGE CUSTOMER EMAIL REQUEST
+# =========================================================
+
+class ChangeCustomerEmailRequest(BaseModel):
+    current_email: EmailStr
+    current_password: str
+    new_email: EmailStr
+
+
+# =========================================================
+# CHANGE CUSTOMER PASSWORD REQUEST
+# =========================================================
+
+class ChangeCustomerPasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+
+# =========================================================
 # CHANGE ADMIN EMAIL REQUEST
 # =========================================================
 
 class ChangeAdminEmailRequest(BaseModel):
+    current_email: EmailStr
     current_password: str
     new_email: EmailStr
 
@@ -67,6 +114,29 @@ class ChangeAdminEmailRequest(BaseModel):
 class ChangeAdminPasswordRequest(BaseModel):
     current_password: str
     new_password: str
+
+
+# =========================================================
+# UPDATE USER PROFILE REQUEST
+# =========================================================
+
+class UpdateUserProfileRequest(BaseModel):
+    name: str
+    company_name: str | None = None
+    phone_number: str | None = None
+    city: str | None = None
+    gender: str | None = None
+    profile_picture: str | None = None
+
+
+# =========================================================
+# UPDATE CUSTOMER NOTIFICATION SETTINGS REQUEST
+# =========================================================
+
+class UpdateNotificationSettingsRequest(BaseModel):
+    email_notifications: bool
+    quotation_notifications: bool
+    feedback_notifications: bool
 
 
 # =========================================================
@@ -83,14 +153,15 @@ def register(
         db=db,
         name=request.name,
         email=request.email,
-        password=request.password
+        password=request.password,
+        company_name=request.company_name
     )
 
     return result
 
 
 # =========================================================
-# VERIFY OTP
+# VERIFY REGISTRATION OTP
 # =========================================================
 
 @router.post("/verify-otp")
@@ -109,7 +180,7 @@ def verify_otp(
 
 
 # =========================================================
-# RESEND OTP
+# RESEND REGISTRATION OTP
 # =========================================================
 
 @router.post("/resend-otp")
@@ -122,6 +193,83 @@ def resend_otp(
         db=db,
         email=request.email
     )
+
+    return result
+
+
+# =========================================================
+# FORGOT PASSWORD - SEND OTP
+# =========================================================
+
+@router.post("/forgot-password")
+def forgot_password(
+    request: ForgotPasswordRequest,
+    db: Session = Depends(get_db)
+):
+
+    result = AuthService.request_password_reset(
+        db=db,
+        email=request.email
+    )
+
+    return result
+
+
+# =========================================================
+# FORGOT PASSWORD - VERIFY OTP
+# =========================================================
+
+@router.post("/forgot-password/verify-otp")
+def verify_password_reset_otp(
+    request: VerifyPasswordResetOTPRequest,
+    db: Session = Depends(get_db)
+):
+
+    result = AuthService.verify_password_reset_otp(
+        db=db,
+        email=request.email,
+        otp=request.otp
+    )
+
+    if result.get("status") != "success":
+
+        raise HTTPException(
+            status_code=400,
+            detail=result.get(
+                "message",
+                "Invalid password reset OTP."
+            )
+        )
+
+    return result
+
+
+# =========================================================
+# FORGOT PASSWORD - RESET PASSWORD
+# =========================================================
+
+@router.post("/forgot-password/reset")
+def reset_password(
+    request: ResetPasswordRequest,
+    db: Session = Depends(get_db)
+):
+
+    result = AuthService.reset_password(
+        db=db,
+        email=request.email,
+        otp=request.otp,
+        new_password=request.new_password
+    )
+
+    if result.get("status") != "success":
+
+        raise HTTPException(
+            status_code=400,
+            detail=result.get(
+                "message",
+                "Unable to reset password."
+            )
+        )
 
     return result
 
@@ -144,11 +292,13 @@ def login(
     )
 
     if result.get("status") != "success":
+
         return result
 
     access_token = result.get("access_token")
 
     if not access_token:
+
         raise HTTPException(
             status_code=500,
             detail="Authentication token was not generated."
@@ -187,11 +337,13 @@ def admin_login(
     )
 
     if result.get("status") != "success":
+
         return result
 
     access_token = result.get("access_token")
 
     if not access_token:
+
         raise HTTPException(
             status_code=500,
             detail="Authentication token was not generated."
@@ -234,14 +386,318 @@ def get_me(
 
     return {
         "success": True,
+
         "user": {
             "id": current_user.id,
             "name": current_user.name,
             "email": current_user.email,
             "company_name": company_name,
+
+            "phone_number": getattr(
+                current_user,
+                "phone_number",
+                None
+            ),
+
+            "city": getattr(
+                current_user,
+                "city",
+                None
+            ),
+
+            "gender": getattr(
+                current_user,
+                "gender",
+                None
+            ),
+
+            "profile_picture": getattr(
+                current_user,
+                "profile_picture",
+                None
+            ),
+
+            "is_active": getattr(
+                current_user,
+                "is_active",
+                True
+            ),
+
             "role": role
         }
     }
+
+
+# =========================================================
+# UPDATE CUSTOMER PROFILE
+# =========================================================
+
+@router.put("/profile")
+def update_user_profile(
+    request: UpdateUserProfileRequest,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    if getattr(current_user, "role", None) != "customer":
+
+        raise HTTPException(
+            status_code=403,
+            detail="Customer access required."
+        )
+
+    cleaned_name = request.name.strip()
+
+    if not cleaned_name:
+
+        raise HTTPException(
+            status_code=400,
+            detail="Name cannot be empty."
+        )
+
+    current_user.name = cleaned_name
+
+    current_user.company_name = (
+        request.company_name.strip()
+        if request.company_name
+        else None
+    )
+
+    current_user.phone_number = (
+        request.phone_number.strip()
+        if request.phone_number
+        else None
+    )
+
+    current_user.city = (
+        request.city.strip()
+        if request.city
+        else None
+    )
+
+    current_user.gender = (
+        request.gender.strip()
+        if request.gender
+        else None
+    )
+
+    current_user.profile_picture = (
+        request.profile_picture
+        if request.profile_picture
+        else None
+    )
+
+    try:
+
+        db.commit()
+        db.refresh(current_user)
+
+    except Exception:
+
+        db.rollback()
+
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to update user profile."
+        )
+
+    return {
+        "success": True,
+
+        "message":
+            "User profile updated successfully.",
+
+        "user": {
+            "id": current_user.id,
+            "name": current_user.name,
+            "email": current_user.email,
+            "company_name": current_user.company_name,
+            "phone_number": current_user.phone_number,
+            "city": current_user.city,
+            "gender": current_user.gender,
+            "profile_picture": current_user.profile_picture,
+            "is_active": current_user.is_active
+        }
+    }
+
+
+# =========================================================
+# GET CUSTOMER NOTIFICATION SETTINGS
+# =========================================================
+
+@router.get("/notifications")
+def get_notification_settings(
+    current_user=Depends(get_current_user)
+):
+
+    if getattr(current_user, "role", None) != "customer":
+
+        raise HTTPException(
+            status_code=403,
+            detail="Customer access required."
+        )
+
+    return {
+        "success": True,
+
+        "notifications": {
+            "email_notifications":
+                current_user.email_notifications,
+
+            "quotation_notifications":
+                current_user.quotation_notifications,
+
+            "feedback_notifications":
+                current_user.feedback_notifications
+        }
+    }
+
+
+# =========================================================
+# UPDATE CUSTOMER NOTIFICATION SETTINGS
+# =========================================================
+
+@router.put("/notifications")
+def update_notification_settings(
+    request: UpdateNotificationSettingsRequest,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    if getattr(current_user, "role", None) != "customer":
+
+        raise HTTPException(
+            status_code=403,
+            detail="Customer access required."
+        )
+
+    current_user.email_notifications = (
+        request.email_notifications
+    )
+
+    if not request.email_notifications:
+
+        current_user.quotation_notifications = False
+        current_user.feedback_notifications = False
+
+    else:
+
+        current_user.quotation_notifications = (
+            request.quotation_notifications
+        )
+
+        current_user.feedback_notifications = (
+            request.feedback_notifications
+        )
+
+    try:
+
+        db.commit()
+        db.refresh(current_user)
+
+    except Exception:
+
+        db.rollback()
+
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to update notification preferences."
+        )
+
+    return {
+        "success": True,
+
+        "message":
+            "Notification preferences updated successfully.",
+
+        "notifications": {
+            "email_notifications":
+                current_user.email_notifications,
+
+            "quotation_notifications":
+                current_user.quotation_notifications,
+
+            "feedback_notifications":
+                current_user.feedback_notifications
+        }
+    }
+
+
+# =========================================================
+# CHANGE CUSTOMER EMAIL
+# =========================================================
+
+@router.put("/change-email")
+def change_customer_email(
+    request: ChangeCustomerEmailRequest,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    if getattr(current_user, "role", None) != "customer":
+
+        raise HTTPException(
+            status_code=403,
+            detail="Customer access required."
+        )
+
+    result = AuthService.change_customer_email(
+        db=db,
+        user_id=current_user.id,
+        current_email=request.current_email,
+        current_password=request.current_password,
+        new_email=request.new_email
+    )
+
+    if result.get("status") != "success":
+
+        raise HTTPException(
+            status_code=400,
+            detail=result.get(
+                "message",
+                "Unable to change email."
+            )
+        )
+
+    return result
+
+
+# =========================================================
+# CHANGE CUSTOMER PASSWORD
+# =========================================================
+
+@router.put("/change-password")
+def change_customer_password(
+    request: ChangeCustomerPasswordRequest,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    if getattr(current_user, "role", None) != "customer":
+
+        raise HTTPException(
+            status_code=403,
+            detail="Customer access required."
+        )
+
+    result = AuthService.change_customer_password(
+        db=db,
+        user_id=current_user.id,
+        current_password=request.current_password,
+        new_password=request.new_password
+    )
+
+    if result.get("status") != "success":
+
+        raise HTTPException(
+            status_code=400,
+            detail=result.get(
+                "message",
+                "Unable to change password."
+            )
+        )
+
+    return result
 
 
 # =========================================================
@@ -255,8 +711,8 @@ def change_admin_email(
     db: Session = Depends(get_db)
 ):
 
-    # This endpoint is only for administrators
     if getattr(current_user, "role", None) != "admin":
+
         raise HTTPException(
             status_code=403,
             detail="Admin access required."
@@ -265,11 +721,13 @@ def change_admin_email(
     result = AuthService.change_admin_email(
         db=db,
         admin_id=current_user.id,
+        current_email=request.current_email,
         current_password=request.current_password,
         new_email=request.new_email
     )
 
     if result.get("status") != "success":
+
         raise HTTPException(
             status_code=400,
             detail=result.get(
@@ -292,8 +750,8 @@ def change_admin_password(
     db: Session = Depends(get_db)
 ):
 
-    # This endpoint is only for administrators
     if getattr(current_user, "role", None) != "admin":
+
         raise HTTPException(
             status_code=403,
             detail="Admin access required."
@@ -307,6 +765,7 @@ def change_admin_password(
     )
 
     if result.get("status") != "success":
+
         raise HTTPException(
             status_code=400,
             detail=result.get(

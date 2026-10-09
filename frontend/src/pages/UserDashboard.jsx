@@ -20,12 +20,16 @@ import {
 import Route from "./Route";
 import SavedQuotations from "./SavedQuotations";
 import Feedback from "./Feedback";
+import UserSettings from "./UserSettings";
 
 function UserDashboard() {
   const navigate = useNavigate();
 
   const [activePage, setActivePage] =
     useState("activity");
+
+  const [settingsOpen, setSettingsOpen] =
+  useState(false);  
 
   const [currentUser, setCurrentUser] =
     useState(null);
@@ -38,6 +42,24 @@ function UserDashboard() {
 
   const [dashboardError, setDashboardError] =
     useState("");
+
+  const [profileMenuOpen, setProfileMenuOpen] =
+    useState(false);
+
+  const [notificationsOpen, setNotificationsOpen] =
+    useState(false);
+
+  const [notifications, setNotifications] =
+    useState([]);
+
+  const [viewedNotificationIds, setViewedNotificationIds] =
+    useState(() => {
+      try {
+        return JSON.parse(localStorage.getItem("user_dashboard_viewed_notifications") || "[]");
+      } catch {
+        return [];
+      }
+    });
 
   /* =========================================================
      LOAD CURRENT USER + DASHBOARD DATA
@@ -131,12 +153,124 @@ function UserDashboard() {
     loadDashboard();
   }, [navigate, activePage]);
 
+  useEffect(() => {
+    const loadNotifications = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8000/api/user-dashboard/notifications",
+          { credentials: "include" }
+        );
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        if (data.status === "success") {
+          const allowedNotificationTypes = new Set([
+            "quotation_approved",
+            "quotation_rejected",
+            "feedback_response",
+          ]);
+
+          const filteredNotifications = (data.notifications || []).filter(
+            (notification) => allowedNotificationTypes.has(notification.type)
+          );
+
+          setNotifications(filteredNotifications);
+        }
+      } catch (error) {
+        console.error("Notification loading error:", error);
+      }
+    };
+
+    loadNotifications();
+  }, [activePage]);
+
   /* =========================================================
      USER NAME
      ========================================================= */
 
   const userName =
     currentUser?.name || "User";
+
+  const userEmail =
+    currentUser?.email || "";
+
+  const userCompany =
+    currentUser?.company_name || "";
+
+  const userProfilePicture =
+    currentUser?.profile_picture || "";
+
+  const unreadNotifications = notifications.filter(
+    (notification) => !viewedNotificationIds.includes(notification.id)
+  );
+
+  const markNotificationAsViewed = (notificationId) => {
+    if (!notificationId) return;
+
+    const mergedIds = Array.from(
+      new Set([...viewedNotificationIds, notificationId])
+    ).slice(-100);
+
+    setViewedNotificationIds(mergedIds);
+
+    try {
+      localStorage.setItem(
+        "user_dashboard_viewed_notifications",
+        JSON.stringify(mergedIds)
+      );
+    } catch (error) {
+      console.error("Unable to persist notification state:", error);
+    }
+  };
+
+  const handleNotificationClick = (notification) => {
+    if (!notification) return;
+
+    markNotificationAsViewed(notification.id);
+    setNotificationsOpen(false);
+    setProfileMenuOpen(false);
+
+    if (notification.type === "quotation_approved" ||
+        notification.type === "quotation_rejected") {
+      const quotationMatch = String(notification.message || "").match(
+        /Quotation #([\w-]+)/i
+      );
+
+      if (quotationMatch?.[1]) {
+        try {
+          sessionStorage.setItem(
+            "user_dashboard_notification_target_quotation",
+            quotationMatch[1]
+          );
+        } catch (error) {
+          console.error("Unable to store quotation notification target:", error);
+        }
+      }
+
+      setActivePage("saved-quotations");
+      return;
+    }
+
+    if (notification.type === "feedback_response") {
+      const feedbackMatch = String(notification.message || "").match(
+        /feedback #([\w-]+)/i
+      );
+
+      if (feedbackMatch?.[1]) {
+        try {
+          sessionStorage.setItem(
+            "user_dashboard_notification_target_feedback",
+            feedbackMatch[1]
+          );
+        } catch (error) {
+          console.error("Unable to store feedback notification target:", error);
+        }
+      }
+
+      setActivePage("feedback");
+    }
+  };
 
   /* =========================================================
      LOGOUT
@@ -165,9 +299,16 @@ function UserDashboard() {
      NAVIGATION
      ========================================================= */
 
-  const handleNavigation = (page) => {
-    setActivePage(page);
-  };
+ const handleNavigation = (page) => {
+  setActivePage(page);
+
+  if (page !== "settings-profile" &&
+      page !== "settings-notifications" &&
+      page !== "settings-security" &&
+      page !== "settings-about") {
+    setSettingsOpen(false);
+  }
+};
 
   /* =========================================================
      KPI VALUES
@@ -300,6 +441,15 @@ function UserDashboard() {
       case "quotation_approval_requested":
         return "Quotation Approval Requested";
 
+      case "quotation_approved":
+        return "Quotation Approved";
+
+      case "quotation_rejected":
+        return "Quotation Rejected";
+
+      case "feedback_response":
+        return "Admin Feedback Response";
+
       case "quotation_pdf_downloaded":
         return "Quotation PDF Downloaded";
 
@@ -333,6 +483,15 @@ function UserDashboard() {
 
       case "quotation_approval_requested":
         return "↗";
+
+      case "quotation_approved":
+        return "✓";
+
+      case "quotation_rejected":
+        return "×";
+
+      case "feedback_response":
+        return "✦";
 
       case "quotation_pdf_downloaded":
         return "↓";
@@ -490,7 +649,7 @@ function UserDashboard() {
               </span>
 
               <span>
-                Saved Quotations
+                My Quotations
               </span>
             </button>
 
@@ -521,6 +680,150 @@ function UserDashboard() {
             </span>
           </button>
 
+          {/* =================================================
+    SETTINGS
+    ================================================= */}
+
+<div className="sidebar-settings-group">
+
+  {/* SETTINGS MAIN BUTTON */}
+
+  <button
+    className={`sidebar-item settings-main-item ${
+      activePage === "settings-profile" ||
+      activePage === "settings-notifications" ||
+      activePage === "settings-security" ||
+      activePage === "settings-about"
+        ? "active"
+        : ""
+    }`}
+    onClick={() => {
+      setSettingsOpen(
+        (previous) => !previous
+      );
+
+      if (
+        activePage !== "settings-profile" &&
+        activePage !== "settings-notifications" &&
+        activePage !== "settings-security" &&
+        activePage !== "settings-about"
+      ) {
+        setActivePage(
+          "settings-profile"
+        );
+      }
+    }}
+  >
+
+    <span className="sidebar-icon">
+      ⚙
+    </span>
+
+    <span>
+      Settings
+    </span>
+
+    <span
+      className={`settings-chevron ${
+        settingsOpen
+          ? "open"
+          : ""
+      }`}
+    >
+      ▾
+    </span>
+
+  </button>
+
+
+  {/* SETTINGS SUBMENU */}
+
+  {settingsOpen && (
+
+    <div className="settings-submenu">
+
+      {/* PROFILE */}
+
+      <button
+        className={`settings-submenu-item ${
+          activePage ===
+          "settings-profile"
+            ? "active"
+            : ""
+        }`}
+        onClick={() =>
+          setActivePage(
+            "settings-profile"
+          )
+        }
+      >
+        Profile
+      </button>
+
+
+      {/* NOTIFICATIONS */}
+
+      <button
+        className={`settings-submenu-item ${
+          activePage ===
+          "settings-notifications"
+            ? "active"
+            : ""
+        }`}
+        onClick={() =>
+          setActivePage(
+            "settings-notifications"
+          )
+        }
+      >
+        Notifications
+      </button>
+
+
+      {/* SECURITY */}
+
+      <button
+        className={`settings-submenu-item ${
+          activePage ===
+          "settings-security"
+            ? "active"
+            : ""
+        }`}
+        onClick={() =>
+          setActivePage(
+            "settings-security"
+          )
+        }
+      >
+        Security
+      </button>
+
+
+      {/* ABOUT */}
+
+      <button
+        className={`settings-submenu-item ${
+          activePage ===
+          "settings-about"
+            ? "active"
+            : ""
+        }`}
+        onClick={() =>
+          setActivePage(
+            "settings-about"
+          )
+        }
+      >
+        About
+      </button>
+
+    </div>
+
+  )}
+
+</div>
+
+
         </nav>
 
         {/* ===================================================
@@ -532,9 +835,11 @@ function UserDashboard() {
           <div className="logged-user">
 
             <div className="user-avatar">
-              {userName
-                .charAt(0)
-                .toUpperCase()}
+              {userProfilePicture ? (
+                <img src={userProfilePicture} alt="Profile" />
+              ) : (
+                userName.charAt(0).toUpperCase()
+              )}
             </div>
 
             <div className="logged-user-info">
@@ -571,6 +876,161 @@ function UserDashboard() {
           ===================================================== */}
 
       <main className="user-dashboard-main">
+
+        <div className="dashboard-topbar">
+          <div className="dashboard-topbar-brand">
+            <strong>Agentic Maritime Freight Brokerage</strong>
+          </div>
+
+          <div className="dashboard-topbar-actions">
+            <div className="dashboard-notification-wrap">
+              <button
+                type="button"
+                className="dashboard-icon-button"
+                onClick={() => {
+                  const willOpen = !notificationsOpen;
+                  setNotificationsOpen(willOpen);
+                  setProfileMenuOpen(false);
+                }}
+                aria-label="Notifications"
+              >
+                <span aria-hidden="true">🔔</span>
+                {unreadNotifications.length > 0 && (
+                  <span className="dashboard-notification-badge">
+                    {unreadNotifications.length > 9 ? "9+" : unreadNotifications.length}
+                  </span>
+                )}
+              </button>
+
+            </div>
+
+            <div className="dashboard-profile-wrap">
+              <button
+                type="button"
+                className="dashboard-profile-button"
+                onClick={() => {
+                  setProfileMenuOpen((value) => !value);
+                  setNotificationsOpen(false);
+                }}
+              >
+                {userProfilePicture ? (
+                  <img src={userProfilePicture} alt="Profile" />
+                ) : (
+                  <span>{userName.charAt(0).toUpperCase()}</span>
+                )}
+                <div>
+                  <strong>{userName}</strong>
+                  <small>{userEmail}</small>
+                </div>
+                <b>▾</b>
+              </button>
+
+              {profileMenuOpen && (
+                <div className="dashboard-profile-panel">
+                  <div className="dashboard-profile-card">
+                    {userProfilePicture ? (
+                      <img src={userProfilePicture} alt="Profile" />
+                    ) : (
+                      <span>{userName.charAt(0).toUpperCase()}</span>
+                    )}
+                    <div>
+                      <strong>{userName}</strong>
+                      <p>{userEmail}</p>
+                      {userCompany && <p>{userCompany}</p>}
+                      {currentUser?.phone_number && <p>{currentUser.phone_number}</p>}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActivePage("settings-profile");
+                      setSettingsOpen(true);
+                      setProfileMenuOpen(false);
+                    }}
+                  >
+                    Edit profile in Settings
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {notificationsOpen && (
+          <section className="dashboard-notification-page">
+            <div className="dashboard-notification-page-header">
+              <div>
+                <p className="dashboard-notification-page-eyebrow">
+                  USER DASHBOARD
+                </p>
+                <h1>Notifications</h1>
+                <p>
+                  View all your recent quotation and account notifications.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                className="dashboard-notification-close"
+                onClick={() => setNotificationsOpen(false)}
+                aria-label="Close notifications"
+                title="Close notifications"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="dashboard-notification-page-content">
+              <div className="dashboard-notification-page-summary">
+                <strong>{notifications.length}</strong>
+                <span>Recent Notifications</span>
+              </div>
+
+              {notifications.length === 0 ? (
+                <div className="dashboard-notification-page-empty">
+                  <div className="dashboard-notification-page-empty-icon">
+                    ✓
+                  </div>
+                  <h3>No recent notifications</h3>
+                  <p>You are all caught up.</p>
+                </div>
+              ) : (
+                <div className="dashboard-notification-page-list">
+                  {notifications.map((notification) => {
+                    const isUnread = !viewedNotificationIds.includes(notification.id);
+
+                    return (
+                    <button
+                      type="button"
+                      className={`dashboard-notification-page-item ${isUnread ? "unread" : ""}`}
+                      key={notification.id}
+                      onClick={() => handleNotificationClick(notification)}
+                    >
+                      <div className="dashboard-notification-page-icon">
+                        {notification.icon}
+                      </div>
+                      <div className="dashboard-notification-page-item-content">
+                        <strong>{notification.title}</strong>
+                        <p>{notification.message}</p>
+                        <small>
+                          {formatActivityDate(notification.created_at)}
+                        </small>
+                      </div>
+                      {isUnread && (
+                        <span
+                          className="dashboard-notification-unread-dot"
+                          aria-label="Unread notification"
+                          title="Unread notification"
+                        />
+                      )}
+                    </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* ===================================================
             ACTIVITY DASHBOARD
@@ -1119,6 +1579,71 @@ function UserDashboard() {
             </div>
 
             {/* =================================================
+                RECENT QUOTATIONS
+                ================================================= */}
+
+            <div className="dashboard-section-card recent-quotations-card">
+              <div className="section-card-header">
+                <div>
+                  <h2>Recent Quotations</h2>
+                  <p>Your latest quotation requests and current status.</p>
+                </div>
+                <button
+                  type="button"
+                  className="view-all-quotations-button"
+                  onClick={() => handleNavigation("saved-quotations")}
+                >
+                  View All
+                </button>
+              </div>
+
+              {loadingDashboard ? (
+                <div className="dashboard-table-empty">Loading quotations...</div>
+              ) : (dashboardData?.recent_quotations || []).length === 0 ? (
+                <div className="dashboard-table-empty">No quotations available yet.</div>
+              ) : (
+                <div className="recent-quotations-table-wrap">
+                  <table className="recent-quotations-table">
+                    <thead>
+                      <tr>
+                        <th>Quotation ID</th>
+                        <th>Date</th>
+                        <th>Origin</th>
+                        <th>Destination</th>
+                        <th>Cargo</th>
+                        <th>Container</th>
+                        <th>Selling Price</th>
+                        <th>Weather</th>
+                        <th>Customs</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(dashboardData?.recent_quotations || []).map((quotation) => (
+                        <tr key={quotation.quotation_id}>
+                          <td>#{quotation.quotation_id}</td>
+                          <td>{formatActivityDate(quotation.quotation_date)}</td>
+                          <td>{quotation.origin}</td>
+                          <td>{quotation.destination}</td>
+                          <td>{quotation.cargo_type}</td>
+                          <td>{quotation.container_count}</td>
+                          <td>${Number(quotation.selling_price || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                          <td>{quotation.weather_condition || "—"}</td>
+                          <td>{quotation.customs_status || "—"}</td>
+                          <td>
+                            <span className={`quotation-status-badge ${quotation.status || "pending"}`}>
+                              {quotation.status || "pending"}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+
+            {/* =================================================
                 RECENT ACTIVITY
                 ================================================= */}
 
@@ -1275,6 +1800,26 @@ function UserDashboard() {
         {activePage === "feedback" && (
           <Feedback />
         )}
+
+        {/* ===================================================
+    SETTINGS
+    =================================================== */}
+
+{activePage === "settings-profile" && (
+  <UserSettings section="profile" />
+)}
+
+{activePage === "settings-notifications" && (
+  <UserSettings section="notifications" />
+)}
+
+{activePage === "settings-security" && (
+  <UserSettings section="security" />
+)}
+
+{activePage === "settings-about" && (
+  <UserSettings section="about" />
+)}
 
       </main>
 

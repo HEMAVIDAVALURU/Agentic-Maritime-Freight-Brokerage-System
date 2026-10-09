@@ -40,6 +40,7 @@ function AdminFeedback() {
   const [sendingId, setSendingId] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [highlightedFeedbackId, setHighlightedFeedbackId] = useState(null);
 
   const fetchFeedback = useCallback(async () => {
     try {
@@ -90,6 +91,52 @@ function AdminFeedback() {
   useEffect(() => {
     fetchFeedback();
   }, [fetchFeedback]);
+
+  useEffect(() => {
+    if (!feedbackList.length) return;
+
+    try {
+      const storedTarget = sessionStorage.getItem(
+        "admin_notification_target"
+      );
+
+      if (!storedTarget) return;
+
+      const target = JSON.parse(storedTarget);
+
+      if (target?.type !== "feedback") return;
+
+      const feedback = feedbackList.find(
+        (item) => String(item.id) === String(target.id)
+      );
+
+      if (feedback) {
+        sessionStorage.removeItem(
+          "admin_notification_target"
+        );
+
+        setHighlightedFeedbackId(String(feedback.id));
+
+        window.setTimeout(() => {
+          document
+            .getElementById(`admin-feedback-${feedback.id}`)
+            ?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+        }, 100);
+
+        window.setTimeout(() => {
+          setHighlightedFeedbackId(null);
+        }, 4500);
+      }
+    } catch (error) {
+      console.error(
+        "Admin feedback notification target error:",
+        error
+      );
+    }
+  }, [feedbackList]);
 
   const handleResponseChange = (feedbackId, value) => {
     setResponses((previous) => ({
@@ -273,7 +320,12 @@ function AdminFeedback() {
 
             return (
               <article
-                className="admin-feedback-card"
+                id={`admin-feedback-${item.id}`}
+                className={`admin-feedback-card ${
+                  String(item.id) === String(highlightedFeedbackId)
+                    ? "admin-feedback-notification-highlight"
+                    : ""
+                }`}
                 key={item.id}
               >
                 {/* CUSTOMER DETAILS */}

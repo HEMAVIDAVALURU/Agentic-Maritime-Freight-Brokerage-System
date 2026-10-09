@@ -56,7 +56,8 @@ class AuthService:
         db: Session,
         name: str,
         email: str,
-        password: str
+        password: str,
+        company_name: str | None = None
     ):
 
         existing_user = (
@@ -77,6 +78,11 @@ class AuthService:
             name=name,
             email=email,
             password=hashed_password,
+            company_name=(
+                company_name.strip()
+                if company_name
+                else None
+            ),
             is_verified=False
         )
 
@@ -84,13 +90,13 @@ class AuthService:
             db.add(user)
             db.flush()
 
-            # Generate OTP
             otp = AuthService.generate_otp()
             expiry = AuthService.get_otp_expiry()
 
             otp_record = EmailOTP(
                 user_id=user.id,
                 otp=otp,
+                purpose="registration",
                 expires_at=expiry,
                 is_used=False
             )
@@ -104,26 +110,41 @@ class AuthService:
             db.rollback()
             raise
 
-        # Send OTP email after successful database transaction
-        email_result = EmailService.send_otp_email(
-            recipient_email=email,
-            otp=otp
-        )
+        # =====================================================
+        # REGISTRATION OTP EMAIL
+        # =====================================================
 
-        if not email_result["success"]:
+        if user.email_notifications:
+
+            email_result = EmailService.send_otp_email(
+                recipient_email=email,
+                otp=otp
+            )
+
+            if not email_result["success"]:
+                print(
+                    "OTP email failed:",
+                    email_result["message"]
+                )
+
+        else:
+
             print(
-                "OTP email failed:",
-                email_result["message"]
+                "OTP email skipped because "
+                "Email Notifications are OFF."
             )
 
         return {
             "status": "success",
-            "message": "Registration successful. OTP sent to your email.",
+            "message": (
+                "Registration successful. "
+                "OTP sent to your email."
+            ),
             "email": email
         }
 
     # =========================================================
-    # RESEND OTP
+    # RESEND REGISTRATION OTP
     # =========================================================
 
     @staticmethod
@@ -150,11 +171,11 @@ class AuthService:
                 "message": "Email is already verified."
             }
 
-        # Invalidate previous unused OTPs
         previous_otps = (
             db.query(EmailOTP)
             .filter(
                 EmailOTP.user_id == user.id,
+                EmailOTP.purpose == "registration",
                 EmailOTP.is_used == False
             )
             .all()
@@ -163,13 +184,13 @@ class AuthService:
         for previous_otp in previous_otps:
             previous_otp.is_used = True
 
-        # Generate new OTP
         otp = AuthService.generate_otp()
         expiry = AuthService.get_otp_expiry()
 
         new_otp = EmailOTP(
             user_id=user.id,
             otp=otp,
+            purpose="registration",
             expires_at=expiry,
             is_used=False
         )
@@ -182,16 +203,28 @@ class AuthService:
             db.rollback()
             raise
 
-        # Send new OTP
-        email_result = EmailService.send_otp_email(
-            recipient_email=email,
-            otp=otp
-        )
+        # =====================================================
+        # RESEND REGISTRATION OTP EMAIL
+        # =====================================================
 
-        if not email_result["success"]:
+        if user.email_notifications:
+
+            email_result = EmailService.send_otp_email(
+                recipient_email=email,
+                otp=otp
+            )
+
+            if not email_result["success"]:
+                print(
+                    "Resend OTP email failed:",
+                    email_result["message"]
+                )
+
+        else:
+
             print(
-                "Resend OTP email failed:",
-                email_result["message"]
+                "Resend OTP email skipped because "
+                "Email Notifications are OFF."
             )
 
         return {
@@ -201,7 +234,7 @@ class AuthService:
         }
 
     # =========================================================
-    # VERIFY OTP
+    # VERIFY REGISTRATION OTP
     # =========================================================
 
     @staticmethod
@@ -234,6 +267,7 @@ class AuthService:
             .filter(
                 EmailOTP.user_id == user.id,
                 EmailOTP.otp == otp,
+                EmailOTP.purpose == "registration",
                 EmailOTP.is_used == False
             )
             .order_by(EmailOTP.id.desc())
@@ -246,7 +280,6 @@ class AuthService:
                 "message": "Invalid OTP."
             }
 
-        # Check expiry
         if otp_record.expires_at < datetime.utcnow():
 
             otp_record.is_used = True
@@ -254,13 +287,13 @@ class AuthService:
 
             return {
                 "status": "error",
-                "message": "OTP has expired. Please request a new OTP."
+                "message": (
+                    "OTP has expired. "
+                    "Please request a new OTP."
+                )
             }
 
-        # Mark OTP as used
         otp_record.is_used = True
-
-        # Verify customer
         user.is_verified = True
 
         try:
@@ -270,23 +303,360 @@ class AuthService:
             db.rollback()
             raise
 
-        # Send registration success email
-        registration_email_result = (
-            EmailService.send_registration_success_email(
-                recipient_email=user.email,
-                name=user.name
-            )
-        )
+        # =====================================================
+        # REGISTRATION SUCCESS EMAIL
+        # =====================================================
 
-        if not registration_email_result["success"]:
+        if user.email_notifications:
+
+            registration_email_result = (
+                EmailService.send_registration_success_email(
+                    recipient_email=user.email,
+                    name=user.name
+                )
+            )
+
+            if not registration_email_result["success"]:
+                print(
+                    "Registration success email failed:",
+                    registration_email_result["message"]
+                )
+
+        else:
+
             print(
-                "Registration success email failed:",
-                registration_email_result["message"]
+                "Registration success email skipped because "
+                "Email Notifications are OFF."
             )
 
         return {
             "status": "success",
-            "message": "Email verified successfully. Registration completed."
+            "message": (
+                "Email verified successfully. "
+                "Registration completed."
+            )
+        }
+
+    # =========================================================
+    # FORGOT PASSWORD - REQUEST OTP
+    # =========================================================
+
+    @staticmethod
+    def request_password_reset(
+        db: Session,
+        email: str
+    ):
+
+        user = (
+            db.query(User)
+            .filter(User.email == email)
+            .first()
+        )
+
+        if not user:
+            return {
+                "status": "error",
+                "message": "No account found with this email address."
+            }
+
+        if not user.is_active:
+            return {
+                "status": "error",
+                "message": "This account is inactive."
+            }
+
+        # -----------------------------------------------------
+        # Invalidate previous password-reset OTPs
+        # -----------------------------------------------------
+
+        previous_otps = (
+            db.query(EmailOTP)
+            .filter(
+                EmailOTP.user_id == user.id,
+                EmailOTP.purpose == "password_reset",
+                EmailOTP.is_used == False
+            )
+            .all()
+        )
+
+        for previous_otp in previous_otps:
+            previous_otp.is_used = True
+
+        # -----------------------------------------------------
+        # Generate new password-reset OTP
+        # -----------------------------------------------------
+
+        otp = AuthService.generate_otp()
+        expiry = AuthService.get_otp_expiry()
+
+        otp_record = EmailOTP(
+            user_id=user.id,
+            otp=otp,
+            purpose="password_reset",
+            expires_at=expiry,
+            is_used=False
+        )
+
+        try:
+            db.add(otp_record)
+            db.commit()
+
+        except Exception:
+            db.rollback()
+            raise
+
+        # =====================================================
+        # PASSWORD RESET OTP EMAIL
+        # =====================================================
+
+        if user.email_notifications:
+
+            email_result = EmailService.send_password_reset_otp_email(
+                recipient_email=user.email,
+                otp=otp
+            )
+
+            if not email_result["success"]:
+                print(
+                    "Password reset OTP email failed:",
+                    email_result["message"]
+                )
+
+        else:
+
+            print(
+                "Password reset OTP email skipped because "
+                "Email Notifications are OFF."
+            )
+
+        return {
+            "status": "success",
+            "message": (
+                "If the email is registered and Email Notifications "
+                "are enabled, a password reset OTP has been sent."
+            ),
+            "email": user.email
+        }
+
+    # =========================================================
+    # FORGOT PASSWORD - VERIFY RESET OTP
+    # =========================================================
+
+    @staticmethod
+    def verify_password_reset_otp(
+        db: Session,
+        email: str,
+        otp: str
+    ):
+
+        user = (
+            db.query(User)
+            .filter(User.email == email)
+            .first()
+        )
+
+        if not user:
+            return {
+                "status": "error",
+                "message": "Invalid OTP."
+            }
+
+        otp_record = (
+            db.query(EmailOTP)
+            .filter(
+                EmailOTP.user_id == user.id,
+                EmailOTP.otp == otp,
+                EmailOTP.purpose == "password_reset",
+                EmailOTP.is_used == False
+            )
+            .order_by(EmailOTP.id.desc())
+            .first()
+        )
+
+        if not otp_record:
+            return {
+                "status": "error",
+                "message": "Invalid OTP."
+            }
+
+        if otp_record.expires_at < datetime.utcnow():
+
+            otp_record.is_used = True
+
+            try:
+                db.commit()
+            except Exception:
+                db.rollback()
+                raise
+
+            return {
+                "status": "error",
+                "message": (
+                    "OTP has expired. "
+                    "Please request a new password reset OTP."
+                )
+            }
+
+        return {
+            "status": "success",
+            "message": "OTP verified successfully.",
+            "email": user.email
+        }
+
+    # =========================================================
+    # FORGOT PASSWORD - RESET PASSWORD
+    # =========================================================
+
+    @staticmethod
+    def reset_password(
+        db: Session,
+        email: str,
+        otp: str,
+        new_password: str
+    ):
+
+        user = (
+            db.query(User)
+            .filter(User.email == email)
+            .first()
+        )
+
+        if not user:
+            return {
+                "status": "error",
+                "message": "Invalid password reset request."
+            }
+
+        # -----------------------------------------------------
+        # Password validation
+        # -----------------------------------------------------
+
+        if len(new_password) < 8:
+            return {
+                "status": "error",
+                "message": (
+                    "New password must contain "
+                    "at least 8 characters."
+                )
+            }
+
+        # -----------------------------------------------------
+        # Find verified password-reset OTP
+        # -----------------------------------------------------
+
+        otp_record = (
+            db.query(EmailOTP)
+            .filter(
+                EmailOTP.user_id == user.id,
+                EmailOTP.otp == otp,
+                EmailOTP.purpose == "password_reset",
+                EmailOTP.is_used == False
+            )
+            .order_by(EmailOTP.id.desc())
+            .first()
+        )
+
+        if not otp_record:
+            return {
+                "status": "error",
+                "message": (
+                    "Invalid or already used password "
+                    "reset OTP."
+                )
+            }
+
+        # -----------------------------------------------------
+        # Check expiry again
+        # -----------------------------------------------------
+
+        if otp_record.expires_at < datetime.utcnow():
+
+            otp_record.is_used = True
+
+            try:
+                db.commit()
+            except Exception:
+                db.rollback()
+                raise
+
+            return {
+                "status": "error",
+                "message": (
+                    "Password reset OTP has expired. "
+                    "Please request a new OTP."
+                )
+            }
+
+        # -----------------------------------------------------
+        # Prevent using the same password
+        # -----------------------------------------------------
+
+        if AuthService.verify_password(
+            new_password,
+            user.password
+        ):
+            return {
+                "status": "error",
+                "message": (
+                    "New password must be different "
+                    "from the current password."
+                )
+            }
+
+        # -----------------------------------------------------
+        # Hash new password
+        # -----------------------------------------------------
+
+        user.password = AuthService.hash_password(
+            new_password
+        )
+
+        # -----------------------------------------------------
+        # Consume OTP
+        # -----------------------------------------------------
+
+        otp_record.is_used = True
+
+        try:
+            db.commit()
+            db.refresh(user)
+
+        except Exception:
+            db.rollback()
+            raise
+
+        # =====================================================
+        # PASSWORD RESET SUCCESS EMAIL
+        # =====================================================
+
+        if user.email_notifications:
+
+            email_result = (
+                EmailService.send_password_reset_success_email(
+                    recipient_email=user.email,
+                    name=user.name
+                )
+            )
+
+            if not email_result["success"]:
+                print(
+                    "Password reset success email failed:",
+                    email_result["message"]
+                )
+
+        else:
+
+            print(
+                "Password reset success email skipped because "
+                "Email Notifications are OFF."
+            )
+
+        return {
+            "status": "success",
+            "message": (
+                "Password reset successfully. "
+                "You can now log in with your new password."
+            )
         }
 
     # =========================================================
@@ -324,12 +694,11 @@ class AuthService:
         if not user.is_verified:
             return {
                 "status": "error",
-                "message": "Please verify your email before logging in."
+                "message": (
+                    "Please verify your email "
+                    "before logging in."
+                )
             }
-
-        # =====================================================
-        # CREATE CUSTOMER JWT
-        # =====================================================
 
         token = JWTService.create_access_token(
             user_id=user.id,
@@ -340,18 +709,26 @@ class AuthService:
         # CUSTOMER LOGIN SUCCESS EMAIL
         # =====================================================
 
-        login_email_result = (
-            EmailService.send_login_success_email(
-                recipient_email=user.email,
-                name=user.name
-            )
-        )
+        if user.email_notifications:
 
-        # Email failure should NOT block customer login
-        if not login_email_result["success"]:
+            login_email_result = (
+                EmailService.send_login_success_email(
+                    recipient_email=user.email,
+                    name=user.name
+                )
+            )
+
+            if not login_email_result["success"]:
+                print(
+                    "Customer login success email failed:",
+                    login_email_result["message"]
+                )
+
+        else:
+
             print(
-                "Customer login success email failed:",
-                login_email_result["message"]
+                "Customer login success email skipped because "
+                "Email Notifications are OFF."
             )
 
         return {
@@ -398,10 +775,6 @@ class AuthService:
                 "message": "Invalid admin email or password."
             }
 
-        # =====================================================
-        # CREATE ADMIN JWT
-        # =====================================================
-
         token = JWTService.create_access_token(
             user_id=admin.id,
             role="admin"
@@ -409,15 +782,6 @@ class AuthService:
 
         # =====================================================
         # ADMIN LOGIN SUCCESS EMAIL
-        # =====================================================
-        #
-        # Email Notifications is the MASTER switch.
-        #
-        # ON  -> send admin login notification
-        # OFF -> do not send admin login notification
-        #
-        # Admin login itself must NEVER be blocked by
-        # notification email settings.
         # =====================================================
 
         if admin.email_notifications:
@@ -429,7 +793,6 @@ class AuthService:
                 )
             )
 
-            # Email failure should NOT block admin login
             if not admin_login_email_result["success"]:
                 print(
                     "Admin login success email failed:",
@@ -456,6 +819,208 @@ class AuthService:
         }
 
     # =========================================================
+    # CUSTOMER CHANGE EMAIL
+    # =========================================================
+
+    @staticmethod
+    def change_customer_email(
+        db: Session,
+        user_id: int,
+        current_email: str,
+        current_password: str,
+        new_email: str
+    ):
+
+        user = (
+            db.query(User)
+            .filter(User.id == user_id)
+            .first()
+        )
+
+        if not user:
+            return {
+                "status": "error",
+                "message": "Customer account not found."
+            }
+
+        if user.email.lower() != current_email.lower():
+            return {
+                "status": "error",
+                "message": "Current email address is incorrect."
+            }
+
+        if not AuthService.verify_password(
+            current_password,
+            user.password
+        ):
+            return {
+                "status": "error",
+                "message": "Current password is incorrect."
+            }
+
+        if user.email.lower() == new_email.lower():
+            return {
+                "status": "error",
+                "message": (
+                    "New email must be different "
+                    "from the current email."
+                )
+            }
+
+        existing_user = (
+            db.query(User)
+            .filter(
+                User.email == new_email,
+                User.id != user_id
+            )
+            .first()
+        )
+
+        if existing_user:
+            return {
+                "status": "error",
+                "message": "This email is already registered."
+            }
+
+        user.email = new_email
+
+        try:
+            db.commit()
+            db.refresh(user)
+        except Exception:
+            db.rollback()
+            return {
+                "status": "error",
+                "message": "Unable to update email address."
+            }
+
+        # =====================================================
+        # EMAIL CHANGE NOTIFICATION
+        # =====================================================
+
+        if user.email_notifications:
+
+            email_result = EmailService.send_email_changed_email(
+                recipient_email=user.email,
+                new_email=user.email
+            )
+
+            if not email_result.get("success"):
+                print(
+                    "Email-change notification failed:",
+                    email_result.get("message")
+                )
+
+        else:
+
+            print(
+                "Email-change notification skipped because "
+                "Email Notifications are OFF."
+            )
+
+        return {
+            "status": "success",
+            "message": "Email address updated successfully.",
+            "email": user.email
+        }
+
+    # =========================================================
+    # CUSTOMER CHANGE PASSWORD
+    # =========================================================
+
+    @staticmethod
+    def change_customer_password(
+        db: Session,
+        user_id: int,
+        current_password: str,
+        new_password: str
+    ):
+
+        user = (
+            db.query(User)
+            .filter(User.id == user_id)
+            .first()
+        )
+
+        if not user:
+            return {
+                "status": "error",
+                "message": "Customer account not found."
+            }
+
+        if not AuthService.verify_password(
+            current_password,
+            user.password
+        ):
+            return {
+                "status": "error",
+                "message": "Current password is incorrect."
+            }
+
+        if len(new_password) < 8:
+            return {
+                "status": "error",
+                "message": (
+                    "New password must contain "
+                    "at least 8 characters."
+                )
+            }
+
+        if AuthService.verify_password(
+            new_password,
+            user.password
+        ):
+            return {
+                "status": "error",
+                "message": (
+                    "New password must be different "
+                    "from the current password."
+                )
+            }
+
+        user.password = AuthService.hash_password(
+            new_password
+        )
+
+        try:
+            db.commit()
+            db.refresh(user)
+        except Exception:
+            db.rollback()
+            return {
+                "status": "error",
+                "message": "Unable to update password."
+            }
+
+        # =====================================================
+        # PASSWORD CHANGE NOTIFICATION
+        # =====================================================
+
+        if user.email_notifications:
+
+            email_result = EmailService.send_password_changed_email(
+                recipient_email=user.email
+            )
+
+            if not email_result.get("success"):
+                print(
+                    "Password-change notification failed:",
+                    email_result.get("message")
+                )
+
+        else:
+
+            print(
+                "Password-change notification skipped because "
+                "Email Notifications are OFF."
+            )
+
+        return {
+            "status": "success",
+            "message": "Password updated successfully."
+        }
+
+    # =========================================================
     # CHANGE ADMIN EMAIL
     # =========================================================
 
@@ -463,7 +1028,7 @@ class AuthService:
     def change_admin_email(
         db: Session,
         admin_id: int,
-        current_password: str,
+        current_email: str,
         new_email: str
     ):
 
@@ -479,17 +1044,21 @@ class AuthService:
                 "message": "Admin account not found."
             }
 
-        # Verify current password before changing email
-        if not AuthService.verify_password(
-            current_password,
-            admin.password
-        ):
+        if admin.email.lower() != current_email.lower():
             return {
                 "status": "error",
-                "message": "Current password is incorrect."
+                "message": "Current email address is incorrect."
             }
 
-        # Check whether the new email is already used
+        if admin.email.lower() == new_email.lower():
+            return {
+                "status": "error",
+                "message": (
+                    "New email must be different "
+                    "from the current email."
+                )
+            }
+
         existing_admin = (
             db.query(Admin)
             .filter(
@@ -505,22 +1074,41 @@ class AuthService:
                 "message": "This email is already in use."
             }
 
-        # No need to update if email is unchanged
-        if admin.email == new_email:
-            return {
-                "status": "error",
-                "message": "New email is the same as the current email."
-            }
-
         admin.email = new_email
 
         try:
             db.commit()
             db.refresh(admin)
-
         except Exception:
             db.rollback()
-            raise
+            return {
+                "status": "error",
+                "message": "Unable to update email address."
+            }
+
+        # =====================================================
+        # ADMIN EMAIL CHANGE NOTIFICATION
+        # =====================================================
+
+        if admin.email_notifications:
+
+            email_result = EmailService.send_email_changed_email(
+                recipient_email=admin.email,
+                new_email=admin.email
+            )
+
+            if not email_result.get("success"):
+                print(
+                    "Admin email-change notification failed:",
+                    email_result.get("message")
+                )
+
+        else:
+
+            print(
+                "Admin email-change notification skipped because "
+                "Email Notifications are OFF."
+            )
 
         return {
             "status": "success",
@@ -552,7 +1140,6 @@ class AuthService:
                 "message": "Admin account not found."
             }
 
-        # Verify current password
         if not AuthService.verify_password(
             current_password,
             admin.password
@@ -562,17 +1149,18 @@ class AuthService:
                 "message": "Current password is incorrect."
             }
 
-        # Prevent using the same password
         if AuthService.verify_password(
             new_password,
             admin.password
         ):
             return {
                 "status": "error",
-                "message": "New password must be different from the current password."
+                "message": (
+                    "New password must be different "
+                    "from the current password."
+                )
             }
 
-        # Hash new password before saving
         admin.password = AuthService.hash_password(
             new_password
         )
@@ -580,10 +1168,32 @@ class AuthService:
         try:
             db.commit()
             db.refresh(admin)
-
         except Exception:
             db.rollback()
             raise
+
+        # =====================================================
+        # ADMIN PASSWORD CHANGE NOTIFICATION
+        # =====================================================
+
+        if admin.email_notifications:
+
+            email_result = EmailService.send_password_changed_email(
+                recipient_email=admin.email
+            )
+
+            if not email_result.get("success"):
+                print(
+                    "Admin password-change notification failed:",
+                    email_result.get("message")
+                )
+
+        else:
+
+            print(
+                "Admin password-change notification skipped because "
+                "Email Notifications are OFF."
+            )
 
         return {
             "status": "success",

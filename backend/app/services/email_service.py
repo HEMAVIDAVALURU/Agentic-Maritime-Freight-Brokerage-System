@@ -121,7 +121,7 @@ class EmailService:
             }
 
     # =========================================================
-    # OTP EMAIL
+    # REGISTRATION OTP EMAIL
     # =========================================================
 
     @staticmethod
@@ -169,6 +169,68 @@ class EmailService:
         return EmailService.send_email(
             recipient_email=recipient_email,
             subject="Your Maritime Freight OTP",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # PASSWORD RESET OTP EMAIL
+    # =========================================================
+
+    @staticmethod
+    def send_password_reset_otp_email(
+        recipient_email: str,
+        otp: str
+    ):
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Maritime Freight Password Reset</h2>
+
+                    <p>Hello,</p>
+
+                    <p>
+                        We received a request to reset the password
+                        for your Maritime Freight account.
+                    </p>
+
+                    <p>
+                        Your OTP for password reset is:
+                    </p>
+
+                    <h1>{escape(str(otp))}</h1>
+
+                    <p>
+                        This OTP is valid for
+                        <strong>5 minutes</strong>.
+                    </p>
+
+                    <p>
+                        If you requested a new OTP, only the latest
+                        OTP can be used.
+                    </p>
+
+                    <p>
+                        Please do not share this OTP with anyone.
+                    </p>
+
+                    <p>
+                        If you did not request a password reset,
+                        you can safely ignore this email.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=recipient_email,
+            subject="Password Reset OTP - Maritime Freight",
             html_content=html_content
         )
 
@@ -225,6 +287,60 @@ class EmailService:
         return EmailService.send_email(
             recipient_email=recipient_email,
             subject="Maritime Freight Registration Successful",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # PASSWORD RESET SUCCESS EMAIL
+    # =========================================================
+
+    @staticmethod
+    def send_password_reset_success_email(
+        recipient_email: str,
+        name: str
+    ):
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Password Updated Successfully</h2>
+
+                    <p>
+                        Hello <strong>{escape(name)}</strong>,
+                    </p>
+
+                    <p>
+                        Your Maritime Freight account password
+                        has been successfully updated.
+                    </p>
+
+                    <p>
+                        You can now log in to your account using
+                        your new password.
+                    </p>
+
+                    <p>
+                        For security reasons, your password is never
+                        included in email messages.
+                    </p>
+
+                    <p>
+                        If you did not make this change, please
+                        contact the administrator immediately.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=recipient_email,
+            subject="Password Updated Successfully - Maritime Freight",
             html_content=html_content
         )
 
@@ -612,7 +728,92 @@ class EmailService:
         )
 
     # =========================================================
-    # NEW: FEEDBACK RECEIVED EMAIL - ADMIN
+    # SECURITY EMAIL NOTIFICATIONS
+    # =========================================================
+
+    @staticmethod
+    def send_email_changed_email(
+        recipient_email: str,
+        new_email: str
+    ):
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Maritime Freight Email Address Changed</h2>
+
+                    <p>
+                        Your Maritime Freight account email address
+                        was changed successfully.
+                    </p>
+
+                    <p>
+                        <strong>New email:</strong>
+                        {escape(str(new_email))}
+                    </p>
+
+                    <p>
+                        If you did not make this change, please
+                        contact the administrator immediately.
+                    </p>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=recipient_email,
+            subject="Maritime Freight Email Address Changed",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # PASSWORD CHANGED EMAIL
+    # =========================================================
+
+    @staticmethod
+    def send_password_changed_email(
+        recipient_email: str
+    ):
+        html_content = """
+            <html>
+                <body>
+                    <h2>Maritime Freight Password Changed</h2>
+
+                    <p>
+                        Your Maritime Freight account password
+                        was changed successfully.
+                    </p>
+
+                    <p>
+                        For security, your password is never
+                        included in email messages.
+                    </p>
+
+                    <p>
+                        If you did not make this change, please
+                        contact the administrator immediately.
+                    </p>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=recipient_email,
+            subject="Maritime Freight Password Changed",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # FEEDBACK RECEIVED EMAIL - ADMIN
     # =========================================================
 
     @staticmethod
@@ -703,5 +904,264 @@ class EmailService:
         return EmailService.send_email(
             recipient_email=admin_email,
             subject="New Customer Feedback - Maritime Freight",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # FEEDBACK SUBMISSION CONFIRMATION EMAIL - USER
+    # =========================================================
+
+    @staticmethod
+    def send_feedback_submission_confirmation_email(
+        customer_email: str,
+        customer_name: str,
+        rating: int,
+        feedback_text: str,
+        quotation_id: int | None = None
+    ):
+        quotation_html = ""
+
+        if quotation_id is not None:
+            quotation_html = f"""
+                <p>
+                    <strong>Quotation ID:</strong>
+                    #{quotation_id}
+                </p>
+            """
+
+        safe_feedback = escape(
+            feedback_text or "No written feedback provided."
+        )
+
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Feedback Submitted Successfully</h2>
+
+                    <p>Hello {escape(customer_name)},</p>
+
+                    <p>
+                        Your feedback has been successfully submitted
+                        to the Maritime Freight Admin team.
+                    </p>
+
+                    <h3>Feedback Details</h3>
+
+                    <p><strong>Rating:</strong> {rating}/5</p>
+
+                    {quotation_html}
+
+                    <p><strong>Your Feedback:</strong></p>
+
+                    <div
+                        style="
+                            background:#f7f1e8;
+                            border-left:4px solid #795235;
+                            padding:12px;
+                            margin:10px 0;
+                        "
+                    >
+                        {safe_feedback}
+                    </div>
+
+                    <p>
+                        Thank you for helping us improve our
+                        Maritime Freight service.
+                    </p>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=customer_email,
+            subject="Feedback Submitted Successfully - Maritime Freight",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # FEEDBACK REPLY EMAIL - USER
+    # =========================================================
+
+    @staticmethod
+    def send_feedback_reply_email(
+        customer_email: str,
+        customer_name: str,
+        rating: int,
+        feedback_text: str,
+        admin_response: str,
+        quotation_id: int | None = None
+    ):
+        quotation_html = ""
+
+        if quotation_id is not None:
+            quotation_html = f"""
+                <p>
+                    <strong>Quotation ID:</strong>
+                    #{quotation_id}
+                </p>
+            """
+
+        safe_feedback = escape(
+            feedback_text or "No written feedback provided."
+        )
+
+        safe_response = escape(
+            admin_response or ""
+        )
+
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Admin Has Responded to Your Feedback</h2>
+
+                    <p>Hello {escape(customer_name)},</p>
+
+                    <p>
+                        The Maritime Freight Admin team has responded
+                        to your feedback.
+                    </p>
+
+                    <h3>Your Feedback</h3>
+
+                    <p>
+                        <strong>Rating:</strong>
+                        {rating}/5
+                    </p>
+
+                    {quotation_html}
+
+                    <div
+                        style="
+                            background:#f7f1e8;
+                            border-left:4px solid #795235;
+                            padding:12px;
+                            margin:10px 0;
+                        "
+                    >
+                        {safe_feedback}
+                    </div>
+
+                    <h3>Admin Response</h3>
+
+                    <div
+                        style="
+                            background:#f7f1e8;
+                            border-left:4px solid #795235;
+                            padding:12px;
+                            margin:10px 0;
+                        "
+                    >
+                        {safe_response}
+                    </div>
+
+                    <p>
+                        You can also view this response from your
+                        Feedback page in the Maritime Freight system.
+                    </p>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=customer_email,
+            subject="Admin Response to Your Feedback - Maritime Freight",
+            html_content=html_content
+        )
+
+    # =========================================================
+    # FEEDBACK REPLY CONFIRMATION EMAIL - ADMIN
+    # =========================================================
+
+    @staticmethod
+    def send_feedback_reply_confirmation_email(
+        admin_email: str,
+        admin_name: str,
+        customer_name: str,
+        customer_email: str,
+        rating: int,
+        admin_response: str,
+        quotation_id: int | None = None
+    ):
+        quotation_html = ""
+
+        if quotation_id is not None:
+            quotation_html = f"""
+                <p>
+                    <strong>Quotation ID:</strong>
+                    #{quotation_id}
+                </p>
+            """
+
+        safe_response = escape(
+            admin_response or ""
+        )
+
+        html_content = f"""
+            <html>
+                <body>
+                    <h2>Feedback Response Sent Successfully</h2>
+
+                    <p>Hello {escape(admin_name)},</p>
+
+                    <p>
+                        Your response to the customer's feedback
+                        was successfully saved and sent.
+                    </p>
+
+                    <h3>Customer Details</h3>
+
+                    <p>
+                        <strong>Name:</strong>
+                        {escape(customer_name)}<br>
+
+                        <strong>Email:</strong>
+                        {escape(customer_email)}
+                    </p>
+
+                    <h3>Response Details</h3>
+
+                    <p>
+                        <strong>Original Rating:</strong>
+                        {rating}/5
+                    </p>
+
+                    {quotation_html}
+
+                    <p>
+                        <strong>Your Response:</strong>
+                    </p>
+
+                    <div
+                        style="
+                            background:#f7f1e8;
+                            border-left:4px solid #795235;
+                            padding:12px;
+                            margin:10px 0;
+                        "
+                    >
+                        {safe_response}
+                    </div>
+
+                    <p>
+                        Regards,<br>
+                        Maritime Freight Team
+                    </p>
+                </body>
+            </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=admin_email,
+            subject="Feedback Response Sent - Maritime Freight",
             html_content=html_content
         )

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./VerifyOTP.css";
@@ -17,10 +16,6 @@ function VerifyOTP() {
   const navigate = useNavigate();
 
   const email = sessionStorage.getItem("otpEmail");
-
-  // =========================================================
-  // OTP TIMER
-  // =========================================================
 
   useEffect(() => {
     if (!email || isVerified) {
@@ -42,10 +37,6 @@ function VerifyOTP() {
     return () => clearInterval(timer);
   }, [email, isVerified]);
 
-  // =========================================================
-  // FORMAT TIMER
-  // =========================================================
-
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -55,20 +46,12 @@ function VerifyOTP() {
     ).padStart(2, "0")}`;
   };
 
-  // =========================================================
-  // VERIFY OTP
-  // =========================================================
-
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
-
-    // Do not clear an existing message until validation is complete.
     setMessage("");
 
     if (!email) {
-      setMessage(
-        "Registration session expired. Please register again."
-      );
+      setMessage("Registration session expired. Please register again.");
       setMessageType("error");
       return;
     }
@@ -111,17 +94,10 @@ function VerifyOTP() {
 
       console.log("OTP verification response:", data);
 
-      // =====================================================
-      // VERIFICATION FAILED
-      // =====================================================
-
       if (!response.ok || data.status !== "success") {
-        setMessage(
-          data.message || "OTP verification failed."
-        );
+        setMessage(data.message || "OTP verification failed.");
         setMessageType("error");
 
-        // Backend is the authority for expiry.
         if (
           data.message &&
           data.message.toLowerCase().includes("expired")
@@ -133,10 +109,6 @@ function VerifyOTP() {
         return;
       }
 
-      // =====================================================
-      // VERIFICATION SUCCESSFUL
-      // =====================================================
-
       setIsVerified(true);
       setIsExpired(false);
       setTimeLeft(0);
@@ -146,18 +118,13 @@ function VerifyOTP() {
       );
       setMessageType("success");
 
-      // Remove temporary OTP information.
       sessionStorage.removeItem("otpEmail");
       sessionStorage.removeItem("otpUserId");
       sessionStorage.removeItem("developmentOtp");
 
-      // Give the user a moment to see the success message.
       setTimeout(() => {
-        navigate("/login", {
-          replace: true,
-        });
+        navigate("/login", { replace: true });
       }, 1500);
-
     } catch (error) {
       console.error("OTP verification error:", error);
 
@@ -165,23 +132,16 @@ function VerifyOTP() {
         "Unable to connect to the server. Please try again."
       );
       setMessageType("error");
-
     } finally {
       setIsVerifying(false);
     }
   };
 
-  // =========================================================
-  // RESEND OTP
-  // =========================================================
-
   const handleResendOTP = async () => {
     setMessage("");
 
     if (!email) {
-      setMessage(
-        "Registration session expired. Please register again."
-      );
+      setMessage("Registration session expired. Please register again.");
       setMessageType("error");
       return;
     }
@@ -211,31 +171,18 @@ function VerifyOTP() {
 
       console.log("Resend OTP response:", data);
 
-      // =====================================================
-      // RESEND FAILED
-      // =====================================================
-
       if (!response.ok || data.status !== "success") {
-        setMessage(
-          data.message || "Unable to resend OTP."
-        );
+        setMessage(data.message || "Unable to resend OTP.");
         setMessageType("error");
         return;
       }
-
-      // =====================================================
-      // NEW OTP SENT
-      // =====================================================
 
       setOtp("");
       setTimeLeft(300);
       setIsExpired(false);
 
-      setMessage(
-        "A new OTP has been sent to your email."
-      );
+      setMessage("A new OTP has been sent to your email.");
       setMessageType("success");
-
     } catch (error) {
       console.error("Resend OTP error:", error);
 
@@ -243,24 +190,56 @@ function VerifyOTP() {
         "Unable to connect to the server. Please try again."
       );
       setMessageType("error");
-
     } finally {
       setIsResending(false);
     }
   };
 
-  // =========================================================
-  // UI
-  // =========================================================
-
   return (
     <div className="otp-container">
+
+      {/* ================================
+          MARITIME INFORMATION PANEL
+      ================================= */}
+      <div className="auth-visual-panel">
+
+        <div className="auth-kicker">
+          MARITIME FREIGHT BROKERAGE
+        </div>
+
+        <h1>
+          Secure Your
+          <br />
+          Voyage
+        </h1>
+
+        <p>
+          One final checkpoint before you enter your maritime
+          freight workspace. Verify your email to securely continue
+          with quotations, route analysis, pricing and shipment
+          management.
+        </p>
+
+        <div className="auth-route-note">
+          <b>EMAIL</b>
+          <span>→</span>
+          <b>VERIFIED</b>
+          <span>→</span>
+          <b>ACCESS</b>
+        </div>
+
+      </div>
+
+      {/* ================================
+          OTP CARD
+      ================================= */}
       <div className="otp-card">
 
         <h2>Verify Your Email</h2>
 
         <p className="otp-info">
-          We have sent an OTP for email verification.
+          We have sent a 6-digit OTP to your registered email
+          address.
         </p>
 
         {email && (
@@ -268,10 +247,6 @@ function VerifyOTP() {
             Email: <strong>{email}</strong>
           </p>
         )}
-
-        {/* =================================================
-            OTP TIMER
-        ================================================= */}
 
         {!isVerified && (
           <div
@@ -292,10 +267,6 @@ function VerifyOTP() {
 
         <form onSubmit={handleVerifyOTP}>
 
-          {/* =================================================
-              OTP INPUT
-          ================================================= */}
-
           {!isVerified && (
             <input
               type="text"
@@ -312,36 +283,20 @@ function VerifyOTP() {
             />
           )}
 
-          {/* =================================================
-              MESSAGE
-          ================================================= */}
-
           {message && (
             <p className={`message ${messageType}`}>
               {message}
             </p>
           )}
 
-          {/* =================================================
-              VERIFY BUTTON
-          ================================================= */}
-
           {!isExpired && !isVerified && (
             <button
               type="submit"
-              disabled={
-                otp.length !== 6 || isVerifying
-              }
+              disabled={otp.length !== 6 || isVerifying}
             >
-              {isVerifying
-                ? "Verifying..."
-                : "Verify OTP"}
+              {isVerifying ? "Verifying..." : "Verify OTP"}
             </button>
           )}
-
-          {/* =================================================
-              RESEND BUTTON
-          ================================================= */}
 
           {isExpired && !isVerified && (
             <button
@@ -349,17 +304,11 @@ function VerifyOTP() {
               onClick={handleResendOTP}
               disabled={isResending}
             >
-              {isResending
-                ? "Sending OTP..."
-                : "Resend OTP"}
+              {isResending ? "Sending OTP..." : "Resend OTP"}
             </button>
           )}
 
         </form>
-
-        {/* =================================================
-            LOGIN LINK
-        ================================================= */}
 
         {!isVerified && (
           <p className="login-text">
