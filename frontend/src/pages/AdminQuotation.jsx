@@ -362,112 +362,147 @@ function AdminQuotations() {
     setActionError("");
   }
 
-  async function handleDecision(decision, rejectionReason = null) {
-    if (!selectedQuotation || actionLoading) return;
-    const currentStatus = normalizeStatus(selectedQuotation.status);
+  
+async function handleDecision(decision, rejectionReason = null) {
+  if (!selectedQuotation || actionLoading) return;
 
-    if (decision === "reject" && currentStatus === "rejected") {
-      setShowRejectReason(true);
-      return;
-    }
+  const currentStatus = normalizeStatus(selectedQuotation.status);
 
-    if (currentStatus !== "pending") {
-      setActionError("Only pending quotations can be approved or rejected.");
-      return;
-    }
-
-    const quotationId = selectedQuotation.id ?? selectedQuotation.quotation_id;
-    if (quotationId === null || quotationId === undefined) {
-      setActionError("The quotation ID is missing.");
-      return;
-    }
-
-    const actionLabel = decision === "approve" ? "approve" : "reject";
-    if (decision === "approve" && !window.confirm(`Are you sure you want to approve quotation ${quotationId}?`)) {
-      return;
-    }
-
-    setActionLoading(true);
-    setActionError("");
-    setSuccessMessage("");
-
-    try {
-      const requestOptions = {
-        method: "POST",
-        credentials: "include",
-        headers: { Accept: "application/json" },
-      };
-
-      if (decision === "reject") {
-        requestOptions.headers["Content-Type"] = "application/json";
-        requestOptions.body = JSON.stringify({ reason: rejectionReason || null });
-      }
-
-      const response = await fetch(
-        `${API_BASE}/api/admin-quotations/${encodeURIComponent(quotationId)}/${actionLabel}`,
-        requestOptions
-      );
-
-      if (!response.ok) {
-        let message = "";
-        try {
-          const data = await response.json();
-          message = data.detail || data.message || data.error || "";
-        } catch {
-          message = await response.text();
-        }
-        throw new Error(message || `Unable to ${actionLabel} quotation (${response.status}).`);
-      }
-
-      let result = {};
-      try {
-        result = await response.json();
-      } catch {
-        // The endpoint may return an empty response.
-      }
-
-      const updatedStatus =
-        normalizeStatus(result.status) !== "unknown"
-          ? normalizeStatus(result.status)
-          : decision === "approve"
-          ? "approved"
-          : "rejected";
-
-      const returnedReason = result.rejection_reason ?? rejectionReason ?? null;
-
-      setQuotations((previous) =>
-        previous.map((quotation) => {
-          const currentId = quotation.id ?? quotation.quotation_id;
-          return String(currentId) !== String(quotationId)
-            ? quotation
-            : { ...quotation, ...result, status: updatedStatus, rejection_reason: returnedReason };
-        })
-      );
-
-      setSelectedQuotation((previous) =>
-        previous
-          ? { ...previous, ...result, status: updatedStatus, rejection_reason: returnedReason }
-          : null
-      );
-      setSuccessMessage(
-        decision === "reject"
-          ? returnedReason
-            ? `Quotation ${quotationId} was rejected with a reason.`
-            : `Quotation ${quotationId} was rejected. You can add a reason later.`
-          : `Quotation ${quotationId} was approved.`
-      );
-      setShowRejectReason(false);
-      setRejectReason("");
-      setCustomRejectReason("");
-
-      await loadQuotations();
-    } catch (err) {
-      setActionError(err.message || `Unable to ${actionLabel} this quotation.`);
-    } finally {
-      setActionLoading(false);
-    }
+  if (decision === "reject" && currentStatus === "rejected") {
+    setShowRejectReason(true);
+    return;
   }
 
+  if (currentStatus !== "pending") {
+    setActionError("Only pending quotations can be approved or rejected.");
+    return;
+  }
+
+  const quotationId =
+    selectedQuotation.id ?? selectedQuotation.quotation_id;
+
+  if (quotationId === null || quotationId === undefined) {
+    setActionError("The quotation ID is missing.");
+    return;
+  }
+
+  const actionLabel = decision === "approve" ? "approve" : "reject";
+
+  if (
+    decision === "approve" &&
+    !window.confirm(
+      `Are you sure you want to approve quotation ${quotationId}?`
+    )
+  ) {
+    return;
+  }
+
+  setActionLoading(true);
+  setActionError("");
+  setSuccessMessage("");
+
+  try {
+    const requestOptions = {
+      method: "POST",
+      credentials: "include",
+      headers: { Accept: "application/json" },
+    };
+
+    if (decision === "reject") {
+      requestOptions.headers["Content-Type"] = "application/json";
+      requestOptions.body = JSON.stringify({
+        reason: rejectionReason || null,
+      });
+    }
+
+    const response = await fetch(
+      `${API_BASE}/api/admin-quotations/${encodeURIComponent(
+        quotationId
+      )}/${actionLabel}`,
+      requestOptions
+    );
+
+    let result = {};
+
+    try {
+      result = await response.json();
+    } catch {
+      result = {};
+    }
+
+    // Do not treat HTTP 200 alone as a successful decision.
+    if (!response.ok || result.success === false) {
+      throw new Error(
+        result.detail ||
+          result.message ||
+          `Unable to ${actionLabel} quotation.`
+      );
+    }
+
+    // The backend returns the status inside result.quotation.
+    const returnedStatus =
+      result.quotation?.status ?? result.status;
+
+    const updatedStatus = normalizeStatus(returnedStatus);
+
+    // Never assume approval succeeded when the API did not
+    // return the saved status.
+    if (
+      updatedStatus !==
+      (decision === "approve" ? "approved" : "rejected")
+    ) {
+      throw new Error(
+        "The server did not confirm the updated quotation status. Please refresh and check the server logs."
+      );
+    }
+
+    const returnedReason =
+      result.quotation?.rejection_reason ??
+      result.rejection_reason ??
+      rejectionReason ??
+      null;
+
+    const updateQuotation = (quotation) => {
+      const id = quotation.id ?? quotation.quotation_id;
+
+      return String(id) === String(quotationId)
+        ? {
+            ...quotation,
+            ...result.quotation,
+            status: updatedStatus,
+            rejection_reason: returnedReason,
+          }
+        : quotation;
+    };
+
+    setQuotations((previous) => previous.map(updateQuotation));
+
+    setSelectedQuotation((previous) =>
+      previous ? updateQuotation(previous) : null
+    );
+
+    setSuccessMessage(
+      decision === "approve"
+        ? `Quotation ${quotationId} approved successfully.`
+        : returnedReason
+        ? `Quotation ${quotationId} rejected with a reason.`
+        : `Quotation ${quotationId} rejected.`
+    );
+
+    setShowRejectReason(false);
+    setRejectReason("");
+    setCustomRejectReason("");
+
+    // Refresh the list only after the API confirms success.
+    await loadQuotations();
+  } catch (err) {
+    setActionError(
+      err.message || `Unable to ${actionLabel} this quotation.`
+    );
+  } finally {
+    setActionLoading(false);
+  }
+}
   async function saveLaterRejectionReason() {
     if (!selectedQuotation || actionLoading) return;
     const quotationId = selectedQuotation.id ?? selectedQuotation.quotation_id;

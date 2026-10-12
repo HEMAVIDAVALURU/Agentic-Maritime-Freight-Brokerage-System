@@ -497,9 +497,9 @@ def request_quotation_approval(
                 )
             
 
-            if isinstance(result, dict):
+            if isinstance(email_result, dict):
 
-                customer_email_result = result
+                customer_email_result = email_result
 
             else:
 

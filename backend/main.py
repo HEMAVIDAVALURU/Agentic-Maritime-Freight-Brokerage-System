@@ -21,6 +21,8 @@ from app.routes.admin_quotations_routes import router as admin_quotations_router
 from app.routes.weather_routes import router as weather_router
 from app.routes.customs_routes import router as customs_router
 from app.routes.admin_settings_routes import router as admin_settings_router
+from app.routes.shipment_routes import router as shipment_router
+from app.routes.payment_routes import router as payment_router
 
 
 
@@ -289,6 +291,10 @@ app.include_router(weather_router)
 app.include_router(customs_router)
 
 app.include_router(admin_settings_router)
+
+app.include_router(shipment_router)
+
+app.include_router(payment_router)
 
 
 # ============================================================

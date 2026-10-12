@@ -734,6 +734,30 @@ a {
 }
 
 
+/* Keep the first 3 graphs unchanged.
+   Expand only the bottom 2 graphs to full width. */
+
+.dashboard-graph-grid > .dashboard-graph-card:nth-child(4),
+.dashboard-graph-grid > .dashboard-graph-card:nth-child(5) {
+  grid-column: span 1;
+  width: 100%;
+  min-width: 0;
+}
+
+
+/* Bottom two graphs share the full row width */
+.dashboard-graph-grid > .dashboard-graph-card:nth-child(4) {
+  grid-column: 1 / 2;
+  width: 100%;
+}
+
+.dashboard-graph-grid > .dashboard-graph-card:nth-child(5) {
+  grid-column: 2 / 4;
+  width: 100%;
+}
+
+
+
 /* =========================================================
    GRAPH CARD
    ========================================================= */
@@ -1891,4 +1915,177 @@ a {
 @keyframes notificationTargetPulse {
   0%, 100% { background: transparent; }
   35% { background: rgba(34, 197, 94, 0.14); }
+}
+
+
+
+/* RECENT SHIPMENTS */
+.recent-shipments-card {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.recent-shipments-content {
+  width: 100%;
+  overflow: hidden;
+}
+
+.recent-shipments-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.recent-shipments-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.recent-shipments-table th,
+.recent-shipments-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eadbca;
+  white-space: nowrap;
+}
+
+.recent-shipments-table th {
+  color: #6c3d25;
+  background: #f8efe3;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.recent-shipments-table td {
+  color: #533522;
+  font-size: 13px;
+}
+
+.recent-shipments-table tbody tr:hover {
+  background: #fcf5eb;
+}
+
+.shipment-status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.shipment-status-booked {
+  background: #f5e5c9;
+  color: #80551e;
+}
+
+.shipment-status-pickup {
+  background: #f1dfd0;
+  color: #8b5e3c;
+}
+
+.shipment-status-in-transit {
+  background: #dce9f4;
+  color: #315d80;
+}
+
+.shipment-status-out-for-delivery {
+  background: #f6e5c5;
+  color: #8a641f;
+}
+
+.shipment-status-delivered {
+  background: #dcebdd;
+  color: #386842;
+}
+
+.shipment-status-cancelled {
+  background: #f3dada;
+  color: #963f3f;
+}
+
+.shipment-status-unknown {
+  background: #eee4d8;
+  color: #6c3d25;
+}
+
+
+/* Recent Shipments — matching Recent Quotations */
+.recent-shipments-table th {
+  background: #6C3D25;
+  color: #FFF8EE;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 14px 12px;
+}
+
+.recent-shipments-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #EADBCB;
+  color: #6C3D25;
+}
+
+.recent-shipments-table tbody tr:hover {
+  background: #F8EFE3;
+}
+
+.shipment-payment-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.payment-status-paid {
+  background: #DDF1DF;
+  color: #23723B;
+}
+
+.payment-status-pending-verification {
+  background: #F9E8C8;
+  color: #8A5A16;
+}
+
+.payment-status-rejected {
+  background: #F8DADA;
+  color: #A52D2D;
+}
+
+.payment-status-no-payment {
+  background: #EEE4D8;
+  color: #6C3D25;
+}
+
+
+/* Recent Shipments - View All Button */
+.recent-shipments-card .view-all-button {
+  background: #6C3D25;
+  color: #FFF8EE;
+  border: 1px solid #6C3D25;
+  border-radius: 6px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.25s ease,
+              color 0.25s ease,
+              transform 0.2s ease;
+}
+
+.recent-shipments-card .view-all-button:hover {
+  background: #8B5E3C;
+  border-color: #8B5E3C;
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.recent-shipments-card .view-all-button:active {
+  transform: translateY(0);
+}
+
+.recent-shipments-card .view-all-button:focus-visible {
+  outline: 2px solid #C08A45;
+  outline-offset: 3px;
 }

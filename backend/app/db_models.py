@@ -124,6 +124,18 @@ class User(Base):
         server_default=func.now()
     )
 
+    payment_notifications = Column(
+    Boolean,
+    default=True,
+    nullable=False
+)
+
+shipment_notifications = Column(
+    Boolean,
+    default=True,
+    nullable=False
+)
+
 
 # ---------------------------------------------------------
 # ADMINS TABLE
@@ -219,6 +231,17 @@ class Admin(Base):
         DateTime,
         server_default=func.now()
     )
+    payment_alerts = Column(
+    Boolean,
+    default=True,
+    nullable=False
+)
+
+shipment_alerts = Column(
+    Boolean,
+    default=True,
+    nullable=False
+)
 
 
 # ---------------------------------------------------------
@@ -657,3 +680,236 @@ class Feedback(Base):
         DateTime,
         server_default=func.now()
     )
+# Add these imports at the top if not already present:
+# UniqueConstraint, Index
+
+# ---------------------------------------------------------
+# SHIPMENTS TABLE
+# ---------------------------------------------------------
+
+class Shipment(Base):
+    __tablename__ = "shipments"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    shipment_id = Column(
+        String(30),
+        unique=True,
+        nullable=False,
+        index=True
+    )
+
+    quotation_id = Column(
+        Integer,
+        ForeignKey("quotation_requests.id"),
+        unique=True,
+        nullable=False
+    )
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False,
+        index=True
+    )
+
+    route_id = Column(String(50), nullable=False)
+    origin = Column(String(100), nullable=False)
+    destination = Column(String(100), nullable=False)
+    cargo_type = Column(String(100), nullable=False)
+    container_type = Column(String(50), nullable=False)
+    container_count = Column(Integer, nullable=False)
+
+    status = Column(
+        String(40),
+        default="booked",
+        nullable=False,
+        index=True
+    )
+
+    estimated_arrival = Column(DateTime, nullable=True)
+    booked_at = Column(DateTime, server_default=func.now())
+    delivered_at = Column(DateTime, nullable=True)
+    cancelled_at = Column(DateTime, nullable=True)
+    cancellation_reason = Column(String(500), nullable=True)
+
+    created_at = Column(DateTime, server_default=func.now())
+    updated_at = Column(
+        DateTime,
+        server_default=func.now(),
+        onupdate=func.now()
+    )
+
+
+# ---------------------------------------------------------
+# SHIPMENT STATUS HISTORY TABLE
+# ---------------------------------------------------------
+
+class ShipmentStatusHistory(Base):
+    __tablename__ = "shipment_status_history"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    shipment_id = Column(
+        String(30),
+        ForeignKey("shipments.shipment_id"),
+        nullable=False,
+        index=True
+    )
+
+    previous_status = Column(String(40), nullable=True)
+    new_status = Column(String(40), nullable=False)
+
+    note = Column(Text, nullable=True)
+    updated_by_admin_id = Column(
+        Integer,
+        ForeignKey("admins.id"),
+        nullable=True
+    )
+
+    created_at = Column(DateTime, server_default=func.now())
+
+
+
+# =========================================================
+# DEMO PAYMENT
+# =========================================================
+
+class Payment(Base):
+    __tablename__ = "payments"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    quotation_id = Column(
+        Integer,
+        ForeignKey("quotation_requests.id"),
+        nullable=False,
+        index=True
+    )
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False,
+        index=True
+    )
+
+    amount = Column(Float, nullable=False)
+
+    currency = Column(
+        String(10),
+        nullable=False,
+        default="USD"
+    )
+
+    payment_method = Column(
+        String(30),
+        nullable=False
+    )
+
+    payment_reference = Column(
+        String(255),
+        nullable=True
+    )
+
+    proof_description = Column(
+        Text,
+        nullable=True
+    )
+
+    status = Column(
+        String(30),
+        nullable=False,
+        default="pending_verification",
+        index=True
+    )
+
+    admin_note = Column(Text, nullable=True)
+
+    verified_by = Column(
+        Integer,
+        ForeignKey("admins.id"),
+        nullable=True
+    )
+
+    submitted_at = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now()
+    )
+
+    verified_at = Column(
+        DateTime,
+        nullable=True
+    )
+
+
+# =========================================================
+# PAYMENT STATUS HISTORY
+# =========================================================
+
+class PaymentStatusHistory(Base):
+    __tablename__ = "payment_status_history"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    payment_id = Column(
+        Integer,
+        ForeignKey("payments.id"),
+        nullable=False,
+        index=True
+    )
+
+    old_status = Column(
+        String(30),
+        nullable=True
+    )
+
+    new_status = Column(
+        String(30),
+        nullable=False
+    )
+
+    changed_by = Column(
+        Integer,
+        nullable=False
+    )
+
+    changed_by_role = Column(
+        String(20),
+        nullable=False
+    )
+
+    note = Column(Text, nullable=True)
+
+    created_at = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now()
+    )
+
+payment_notifications = Column(
+    Boolean,
+    default=True,
+    nullable=False
+)
+
+shipment_notifications = Column(
+    Boolean,
+    default=True,
+    nullable=False
+)
+
+payment_alerts = Column(
+    Boolean,
+    default=True,
+    nullable=False
+)
+
+shipment_alerts = Column(
+    Boolean,
+    default=True,
+    nullable=False
+)
+
+

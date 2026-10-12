@@ -14,6 +14,8 @@ import {
   CartesianGrid,
   BarChart,
   Bar,
+  RadialBarChart,
+  RadialBar,
 } from "recharts";
 
 import "./AdminDashboard.css";
@@ -26,6 +28,8 @@ import AdminCustom from "./AdminCustom";
 import AdminQuotation from "./AdminQuotation";
 import AdminFeedback from "./AdminFeedback";
 import AdminSettings from "./AdminSettings";
+import AdminShipments from "./AdminShipments";
+import AdminPayment from "./AdminPayment";
 
 function AdminDashboard() {
   const [activePage, setActivePage] =
@@ -77,14 +81,25 @@ function AdminDashboard() {
     monthly_quotations: 0,
     total_selling_price: 0,
     total_profit: 0,
-    total_loss: 0,
-    net_profit: 0,
+    total_payments_made: 0,
+    total_shipments_booked: 0,
+    total_shipments_delivered: 0,
   });
 
   const [monthlyProfitData, setMonthlyProfitData] =
     useState([]);
 
   const [monthlyQuotationData, setMonthlyQuotationData] =
+    useState([]);
+
+  
+  const [shipmentStatusData, setShipmentStatusData] =
+    useState([]);
+
+  const [monthlyShipmentData, setMonthlyShipmentData] =
+    useState([]);
+
+  const [monthlyDeliveryCancellationData, setMonthlyDeliveryCancellationData] =
     useState([]);
 
   const [currentMonthSummary, setCurrentMonthSummary] =
@@ -98,6 +113,7 @@ function AdminDashboard() {
 
   const [recentQuotations, setRecentQuotations] =
     useState([]);
+   const [recentShipments, setRecentShipments] = useState([]); 
 
   const [kpiLoading, setKpiLoading] =
     useState(true);
@@ -150,6 +166,11 @@ function AdminDashboard() {
       label: "Shipment",
       icon: "◆",
     },
+    {
+  id: "payments",
+  label: "Payments",
+  icon: "💳",
+},
     {
       id: "feedback",
       label: "Feedback",
@@ -444,11 +465,14 @@ function AdminDashboard() {
         total_profit:
           kpis.total_profit || 0,
 
-        total_loss:
-          kpis.total_loss || 0,
+        total_payments_made:
+          kpis.total_payments_made || 0,
 
-        net_profit:
-          kpis.net_profit || 0,
+        total_shipments_booked:
+          kpis.total_shipments_booked || 0,
+
+        total_shipments_delivered:
+          kpis.total_shipments_delivered || 0,
       });
 
       setMonthlyProfitData(
@@ -462,6 +486,25 @@ function AdminDashboard() {
           ? data.monthly_quotations
           : []
       );
+
+     
+      setShipmentStatusData(
+        Array.isArray(data.shipment_status_overview)
+          ? data.shipment_status_overview
+          : []
+      );
+
+      setMonthlyShipmentData(
+        Array.isArray(data.monthly_shipments)
+          ? data.monthly_shipments
+          : []
+      );
+
+      setMonthlyDeliveryCancellationData(
+        Array.isArray(data.monthly_delivery_cancellation)
+          ? data.monthly_delivery_cancellation
+          : []
+      ); 
 
       setCurrentMonthSummary(
         data.current_month_summary || {
@@ -478,6 +521,12 @@ function AdminDashboard() {
           ? data.recent_quotations.slice(0, 10)
           : []
       );
+      setRecentShipments(
+  Array.isArray(data.recent_shipments)
+    ? data.recent_shipments.slice(0, 10)
+    : []
+);
+      
     } catch (error) {
       console.error(
         "Admin Dashboard Error:",
@@ -491,6 +540,9 @@ function AdminDashboard() {
     } finally {
       setKpiLoading(false);
     }
+
+    
+
   };
 
   // =========================================================
@@ -554,19 +606,25 @@ function AdminDashboard() {
       icon: "↗",
     },
     {
-      title: "Total Loss",
-      value: formatCurrency(
-        kpiData.total_loss
-      ),
-      icon: "↘",
+      title: "Total Payments Made",
+      value: Number(
+        kpiData.total_payments_made || 0
+      ).toLocaleString("en-US"),
+      icon: "✓",
     },
     {
-      title: "Net Profit",
-      value: formatCurrency(
-        kpiData.net_profit
-      ),
-      icon: "$",
-      className: "admin-kpi-net-profit",
+      title: "Total Shipments Booked",
+      value: Number(
+        kpiData.total_shipments_booked || 0
+      ).toLocaleString("en-US"),
+      icon: "▣",
+    },
+    {
+      title: "Total Shipments Delivered",
+      value: Number(
+        kpiData.total_shipments_delivered || 0
+      ).toLocaleString("en-US"),
+      icon: "⚓",
     },
   ];
 
@@ -625,6 +683,30 @@ function AdminDashboard() {
     "#c28b36",
     "#a0523d",
   ];
+
+  
+  const shipmentStatusColors = [
+    "#8b5e3c",
+    "#c28b36",
+    "#547b91",
+    "#7b8f52",
+    "#6b8e23",
+    "#a0523d",
+  ];
+
+  const formatShipmentStatus = (status) => {
+    const labels = {
+      booked: "Booked",
+      pickup: "Pickup",
+      in_transit: "In Transit",
+      out_for_delivery: "Out for Delivery",
+      delivered: "Delivered",
+      cancelled: "Cancelled",
+    };
+
+    return labels[String(status || "").toLowerCase()]
+      || String(status || "Unknown");
+  };
 
   // =========================================================
   // SETTINGS NAVIGATION
@@ -1167,7 +1249,7 @@ function AdminDashboard() {
                     )}
                   </div>
 
-                  <div className="admin-kpi-row admin-kpi-row-four">
+                  <div className="admin-kpi-row admin-kpi-row-five">
                     {secondRowKpis.map(
                       renderKpiCard
                     )}
@@ -1456,8 +1538,160 @@ function AdminDashboard() {
 
                     </div>
 
-                  </div>
+                 {/* GRAPH 5: MONTHLY SHIPMENT BOOKING TREND */}
 
+<div className="admin-chart-card">
+  <div className="admin-chart-header">
+    <h3>Monthly Shipment Booking Trend</h3>
+    <span>Shipments booked by month</span>
+  </div>
+
+  <ResponsiveContainer width="100%" height={280}>
+    <BarChart
+      data={monthlyShipmentData}
+      layout="vertical"
+      margin={{
+        top: 10,
+        right: 30,
+        left: 10,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+
+      <XAxis type="number" allowDecimals={false} />
+
+      <YAxis
+        type="category"
+        dataKey="month"
+        width={85}
+      />
+
+      <Tooltip
+        formatter={(value) => [value, "Shipments Booked"]}
+      />
+
+      <Bar
+        dataKey="shipments"
+        name="Shipments Booked"
+        fill="#8b5e3c"
+        radius={[0, 6, 6, 0]}
+        barSize={24}
+        label={{
+          position: "right",
+          fill: "#4a2d1d",
+          fontSize: 12,
+          fontWeight: 600,
+        }}
+      />
+    </BarChart>
+  </ResponsiveContainer>
+</div>
+
+{/* GRAPH 4: SHIPMENT STATUS OVERVIEW */}
+
+<div className="admin-chart-card">
+  <div className="admin-chart-header">
+    <h3>Shipment Status Overview</h3>
+    <span>Current shipment distribution</span>
+  </div>
+
+  <ResponsiveContainer width="100%" height={280}>
+    <RadialBarChart
+      data={shipmentStatusData.map((item, index) => ({
+        ...item,
+        fill: shipmentStatusColors[
+          index % shipmentStatusColors.length
+        ],
+        displayName: formatShipmentStatus(item.status),
+      }))}
+      cx="50%"
+      cy="45%"
+      innerRadius="15%"
+      outerRadius="90%"
+      barSize={14}
+      startAngle={90}
+      endAngle={-270}
+    >
+      <Tooltip
+        formatter={(value, name, props) => [
+          value,
+          props.payload.displayName,
+        ]}
+      />
+
+      <RadialBar
+        dataKey="count"
+        name="Shipments"
+        background={{ fill: "#eee4d8" }}
+        cornerRadius={8}
+        label={{
+          position: "insideStart",
+          fill: "#ffffff",
+          fontSize: 11,
+        }}
+      />
+
+      <Legend
+        verticalAlign="bottom"
+        height={48}
+        formatter={(value, entry) =>
+          entry.payload?.displayName || formatShipmentStatus(value)
+        }
+      />
+    </RadialBarChart>
+  </ResponsiveContainer>
+</div>
+{/* GRAPH 6: DELIVERED VS CANCELLED */}
+
+<div className="admin-chart-card">
+  <div className="admin-chart-header">
+    <h3>Delivered vs Cancelled Shipments</h3>
+    <span>Monthly delivery and cancellation activity</span>
+  </div>
+
+  <ResponsiveContainer width="100%" height={280}>
+    <LineChart
+      data={monthlyDeliveryCancellationData}
+      margin={{
+        top: 25,
+        right: 15,
+        left: 0,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+
+      <XAxis dataKey="month" />
+
+      <YAxis allowDecimals={false} />
+
+      <Tooltip />
+
+      <Legend />
+
+      <Bar
+        dataKey="delivered"
+        name="Delivered"
+        fill="#6b8e23"
+        radius={[5, 5, 0, 0]}
+        barSize={28}
+      />
+
+      <Line
+        type="monotone"
+        dataKey="cancelled"
+        name="Cancelled"
+        stroke="#a0523d"
+        strokeWidth={3}
+        dot={{ r: 5, fill: "#a0523d" }}
+        activeDot={{ r: 7 }}
+      />
+    </LineChart>
+  </ResponsiveContainer>
+</div>
+</div>
+                   
                 </section>
               )}
 
@@ -1704,6 +1938,175 @@ function AdminDashboard() {
                 </section>
               )}
 
+
+             
+{/* RECENT SHIPMENTS */}
+
+{!kpiLoading && !kpiError && (
+  <section className="admin-recent-quotations-section">
+    <div className="admin-section-heading">
+      <div>
+        <h2>Recent Shipments</h2>
+        <p>Latest 10 shipments</p>
+      </div>
+
+      <button
+        type="button"
+        className="admin-view-all-btn"
+        onClick={() => setActivePage("shipment")}
+      >
+        View All →
+      </button>
+    </div>
+
+    <div className="admin-recent-table-wrapper">
+      <table className="admin-recent-table">
+        <thead>
+          <tr>
+            <th>Shipment ID</th>
+            <th>Route ID</th>
+            <th>Route</th>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Payment Status</th>
+            <th>Shipment Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {recentShipments.length > 0 ? (
+            recentShipments.slice(0, 10).map((shipment, index) => {
+              const paymentStatus = String(
+                shipment.payment_status || "Pending"
+              ).toLowerCase();
+
+              const shipmentStatus = String(
+                shipment.status || "Unknown"
+              ).replaceAll("_", " ");
+
+              return (
+                <tr
+                  key={shipment.shipment_id || shipment.id || index}
+                >
+                  <td className="admin-recent-quotation-id">
+                    {shipment.shipment_id || "—"}
+                  </td>
+
+                  <td>{shipment.route_id || "—"}</td>
+
+                  <td>
+                    {shipment.route_name ||
+                      shipment.route ||
+                      "—"}
+                  </td>
+
+                  <td>{shipment.origin || "—"}</td>
+
+                  <td>{shipment.destination || "—"}</td>
+
+                 
+<td>
+  <span
+    style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "6px",
+      padding: "6px 12px",
+      borderRadius: "20px",
+      fontSize: "12px",
+      fontWeight: 600,
+      whiteSpace: "nowrap",
+      backgroundColor:
+        ["paid", "verified", "completed"].includes(paymentStatus)
+          ? "#DCFCE7"
+          : paymentStatus === "no_payment"
+          ? "#FEE2E2"
+          : ["failed", "rejected", "cancelled"].includes(paymentStatus)
+          ? "#FEE2E2"
+          : "#FEF3C7",
+      color:
+        ["paid", "verified", "completed"].includes(paymentStatus)
+          ? "#166534"
+          : paymentStatus === "no_payment"
+          ? "#991B1B"
+          : ["failed", "rejected", "cancelled"].includes(paymentStatus)
+          ? "#991B1B"
+          : "#92400E",
+    }}
+  >
+    <span
+      style={{
+        width: "6px",
+        height: "6px",
+        borderRadius: "50%",
+        backgroundColor: "currentColor",
+      }}
+    />
+    {paymentStatus === "no_payment"
+      ? "No Payment"
+      : paymentStatus.replaceAll("_", " ").replace(/\b\w/g, char => char.toUpperCase())}
+  </span>
+</td>
+
+  
+<td>
+  <span
+    style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "6px",
+      padding: "6px 12px",
+      borderRadius: "20px",
+      fontSize: "12px",
+      fontWeight: 600,
+      whiteSpace: "nowrap",
+      backgroundColor: ({
+        booked: "#DBEAFE",
+        pickup: "#FFEDD5",
+        in_transit: "#CFFAFE",
+        out_for_delivery: "#EDE9FE",
+        delivered: "#DCFCE7",
+        cancelled: "#FEE2E2",
+      })[String(shipment.status || "unknown").toLowerCase()] || "#F3F4F6",
+      color: ({
+        booked: "#1D4ED8",
+        pickup: "#9A3412",
+        in_transit: "#155E75",
+        out_for_delivery: "#6D28D9",
+        delivered: "#166534",
+        cancelled: "#991B1B",
+      })[String(shipment.status || "unknown").toLowerCase()] || "#374151",
+    }}
+  >
+    <span
+      style={{
+        width: "6px",
+        height: "6px",
+        borderRadius: "50%",
+        backgroundColor: "currentColor",
+      }}
+    />
+    {shipmentStatus.replace(/\b\w/g, char =>
+      char.toUpperCase()
+    )}
+  </span>
+</td>                
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan={7} className="admin-recent-empty">
+                No shipments available.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  </section>
+)} 
+
             {/* MONTHLY PERFORMANCE */}
 
             {!kpiLoading &&
@@ -1893,6 +2296,12 @@ function AdminDashboard() {
           <AdminQuotation />
         )}
 
+
+        {/* PAYMENT MANAGEMENT */}
+{activePage === "payments" && (
+  <AdminPayment />
+)}
+
         {/* =================================================
             FEEDBACK
         ================================================= */}
@@ -1900,6 +2309,13 @@ function AdminDashboard() {
         {activePage === "feedback" && (
           <AdminFeedback />
         )}
+
+
+        {/* SHIPMENT MANAGEMENT */}
+{activePage === "shipment" && (
+  <AdminShipments />
+)}
+
 
         {/* =================================================
             SETTINGS - PROFILE
@@ -1955,14 +2371,13 @@ function AdminDashboard() {
           activePage !== "weather" &&
           activePage !== "customs" &&
           activePage !== "quotation" &&
+          activePage !== "shipment" &&
+          activePage !== "payments" &&
           activePage !== "feedback" &&
           activePage !== "settings-profile" &&
-          activePage !==
-            "settings-notifications" &&
-          activePage !==
-            "settings-security" &&
-          activePage !==
-            "settings-about" && (
+          activePage !== "settings-notifications" &&
+          activePage !=="settings-security" &&
+          activePage !=="settings-about" && (
             <div className="admin-empty-page">
 
               <h2>

@@ -3,12 +3,19 @@ from datetime import datetime
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+
 from app.database import get_db
-from app.db_models import User, QuotationRequestDB
 from app.services.auth_dependency import get_current_user
 from app.agents.pricing_agent import PricingAgent
 from app.agents.weather_agent import WeatherAgent
 from app.agents.customs_agent import CustomsAgent
+
+from app.db_models import (
+    User,
+    QuotationRequestDB,
+    Payment,
+    Shipment,
+)
 
 
 router = APIRouter(
@@ -665,6 +672,169 @@ def get_admin_dashboard(
             "created_at": quotation.created_at,
         })
 
+         # =====================================================
+    # PAYMENT AND SHIPMENT KPI COUNTS
+    # =====================================================
+
+    # Count payments verified by Admin
+    total_payments_made = (
+        db.query(Payment)
+        .filter(Payment.status == "verified")
+        .count()
+    )
+
+    # Count shipments with booked status
+    total_shipments_booked = (
+        db.query(Shipment)
+        .filter(Shipment.status == "booked")
+        .count()
+    )
+
+    # Count successfully delivered shipments
+    total_shipments_delivered = (
+        db.query(Shipment)
+        .filter(Shipment.status == "delivered")
+        .count()
+    ) 
+
+
+    
+    # =====================================================
+    # SHIPMENT STATUS OVERVIEW - GRAPH 4
+    # =====================================================
+
+    shipment_statuses = [
+        "booked",
+        "pickup",
+        "in_transit",
+        "out_for_delivery",
+        "delivered",
+        "cancelled"
+    ]
+
+    shipment_status_overview = []
+
+    for status in shipment_statuses:
+        count = (
+            db.query(Shipment)
+            .filter(Shipment.status == status)
+            .count()
+        )
+
+        shipment_status_overview.append({
+            "status": status,
+            "count": count
+        })
+
+    # =====================================================
+    # MONTHLY SHIPMENT BOOKING TREND - GRAPH 5
+    # =====================================================
+
+    monthly_shipments_data = []
+
+    for period in monthly_periods:
+        count = (
+            db.query(Shipment)
+            .filter(
+                Shipment.booked_at >= period["start"],
+                Shipment.booked_at < period["end"]
+            )
+            .count()
+        )
+
+        monthly_shipments_data.append({
+            "month": period["month"],
+            "year": period["year"],
+            "shipments": count
+        })
+
+    # =====================================================
+    # DELIVERED VS CANCELLED - GRAPH 6
+    # =====================================================
+
+    monthly_delivery_cancellation = []
+
+    for period in monthly_periods:
+        delivered_count = (
+            db.query(Shipment)
+            .filter(
+                Shipment.status == "delivered",
+                Shipment.delivered_at >= period["start"],
+                Shipment.delivered_at < period["end"]
+            )
+            .count()
+        )
+
+        cancelled_count = (
+            db.query(Shipment)
+            .filter(
+                Shipment.status == "cancelled",
+                Shipment.cancelled_at >= period["start"],
+                Shipment.cancelled_at < period["end"]
+            )
+            .count()
+        )
+
+        monthly_delivery_cancellation.append({
+            "month": period["month"],
+            "year": period["year"],
+            "delivered": delivered_count,
+            "cancelled": cancelled_count
+        })
+
+           # =====================================================
+    # RECENT SHIPMENTS - LATEST 10 RECORDS
+    # =====================================================
+
+    
+    recent_shipment_records = (
+        db.query(Shipment)
+        .order_by(Shipment.created_at.desc())
+        .limit(10)
+        .all()
+    )
+
+    recent_shipments = []
+
+    for shipment in recent_shipment_records:
+
+        payment = (
+            db.query(Payment)
+            .filter(
+                Payment.quotation_id == shipment.quotation_id
+            )
+            .order_by(Payment.submitted_at.desc())
+            .first()
+        )
+
+        raw_payment_status = (
+            (payment.status or "").strip().lower()
+            if payment
+            else ""
+        )
+
+        if raw_payment_status in ("verified", "paid", "completed"):
+            payment_status = "paid"
+        elif raw_payment_status in ("failed", "rejected", "cancelled"):
+            payment_status = "failed"
+        elif raw_payment_status:
+            payment_status = "pending"
+        else:
+            payment_status = "no_payment"
+
+        recent_shipments.append({
+            "id": shipment.id,
+            "shipment_id": shipment.shipment_id,
+            "route_id": shipment.route_id,
+            "route_name": shipment.route_id,
+            "origin": shipment.origin,
+            "destination": shipment.destination,
+            "payment_status": payment_status,
+            "status": (
+                shipment.status or "unknown"
+            ).strip().lower(),
+        })
+
     # =====================================================
     # API RESPONSE
     # =====================================================
@@ -691,8 +861,7 @@ def get_admin_dashboard(
         # ---------------------------------------------
         # OVERALL KPI DATA
         # ---------------------------------------------
-
-        "kpis": {
+                "kpis": {
 
             "total_users": total_users,
 
@@ -710,9 +879,11 @@ def get_admin_dashboard(
 
             "total_profit": total_profit,
 
-            "total_loss": total_loss,
+            "total_payments_made": total_payments_made,
 
-            "net_profit": net_profit,
+            "total_shipments_booked": total_shipments_booked,
+
+            "total_shipments_delivered": total_shipments_delivered,
         },
 
         # ---------------------------------------------
@@ -733,9 +904,35 @@ def get_admin_dashboard(
 
         "monthly_quotations": monthly_quotation_data,
 
+        
+        # ---------------------------------------------
+        # SHIPMENT STATUS OVERVIEW - GRAPH 4
+        # ---------------------------------------------
+
+        "shipment_status_overview": shipment_status_overview,
+
+        # ---------------------------------------------
+        # MONTHLY SHIPMENT BOOKINGS - GRAPH 5
+        # ---------------------------------------------
+
+        "monthly_shipments": monthly_shipments_data,
+
+        # ---------------------------------------------
+        # DELIVERED VS CANCELLED - GRAPH 6
+        # ---------------------------------------------
+
+        "monthly_delivery_cancellation": monthly_delivery_cancellation,
+
         # ---------------------------------------------
         # RECENT QUOTATIONS
         # ---------------------------------------------
 
         "recent_quotations": recent_quotations,
+
+         # ---------------------------------------------
+        # RECENT SHIPMENTS
+        # ---------------------------------------------
+
+        "recent_shipments": recent_shipments,
+        
     }

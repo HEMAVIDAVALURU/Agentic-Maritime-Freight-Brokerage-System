@@ -1,26 +1,39 @@
+
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
+  const [role, setRole] = useState("customer");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const location = useLocation();
+  const isAdmin = role === "admin";
+
+  const handleRoleChange = (nextRole) => {
+    if (loading) return;
+
+    setRole(nextRole);
+    setEmail("");
+    setPassword("");
+    setShowPassword(false);
+    setMessage("");
+    setMessageType("");
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     setMessage("");
+    setMessageType("");
 
     if (!email.trim() || !password) {
-      setMessage("Please enter email and password.");
+      setMessage("Please enter your email and password.");
       setMessageType("error");
       return;
     }
@@ -28,69 +41,69 @@ function Login() {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        "http://localhost:8000/api/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            email: email.trim(),
-            password,
-          }),
-        }
-      );
+      const endpoint = isAdmin
+        ? "http://localhost:8000/api/auth/admin-login"
+        : "http://localhost:8000/api/auth/login";
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          email: email.trim(),
+          password,
+        }),
+      });
 
       const data = await response.json();
 
-      console.log("Login response:", data);
-
       if (!response.ok || data.status !== "success") {
-        setMessage(data.message || "Invalid email or password.");
-        setMessageType("error");
-        return;
-      }
-
-      // -----------------------------------------------------
-      // Verify that the authentication cookie is working
-      // -----------------------------------------------------
-
-      const meResponse = await fetch(
-        "http://localhost:8000/api/auth/me",
-        {
-          method: "GET",
-          credentials: "include",
-        }
-      );
-
-      const meData = await meResponse.json();
-
-      console.log("Current user response:", meData);
-
-      if (!meResponse.ok || !meData.success) {
         setMessage(
-          "Login succeeded, but the authentication session could not be established."
+          data.message ||
+            (isAdmin
+              ? "Invalid admin credentials."
+              : "Invalid customer email or password.")
         );
         setMessageType("error");
         return;
       }
 
+      if (!isAdmin) {
+        const meResponse = await fetch(
+          "http://localhost:8000/api/auth/me",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        const meData = await meResponse.json();
+
+        if (!meResponse.ok || !meData.success) {
+          setMessage(
+            "Login succeeded, but the authentication session could not be established."
+          );
+          setMessageType("error");
+          return;
+        }
+      }
+
       setMessage("Login successful! Redirecting...");
       setMessageType("success");
 
-      setTimeout(() => {
-        navigate("/user-dashboard", {
-          replace: true,
-        });
-      }, 700);
+      const destination = isAdmin
+        ? "/admin-dashboard"
+        : "/user-dashboard";
+
+      window.setTimeout(() => {
+        navigate(destination, { replace: true });
+      }, 600);
     } catch (error) {
       console.error("Login error:", error);
 
-      setMessage(
-        "Unable to connect to the server. Please try again."
-      );
+      setMessage("Unable to connect to the server. Please try again.");
       setMessageType("error");
     } finally {
       setLoading(false);
@@ -98,83 +111,195 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <div className="auth-visual-panel">
-        <span className="auth-kicker">MARITIME FREIGHT INTELLIGENCE</span>
-        <h1>Smarter quotations for every sea route.</h1>
-        <p>Compare freight costs, route intelligence and approval status from one connected maritime workspace.</p>
-        <div className="auth-route-note">
-          <span>Origin</span><b>SEA ROUTE</b><span>Destination</span>
+    <main className="login-container">
+      {/* LEFT MARITIME VISUAL PANEL */}
+      <section className="auth-visual-panel">
+        <div className="auth-visual-content">
+          <span className="auth-kicker">
+            MARITIME FREIGHT INTELLIGENCE
+          </span>
+
+          <h1>
+            Smarter
+            <br />
+            quotations for
+            <br />
+            every sea route.
+          </h1>
+
+          <p>
+            Access intelligent route analysis, freight pricing,
+            quotation management and maritime operations from
+            one connected workspace.
+          </p>
+
+          <div className="auth-route-note">
+            <span>ORIGIN</span>
+            <b>SEA ROUTE</b>
+            <span>DESTINATION</span>
+          </div>
         </div>
-      </div>
 
-      <div className="login-card">
+        <div className="auth-watermark" aria-hidden="true">
+          MARITIME
+        </div>
+      </section>
 
-        <h2>Welcome Back</h2>
+      {/* RIGHT LOGIN CARD */}
+      <section className="login-card">
+        <div className="login-card-content">
+          <span className="login-eyebrow">
+            {isAdmin ? "ADMINISTRATOR PORTAL" : "CUSTOMER PORTAL"}
+          </span>
 
-        <p className="otp-info">
-          Login to continue to Maritime Freight.
-        </p>
+          <h2>Welcome Back</h2>
 
-        <form
-          onSubmit={handleLogin}
-          autoComplete="on"
-        >
+          <p className="login-subtitle">
+            Select your account type to continue.
+          </p>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="username"
-            required
-            autoFocus
-          />
+          <div
+            className="login-role-tabs"
+            role="group"
+            aria-label="Select account type"
+          >
+            <button
+              type="button"
+              className={`login-role-tab ${
+                role === "customer" ? "active" : ""
+              }`}
+              aria-pressed={role === "customer"}
+              onClick={() => handleRoleChange("customer")}
+              disabled={loading}
+            >
+              Customer Login
+            </button>
 
-          <div className="password-field-wrap">
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-              required
-            />
-            <button type="button" className="password-toggle" onClick={() => setShowPassword((v) => !v)} aria-label={showPassword ? "Hide password" : "Show password"}>
-              {showPassword ? "◉" : "◌"}
+            <button
+              type="button"
+              className={`login-role-tab ${
+                role === "admin" ? "active" : ""
+              }`}
+              aria-pressed={role === "admin"}
+              onClick={() => handleRoleChange("admin")}
+              disabled={loading}
+            >
+              Admin Login
             </button>
           </div>
 
-          {message && (
-            <p className={`message ${messageType}`}>
-              {message}
+          <p className="login-role-description">
+            {isAdmin
+              ? "Sign in with your authorized administrator credentials."
+              : "Sign in to manage your routes and freight quotations."}
+          </p>
+
+          <form onSubmit={handleLogin} autoComplete="on">
+            <label className="login-field-label" htmlFor="login-email">
+              Email Address
+            </label>
+
+            <input
+              id="login-email"
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="username"
+              disabled={loading}
+              required
+            />
+
+            <label
+              className="login-field-label"
+              htmlFor="login-password"
+            >
+              Password
+            </label>
+
+            <div className="password-field-wrap">
+              <input
+                id="login-password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+                disabled={loading}
+                required
+              />
+
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword((value) => !value)}
+                aria-label={
+                  showPassword ? "Hide password" : "Show password"
+                }
+                disabled={loading}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+
+            {message && (
+              <p
+                className={`message ${messageType}`}
+                role="alert"
+                aria-live="polite"
+              >
+                {message}
+              </p>
+            )}
+
+            {!isAdmin && (
+              <button
+                type="button"
+                className="forgot-password-link"
+                onClick={() => navigate("/forgot-password")}
+                disabled={loading}
+              >
+                Forgot password?
+              </button>
+            )}
+
+            <button
+              type="submit"
+              className="login-submit-button"
+              disabled={loading}
+            >
+              {loading
+                ? "Logging in..."
+                : isAdmin
+                ? "Admin Login"
+                : "Customer Login"}
+            </button>
+          </form>
+
+          {!isAdmin ? (
+            <p className="login-text">
+              Don't have an account?{" "}
+              <button
+                type="button"
+                className="login-inline-link"
+                onClick={() => navigate("/register")}
+                disabled={loading}
+              >
+                Register here
+              </button>
+            </p>
+          ) : (
+            <p className="login-text admin-login-footer">
+              Authorized administrators only.
             </p>
           )}
-
-          <p className="forgot-password-link" onClick={() => navigate("/forgot-password")}>Forgot password?</p>
-
-          <button
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-
-        </form>
-
-        <p className="login-text">
-          Don't have an account?{" "}
-          <span onClick={() => navigate("/register")}>
-            Register here
-          </span>
-        </p>
-
-      </div>
-
-    </div>
+        </div>
+      </section>
+    </main>
   );
 }
 
 export default Login;
+

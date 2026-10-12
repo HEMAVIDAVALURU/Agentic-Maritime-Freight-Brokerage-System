@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, Body, HTTPException
 from sqlalchemy.orm import Session
 from types import SimpleNamespace
+from datetime import datetime
+from uuid import uuid4
 
 from app.database import get_db
 from app.db_models import (
@@ -12,6 +14,10 @@ from app.db_models import (
     Pricing,
     Activity,
     QuotationRejectionReason,
+    Shipment,
+    ShipmentStatusHistory,
+     Payment,
+    PaymentStatusHistory,
 )
 from app.services.auth_dependency import get_current_user
 from app.services.email_service import EmailService
@@ -1298,9 +1304,7 @@ def approve_quotation(
     current_user=Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-
     if not verify_admin(current_user):
-
         return {
             "success": False,
             "message": "Admin access required."
@@ -1308,149 +1312,172 @@ def approve_quotation(
 
     quotation = (
         db.query(QuotationRequestDB)
-        .filter(
-            QuotationRequestDB.id ==
-            quotation_id
-        )
+        .filter(QuotationRequestDB.id == quotation_id)
         .first()
     )
 
     if not quotation:
-
         return {
             "success": False,
             "message": "Quotation not found."
         }
 
-    current_status = (
-        quotation.status or ""
-    ).lower()
+    current_status = (quotation.status or "").lower()
 
     if current_status == "saved":
-
         return {
             "success": False,
-            "message": (
-                "This quotation has not been "
-                "sent for approval."
-            )
+            "message": "This quotation has not been sent for approval."
         }
 
     if current_status == "approved":
-
         return {
             "success": False,
-            "message": (
-                "This quotation has already "
-                "been approved."
-            )
+            "message": "This quotation has already been approved."
         }
 
     if current_status == "rejected":
-
         return {
             "success": False,
-            "message": (
-                "This quotation has already "
-                "been rejected."
-            )
+            "message": "This quotation has already been rejected."
         }
 
     if current_status != "pending":
+        return {
+            "success": False,
+            "message": "Only pending quotations can be approved."
+        }
 
+    try:
+        # Prevent duplicate shipments for the same quotation.
+        shipment = (
+            db.query(Shipment)
+            .filter(Shipment.quotation_id == quotation.id)
+            .first()
+        )
+
+        if shipment:
+            db.rollback()
+            return {
+                "success": False,
+                "message": (
+                    "A shipment already exists for this quotation. "
+                    "Please check the existing shipment."
+                )
+            }
+
+        # Generate a shipment ID in the existing project format.
+        year = datetime.now().year
+        prefix = f"SHP-{year}-"
+
+        existing_ids = (
+            db.query(Shipment.shipment_id)
+            .filter(Shipment.shipment_id.like(f"{prefix}%"))
+            .all()
+        )
+
+        sequence_numbers = []
+        for row in existing_ids:
+            existing_id = row[0]
+            try:
+                sequence_numbers.append(
+                    int(existing_id.rsplit("-", 1)[1])
+                )
+            except (ValueError, IndexError):
+                continue
+
+        next_number = max(sequence_numbers, default=0) + 1
+        shipment_id = f"{prefix}{next_number:06d}"
+
+        # Create the shipment.
+        shipment = Shipment(
+            shipment_id=shipment_id,
+            quotation_id=quotation.id,
+            user_id=quotation.user_id,
+            route_id=str(quotation.selected_route_id or "UNKNOWN"),
+            origin=quotation.origin,
+            destination=quotation.destination,
+            cargo_type=quotation.cargo_type,
+            container_type=quotation.container_type,
+            container_count=quotation.container_count,
+            status="booked"
+        )
+
+        db.add(shipment)
+
+        # Approve the quotation in the same transaction.
+        quotation.status = "approved"
+
+        activity = Activity(
+            user_id=quotation.user_id,
+            activity_type="quotation_approved",
+            description=(
+                f"Quotation #{quotation.id} was approved. "
+                f"Shipment {shipment_id} was created."
+            )
+        )
+        db.add(activity)
+
+        # Record the initial shipment status.
+        shipment_history = ShipmentStatusHistory(
+            shipment_id=shipment_id,
+            previous_status=None,
+            new_status="booked",
+            note=f"Shipment created after quotation #{quotation.id} approval."
+        )
+        db.add(shipment_history)
+
+        # Save the quotation, shipment, activity and history together.
+        db.commit()
+        db.refresh(quotation)
+        db.refresh(shipment)
+
+    except Exception as error:
+        db.rollback()
+        print("Quotation approval failed:", error)
         return {
             "success": False,
             "message": (
-                "Only pending quotations "
-                "can be approved."
+                "Approval failed. Please check the backend logs."
             )
         }
 
-    quotation.status = "approved"
-
-    db.commit()
-    db.refresh(quotation)
-
-    activity = Activity(
-
-        user_id=
-            quotation.user_id,
-
-        activity_type=
-            "quotation_approved",
-
-        description=(
-            f"Quotation #{quotation.id} "
-            f"for route "
-            f"{quotation.selected_route_id} "
-            f"has been approved by admin."
-        )
-    )
-
-    db.add(activity)
-
-    db.commit()
-
+    # Send the email after the database transaction succeeds.
     try:
-
         customer = (
             db.query(User)
-            .filter(
-                User.id ==
-                quotation.user_id
-            )
+            .filter(User.id == quotation.user_id)
             .first()
         )
 
         if customer and customer.email:
-
             EmailService.send_quotation_approved_email(
-
-                recipient_email=
-                    customer.email,
-
-                customer_name=
-                    customer.name,
-
-                origin=
-                    quotation.origin,
-
-                destination=
-                    quotation.destination,
-
-                cargo_type=
-                    quotation.cargo_type,
-
-                containers=
-                    quotation.container_count
+                recipient_email=customer.email,
+                customer_name=customer.name,
+                origin=quotation.origin,
+                destination=quotation.destination,
+                cargo_type=quotation.cargo_type,
+                containers=quotation.container_count
             )
 
     except Exception as email_error:
-
-        print(
-            "Quotation approval email failed:",
-            email_error
-        )
+        print("Quotation approval email failed:", email_error)
 
     return {
-
-        "success":
-            True,
-
-        "message":
-            "Quotation approved successfully.",
-
+        "success": True,
+        "message": "Quotation approved and shipment created successfully.",
         "quotation": {
-
-            "id":
-                quotation.id,
-
-            "status":
-                quotation.status
+            "id": quotation.id,
+            "status": quotation.status
+        },
+        "shipment": {
+            "shipment_id": shipment.shipment_id,
+            "quotation_id": shipment.quotation_id,
+            "status": shipment.status,
+            "origin": shipment.origin,
+            "destination": shipment.destination
         }
     }
-
-
 # =========================================================
 # REJECT QUOTATION
 # =========================================================

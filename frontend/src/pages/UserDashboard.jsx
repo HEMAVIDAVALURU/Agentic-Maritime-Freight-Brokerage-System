@@ -5,7 +5,6 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell,
   Tooltip,
   Legend,
   BarChart,
@@ -15,18 +14,21 @@ import {
   CartesianGrid,
   LineChart,
   Line,
+  Cell,
 } from "recharts";
 
 import Route from "./Route";
 import SavedQuotations from "./SavedQuotations";
 import Feedback from "./Feedback";
 import UserSettings from "./UserSettings";
+import UserIntroduction from "./UserIntroduction";
+import MyShipments from "./MyShipments";
+import UserPayment from "./UserPayment";
 
 function UserDashboard() {
   const navigate = useNavigate();
 
-  const [activePage, setActivePage] =
-    useState("activity");
+  const [activePage, setActivePage] = useState("introduction");
 
   const [settingsOpen, setSettingsOpen] =
   useState(false);  
@@ -60,6 +62,9 @@ function UserDashboard() {
         return [];
       }
     });
+
+
+    
 
   /* =========================================================
      LOAD CURRENT USER + DASHBOARD DATA
@@ -321,7 +326,7 @@ function UserDashboard() {
     kpis.total_routes ?? 0;
 
   const savedQuotations =
-    kpis.saved_quotations ?? 0;
+    kpis.total_quotations ?? 0;
 
   const averageFreightCost =
     Number(
@@ -332,15 +337,14 @@ function UserDashboard() {
     Number(
       kpis.average_transit_time ?? 0
     );
+    
 
   const approvedQuotations =
     kpis.approved_quotations ?? 0;
 
-  const pendingQuotations =
-    kpis.pending_quotations ?? 0;
+   const successfulDeliveries = kpis.successful_deliveries ?? 0;
 
-  const rejectedQuotations =
-    kpis.rejected_quotations ?? 0;
+  const paymentsMade = kpis.payments_made ?? 0;
 
   /* =========================================================
      GRAPH DATA
@@ -408,97 +412,28 @@ function UserDashboard() {
     graphData
       ?.transit_time_overview || [];
 
+  
   /* =========================================================
-     RECENT ACTIVITY
+     GRAPH 4 — MONTHLY QUOTATION TRENDS
      ========================================================= */
 
-  const recentActivity =
-    dashboardData?.recent_activity || [];
+  const monthlyQuotationTrends =
+    graphData?.monthly_quotation_trends || [];
 
   /* =========================================================
-     ACTIVITY LABEL
+     GRAPH 5 — SHIPMENT STATUS OVERVIEW
      ========================================================= */
 
-  const getActivityLabel = (
-    activityType
-  ) => {
-    switch (activityType) {
-      case "route_analysis":
-        return "Route Analyzed";
+  const shipmentStatusOverview =
+    graphData?.shipment_status_overview || [];
 
-      case "route_saved":
-        return "Route Saved";
-
-      case "base_cost_calculation":
-        return "Base Cost Calculated";
-
-      case "pricing_analysis":
-        return "Price Calculated";
-
-      case "quotation_saved":
-        return "Quotation Saved";
-
-      case "quotation_approval_requested":
-        return "Quotation Approval Requested";
-
-      case "quotation_approved":
-        return "Quotation Approved";
-
-      case "quotation_rejected":
-        return "Quotation Rejected";
-
-      case "feedback_response":
-        return "Admin Feedback Response";
-
-      case "quotation_pdf_downloaded":
-        return "Quotation PDF Downloaded";
-
-      default:
-        return "Activity";
-    }
-  };
-
-  /* =========================================================
-     ACTIVITY ICON
-     ========================================================= */
-
-  const getActivityIcon = (
-    activityType
-  ) => {
-    switch (activityType) {
-      case "route_analysis":
-        return "⌕";
-
-      case "route_saved":
-        return "✓";
-
-      case "base_cost_calculation":
-        return "◈";
-
-      case "pricing_analysis":
-        return "₹";
-
-      case "quotation_saved":
-        return "▥";
-
-      case "quotation_approval_requested":
-        return "↗";
-
-      case "quotation_approved":
-        return "✓";
-
-      case "quotation_rejected":
-        return "×";
-
-      case "feedback_response":
-        return "✦";
-
-      case "quotation_pdf_downloaded":
-        return "↓";
-
-      default:
-        return "•";
-    }
+  const shipmentStatusColors = {
+    booked: "#C08A45",
+    pickup: "#8B5E3C",
+    in_transit: "#6C8EAD",
+    out_for_delivery: "#A85F4F",
+    delivered: "#62866A",
+    cancelled: "#888888",
   };
 
   /* =========================================================
@@ -561,6 +496,16 @@ function UserDashboard() {
         </div>
 
         <nav className="sidebar-navigation">
+
+          <button
+  className={`sidebar-item ${
+    activePage === "introduction" ? "active" : ""
+  }`}
+  onClick={() => handleNavigation("introduction")}
+>
+  <span className="sidebar-icon">ⓘ</span>
+  <span>Getting Started</span>
+</button>
 
           {/* =================================================
               ACTIVITY
@@ -655,7 +600,30 @@ function UserDashboard() {
 
           </div>
 
-          {/* =================================================
+          
+                
+<button
+  className={`sidebar-item ${
+    activePage === "my-shipments" ? "active" : ""
+  }`}
+  onClick={() => handleNavigation("my-shipments")}
+>
+  <span className="sidebar-icon">🚢</span>
+  <span>My Shipments</span>
+</button>
+
+<button
+  className={`sidebar-item ${
+    activePage === "my-payments" ? "active" : ""
+  }`}
+  onClick={() => handleNavigation("my-payments")}
+>
+  <span className="sidebar-icon">💳</span>
+  <span>Payments</span>
+</button>
+
+
+{/* =================================================
               FEEDBACK
               ================================================= */}
 
@@ -679,6 +647,8 @@ function UserDashboard() {
               Feedback
             </span>
           </button>
+
+
 
           {/* =================================================
     SETTINGS
@@ -713,7 +683,11 @@ function UserDashboard() {
         );
       }
     }}
+
+
+    
   >
+    
 
     <span className="sidebar-icon">
       ⚙
@@ -734,6 +708,8 @@ function UserDashboard() {
     </span>
 
   </button>
+
+  
 
 
   {/* SETTINGS SUBMENU */}
@@ -797,6 +773,7 @@ function UserDashboard() {
       >
         Security
       </button>
+
 
 
       {/* ABOUT */}
@@ -1086,7 +1063,7 @@ function UserDashboard() {
                   "repeat(7, minmax(0, 1fr))",
                 gap: "14px",
               }}
-            >
+          >
 
               {/* KPI 1 */}
 
@@ -1127,7 +1104,7 @@ function UserDashboard() {
                 <div className="kpi-card-content">
 
                   <span>
-                    Saved Quotations
+                    Total Quotations
                   </span>
 
                   <strong>
@@ -1236,63 +1213,39 @@ function UserDashboard() {
 
               </div>
 
-              {/* KPI 7 */}
+            
+{/* Successful Deliveries KPI */}
+<div className="dashboard-kpi-card">
+  <div className="kpi-card-icon">✓</div>
 
-              <div className="dashboard-kpi-card">
+  <div className="kpi-card-content">
+    <span>Successful Deliveries</span>
 
-                <div className="kpi-card-icon">
-                  ◷
-                </div>
+    <strong>
+      {loadingDashboard ? "..." : successfulDeliveries}
+    </strong>
 
-                <div className="kpi-card-content">
+    <small>Shipments delivered successfully</small>
+  </div>
+</div>
 
-                  <span>
-                    Pending Quotations
-                  </span>
+{/* Payments Made KPI */}
+<div className="dashboard-kpi-card">
+  <div className="kpi-card-icon">$</div>
 
-                  <strong>
-                    {loadingDashboard
-                      ? "..."
-                      : pendingQuotations}
-                  </strong>
+  <div className="kpi-card-content">
+    <span>Payments Made</span>
 
-                  <small>
-                    Waiting for Admin review
-                  </small>
+    <strong>
+      {loadingDashboard ? "..." : paymentsMade}
+    </strong>
 
-                </div>
+    <small>Payments verified by Admin</small>
+  </div>
+</div> 
+</div> 
 
-              </div>
-
-              {/* KPI 8 */}
-
-              <div className="dashboard-kpi-card">
-
-                <div className="kpi-card-icon">
-                  ×
-                </div>
-
-                <div className="kpi-card-content">
-
-                  <span>
-                    Rejected Quotations
-                  </span>
-
-                  <strong>
-                    {loadingDashboard
-                      ? "..."
-                      : rejectedQuotations}
-                  </strong>
-
-                  <small>
-                    Quotations rejected by Admin
-                  </small>
-
-                </div>
-
-              </div>
-
-            </div>
+              
 
             {/* =================================================
                 GRAPH ROW
@@ -1400,94 +1353,112 @@ function UserDashboard() {
 
               </div>
 
-              {/* =================================================
-                  GRAPH 2 — FREIGHT COST BY ROUTE
-                  ================================================= */}
 
-              <div className="dashboard-graph-card">
+          
+{/* GRAPH 4 — MONTHLY QUOTATION TRENDS */}
+<div className="dashboard-graph-card">
+  <div className="graph-card-header">
+    <h2>Monthly Quotation Trends</h2>
+    <p>Total quotations created each month</p>
+  </div>
 
-                <div className="graph-card-header">
+  <div className="graph-container">
+    {loadingDashboard ? (
+      <div className="graph-loading">Loading chart...</div>
+    ) : monthlyQuotationTrends.length === 0 ? (
+      <div className="graph-empty">
+        No monthly quotation data available
+      </div>
+    ) : (
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={monthlyQuotationTrends}
+          layout="vertical"
+          margin={{ top: 10, right: 25, left: 10, bottom: 10 }}
+        >
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke="#E5D8C8"
+          />
+          <XAxis
+            type="number"
+            allowDecimals={false}
+            tick={{ fill: "#6C3D25", fontSize: 12 }}
+          />
+          <YAxis
+            type="category"
+            dataKey="month"
+            width={65}
+            tick={{ fill: "#6C3D25", fontSize: 12 }}
+          />
+          <Tooltip />
+          <Bar
+            dataKey="created"
+            name="Total Quotations"
+            fill="#8B5E3C"
+            radius={[0, 5, 5, 0]}
+            barSize={22}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    )}
+  </div>
+</div>   
+         
 
-                  <h2>
-                    Freight Cost by Route
-                  </h2>
+  
+{/* GRAPH 5 — SHIPMENT STATUS OVERVIEW */}
+<div className="dashboard-graph-card">
+  <div className="graph-card-header">
+    <h2>Shipment Status Overview</h2>
+    <p>Current status of your shipments</p>
+  </div>
 
-                  <p>
-                    Base freight per container
-                  </p>
+  <div className="graph-container">
+    {loadingDashboard ? (
+      <div className="graph-loading">Loading chart...</div>
+    ) : shipmentStatusOverview.length === 0 ? (
+      <div className="graph-empty">
+        No shipment data available
+      </div>
+    ) : (
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={shipmentStatusOverview}
+          margin={{ top: 10, right: 15, left: 0, bottom: 35 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey="status"
+            angle={-20}
+            textAnchor="end"
+            interval={0}
+          />
+          <YAxis allowDecimals={false} />
+          <Tooltip />
+          <Bar
+            dataKey="count"
+            name="Shipments"
+            radius={[5, 5, 0, 0]}
+          >
+            {shipmentStatusOverview.map((item, index) => (
+              <Cell
+                key={`${item.status}-${index}`}
+                fill={
+                  shipmentStatusColors[item.status] || "#8B5E3C"
+                }
+              />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    )}
+  </div>
+</div>
 
-                </div>
 
-                <div className="graph-container">
 
-                  {loadingDashboard ? (
-
-                    <div className="graph-loading">
-                      Loading chart...
-                    </div>
-
-                  ) : freightCostData.length ===
-                    0 ? (
-
-                    <div className="graph-empty">
-                      No route quotation data available
-                    </div>
-
-                  ) : (
-
-                    <ResponsiveContainer
-                      width="100%"
-                      height="100%"
-                    >
-
-                      <BarChart
-                        data={
-                          freightCostData
-                        }
-                        margin={{
-                          top: 10,
-                          right: 15,
-                          left: 0,
-                          bottom: 45,
-                        }}
-                      >
-
-                        <CartesianGrid />
-
-                        <XAxis
-                          dataKey="route_id"
-                          angle={-35}
-                          textAnchor="end"
-                          interval={0}
-                        />
-
-                        <YAxis />
-
-                        <Tooltip />
-
-                        <Bar
-                          dataKey="freight_cost"
-                          name="Freight Cost (USD)"
-                          fill="#8B5E3C"
-                          radius={[
-                            6,
-                            6,
-                            0,
-                            0,
-                          ]}
-                        />
-
-                      </BarChart>
-
-                    </ResponsiveContainer>
-
-                  )}
-
-                </div>
-
-              </div>
-
-              {/* =================================================
+ {/* =================================================
                   GRAPH 3 — TRANSIT TIME
                   ================================================= */}
 
@@ -1576,7 +1547,102 @@ function UserDashboard() {
 
               </div>
 
-            </div>
+                
+
+              {/* =================================================
+                  GRAPH 2 — FREIGHT COST BY ROUTE
+                  ================================================= */}
+
+              <div className="dashboard-graph-card">
+
+                <div className="graph-card-header">
+
+                  <h2>
+                    Freight Cost by Route
+                  </h2>
+
+                  <p>
+                    Base freight per container
+                  </p>
+
+                </div>
+
+                <div className="graph-container">
+
+                  {loadingDashboard ? (
+
+                    <div className="graph-loading">
+                      Loading chart...
+                    </div>
+
+                  ) : freightCostData.length ===
+                    0 ? (
+
+                    <div className="graph-empty">
+                      No route quotation data available
+                    </div>
+
+                  ) : (
+
+                    <ResponsiveContainer
+                      width="100%"
+                      height="100%"
+                    >
+
+                      <BarChart
+                        data={
+                          freightCostData
+                        }
+                        margin={{
+                          top: 10,
+                          right: 15,
+                          left: 0,
+                          bottom: 45,
+                        }}
+                      >
+
+                        <CartesianGrid />
+
+                        <XAxis
+                          dataKey="route_id"
+                          angle={-35}
+                          textAnchor="end"
+                          interval={0}
+                        />
+
+                        <YAxis />
+
+                        <Tooltip />
+
+                        <Bar
+                          dataKey="freight_cost"
+                          name="Freight Cost (USD)"
+                          fill="#8B5E3C"
+                          radius={[
+                            6,
+                            6,
+                            0,
+                            0,
+                          ]}
+                        />
+
+                      </BarChart>
+
+                    </ResponsiveContainer>
+
+                  )}
+
+                </div>
+
+              </div>
+
+             
+
+</div>  
+
+
+
+            
 
             {/* =================================================
                 RECENT QUOTATIONS
@@ -1643,139 +1709,117 @@ function UserDashboard() {
               )}
             </div>
 
-            {/* =================================================
-                RECENT ACTIVITY
-                ================================================= */}
 
-            <div className="dashboard-section-card">
+            
+{/* RECENT SHIPMENTS */}
+<div className="dashboard-section-card recent-shipments-card">
+  <div className="section-card-header">
+    <div>
+      <h2>Recent Shipments</h2>
+      <p>Your latest shipment updates</p>
+    </div>
 
-              <div className="section-card-header">
+    <button
+      type="button"
+      className="view-all-button"
+      onClick={() => setActivePage("my-shipments")}
+    >
+      View All
+    </button>
+  </div>
 
-                <div>
+  <div className="recent-shipments-content">
+    {loadingDashboard ? (
+      <div className="empty-state">Loading shipments...</div>
+    ) : !dashboardData?.recent_shipments?.length ? (
+      <div className="empty-state">
+        <h3>No Shipments Yet</h3>
+        <p>Your booked shipments will appear here.</p>
+      </div>
+    ) : (
+      <div className="recent-shipments-table-wrapper">
+        <table className="recent-shipments-table">
+          <thead>
+            <tr>
+              <th>Shipment ID</th>
+              <th>Route ID</th>
+              <th>Origin</th>
+              <th>Destination</th>
+              <th>Shipment Date</th>
+              <th>Shipment Status</th>
+              <th>Payment Status</th>
+            </tr>
+          </thead>
 
-                  <h2>
-                    Recent Activity
-                  </h2>
+          <tbody>
+            {dashboardData.recent_shipments
+              .slice(0, 10)
+              .map((shipment, index) => {
+                const status = (shipment.status || "unknown")
+                  .toLowerCase()
+                  .replace(/_/g, "-");
 
-                  <p>
-                    Your latest route and freight
-                    pricing activities will appear here.
-                  </p>
+                const paymentStatus = (
+                  shipment.payment_status || "No Payment"
+                ).toLowerCase().replace(/[\s_]+/g, "-");
 
-                </div>
+                return (
+                  <tr key={shipment.shipment_id || index}>
+                    <td>
+                      <strong>{shipment.shipment_id || "—"}</strong>
+                    </td>
 
-              </div>
+                    <td>{shipment.route_id || "—"}</td>
+                    <td>{shipment.origin || "—"}</td>
+                    <td>{shipment.destination || "—"}</td>
 
-              {/* =================================================
-                  LOADING STATE
-                  ================================================= */}
+                    <td>
+                      {shipment.shipment_date
+                        ? new Date(
+                            shipment.shipment_date
+                          ).toLocaleDateString()
+                        : "—"}
+                    </td>
 
-              {loadingDashboard ? (
-
-                <div className="empty-activity-state">
-
-                  <div className="empty-activity-icon">
-                    ◌
-                  </div>
-
-                  <h3>
-                    Loading activity...
-                  </h3>
-
-                  <p>
-                    Fetching your latest activities.
-                  </p>
-
-                </div>
-
-              ) : recentActivity.length ===
-                0 ? (
-
-                <div className="empty-activity-state">
-
-                  <div className="empty-activity-icon">
-                    ◌
-                  </div>
-
-                  <h3>
-                    No recent activity
-                  </h3>
-
-                  <p>
-                    Start by analyzing a route to see
-                    your activity history here.
-                  </p>
-
-                  <button
-                    className="primary-dashboard-button"
-                    onClick={() =>
-                      handleNavigation(
-                        "new-route-search"
-                      )
-                    }
-                  >
-                    Start New Route Search
-                  </button>
-
-                </div>
-
-              ) : (
-
-                <div className="recent-activity-list">
-
-                  {recentActivity.map(
-                    (activity) => (
-
-                      <div
-                        className="recent-activity-item"
-                        key={activity.id}
+                    <td>
+                      <span
+                        className={`shipment-status-badge shipment-status-${status}`}
                       >
+                        {(shipment.status || "Unknown")
+                          .replace(/_/g, " ")
+                          .replace(/\b\w/g, char => char.toUpperCase())}
+                      </span>
+                    </td>
 
-                        <div className="recent-activity-icon">
+                    <td>
+                      <span
+                        className={`shipment-payment-badge payment-status-${paymentStatus}`}
+                      >
+                        {shipment.payment_status || "No Payment"}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+</div>
 
-                          {getActivityIcon(
-                            activity.activity_type
-                          )}
-
-                        </div>
-
-                        <div className="recent-activity-content">
-
-                          <strong>
-                            {getActivityLabel(
-                              activity.activity_type
-                            )}
-                          </strong>
-
-                          <p>
-                            {activity.description ||
-                              "Activity completed"}
-                          </p>
-
-                        </div>
-
-                        <div className="recent-activity-date">
-
-                          {formatActivityDate(
-                            activity.created_at
-                          )}
-
-                        </div>
-
-                      </div>
-
-                    )
-                  )}
-
-                </div>
-
-              )}
-
-            </div>
 
           </section>
 
         )}
+
+
+        {activePage === "introduction" && (
+  <UserIntroduction
+    userName={userName}
+    onNavigate={handleNavigation}
+  />
+)}
 
         {/* ===================================================
             NEW ROUTE SEARCH
@@ -1819,6 +1863,17 @@ function UserDashboard() {
 
 {activePage === "settings-about" && (
   <UserSettings section="about" />
+)}
+
+
+{activePage === "my-shipments" && (
+  <MyShipments />
+)}
+
+{activePage === "my-payments" && <UserPayment />}
+
+{activePage === "saved-quotations" && (
+  <SavedQuotations />
 )}
 
       </main>

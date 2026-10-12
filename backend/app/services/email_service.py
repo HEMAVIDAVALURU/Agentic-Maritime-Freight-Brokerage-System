@@ -1165,3 +1165,253 @@ class EmailService:
             subject="Feedback Response Sent - Maritime Freight",
             html_content=html_content
         )
+
+    
+    # =========================================================
+    # PAYMENT REQUEST RECEIVED - ADMIN
+    # =========================================================
+
+    @staticmethod
+    def send_payment_request_admin_email(
+        admin_email: str,
+        customer_name: str,
+        quotation_id: int,
+        amount,
+        payment_method: str,
+        shipment_id: str | None = None,
+    ):
+        shipment_html = (
+            f"<p><strong>Shipment ID:</strong> {escape(str(shipment_id))}</p>"
+            if shipment_id else ""
+        )
+
+        html_content = f"""
+        <html><body>
+            <h2>New Payment Verification Request</h2>
+            <p>A customer has submitted a payment request for verification.</p>
+            <p><strong>Customer:</strong> {escape(customer_name or "Customer")}</p>
+            <p><strong>Quotation ID:</strong> #{quotation_id}</p>
+            <p><strong>Amount:</strong> {escape(str(amount))}</p>
+            <p><strong>Payment Method:</strong> {escape(payment_method)}</p>
+            {shipment_html}
+            <p>Please log in to the Admin Dashboard to review the request.</p>
+            <p>Regards,<br>Maritime Freight Team</p>
+        </body></html>
+        """
+
+        return EmailService.send_email(
+            admin_email,
+            "Payment Verification Required - Maritime Freight",
+            html_content,
+        )
+
+    # =========================================================
+    # PAYMENT REQUEST SUBMITTED - CUSTOMER
+    # =========================================================
+
+    @staticmethod
+    def send_payment_pending_email(
+        customer_email: str,
+        customer_name: str,
+        quotation_id: int,
+        amount,
+        shipment_id: str | None = None,
+    ):
+        shipment_html = (
+            f"<p><strong>Shipment ID:</strong> {escape(str(shipment_id))}</p>"
+            if shipment_id else ""
+        )
+
+        html_content = f"""
+        <html><body>
+            <h2>Payment Request Submitted</h2>
+            <p>Hello <strong>{escape(customer_name or "Customer")}</strong>,</p>
+            <p>Your payment request has been submitted successfully.</p>
+            <p><strong>Quotation ID:</strong> #{quotation_id}</p>
+            <p><strong>Amount:</strong> {escape(str(amount))}</p>
+            {shipment_html}
+            <p>Status: <strong>Pending Admin Verification</strong></p>
+            <p>This is a demo payment workflow. No money is transferred
+            by submitting this request. Please wait for verification.</p>
+            <p>Regards,<br>Maritime Freight Team</p>
+        </body></html>
+        """
+
+        return EmailService.send_email(
+            customer_email,
+            "Payment Request Received - Maritime Freight",
+            html_content,
+        )
+
+    # =========================================================
+    # PAYMENT VERIFIED - CUSTOMER
+    # =========================================================
+
+    @staticmethod
+    def send_payment_verified_email(
+        customer_email: str,
+        customer_name: str,
+        quotation_id: int,
+        verified_amount,
+        total_amount,
+        shipment_id: str | None = None,
+    ):
+        shipment_html = (
+            f"<p><strong>Shipment ID:</strong> {escape(str(shipment_id))}</p>"
+            if shipment_id else ""
+        )
+
+        html_content = f"""
+        <html><body>
+            <h2>Payment Verified Successfully</h2>
+            <p>Hello <strong>{escape(customer_name or "Customer")}</strong>,</p>
+            <p>Your payment request has been verified by the administrator.</p>
+            <p><strong>Quotation ID:</strong> #{quotation_id}</p>
+            <p><strong>Verified Amount:</strong> {escape(str(verified_amount))}</p>
+            <p><strong>Quotation Total:</strong> {escape(str(total_amount))}</p>
+            {shipment_html}
+            <p>Only the amount verified by the administrator is counted
+            as paid. Check your dashboard for any remaining balance.</p>
+            <p>Regards,<br>Maritime Freight Team</p>
+        </body></html>
+        """
+
+        return EmailService.send_email(
+            customer_email,
+            "Payment Verified - Maritime Freight",
+            html_content,
+        )
+
+    # =========================================================
+    # PAYMENT REJECTED - CUSTOMER
+    # =========================================================
+
+    # =========================================================
+    # PAYMENT VERIFICATION UNSUCCESSFUL - CUSTOMER
+    # =========================================================
+
+    @staticmethod
+    def send_payment_rejected_email(
+        customer_email: str,
+        customer_name: str,
+        quotation_id: int,
+        amount,
+        rejection_reason: str | None = None,
+        shipment_id: str | None = None,
+    ):
+        reason_html = (
+            f"<p><strong>Admin's Reason:</strong> "
+            f"{escape(str(rejection_reason))}</p>"
+            if rejection_reason
+            else ""
+        )
+
+        shipment_html = (
+            f"<p><strong>Shipment ID:</strong> "
+            f"{escape(str(shipment_id))}</p>"
+            if shipment_id
+            else ""
+        )
+
+        html_content = f"""
+        <html>
+        <body>
+            <h2>Payment Verification Unsuccessful</h2>
+
+            <p>
+                Hello
+                <strong>{escape(customer_name or "Customer")}</strong>,
+            </p>
+
+            <p>
+                Unfortunately, your payment request could not be
+                verified by the Maritime Freight administrator.
+            </p>
+
+            <p>
+                <strong>Quotation ID:</strong> #{quotation_id}
+            </p>
+
+            <p>
+                <strong>Payment Amount:</strong>
+                {escape(str(amount))}
+            </p>
+
+            {shipment_html}
+            {reason_html}
+
+            <p>
+                Please log in to your Maritime Freight account
+                to review the payment status and follow the
+                administrator's instructions before resubmitting.
+            </p>
+
+            <p>
+                Regards,<br>
+                Maritime Freight Team
+            </p>
+        </body>
+        </html>
+        """
+
+        return EmailService.send_email(
+            recipient_email=customer_email,
+            subject="Payment Verification Unsuccessful - Maritime Freight",
+            html_content=html_content,
+        )
+
+    # =========================================================
+    # SHIPMENT STATUS UPDATED - CUSTOMER
+    # =========================================================
+
+    @staticmethod
+    def send_shipment_status_email(
+        customer_email: str,
+        customer_name: str,
+        shipment_id: str,
+        quotation_id: int | None,
+        origin: str,
+        destination: str,
+        status: str,
+        note: str | None = None,
+    ):
+        labels = {
+            "booked": "Booked",
+            "pickup": "Pickup",
+            "in_transit": "In Transit",
+            "out_for_delivery": "Out for Delivery",
+            "delivered": "Delivered Successfully",
+            "cancelled": "Cancelled",
+        }
+
+        status_label = labels.get(status, status.replace("_", " ").title())
+        quotation_html = (
+            f"<p><strong>Quotation ID:</strong> #{quotation_id}</p>"
+            if quotation_id is not None else ""
+        )
+        note_html = (
+            f"<p><strong>Update / Cancellation Reason:</strong> {escape(note)}</p>"
+            if note else ""
+        )
+
+        html_content = f"""
+        <html><body>
+            <h2>Shipment Update: {escape(status_label)}</h2>
+            <p>Hello <strong>{escape(customer_name or "Customer")}</strong>,</p>
+            <p>Your shipment status has been updated.</p>
+            <p><strong>Shipment ID:</strong> {escape(shipment_id)}</p>
+            {quotation_html}
+            <p><strong>Origin:</strong> {escape(origin or "Not available")}</p>
+            <p><strong>Destination:</strong> {escape(destination or "Not available")}</p>
+            <p><strong>Current Status:</strong> {escape(status_label)}</p>
+            {note_html}
+            <p>Log in to your Maritime Freight account to view tracking details.</p>
+            <p>Regards,<br>Maritime Freight Team</p>
+        </body></html>
+        """
+
+        return EmailService.send_email(
+            customer_email,
+            f"Shipment {shipment_id}: {status_label} - Maritime Freight",
+            html_content,
+        )
