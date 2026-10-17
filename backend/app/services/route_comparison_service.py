@@ -220,15 +220,51 @@ class RouteComparisonService:
         candidate_routes,
         containers
     ):
+        
+
 
         if not candidate_routes:
-
             return {
                 "status": "not_found",
                 "message": "No candidate routes available.",
                 "routes": [],
                 "top_routes": []
             }
+
+        if isinstance(candidate_routes, dict):
+            candidate_routes = (
+                candidate_routes.get("candidate_routes")
+                or candidate_routes.get("available_routes")
+                or candidate_routes.get("routes")
+                or candidate_routes.get("top_routes")
+                or []
+            )
+
+        if not isinstance(candidate_routes, (list, tuple)):
+            return {
+                "status": "error",
+                "message": (
+                    "Invalid candidate_routes format. "
+                    "Expected a list of route dictionaries, "
+                    f"but received {type(candidate_routes).__name__}."
+                ),
+                "routes": [],
+                "top_routes": []
+            }
+
+        candidate_routes = [
+            route for route in candidate_routes
+            if isinstance(route, dict) and route.get("route_id") is not None
+        ]
+
+        if not candidate_routes:
+            return {
+                "status": "not_found",
+                "message": "No valid candidate route dictionaries were provided.",
+                "routes": [],
+                "top_routes": []
+            }
+
 
         analyzed_routes = []
 
@@ -268,7 +304,7 @@ class RouteComparisonService:
 
             customs_result = (
                 self.customs_agent.validate_customs(
-                    route_id=route_id
+                    route_id=route_id,
                 )
             )
 

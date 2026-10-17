@@ -685,3 +685,135 @@
     min-height: 125px;
   }
 }
+
+
+/* =========================================================
+   CUSTOMER ACTIVITY — 5 KPI CARDS
+========================================================= */
+
+.users-summary-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.users-summary-paid::before {
+  background: #477957;
+}
+
+.users-summary-booked::before {
+  background: #557a9c;
+}
+
+.users-summary-delivered::before {
+  background: #38836c;
+}
+
+.users-summary-paid .users-summary-icon,
+.users-summary-delivered .users-summary-icon {
+  color: #286344;
+  background: #e0efe3;
+}
+
+.users-summary-booked .users-summary-icon {
+  color: #355e83;
+  background: #e1edf7;
+}
+
+/* =========================================================
+   DISTINCT STATUS BADGES
+========================================================= */
+
+.users-status-approved,
+.users-status-paid,
+.users-status-delivered {
+  color: #24613d;
+  background: #e2f3e6;
+  border: 1px solid #b9dfc2;
+}
+
+.users-status-pending,
+.users-status-pending-verification,
+.users-status-not-paid {
+  color: #805b17;
+  background: #fff2d5;
+  border: 1px solid #ead39b;
+}
+
+.users-status-rejected,
+.users-status-cancelled {
+  color: #9b3434;
+  background: #fbe7e5;
+  border: 1px solid #edc0bb;
+}
+
+.users-status-booked {
+  color: #355e83;
+  background: #e5effa;
+  border: 1px solid #c1d6ed;
+}
+
+.users-status-picked-up,
+.users-status-in-transit {
+  color: #684b91;
+  background: #f0e8fa;
+  border: 1px solid #d9c8ef;
+}
+
+.users-status-out-for-delivery {
+  color: #92501e;
+  background: #fff0df;
+  border: 1px solid #f0d0ac;
+}
+
+.users-status-not-booked {
+  color: #6f6259;
+  background: #f1ece7;
+  border: 1px solid #ddd2c7;
+}
+
+/* =========================================================
+   ORIGIN → DESTINATION CELL
+========================================================= */
+
+.users-route-cell {
+  white-space: normal !important;
+  min-width: 200px;
+}
+
+.users-route-arrow {
+  display: inline-block;
+  margin: 0 7px;
+  color: #a1887f;
+  font-weight: 800;
+}
+
+/* Allow status badges to fit without clipping */
+.users-activity-table {
+  min-width: 1080px;
+}
+
+.users-activity-table th,
+.users-activity-table td {
+  vertical-align: middle;
+}
+
+/* =========================================================
+   RESPONSIVE KPI GRID
+========================================================= */
+
+@media (min-width: 1101px) {
+  .users-summary-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1100px) {
+  .users-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 380px) {
+  .users-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}

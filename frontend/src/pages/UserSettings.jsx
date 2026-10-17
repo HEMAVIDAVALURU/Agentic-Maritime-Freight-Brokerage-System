@@ -59,6 +59,8 @@ function UserSettings({
       emailNotifications: true,
       quotationNotifications: true,
       feedbackNotifications: true,
+       paymentNotifications: true,
+  shipmentNotifications: true,
     });
 
 
@@ -291,6 +293,14 @@ function UserSettings({
               Boolean(
                 settings.feedback_notifications
               ),
+
+             paymentNotifications: 
+             Boolean(
+              settings.payment_notifications),
+
+            shipmentNotifications: 
+            Boolean(
+              settings.shipment_notifications),
 
           });
 
@@ -701,6 +711,12 @@ function UserSettings({
               feedbackNotifications:
                 false,
 
+              paymentNotifications: 
+                false,
+
+              shipmentNotifications:
+                 false,
+
             };
 
           }
@@ -797,6 +813,12 @@ function UserSettings({
 
                   feedback_notifications:
                     notifications.feedbackNotifications,
+                  
+                  payment_notifications: 
+                    notifications.paymentNotifications,
+                
+                  shipment_notifications: 
+                    notifications.shipmentNotifications,
 
                 }),
 
@@ -823,30 +845,29 @@ function UserSettings({
            Update UI from backend response
            --------------------------------------------- */
 
-        if (
-          data.notifications
-        ) {
+        
+if (data.notifications) {
+  setNotifications({
+    emailNotifications: Boolean(
+      data.notifications.email_notifications
+    ),
+    quotationNotifications: Boolean(
+      data.notifications.quotation_notifications
+    ),
+    feedbackNotifications: Boolean(
+      data.notifications.feedback_notifications
+    ),
+    paymentNotifications: Boolean(
+      data.notifications.payment_notifications
+    ),
+    shipmentNotifications: Boolean(
+      data.notifications.shipment_notifications
+    ),
+  });
+}
 
-          setNotifications({
 
-            emailNotifications:
-              Boolean(
-                data.notifications.email_notifications
-              ),
-
-            quotationNotifications:
-              Boolean(
-                data.notifications.quotation_notifications
-              ),
-
-            feedbackNotifications:
-              Boolean(
-                data.notifications.feedback_notifications
-              ),
-
-          });
-
-        }
+           
 
 
         setMessage({
@@ -2020,6 +2041,78 @@ function UserSettings({
                 </button>
 
               </div>
+
+              
+{/* PAYMENT NOTIFICATIONS */}
+<div
+  className={`notification-setting-row ${
+    !notifications.emailNotifications
+      ? "notification-setting-disabled"
+      : ""
+  }`}
+>
+  <div className="notification-setting-info">
+    <h3>Payment Notifications</h3>
+    <p>
+      Receive email updates when payment verification
+      is approved or rejected.
+    </p>
+  </div>
+
+  <button
+    type="button"
+    className={`notification-toggle ${
+      notifications.paymentNotifications &&
+      notifications.emailNotifications
+        ? "active"
+        : ""
+    }`}
+    onClick={() =>
+      handleNotificationToggle("paymentNotifications")
+    }
+    disabled={!notifications.emailNotifications}
+    aria-label="Toggle payment notifications"
+    aria-pressed={notifications.paymentNotifications}
+  >
+    <span className="notification-toggle-knob" />
+  </button>
+</div>
+
+{/* SHIPMENT NOTIFICATIONS */}
+<div
+  className={`notification-setting-row ${
+    !notifications.emailNotifications
+      ? "notification-setting-disabled"
+      : ""
+  }`}
+>
+  <div className="notification-setting-info">
+    <h3>Shipment Notifications</h3>
+    <p>
+      Receive email updates about shipment cancellation
+      and delivery.
+    </p>
+  </div>
+
+  <button
+    type="button"
+    className={`notification-toggle ${
+      notifications.shipmentNotifications &&
+      notifications.emailNotifications
+        ? "active"
+        : ""
+    }`}
+    onClick={() =>
+      handleNotificationToggle("shipmentNotifications")
+    }
+    disabled={!notifications.emailNotifications}
+    aria-label="Toggle shipment notifications"
+    aria-pressed={notifications.shipmentNotifications}
+  >
+    <span className="notification-toggle-knob" />
+  </button>
+</div>
+
 
 
               {/* SAVE */}

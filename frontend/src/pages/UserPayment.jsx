@@ -40,6 +40,7 @@ unpaid: "Unpaid",
 rejected: "Rejected",
 approved: "Approved",
 failed: "Failed",
+cancelled: "Cancelled",
 };
 
 return labels[normalized] || normalized.replaceAll("_", " ");
@@ -52,7 +53,9 @@ if (["paid", "verified"].includes(normalized)) return "success";
 if (["pending_verification", "partially_paid"].includes(normalized)) {
 return "pending";
 }
-if (["rejected", "failed"].includes(normalized)) return "danger";
+if (["rejected", "failed", "cancelled"].includes(normalized)) {
+  return "danger";
+}
 
 return "neutral";
 }
@@ -370,8 +373,28 @@ verification. </p> </div>
                     : paid > 0
                       ? "partially_paid"
                       : "unpaid");
+                  const hasPendingRequest = payments.some(
+                      (payment) =>
+                      Number(payment.quotation_id ?? payment.quotation?.id) === Number(id) &&
+                              payment.status === "pending_verification"
+                                );
 
-              return (
+
+                  const shipmentCancelled =
+  String(quotation.shipment_status || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[\s-]+/g, "_")
+    .includes("cancel");        
+
+const hasRejectedRequest = payments.some(
+  (payment) =>
+    Number(payment.quotation_id ?? payment.quotation?.id) === Number(id) &&
+    payment.status === "rejected"
+);
+
+
+               return (
                 <tr key={id}>
                   <td>
                     <span className="user-payment-quotation-id">
@@ -400,21 +423,33 @@ verification. </p> </div>
                       {formatStatus(status)}
                     </span>
                   </td>
-                  <td>
-                    {remaining > 0 ? (
-                      <button
-                        type="button"
-                        className="user-payment-request-btn"
-                        onClick={() => openPaymentForm(quotation)}
-                      >
-                        Request Payment
-                      </button>
-                    ) : (
-                      <span className="user-payment-complete">Complete</span>
-                    )}
-                  </td>
+                  
+<td>
+  {shipmentCancelled ? (
+    <span className="user-payment-status user-payment-status-danger">
+      Cancelled
+    </span>
+  ) : remaining <= 0 ? (
+    <span className="user-payment-complete">Complete</span>
+  ) : hasPendingRequest ? (
+    <span className="user-payment-status user-payment-status-pending">
+      Pending Verification
+    </span>
+  ) : (
+    <button
+      type="button"
+      className="user-payment-request-btn"
+      onClick={() => openPaymentForm(quotation)}
+    >
+      {hasRejectedRequest ? "Repay" : "Request Payment"}
+    </button>
+  )}
+</td>
+
                 </tr>
               );
+              
+
             })}
           </tbody>
         </table>

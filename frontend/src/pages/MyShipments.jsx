@@ -132,6 +132,11 @@ function MyShipments() {
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [error, setError] = useState("");
   const [detailsError, setDetailsError] = useState("");
+  const [cancellationReason, setCancellationReason] = useState("");
+  const [cancellationRequests, setCancellationRequests] = useState({});
+  const [cancellationSubmitting, setCancellationSubmitting] = useState(false);
+  const [cancellationMessage, setCancellationMessage] = useState("");
+  const [cancellationError, setCancellationError] = useState("");
 
   const loadShipments = useCallback(async () => {
     setLoading(true);
@@ -212,6 +217,78 @@ function MyShipments() {
       setDetailsLoading(false);
     }
   };
+
+
+  const submitCancellationRequest = async () => {
+  if (!selectedShipment) return;
+
+  const reason = cancellationReason.trim();
+
+  if (!reason) {
+    setCancellationError("Please provide a cancellation reason.");
+    return;
+  }
+
+  if (reason.length > 500) {
+    setCancellationError(
+      "Cancellation reason cannot exceed 500 characters."
+    );
+    return;
+  }
+
+  setCancellationSubmitting(true);
+  setCancellationError("");
+  setCancellationMessage("");
+
+  try {
+    const shipmentId = selectedShipment.shipment_id;
+
+    const response = await fetch(
+      `${API_BASE}/${encodeURIComponent(shipmentId)}/cancellation-request`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ reason }),
+      }
+    );
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok || data.success !== true) {
+      throw new Error(
+        data.detail ||
+          data.message ||
+          "Unable to submit cancellation request."
+      );
+    }
+
+    setCancellationRequests((previous) => ({
+      ...previous,
+      [shipmentId]: {
+        ...(data.request || {}),
+        status: "pending",
+        admin_note: null,
+      },
+    }));
+
+    setCancellationReason("");
+    setCancellationMessage(
+      "Your cancellation request has been submitted for admin review."
+    );
+
+    await loadShipments();
+    await openShipmentDetails(selectedShipment);
+  } catch (err) {
+    setCancellationError(
+      err.message || "Unable to submit cancellation request."
+    );
+  } finally {
+    setCancellationSubmitting(false);
+  }
+};
 
   const counts = {
     total: shipments.length,
@@ -357,6 +434,10 @@ function MyShipments() {
 </div>
           </div>
 
+          
+
+
+
           {detailsLoading ? (
             <div className="tracking-loading">
               Loading tracking history...
@@ -457,7 +538,7 @@ function MyShipments() {
               <div className="shipment-latest-update">
                 <div className="shipment-latest-icon">✓</div>
                 <div>
-                  <strong>
+                  <strong> 
                     Latest Update:{" "}
                     {STATUS_LABELS[currentStatus] || currentStatus}
                   </strong>
@@ -502,25 +583,134 @@ function MyShipments() {
                 )}
               </div>
 
-              {/* Shipment Dates */}
-              <div className="shipment-date-grid">
-                <div>
-                  <span>Booked At</span>
-                  <strong>{formatDate(selectedShipment.booked_at)}</strong>
-                </div>
+              
 
-                <div>
-                  <span>Estimated Arrival</span>
-                  <strong>
-                    {formatDate(selectedShipment.estimated_arrival)}
-                  </strong>
-                </div>
+              {(() => {
+  const request =
+    cancellationRequests[selectedShipment.shipment_id];
 
-                <div>
-                  <span>Delivered At</span>
-                  <strong>{formatDate(selectedShipment.delivered_at)}</strong>
-                </div>
-              </div>
+  const canRequestCancellation = ![
+    "cancelled",
+    "delivered",
+  ].includes(currentStatus);
+
+  if (!canRequestCancellation) return null;
+
+  return (
+    <section
+      style={{
+        margin: "20px 0",
+        padding: "18px",
+        border: `1px solid ${COLORS.border}`,
+        borderRadius: "12px",
+        background: "#FFF6E8",
+      }}
+    >
+      <h3 style={{ color: COLORS.brown, marginTop: 0 }}>
+        Shipment Cancellation Policy
+      </h3>
+
+      <p style={{ color: COLORS.darkBrown, lineHeight: 1.7 }}>
+        If you wish to cancel this shipment, please review the
+        cancellation policy before submitting your request.
+        Additional cancellation charges may apply even if the main
+        shipment payment has not been completed. Applicable fees
+        must be paid according to the cancellation policy.
+      </p>
+
+      <p style={{ color: COLORS.muted, fontSize: "13px" }}>
+        Your shipment will not be cancelled automatically.
+        Admin approval is required.
+      </p>
+
+      {request?.status === "pending" ? (
+        <div style={{ color: "#79551C", fontWeight: 700 }}>
+          Cancellation Request: Pending Admin Review
+        </div>
+      ) : request?.status === "approved" ? (
+        <div style={{ color: "#246943", fontWeight: 700 }}>
+          Cancellation Request Approved
+        </div>
+      ) : request?.status === "rejected" ? (
+        <div style={{ color: "#963C2F" }}>
+          <strong>Cancellation Request Rejected</strong>
+          {request.admin_note && <p>{request.admin_note}</p>}
+        </div>
+      ) : (
+        <>
+          <label
+            htmlFor="cancellation-reason"
+            style={{
+              display: "block",
+              margin: "14px 0 8px",
+              color: COLORS.brown,
+              fontWeight: 700,
+            }}
+          >
+            Reason for cancellation
+          </label>
+
+          <textarea
+            id="cancellation-reason"
+            value={cancellationReason}
+            onChange={(event) =>
+              setCancellationReason(event.target.value)
+            }
+            maxLength={500}
+            rows={3}
+            placeholder="Please explain why you want to cancel..."
+            style={{
+              boxSizing: "border-box",
+              width: "100%",
+              padding: "12px",
+              border: `1px solid ${COLORS.border}`,
+              borderRadius: "8px",
+              resize: "vertical",
+              font: "inherit",
+            }}
+          />
+
+          <small style={{ color: COLORS.muted }}>
+            {cancellationReason.length}/500 characters
+          </small>
+
+          {cancellationError && (
+            <p role="alert" style={{ color: "#963C2F" }}>
+              {cancellationError}
+            </p>
+          )}
+
+          {cancellationMessage && (
+            <p role="status" style={{ color: "#246943" }}>
+              {cancellationMessage}
+            </p>
+          )}
+
+          <button
+            type="button"
+            onClick={submitCancellationRequest}
+            disabled={cancellationSubmitting || detailsLoading}
+            style={{
+              display: "block",
+              marginTop: "12px",
+              padding: "11px 18px",
+              border: "none",
+              borderRadius: "8px",
+              background: COLORS.brown,
+              color: COLORS.white,
+              fontWeight: 700,
+              cursor: cancellationSubmitting ? "wait" : "pointer",
+            }}
+          >
+            {cancellationSubmitting
+              ? "Submitting..."
+              : "Request Cancellation"}
+          </button>
+        </>
+      )}
+    </section>
+  );
+})()}
             </>
           )}
         </section>

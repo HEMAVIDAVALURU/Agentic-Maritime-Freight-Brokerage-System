@@ -68,6 +68,8 @@ const AdminSettings = ({ initialSection = "profile" }) => {
     email_notifications: true,
     quotation_alerts: true,
     feedback_alerts: true,
+    payment_alerts: true,
+  shipment_alerts: true,
   });
 
   const [message, setMessage] = useState({
@@ -148,6 +150,8 @@ const AdminSettings = ({ initialSection = "profile" }) => {
       ),
       quotation_alerts: Boolean(data.quotation_alerts),
       feedback_alerts: Boolean(data.feedback_alerts),
+      payment_alerts: Boolean(data.payment_alerts),
+      shipment_alerts: Boolean(data.shipment_alerts),
     });
   };
 
@@ -213,6 +217,8 @@ const AdminSettings = ({ initialSection = "profile" }) => {
       ) {
         next.quotation_alerts = false;
         next.feedback_alerts = false;
+        next.payment_alerts = false;
+      next.shipment_alerts = false;
       }
 
       return next;
@@ -869,7 +875,60 @@ const AdminSettings = ({ initialSection = "profile" }) => {
 
               </div>
 
-              <div className="settings-card-actions">
+              
+
+              
+<div className="settings-toggle-row">
+  <div>
+    <h4>Payment Alerts</h4>
+    <p>
+      Receive email notifications for payment
+      verification requests and payment updates.
+    </p>
+  </div>
+
+  <button
+    type="button"
+    className={`settings-switch ${
+      notifications.payment_alerts ? "on" : ""
+    }`}
+    onClick={() =>
+      handleNotificationToggle("payment_alerts")
+    }
+    disabled={!notifications.email_notifications}
+    aria-label="Toggle payment alerts"
+    aria-pressed={notifications.payment_alerts}
+  >
+    <span />
+  </button>
+</div>
+
+<div className="settings-toggle-row">
+  <div>
+    <h4>Shipment Alerts</h4>
+    <p>
+      Receive email notifications for shipment
+      cancellation requests and shipment updates.
+    </p>
+  </div>
+
+  <button
+    type="button"
+    className={`settings-switch ${
+      notifications.shipment_alerts ? "on" : ""
+    }`}
+    onClick={() =>
+      handleNotificationToggle("shipment_alerts")
+    }
+    disabled={!notifications.email_notifications}
+    aria-label="Toggle shipment alerts"
+    aria-pressed={notifications.shipment_alerts}
+  >
+    <span />
+  </button>
+</div>
+
+<div className="settings-card-actions">
 
                 <button
                   type="submit"

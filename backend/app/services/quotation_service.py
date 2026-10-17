@@ -148,9 +148,9 @@ class QuotationService:
         # PRICING
         # =====================================================
 
-        pricing_result = self.pricing_agent.calculate_price(
+        pricing_result = self.pricing_agent.calculate_pricing(
 
-            route=selected_route,
+            route_id=route_id,
 
             containers=containers
 

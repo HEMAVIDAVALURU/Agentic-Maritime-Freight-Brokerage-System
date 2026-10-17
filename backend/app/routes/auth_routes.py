@@ -137,6 +137,8 @@ class UpdateNotificationSettingsRequest(BaseModel):
     email_notifications: bool
     quotation_notifications: bool
     feedback_notifications: bool
+    payment_notifications: bool
+    shipment_notifications: bool
 
 
 # =========================================================
@@ -525,13 +527,12 @@ def update_user_profile(
 # GET CUSTOMER NOTIFICATION SETTINGS
 # =========================================================
 
+
 @router.get("/notifications")
 def get_notification_settings(
     current_user=Depends(get_current_user)
 ):
-
     if getattr(current_user, "role", None) != "customer":
-
         raise HTTPException(
             status_code=403,
             detail="Customer access required."
@@ -539,18 +540,25 @@ def get_notification_settings(
 
     return {
         "success": True,
-
         "notifications": {
-            "email_notifications":
-                current_user.email_notifications,
-
-            "quotation_notifications":
-                current_user.quotation_notifications,
-
-            "feedback_notifications":
+            "email_notifications": bool(
+                current_user.email_notifications
+            ),
+            "quotation_notifications": bool(
+                current_user.quotation_notifications
+            ),
+            "feedback_notifications": bool(
                 current_user.feedback_notifications
+            ),
+            "payment_notifications": bool(
+                current_user.payment_notifications
+            ),
+            "shipment_notifications": bool(
+                current_user.shipment_notifications
+            ),
         }
     }
+
 
 
 # =========================================================
@@ -563,42 +571,40 @@ def update_notification_settings(
     current_user=Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-
     if getattr(current_user, "role", None) != "customer":
-
         raise HTTPException(
             status_code=403,
             detail="Customer access required."
         )
 
-    current_user.email_notifications = (
-        request.email_notifications
-    )
+    # Save master email preference
+    current_user.email_notifications = request.email_notifications
 
+    # Master OFF means every email category must be OFF
     if not request.email_notifications:
-
         current_user.quotation_notifications = False
         current_user.feedback_notifications = False
-
+        current_user.payment_notifications = False
+        current_user.shipment_notifications = False
     else:
-
         current_user.quotation_notifications = (
             request.quotation_notifications
         )
-
         current_user.feedback_notifications = (
             request.feedback_notifications
         )
+        current_user.payment_notifications = (
+            request.payment_notifications
+        )
+        current_user.shipment_notifications = (
+            request.shipment_notifications
+        )
 
     try:
-
         db.commit()
         db.refresh(current_user)
-
     except Exception:
-
         db.rollback()
-
         raise HTTPException(
             status_code=500,
             detail="Unable to update notification preferences."
@@ -606,21 +612,32 @@ def update_notification_settings(
 
     return {
         "success": True,
-
-        "message":
-            "Notification preferences updated successfully.",
-
+        "message": "Notification preferences updated successfully.",
         "notifications": {
-            "email_notifications":
-                current_user.email_notifications,
-
-            "quotation_notifications":
-                current_user.quotation_notifications,
-
-            "feedback_notifications":
+            "email_notifications": bool(
+                current_user.email_notifications
+            ),
+            "quotation_notifications": bool(
+                current_user.quotation_notifications
+            ),
+            "feedback_notifications": bool(
                 current_user.feedback_notifications
+            ),
+            "payment_notifications": bool(
+                current_user.payment_notifications
+            ),
+            "shipment_notifications": bool(
+                current_user.shipment_notifications
+            ),
         }
     }
+
+
+
+
+    
+
+       
 
 
 # =========================================================

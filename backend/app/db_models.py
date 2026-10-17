@@ -118,6 +118,7 @@ class User(Base):
         default=True,
         nullable=False
     )
+    
 
     created_at = Column(
         DateTime,
@@ -128,13 +129,13 @@ class User(Base):
     Boolean,
     default=True,
     nullable=False
-)
-
-shipment_notifications = Column(
+    )
+    
+    shipment_notifications = Column(
     Boolean,
     default=True,
     nullable=False
-)
+    )
 
 
 # ---------------------------------------------------------
@@ -226,7 +227,7 @@ class Admin(Base):
         default=True,
         nullable=False
     )
-
+    
     created_at = Column(
         DateTime,
         server_default=func.now()
@@ -236,12 +237,7 @@ class Admin(Base):
     default=True,
     nullable=False
 )
-
-shipment_alerts = Column(
-    Boolean,
-    default=True,
-    nullable=False
-)
+    shipment_alerts = Column(Boolean, default=True, nullable=False)
 
 
 # ---------------------------------------------------------
@@ -768,6 +764,68 @@ class ShipmentStatusHistory(Base):
     )
 
     created_at = Column(DateTime, server_default=func.now())
+
+
+
+
+
+# ---------------------------------------------------------
+# SHIPMENT CANCELLATION REQUESTS TABLE
+# ---------------------------------------------------------
+
+class ShipmentCancellationRequest(Base):
+    __tablename__ = "shipment_cancellation_requests"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    shipment_id = Column(
+        String(30),
+        ForeignKey("shipments.shipment_id"),
+        nullable=False,
+        index=True
+    )
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False,
+        index=True
+    )
+
+    reason = Column(
+        String(500),
+        nullable=False
+    )
+
+    status = Column(
+        String(20),
+        nullable=False,
+        default="pending",
+        index=True
+    )
+
+    admin_note = Column(
+        String(500),
+        nullable=True
+    )
+
+    reviewed_by_admin_id = Column(
+        Integer,
+        ForeignKey("admins.id"),
+        nullable=True
+    )
+
+    created_at = Column(
+        DateTime,
+        server_default=func.now(),
+        nullable=False
+    )
+
+    reviewed_at = Column(
+        DateTime,
+        nullable=True
+    )
+
 
 
 

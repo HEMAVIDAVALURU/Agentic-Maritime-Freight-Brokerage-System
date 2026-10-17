@@ -13,13 +13,6 @@ import L from "leaflet";
 import { seaRoute } from "searoute-ts";
 import { DEFAULT_MARNET as MARNET_20KM } from "searoute-ts/marnet-20km";
 
-import {
-  analyzeRoute,
-  calculatePricing,
-  saveQuotation,
-  requestQuotationApproval,
-} from "../services/quotationApi";
-
 import routeMapData from "../data/routeMapData.json";
 
 import "leaflet/dist/leaflet.css";
@@ -959,4 +952,3 @@ export function RouteWorldMap({
 }
 
 
-// =========================================================

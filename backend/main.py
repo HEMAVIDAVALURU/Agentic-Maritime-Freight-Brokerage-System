@@ -23,6 +23,7 @@ from app.routes.customs_routes import router as customs_router
 from app.routes.admin_settings_routes import router as admin_settings_router
 from app.routes.shipment_routes import router as shipment_router
 from app.routes.payment_routes import router as payment_router
+from app.routes.freight_intelligence_routes import router as freight_intelligence_router
 
 
 
@@ -295,6 +296,8 @@ app.include_router(admin_settings_router)
 app.include_router(shipment_router)
 
 app.include_router(payment_router)
+
+app.include_router(freight_intelligence_router)
 
 
 # ============================================================

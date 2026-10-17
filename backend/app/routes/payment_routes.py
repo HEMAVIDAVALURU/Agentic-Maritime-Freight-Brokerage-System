@@ -134,6 +134,23 @@ def get_shipment_for_quotation(db, quotation_id):
         .first()
     )
 
+def is_shipment_cancelled(shipment):
+    if not shipment:
+        return False
+
+    status = str(getattr(shipment, "status", "") or "")
+    status = status.strip().lower().replace(" ", "_").replace("-", "_")
+
+    return status in {
+        "cancelled",
+        "canceled",
+        "shipment_cancelled",
+        "shipment_canceled",
+    }
+
+
+
+
 
 def notify_payment_request(db, payment, quotation):
     """
@@ -520,6 +537,9 @@ def get_payment_summary(
     for quotation in quotations:
         total = money(quotation.selling_price)
 
+        shipment = get_shipment_for_quotation(db, quotation.id)
+        shipment_cancelled = is_shipment_cancelled(shipment)
+
         payments = (
             db.query(Payment)
             .filter(
@@ -549,9 +569,10 @@ def get_payment_summary(
 
         remaining = max(
             Decimal("0.00"),
-            total - paid - pending_verification,
+            total - paid-pending_verification,
         )
 
+         
         result.append({
             "quotation_id": quotation.id,
             "origin": quotation.origin,
@@ -562,11 +583,17 @@ def get_payment_summary(
             "total_amount": float(total),
             "paid_amount": float(paid),
             "pending_verification_amount": float(
-                pending_verification
+                Decimal("0.00") if shipment_cancelled
+                else pending_verification
             ),
-            "remaining_amount": float(remaining),
+            "remaining_amount": float(
+                Decimal("0.00") if shipment_cancelled
+                else remaining
+            ),
             "payment_status": (
-                "paid"
+                "cancelled"
+                if shipment_cancelled
+                else "paid"
                 if paid >= total and total > 0
                 else "pending_verification"
                 if pending_verification > 0
@@ -574,7 +601,12 @@ def get_payment_summary(
                 if paid > 0
                 else "unpaid"
             ),
+            "shipment_status": (
+                getattr(shipment, "status", None)
+                if shipment else None
+            ),
         })
+
 
     return {
         "success": True,
@@ -626,6 +658,19 @@ def submit_payment_request(
                 "Only approved quotations can be paid."
             ),
         )
+    
+    shipment = get_shipment_for_quotation(db, quotation.id)
+
+    if is_shipment_cancelled(shipment):
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "Payment requests are not allowed because "
+                "this shipment has been cancelled."
+            ),
+        )
+
+    
 
     total = money(quotation.selling_price)
 

@@ -174,39 +174,63 @@ function Users() {
   // NORMALIZE STATUS FOR DISPLAY
   // =====================================================
 
-  const getStatus = (status) => {
-    const normalizedStatus = (status || "pending")
-      .trim()
-      .toLowerCase();
+  
+const getStatus = (status, type = "quotation") => {
+  const value = (status || "pending")
+    .trim()
+    .toLowerCase()
+    .replace(/[\s-]+/g, "_");
 
-    if (normalizedStatus === "approved") {
-      return {
-        label: "Approved",
-        className: "users-status-approved",
-      };
-    }
-
-    if (normalizedStatus === "rejected") {
-      return {
-        label: "Rejected",
-        className: "users-status-rejected",
-      };
-    }
-
-    if (normalizedStatus === "pending") {
-      return {
-        label: "Pending",
-        className: "users-status-pending",
-      };
-    }
-
-    return {
-      label: normalizedStatus
-        .replace(/_/g, " ")
-        .replace(/\b\w/g, (letter) => letter.toUpperCase()),
-      className: "users-status-default",
-    };
+  const statusMaps = {
+    quotation: {
+      approved: ["Approved", "users-status-approved"],
+      rejected: ["Rejected", "users-status-rejected"],
+      pending: ["Pending", "users-status-pending"],
+    },
+    payment: {
+      verified: ["Paid", "users-status-paid"],
+      paid: ["Paid", "users-status-paid"],
+      completed: ["Paid", "users-status-paid"],
+      pending: ["Pending", "users-status-pending"],
+      pending_verification: [
+        "Pending Verification",
+        "users-status-pending-verification",
+      ],
+      rejected: ["Rejected", "users-status-rejected"],
+      not_paid: ["Not Paid", "users-status-not-paid"],
+    },
+    shipment: {
+      booked: ["Booked", "users-status-booked"],
+      pickup: ["Picked Up", "users-status-picked-up"],
+      picked_up: ["Picked Up", "users-status-picked-up"],
+      in_transit: ["In Transit", "users-status-in-transit"],
+      out_for_delivery: [
+        "Out for Delivery",
+        "users-status-out-for-delivery",
+      ],
+      delivered: ["Delivered", "users-status-delivered"],
+      cancelled: ["Cancelled", "users-status-cancelled"],
+      not_booked: ["Not Booked", "users-status-not-booked"],
+    },
   };
+
+  const selected = statusMaps[type]?.[value];
+
+  if (selected) {
+    return {
+      label: selected[0],
+      className: selected[1],
+    };
+  }
+
+  return {
+    label: value
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toUpperCase()),
+    className: "users-status-default",
+  };
+};
+
 
   // =====================================================
   // CUSTOMER ACTIVITY VIEW
@@ -216,11 +240,12 @@ function Users() {
     const summary = activityData?.summary || {
       total_quotations: 0,
       approved_quotations: 0,
-      pending_quotations: 0,
-      rejected_quotations: 0,
-    };
+      completed_payments: 0,
+      shipments_booked: 0,
+      successfully_delivered: 0,
+};
 
-    const quotations = activityData?.quotations || [];
+const quotations = activityData?.quotations || [];
 
     return (
       <div className="users-page">
@@ -290,162 +315,187 @@ function Users() {
 
         {/* SUMMARY AND QUOTATION TABLE */}
 
-        {activityData && !activityLoading && (
-          <>
-            <section className="users-summary-section">
-              <div className="users-section-heading">
-                <div>
-                  <h3>Quotation Summary</h3>
-                  <p>
-                    Overview of this customer's quotation requests.
-                  </p>
-                </div>
-              </div>
+        
+{activityData && !activityLoading && (
+  <>
+    <section className="users-summary-section">
+      <div className="users-section-heading">
+        <div>
+          <h3>Customer Activity Summary</h3>
+          <p>
+            Quotations, payments and shipment progress for this customer.
+          </p>
+        </div>
+      </div>
 
-              <div className="users-summary-grid">
-                <div className="users-summary-card users-summary-total">
-                  <div className="users-summary-top">
-                    <span>Total Quotations</span>
-                    <span className="users-summary-icon">▤</span>
-                  </div>
+      <div className="users-summary-grid">
+        <div className="users-summary-card users-summary-total">
+          <div className="users-summary-top">
+            <span>Total Quotations</span>
+            <span className="users-summary-icon">▤</span>
+          </div>
+          <strong>{summary.total_quotations}</strong>
+          <small>All quotation requests</small>
+        </div>
 
-                  <strong>{summary.total_quotations}</strong>
-                  <small>All quotation requests</small>
-                </div>
+        <div className="users-summary-card users-summary-approved">
+          <div className="users-summary-top">
+            <span>Approved Quotations</span>
+            <span className="users-summary-icon">✓</span>
+          </div>
+          <strong>{summary.approved_quotations}</strong>
+          <small>Approved requests</small>
+        </div>
 
-                <div className="users-summary-card users-summary-approved">
-                  <div className="users-summary-top">
-                    <span>Approved</span>
-                    <span className="users-summary-icon">✓</span>
-                  </div>
+        <div className="users-summary-card users-summary-paid">
+          <div className="users-summary-top">
+            <span>Completed Payments</span>
+            <span className="users-summary-icon">$</span>
+          </div>
+          <strong>{summary.completed_payments}</strong>
+          <small>Verified payment records</small>
+        </div>
 
-                  <strong>{summary.approved_quotations}</strong>
-                  <small>Approved quotations</small>
-                </div>
+        <div className="users-summary-card users-summary-booked">
+          <div className="users-summary-top">
+            <span>Shipments Booked</span>
+            <span className="users-summary-icon">▣</span>
+          </div>
+          <strong>{summary.shipments_booked}</strong>
+          <small>Non-cancelled shipments</small>
+        </div>
 
-                <div className="users-summary-card users-summary-pending">
-                  <div className="users-summary-top">
-                    <span>Pending</span>
-                    <span className="users-summary-icon">◷</span>
-                  </div>
+        <div className="users-summary-card users-summary-delivered">
+          <div className="users-summary-top">
+            <span>Successfully Delivered</span>
+            <span className="users-summary-icon">✓</span>
+          </div>
+          <strong>{summary.successfully_delivered}</strong>
+          <small>Delivered shipments</small>
+        </div>
+      </div>
+    </section>
 
-                  <strong>{summary.pending_quotations}</strong>
-                  <small>Awaiting a decision</small>
-                </div>
+    <section className="users-panel users-quotation-panel">
+      <div className="users-table-heading">
+        <div>
+          <h3>Quotation, Payment & Shipment Details</h3>
+          <p>
+            Each row represents one quotation and its latest payment
+            and shipment status.
+          </p>
+        </div>
 
-                <div className="users-summary-card users-summary-rejected">
-                  <div className="users-summary-top">
-                    <span>Rejected</span>
-                    <span className="users-summary-icon">×</span>
-                  </div>
+        <span className="users-record-count">
+          {quotations.length}{" "}
+          {quotations.length === 1 ? "Record" : "Records"}
+        </span>
+      </div>
 
-                  <strong>{summary.rejected_quotations}</strong>
-                  <small>Rejected quotations</small>
-                </div>
-              </div>
-            </section>
+      {quotations.length === 0 ? (
+        <div className="users-empty-state">
+          <div className="users-state-icon">📄</div>
+          <h3>No activity found</h3>
+          <p>This customer has not created any quotations yet.</p>
+        </div>
+      ) : (
+        <div className="users-table-wrapper">
+          <table className="users-quotation-table users-activity-table">
+            <thead>
+              <tr>
+                <th>Quotation ID</th>
+                <th>Shipment ID</th>
+                <th>Route ID</th>
+                <th>Origin → Destination</th>
+                <th>Cargo Type</th>
+                <th>Container Quantity</th>
+                <th>Quotation Status</th>
+                <th>Payment Status</th>
+                <th>Shipment Status</th>
+              </tr>
+            </thead>
 
-            {/* QUOTATION DETAILS TABLE */}
+            <tbody>
+              {quotations.map((quotation) => {
+                const quotationStatus = getStatus(
+                  quotation.status,
+                  "quotation"
+                );
 
-            <section className="users-panel users-quotation-panel">
-              <div className="users-table-heading">
-                <div>
-                  <h3>Quotation Details</h3>
-                  <p>
-                    All quotations created by this customer.
-                  </p>
-                </div>
+                const paymentStatus = getStatus(
+                  quotation.payment_status,
+                  "payment"
+                );
 
-                <span className="users-record-count">
-                  {quotations.length}{" "}
-                  {quotations.length === 1
-                    ? "Quotation"
-                    : "Quotations"}
-                </span>
-              </div>
+                const shipmentStatus = getStatus(
+                  quotation.shipment_status,
+                  "shipment"
+                );
 
-              {quotations.length === 0 ? (
-                <div className="users-empty-state">
-                  <div className="users-state-icon">📄</div>
-                  <h3>No quotations found</h3>
-                  <p>
-                    This customer has not created any quotations yet.
-                  </p>
-                </div>
-              ) : (
-                <div className="users-table-wrapper">
-                  <table className="users-quotation-table">
-                    <thead>
-                      <tr>
-                        <th>Quotation ID</th>
-                        <th>Origin</th>
-                        <th>Destination</th>
-                        <th>Cargo Type</th>
-                        <th>Containers</th>
-                        <th>Selected Route</th>
-                        <th>Selling Price</th>
-                        <th>Status</th>
-                        <th>Created Date</th>
-                      </tr>
-                    </thead>
+                return (
+                  <tr key={quotation.id}>
+                    <td className="users-quotation-id">
+                      #{quotation.id}
+                    </td>
 
-                    <tbody>
-                      {quotations.map((quotation) => {
-                        const status = getStatus(quotation.status);
+                    <td className="users-quotation-id">
+                      {quotation.shipment_id || "—"}
+                    </td>
 
-                        return (
-                          <tr key={quotation.id}>
-                            <td className="users-quotation-id">
-                              #{quotation.id}
-                            </td>
+                    <td>
+                      {quotation.route_id ||
+                        quotation.selected_route_id ||
+                        "—"}
+                    </td>
 
-                            <td>{quotation.origin || "—"}</td>
+                    <td className="users-route-cell">
+                      <span>{quotation.origin || "—"}</span>
+                      <span className="users-route-arrow">→</span>
+                      <span>{quotation.destination || "—"}</span>
+                    </td>
 
-                            <td>{quotation.destination || "—"}</td>
+                    <td>{quotation.cargo_type || "—"}</td>
 
-                            <td>{quotation.cargo_type || "—"}</td>
+<td>
+  <div className="users-container-info">
+    <strong>{quotation.container_count ?? "—"}</strong>
+  </div>
+</td>
 
-                            <td>
-                              <div className="users-container-info">
-                                <strong>
-                                  {quotation.container_count ?? "—"}
-                                </strong>
+                    <td>
+                      <span
+                        className={`users-status-badge ${quotationStatus.className}`}
+                      >
+                        {quotationStatus.label}
+                      </span>
+                    </td>
 
-                                <small>
-                                  {quotation.container_type || ""}
-                                </small>
-                              </div>
-                            </td>
+                    <td>
+                      <span
+                        className={`users-status-badge ${paymentStatus.className}`}
+                      >
+                        {paymentStatus.label}
+                      </span>
+                    </td>
 
-                            <td>
-                              {quotation.selected_route_id || "—"}
-                            </td>
+                    <td>
+                      <span
+                        className={`users-status-badge ${shipmentStatus.className}`}
+                      >
+                        {shipmentStatus.label}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  </>
+)}
 
-                            <td className="users-selling-price">
-                              {formatPrice(quotation.selling_price)}
-                            </td>
-
-                            <td>
-                              <span
-                                className={`users-status-badge ${status.className}`}
-                              >
-                                {status.label}
-                              </span>
-                            </td>
-
-                            <td>
-                              {formatDate(quotation.created_at)}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </section>
-          </>
-        )}
       </div>
     );
   }

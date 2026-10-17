@@ -704,7 +704,7 @@ async function handleDecision(decision, rejectionReason = null) {
           <table className="aq-table">
             <thead>
               <tr>
-                <th>Quotation ID</th><th>Customer</th><th>Company</th><th>Route</th>
+                <th>Quotation ID</th><th>Customer</th><th>Company</th><th>Route</th><th>Cargo Type</th>
                 <th>Containers</th><th>Date</th><th>Selling Price</th><th>Status</th><th>Action</th>
               </tr>
             </thead>
@@ -740,6 +740,7 @@ async function handleDecision(decision, rejectionReason = null) {
                           <span>{quotation.destination || "—"}</span>
                         </div>
                       </td>
+                      <td>{quotation.cargo_type || "—"}</td>
                       <td>{formatNumber(getContainerCount(quotation))}</td>
                       <td>{formatDate(quotation.created_at)}</td>
                       <td className="aq-money-cell">{formatMoney(getSellingPrice(quotation))}</td>

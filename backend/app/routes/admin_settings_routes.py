@@ -42,6 +42,8 @@ class AdminNotificationUpdate(BaseModel):
     email_notifications: bool
     quotation_alerts: bool
     feedback_alerts: bool
+    payment_alerts: bool
+    shipment_alerts: bool
 
 
 # ============================================================
@@ -208,22 +210,26 @@ def get_notification_settings(
             detail="Administrator account not found."
         )
 
+    
     return {
-        "email_notifications": bool(
-            admin.email_notifications
-        ),
-        "quotation_alerts": bool(
-            admin.quotation_alerts
-        ),
-        "feedback_alerts": bool(
-            admin.feedback_alerts
-        )
-    }
+    "email_notifications": bool(
+        admin.email_notifications
+    ),
+    "quotation_alerts": bool(
+        admin.quotation_alerts
+    ),
+    "feedback_alerts": bool(
+        admin.feedback_alerts
+    ),
+    "payment_alerts": bool(
+        admin.payment_alerts
+    ),
+    "shipment_alerts": bool(
+        admin.shipment_alerts
+    )
+}
 
 
-# ============================================================
-# UPDATE NOTIFICATION SETTINGS
-# ============================================================
 
 @router.put("/notifications")
 def update_notification_settings(
@@ -231,7 +237,6 @@ def update_notification_settings(
     current_user=Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-
     if getattr(current_user, "role", None) != "admin":
         raise HTTPException(
             status_code=403,
@@ -250,28 +255,23 @@ def update_notification_settings(
             detail="Administrator account not found."
         )
 
-    email_notifications = request.email_notifications
+    # Master switch controls all email alert categories.
+    admin.email_notifications = request.email_notifications
 
-    admin.email_notifications = email_notifications
-
-    # --------------------------------------------------------
-    # MASTER SWITCH OFF
-    # --------------------------------------------------------
-
-    if not email_notifications:
-
-        admin.quotation_alerts = False
-        admin.feedback_alerts = False
-
-    else:
-
+    if request.email_notifications:
         admin.quotation_alerts = request.quotation_alerts
         admin.feedback_alerts = request.feedback_alerts
+        admin.payment_alerts = request.payment_alerts
+        admin.shipment_alerts = request.shipment_alerts
+    else:
+        admin.quotation_alerts = False
+        admin.feedback_alerts = False
+        admin.payment_alerts = False
+        admin.shipment_alerts = False
 
     try:
         db.commit()
         db.refresh(admin)
-
     except Exception:
         db.rollback()
         raise HTTPException(
@@ -282,13 +282,9 @@ def update_notification_settings(
     return {
         "success": True,
         "message": "Notification settings updated successfully.",
-        "email_notifications": bool(
-            admin.email_notifications
-        ),
-        "quotation_alerts": bool(
-            admin.quotation_alerts
-        ),
-        "feedback_alerts": bool(
-            admin.feedback_alerts
-        )
+        "email_notifications": bool(admin.email_notifications),
+        "quotation_alerts": bool(admin.quotation_alerts),
+        "feedback_alerts": bool(admin.feedback_alerts),
+        "payment_alerts": bool(admin.payment_alerts),
+        "shipment_alerts": bool(admin.shipment_alerts),
     }

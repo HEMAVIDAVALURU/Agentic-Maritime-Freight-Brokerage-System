@@ -215,71 +215,168 @@ function AdminDashboard() {
     fetchAdminNotifications();
   }, []);
 
+  
   const fetchAdminNotifications = async () => {
     setNotificationsLoading(true);
     setNotificationsError("");
 
+    const fetchJson = async (url) => {
+      const response = await fetch(url, {
+        method: "GET",
+        credentials: "include",
+        headers: { Accept: "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Request failed: ${response.status}`);
+      }
+
+      return response.json();
+    };
+
+    const getList = (data, keys = []) => {
+      if (Array.isArray(data)) return data;
+
+      for (const key of keys) {
+        if (Array.isArray(data?.[key])) {
+          return data[key];
+        }
+      }
+
+      return [];
+    };
+
     try {
-      const [quotationResponse, feedbackResponse] =
-        await Promise.all([
-          fetch("/api/admin-quotations/", {
-            method: "GET",
-            credentials: "include",
-            headers: { Accept: "application/json" },
-          }),
-          fetch("http://localhost:8000/api/feedback/admin", {
-            method: "GET",
-            credentials: "include",
-            headers: { Accept: "application/json" },
-          }),
-        ]);
+      const results = await Promise.allSettled([
+        fetchJson("/api/admin-quotations/"),
+        fetchJson("http://localhost:8000/api/feedback/admin"),
+        fetchJson("http://localhost:8000/api/payments/admin/all"),
+        fetchJson(
+          "http://localhost:8000/api/shipments/admin/cancellation-requests?status=pending"
+        ),
+      ]);
 
-      if (!quotationResponse.ok) {
-        throw new Error("Unable to load quotation notifications.");
+      const [quotationResult, feedbackResult, paymentResult, cancellationResult] =
+        results;
+
+      const failedSources = results.filter(
+        (result) => result.status === "rejected"
+      ).length;
+
+      if (failedSources === results.length) {
+        throw new Error("Unable to load admin notifications. Please try again.");
       }
 
-      if (!feedbackResponse.ok) {
-        throw new Error("Unable to load feedback notifications.");
-      }
+      const quotationData =
+        quotationResult.status === "fulfilled"
+          ? quotationResult.value
+          : [];
 
-      const quotationData = await quotationResponse.json();
-      const feedbackData = await feedbackResponse.json();
+      const feedbackData =
+        feedbackResult.status === "fulfilled"
+          ? feedbackResult.value
+          : {};
 
-      const quotationList = Array.isArray(quotationData)
-        ? quotationData
-        : Array.isArray(quotationData.quotations)
-        ? quotationData.quotations
-        : [];
+      const paymentData =
+        paymentResult.status === "fulfilled"
+          ? paymentResult.value
+          : [];
 
-      const feedbackList = Array.isArray(feedbackData.feedback)
-        ? feedbackData.feedback
-        : [];
+      const cancellationData =
+        cancellationResult.status === "fulfilled"
+          ? cancellationResult.value
+          : [];
+
+      const quotationList = getList(quotationData, ["quotations"]);
+      const feedbackList = getList(feedbackData, ["feedback"]);
+      const paymentList = getList(paymentData, ["payments"]);
+      const cancellationList = getList(cancellationData, [
+        "requests",
+        "cancellation_requests",
+        "items",
+      ]);
 
       const quotationNotifications = quotationList
-        .filter((item) =>
-          String(item.status || "").toLowerCase() === "pending"
+        .filter(
+          (item) =>
+            String(item.status || "").toLowerCase() === "pending"
         )
+        .map((item) => {
+          const id = item.id ?? item.quotation_id;
+
+          return {
+            id: `quotation-${id}`,
+            type: "quotation",
+            targetId: id,
+            title: "Quotation Approval Request",
+            message: `${
+              item.customer?.name || item.customer_name || "Customer"
+            } requested approval for quotation #${id}.`,
+            createdAt: item.created_at,
+          };
+        });
+
+      const feedbackNotifications = feedbackList
+        .filter((item) => !item.admin_response)
         .map((item) => ({
-          id: `quotation-${item.id ?? item.quotation_id}`,
-          type: "quotation",
-          targetId: item.id ?? item.quotation_id,
-          title: "Quotation Approval Request",
-          message: `${item.customer?.name || item.customer_name || "Customer"} requested approval for quotation #${item.id ?? item.quotation_id}.`,
+          id: `feedback-${item.id}`,
+          type: "feedback",
+          targetId: item.id,
+          title: "New Customer Feedback",
+          message: `${
+            item.customer?.name || item.customer_name || "Customer"
+          } submitted feedback${
+            item.quotation_id
+              ? ` for quotation #${item.quotation_id}`
+              : ""
+          }.`,
           createdAt: item.created_at,
         }));
 
-      const feedbackNotifications = feedbackList.map((item) => ({
-        id: `feedback-${item.id}`,
-        type: "feedback",
-        targetId: item.id,
-        title: "New Customer Feedback",
-        message: `${item.customer?.name || item.customer_name || "Customer"} submitted feedback${item.quotation_id ? ` for quotation #${item.quotation_id}` : ""}.`,
-        createdAt: item.created_at,
-      }));
+      const paymentNotifications = paymentList
+        .filter(
+          (item) =>
+            String(item.status || "").toLowerCase() ===
+            "pending_verification"
+        )
+        .map((item) => ({
+          id: `payment-${item.id}`,
+          type: "payment",
+          targetId: item.id,
+          title: "Payment Verification Request",
+          message: `${
+            item.customer_name ||
+            item.user?.name ||
+            item.name ||
+            "Customer"
+          } submitted payment${
+            item.quotation_id ? ` for quotation #${item.quotation_id}` : ""
+          } for verification.`,
+          createdAt: item.submitted_at || item.created_at,
+        }));
+
+      const cancellationNotifications = cancellationList
+        .filter(
+          (item) =>
+            String(item.status || "").toLowerCase() === "pending"
+        )
+        .map((item) => ({
+          id: `cancellation-${item.id}`,
+          type: "cancellation",
+          targetId: item.id,
+          shipmentId: item.shipment_id,
+          title: "Shipment Cancellation Request",
+          message: `Customer requested cancellation for shipment #${
+            item.shipment_id
+          }${item.reason ? `. Reason: ${item.reason}` : "."}`,
+          createdAt: item.created_at,
+        }));
 
       const merged = [
         ...quotationNotifications,
         ...feedbackNotifications,
+        ...paymentNotifications,
+        ...cancellationNotifications,
       ].sort((a, b) => {
         const aTime = new Date(a.createdAt || 0).getTime();
         const bTime = new Date(b.createdAt || 0).getTime();
@@ -287,6 +384,12 @@ function AdminDashboard() {
       });
 
       setAdminNotifications(merged);
+
+      if (failedSources > 0) {
+        setNotificationsError(
+          "Some notification sources could not be loaded. Please refresh to retry."
+        );
+      }
     } catch (error) {
       console.error("Admin notifications loading error:", error);
       setNotificationsError(
@@ -318,6 +421,7 @@ function AdminDashboard() {
     });
   };
 
+  
   const handleAdminNotificationOpen = (notification) => {
     markAdminNotificationRead(notification);
 
@@ -326,15 +430,24 @@ function AdminDashboard() {
       JSON.stringify({
         type: notification.type,
         id: notification.targetId,
+        shipment_id: notification.shipmentId ?? null,
       })
     );
 
     if (notification.type === "quotation") {
       setActivePage("quotation");
-    } else {
+    } else if (notification.type === "feedback") {
       setActivePage("feedback");
+    } else if (notification.type === "payment") {
+      setActivePage("payments");
+    } else if (notification.type === "cancellation") {
+      setActivePage("shipment");
     }
+
+    setSettingsOpen(false);
+    setProfileMenuOpen(false);
   };
+
 
   const fetchAdminProfile = async () => {
     try {
@@ -1026,7 +1139,7 @@ function AdminDashboard() {
                 </span>
                 <h1>Notifications</h1>
                 <p>
-                  Review quotation approval requests and customer feedback.
+                  Review quotation requests, customer feedback, payment verification, and shipment cancellation requests.
                 </p>
               </div>
 
@@ -1063,7 +1176,7 @@ function AdminDashboard() {
                 </div>
               ) : adminNotifications.length === 0 ? (
                 <div className="admin-notifications-message">
-                  No quotation requests or customer feedback notifications.
+                  No pending admin notifications.
                 </div>
               ) : (
                 <div className="admin-notifications-list">
@@ -1083,9 +1196,17 @@ function AdminDashboard() {
                           handleAdminNotificationOpen(notification)
                         }
                       >
-                        <span className="admin-notification-icon">
-                          {notification.type === "quotation" ? "▣" : "◇"}
-                        </span>
+                       
+  <span className="admin-notification-icon">
+    {notification.type === "quotation"
+      ? "▣"
+      : notification.type === "feedback"
+      ? "◇"
+      : notification.type === "payment"
+      ? "💳"
+      : "📦"}
+  </span>
+
 
                         <span className="admin-notification-content">
                           <strong>{notification.title}</strong>
@@ -2106,144 +2227,6 @@ function AdminDashboard() {
     </div>
   </section>
 )} 
-
-            {/* MONTHLY PERFORMANCE */}
-
-            {!kpiLoading &&
-              !kpiError && (
-                <section className="admin-monthly-performance">
-
-                  <div className="admin-section-heading">
-
-                    <h2>
-                      Monthly Performance
-                    </h2>
-
-                  </div>
-
-                  <div className="admin-monthly-cards">
-
-                    {monthlyQuotationData.map(
-                      (
-                        item,
-                        index
-                      ) => {
-
-                        const isCurrentMonth =
-                          item.month ===
-                          currentMonthSummary.month;
-
-                        return (
-                          <div
-                            key={`${item.month}-${item.year ?? index}`}
-                            className={`admin-month-card ${
-                              isCurrentMonth
-                                ? "admin-month-card-current"
-                                : ""
-                            }`}
-                          >
-
-                            <div className="admin-month-card-header">
-
-                              <h3>
-                                {item.month}
-                              </h3>
-
-                              {isCurrentMonth && (
-                                <span className="admin-current-month-badge">
-                                  Current
-                                  Month
-                                </span>
-                              )}
-
-                            </div>
-
-                            <div className="admin-month-card-count">
-
-                              <strong>
-                                {item.quotations ??
-                                  0}
-                              </strong>
-
-                              <span>
-                                Total
-                                Quotations
-                              </span>
-
-                            </div>
-
-                          </div>
-                        );
-                      }
-                    )}
-
-                  </div>
-
-                  <div className="admin-current-month-section">
-
-                    <div className="admin-section-heading">
-
-                      <h3>
-                        {currentMonthSummary.month ||
-                          "Current Month"}
-                        {" — "}
-                        Quotation Summary
-                      </h3>
-
-                    </div>
-
-                    <div className="admin-current-month-grid">
-
-                      <div className="admin-month-summary-card summary-total">
-                        <span>
-                          Total Quotations
-                        </span>
-
-                        <strong>
-                          {currentMonthSummary.total_quotations ??
-                            0}
-                        </strong>
-                      </div>
-
-                      <div className="admin-month-summary-card summary-approved">
-                        <span>
-                          Approved
-                        </span>
-
-                        <strong>
-                          {currentMonthSummary.approved_quotations ??
-                            0}
-                        </strong>
-                      </div>
-
-                      <div className="admin-month-summary-card summary-rejected">
-                        <span>
-                          Rejected
-                        </span>
-
-                        <strong>
-                          {currentMonthSummary.rejected_quotations ??
-                            0}
-                        </strong>
-                      </div>
-
-                      <div className="admin-month-summary-card summary-pending">
-                        <span>
-                          Pending
-                        </span>
-
-                        <strong>
-                          {currentMonthSummary.pending_quotations ??
-                            0}
-                        </strong>
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                </section>
-              )}
 
           </div>
         )}

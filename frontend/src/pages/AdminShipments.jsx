@@ -216,6 +216,13 @@ function AdminShipments() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [detailsLoading, setDetailsLoading] = useState(false);
+  const [cancellationRequests, setCancellationRequests] = useState([]);
+const [cancellationLoading, setCancellationLoading] = useState(false);
+const [reviewingRequestId, setReviewingRequestId] = useState(null);
+const [reviewDecision, setReviewDecision] = useState({});
+const [reviewNotes, setReviewNotes] = useState({});
+const [cancellationError, setCancellationError] = useState("");
+const [cancellationMessage, setCancellationMessage] = useState("");
 
   const loadShipments = useCallback(async () => {
     setLoading(true);
@@ -284,9 +291,118 @@ function AdminShipments() {
     return detail;
   }, []);
 
+  const reviewCancellationRequest = async (request) => {
+  const decision = reviewDecision[request.id] || "approved";
+  const adminNote = (reviewNotes[request.id] || "").trim();
+
+  if (!["approved", "rejected"].includes(decision)) {
+    setCancellationError("Please select Approve or Reject.");
+    return;
+  }
+
+  if (decision === "rejected" && !adminNote) {
+    setCancellationError("Please provide a reason for rejection.");
+    return;
+  }
+
+  const confirmed = window.confirm(
+    `${decision === "approved" ? "Approve" : "Reject"} cancellation request for ${request.shipment_id}?`
+  );
+
+  if (!confirmed) return;
+
+  setReviewingRequestId(request.id);
+  setCancellationError("");
+  setCancellationMessage("");
+
+  try {
+    const response = await fetch(
+      `${API}/admin/cancellation-requests/${request.id}`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          decision,
+          admin_note: adminNote || null,
+        }),
+      }
+    );
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok || data.success !== true) {
+      throw new Error(
+        data.detail ||
+          data.message ||
+          "Unable to review cancellation request."
+      );
+    }
+
+    setCancellationMessage(data.message || "Request reviewed successfully.");
+
+    await Promise.all([
+      loadCancellationRequests(),
+      loadShipments(),
+    ]);
+
+    const selectedId = selected?.shipment_id;
+
+    if (selectedId) {
+      await loadShipmentDetails(selectedId);
+    }
+  } catch (err) {
+    setCancellationError(
+      err.message || "Unable to review cancellation request."
+    );
+  } finally {
+    setReviewingRequestId(null);
+  }
+};
+
+
+  const loadCancellationRequests = useCallback(async () => {
+  setCancellationLoading(true);
+  setCancellationError("");
+
+  try {
+    const response = await fetch(
+      `${API}/admin/cancellation-requests?status=pending`,
+      {
+        credentials: "include",
+        headers: { Accept: "application/json" },
+      }
+    );
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok || data.success !== true) {
+      throw new Error(
+        data.detail ||
+          data.message ||
+          "Unable to load cancellation requests."
+      );
+    }
+
+    setCancellationRequests(
+      Array.isArray(data.requests) ? data.requests : []
+    );
+  } catch (err) {
+    setCancellationError(
+      err.message || "Unable to load cancellation requests."
+    );
+  } finally {
+    setCancellationLoading(false);
+  }
+}, []);
+
   useEffect(() => {
     loadShipments();
-  }, [loadShipments]);
+    loadCancellationRequests();
+  }, [loadShipments, loadCancellationRequests]);
 
   const counts = useMemo(
     () => ({
@@ -390,11 +506,11 @@ function AdminShipments() {
 
       const data = await response.json().catch(() => ({}));
 
-      if (!response.ok || data.success === false) {
-        throw new Error(
-          data.detail || data.message || "Status update failed."
-        );
-      }
+      
+if (!response.ok || data.success === false) {
+  throw new Error(getShipmentErrorMessage(data));
+}
+
 
       setMessage("Shipment status updated successfully.");
       setNewStatus("");
@@ -444,6 +560,122 @@ function AdminShipments() {
           </div>
         ))}
       </div>
+      <section className="as-panel as-cancellation-panel">
+  <div className="as-table-heading">
+    <div>
+      <p className="as-eyebrow">ADMIN REVIEW</p>
+      <h2>Shipment Cancellation Requests</h2>
+      <p>Review customer requests before cancelling shipments.</p>
+    </div>
+
+    <button
+      type="button"
+      className="as-refresh"
+      onClick={loadCancellationRequests}
+      disabled={cancellationLoading}
+    >
+      {cancellationLoading ? "Loading..." : "↻ Refresh Requests"}
+    </button>
+  </div>
+
+  {cancellationError && (
+    <div className="as-error" role="alert">
+      {cancellationError}
+    </div>
+  )}
+
+  {cancellationMessage && (
+    <div className="as-success" role="status">
+      {cancellationMessage}
+    </div>
+  )}
+
+  {cancellationLoading ? (
+    <p className="as-empty">Loading cancellation requests...</p>
+  ) : cancellationRequests.length === 0 ? (
+    <p className="as-empty">No pending cancellation requests.</p>
+  ) : (
+    <div className="as-cancellation-list">
+      {cancellationRequests.map((request) => (
+        <article className="as-cancellation-card" key={request.id}>
+          <div className="as-cancellation-header">
+            <div>
+              <h3>Request #{request.id}</h3>
+              <strong>{request.shipment_id}</strong>
+            </div>
+
+            <span className="as-status as-status-booked">
+              Pending
+            </span>
+          </div>
+
+          <p>
+            <strong>Customer ID:</strong> {request.user_id}
+          </p>
+
+          <p>
+            <strong>Requested at:</strong>{" "}
+            {formatDate(request.created_at)}
+          </p>
+
+          <div className="as-cancellation-reason">
+            <strong>Cancellation Reason</strong>
+            <p>{request.reason}</p>
+          </div>
+
+          <div className="as-form-grid">
+            <label>
+              Decision
+              <select
+                value={reviewDecision[request.id] || "approved"}
+                onChange={(event) =>
+                  setReviewDecision((previous) => ({
+                    ...previous,
+                    [request.id]: event.target.value,
+                  }))
+                }
+              >
+                <option value="approved">Approve</option>
+                <option value="rejected">Reject</option>
+              </select>
+            </label>
+
+            <label>
+              Admin Note
+              <textarea
+                rows={3}
+                maxLength={500}
+                value={reviewNotes[request.id] || ""}
+                onChange={(event) =>
+                  setReviewNotes((previous) => ({
+                    ...previous,
+                    [request.id]: event.target.value,
+                  }))
+                }
+                placeholder={
+                  (reviewDecision[request.id] || "approved") === "rejected"
+                    ? "Required: explain why this request is rejected"
+                    : "Optional note"
+                }
+              />
+            </label>
+          </div>
+
+          <button
+            type="button"
+            className="as-save"
+            disabled={reviewingRequestId === request.id}
+            onClick={() => reviewCancellationRequest(request)}
+          >
+            {reviewingRequestId === request.id
+              ? "Submitting..."
+              : "Submit Decision"}
+          </button>
+        </article>
+      ))}
+    </div>
+  )}
+</section>
 
       {selected && (
         <section className="as-panel as-detail-panel">
@@ -693,6 +925,34 @@ function AdminShipments() {
     </div>
   );
 }
+
+function getShipmentErrorMessage(data) {
+  const detail = data?.detail;
+
+  if (typeof detail === "string") {
+    return detail;
+  }
+
+  if (detail && typeof detail === "object") {
+    if (
+      detail.payment_status &&
+      detail.payment_status !== "paid"
+    ) {
+      return "Payment is not fully verified. Please complete the payment and wait for admin verification before starting shipment progress.";
+    }
+
+    if (typeof detail.message === "string") {
+      return detail.message;
+    }
+  }
+
+  if (typeof data?.message === "string") {
+    return data.message;
+  }
+
+  return "Status update failed. Please try again.";
+}
+
 
 export default AdminShipments;
 

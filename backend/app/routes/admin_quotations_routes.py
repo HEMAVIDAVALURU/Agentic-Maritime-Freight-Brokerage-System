@@ -3,6 +3,9 @@ from sqlalchemy.orm import Session
 from types import SimpleNamespace
 from datetime import datetime
 from uuid import uuid4
+import logging
+
+logger = logging.getLogger(__name__)
 
 from app.database import get_db
 from app.db_models import (
@@ -1303,7 +1306,7 @@ def approve_quotation(
     quotation_id: int,
     current_user=Depends(get_current_user),
     db: Session = Depends(get_db)
-):
+ ):
     if not verify_admin(current_user):
         return {
             "success": False,
@@ -1443,25 +1446,69 @@ def approve_quotation(
         }
 
     # Send the email after the database transaction succeeds.
+    
+    
+# Send quotation approval and shipment booking emails
+# only after the database transaction succeeds.
     try:
         customer = (
-            db.query(User)
-            .filter(User.id == quotation.user_id)
-            .first()
+        db.query(User)
+        .filter(User.id == quotation.user_id)
+        .first()
+    )
+        if customer and customer.email:
+            customer_name = (
+            getattr(customer, "name", None)
+            or getattr(customer, "username", None)
+            or "Customer"
         )
 
-        if customer and customer.email:
+        # 1. Existing quotation approval email
+        try:
             EmailService.send_quotation_approved_email(
                 recipient_email=customer.email,
-                customer_name=customer.name,
+                customer_name=customer_name,
                 origin=quotation.origin,
                 destination=quotation.destination,
                 cargo_type=quotation.cargo_type,
                 containers=quotation.container_count
             )
+        except Exception:
+            logger.exception(
+                "Quotation approval email failed for quotation %s",
+                quotation.id,
+            )
 
-    except Exception as email_error:
-        print("Quotation approval email failed:", email_error)
+        # 2. Shipment booking confirmation email
+        if getattr(customer, "email_notifications", True):
+            try:
+                result = EmailService.send_shipment_status_email(
+                    customer_email=customer.email,
+                    customer_name=customer_name,
+                    shipment_id=shipment.shipment_id,
+                    quotation_id=shipment.quotation_id,
+                    origin=shipment.origin,
+                    destination=shipment.destination,
+                    status="booked",
+                    note=None,
+                )
+
+                if not result or not result.get("success"):
+                    logger.error(
+                        "Shipment booking email failed for shipment %s",
+                        shipment.shipment_id,
+                    )
+
+            except Exception:
+                logger.exception(
+                    "Shipment booking email error for shipment %s",
+                    shipment.shipment_id,
+                )
+    except Exception:
+        logger.exception(
+        "Could not retrieve customer for quotation %s",
+        quotation.id,
+    )
 
     return {
         "success": True,
@@ -1478,6 +1525,8 @@ def approve_quotation(
             "destination": shipment.destination
         }
     }
+
+
 # =========================================================
 # REJECT QUOTATION
 # =========================================================

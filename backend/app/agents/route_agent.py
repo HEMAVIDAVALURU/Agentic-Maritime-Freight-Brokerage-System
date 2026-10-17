@@ -637,6 +637,9 @@ class RouteAgent:
             "candidate_routes":
                 len(matching_routes),
 
+            "candidate_route_count":
+            len(matching_routes),
+
             "top_routes":
                 top_routes_list,
 

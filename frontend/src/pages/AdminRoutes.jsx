@@ -95,6 +95,7 @@ function AdminRoutes() {
                 <th>Number of Containers</th>
                 <th>Transshipments</th>
                 <th>Transit Days</th>
+                <th>Distance (nm)</th>
               </tr>
             </thead>
 
@@ -134,6 +135,12 @@ function AdminRoutes() {
                   <td>
                     {route.transit_days ?? "—"}
                   </td>
+
+                  <td>
+                    {route.distance_nm != null
+                     ? `${route.distance_nm} NM`
+                     : "—"}
+                     </td>
                 </tr>
               ))}
             </tbody>

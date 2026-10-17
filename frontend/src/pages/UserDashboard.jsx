@@ -174,6 +174,16 @@ function UserDashboard() {
             "quotation_approved",
             "quotation_rejected",
             "feedback_response",
+  "payment_verified",
+  "payment_rejected",
+
+  "shipment_booked",
+  "shipment_pickup",
+  "shipment_in_transit",
+  "shipment_out_for_delivery",
+  "shipment_delivered",
+  "shipment_cancelled",
+
           ]);
 
           const filteredNotifications = (data.notifications || []).filter(
@@ -206,9 +216,16 @@ function UserDashboard() {
   const userProfilePicture =
     currentUser?.profile_picture || "";
 
-  const unreadNotifications = notifications.filter(
-    (notification) => !viewedNotificationIds.includes(notification.id)
-  );
+  
+const visibleNotifications = notifications.filter(
+  (notification) =>
+    !viewedNotificationIds.some(
+      (id) => String(id) === String(notification.id)
+    )
+);
+
+const unreadNotifications = visibleNotifications;
+
 
   const markNotificationAsViewed = (notificationId) => {
     if (!notificationId) return;
@@ -229,53 +246,70 @@ function UserDashboard() {
     }
   };
 
-  const handleNotificationClick = (notification) => {
-    if (!notification) return;
+   
+const handleNotificationClick = (notification) => {
+  if (!notification) return;
 
-    markNotificationAsViewed(notification.id);
-    setNotificationsOpen(false);
-    setProfileMenuOpen(false);
+  markNotificationAsViewed(notification.id);
+  setNotificationsOpen(false);
+  setProfileMenuOpen(false);
 
-    if (notification.type === "quotation_approved" ||
-        notification.type === "quotation_rejected") {
-      const quotationMatch = String(notification.message || "").match(
-        /Quotation #([\w-]+)/i
+  if (
+    notification.type === "quotation_approved" ||
+    notification.type === "quotation_rejected"
+  ) {
+    const quotationMatch = String(
+      notification.message || ""
+    ).match(/Quotation #([\w-]+)/i);
+
+    if (quotationMatch?.[1]) {
+      sessionStorage.setItem(
+        "user_dashboard_notification_target_quotation",
+        quotationMatch[1]
       );
-
-      if (quotationMatch?.[1]) {
-        try {
-          sessionStorage.setItem(
-            "user_dashboard_notification_target_quotation",
-            quotationMatch[1]
-          );
-        } catch (error) {
-          console.error("Unable to store quotation notification target:", error);
-        }
-      }
-
-      setActivePage("saved-quotations");
-      return;
     }
 
-    if (notification.type === "feedback_response") {
-      const feedbackMatch = String(notification.message || "").match(
-        /feedback #([\w-]+)/i
+    setActivePage("saved-quotations");
+    return;
+  }
+
+  if (notification.type === "feedback_response") {
+    const feedbackMatch = String(
+      notification.message || ""
+    ).match(/feedback #([\w-]+)/i);
+
+    if (feedbackMatch?.[1]) {
+      sessionStorage.setItem(
+        "user_dashboard_notification_target_feedback",
+        feedbackMatch[1]
       );
-
-      if (feedbackMatch?.[1]) {
-        try {
-          sessionStorage.setItem(
-            "user_dashboard_notification_target_feedback",
-            feedbackMatch[1]
-          );
-        } catch (error) {
-          console.error("Unable to store feedback notification target:", error);
-        }
-      }
-
-      setActivePage("feedback");
     }
-  };
+
+    setActivePage("feedback");
+    return;
+  }
+
+  if (
+    notification.type === "payment_verified" ||
+    notification.type === "payment_rejected"
+  ) {
+    setActivePage("my-payments");
+    return;
+  }
+
+  if (
+    [
+      "shipment_booked",
+      "shipment_pickup",
+      "shipment_in_transit",
+      "shipment_out_for_delivery",
+      "shipment_delivered",
+      "shipment_cancelled",
+    ].includes(notification.type)
+  ) {
+    setActivePage("my-shipments");
+  }
+};
 
   /* =========================================================
      LOGOUT
@@ -959,11 +993,11 @@ function UserDashboard() {
 
             <div className="dashboard-notification-page-content">
               <div className="dashboard-notification-page-summary">
-                <strong>{notifications.length}</strong>
+                <strong>{visibleNotifications.length}</strong>
                 <span>Recent Notifications</span>
               </div>
 
-              {notifications.length === 0 ? (
+              {visibleNotifications.length === 0 ? (
                 <div className="dashboard-notification-page-empty">
                   <div className="dashboard-notification-page-empty-icon">
                     ✓
@@ -973,8 +1007,8 @@ function UserDashboard() {
                 </div>
               ) : (
                 <div className="dashboard-notification-page-list">
-                  {notifications.map((notification) => {
-                    const isUnread = !viewedNotificationIds.includes(notification.id);
+                  {visibleNotifications.map((notification) => {
+                    const isUnread = true;
 
                     return (
                     <button
@@ -1872,9 +1906,7 @@ function UserDashboard() {
 
 {activePage === "my-payments" && <UserPayment />}
 
-{activePage === "saved-quotations" && (
-  <SavedQuotations />
-)}
+
 
       </main>
 

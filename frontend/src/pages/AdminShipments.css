@@ -684,3 +684,138 @@
   }
 }
 
+.as-cancellation-panel {
+  margin-bottom: 24px;
+}
+
+.as-cancellation-list {
+  display: grid;
+  gap: 16px;
+}
+
+.as-cancellation-card {
+  padding: 20px;
+  border: 1px solid #e8d8c4;
+  border-radius: 12px;
+  background: #fffdf8;
+}
+
+.as-cancellation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.as-cancellation-header h3 {
+  margin: 0 0 6px;
+  color: #4b2e24;
+}
+
+.as-cancellation-reason {
+  margin: 16px 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: #fff6e8;
+  color: #352018;
+}
+
+.as-cancellation-reason p {
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+.as-cancellation-card .as-form-grid {
+  margin-bottom: 16px;
+}
+
+@media (max-width: 700px) {
+  .as-cancellation-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+
+/* Horizontal Shipment Tracking Timeline */
+.as-tracking-steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  width: 100%;
+  overflow-x: auto;
+  padding: 8px 0 16px;
+}
+
+.as-tracking-step {
+  display: flex;
+  flex: 1 0 150px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-height: 0;
+  position: relative;
+  text-align: center;
+}
+
+.as-tracking-marker-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 30px;
+  position: relative;
+}
+
+.as-tracking-marker {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 28px;
+}
+
+.as-tracking-line {
+  position: absolute;
+  top: 13px;
+  left: calc(50% + 14px);
+  width: calc(100% - 28px);
+  height: 2px;
+  min-height: 0;
+  background: var(--as-border);
+}
+
+.as-tracking-step.is-completed .as-tracking-line {
+  background: #318653;
+}
+
+.as-tracking-step-content {
+  width: 100%;
+  flex: 1;
+  padding: 0 8px;
+}
+
+.as-tracking-step-title {
+  justify-content: center;
+  min-height: 38px;
+}
+
+.as-tracking-step-content p {
+  margin: 5px 0;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.as-tracking-step-content small {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .as-tracking-steps {
+    justify-content: flex-start;
+  }
+
+  .as-tracking-step {
+    flex: 0 0 155px;
+  }
+}
